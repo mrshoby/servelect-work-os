@@ -13,10 +13,19 @@ import {
   FolderKanban,
   Gauge,
   Plus,
-  Users,
-  Zap
+  Zap,
+  type LucideIcon
 } from "lucide-react";
-import { calendarEvents, priorityTone, statusTone, users, type TaskStatus } from "@servelect/shared";
+
+import {
+  calendarEvents,
+  priorityTone,
+  projects as mockProjects,
+  statusTone,
+  users,
+  type TaskStatus
+} from "@servelect/shared";
+
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader, PageHeader } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
@@ -27,7 +36,8 @@ const statusColumns: TaskStatus[] = ["De făcut", "În lucru", "Review / QA", "F
 const sparkPoints = "0,44 16,38 32,41 48,29 64,34 80,22 96,25 112,13";
 
 export default function HomePage() {
-  const { tasks, projects } = useWorkOsStore();
+  const { tasks } = useWorkOsStore();
+  const projects = mockProjects;
 
   const urgent = tasks.filter(
     (task) => task.priority === "Urgent" || task.priority === "Critic" || task.status === "Blocat"
@@ -35,28 +45,27 @@ export default function HomePage() {
 
   const activeProjects = projects.filter((project) => project.phase !== "Finalizat").length;
   const todayTasks = tasks.slice(0, 6);
-  const activeWork = tasks.filter((task) => task.status === "În lucru" || task.status === "Review / QA").slice(0, 5);
 
   return (
     <>
-<PageHeader
-  title="Home / Command Center"
-  subtitle="Platformă unificată pentru proiecte, taskuri, echipe și operațiuni energetice."
->
-  <Link href="/taskuri" className="btn-secondary">
-    Vezi taskuri
-  </Link>
+      <PageHeader
+        title="Home / Command Center"
+        subtitle="Platformă unificată pentru proiecte, taskuri, echipe și operațiuni energetice."
+      >
+        <Link href="/taskuri" className="btn-secondary">
+          Vezi taskuri
+        </Link>
 
-  <Link href="/proiecte" className="btn-secondary">
-    <Plus className="h-4 w-4" />
-    Proiect rapid
-  </Link>
+        <Link href="/proiecte" className="btn-secondary">
+          <Plus className="h-4 w-4" />
+          Proiect rapid
+        </Link>
 
-  <Link href="/taskuri" className="btn-primary">
-    <Plus className="h-4 w-4" />
-    Task rapid
-  </Link>
-</PageHeader>
+        <Link href="/taskuri" className="btn-primary">
+          <Plus className="h-4 w-4" />
+          Task rapid
+        </Link>
+      </PageHeader>
 
       <section className="mb-5 overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-white to-emerald-50 shadow-card">
         <div className="grid gap-0 xl:grid-cols-[1fr_360px]">
@@ -79,9 +88,11 @@ export default function HomePage() {
                 Deschide Task Center
                 <ArrowRight className="h-4 w-4" />
               </Link>
+
               <Link href="/proiecte" className="btn-secondary">
                 Deschide Proiecte
               </Link>
+
               <Link href="/iot" className="btn-secondary">
                 Monitorizare IoT
               </Link>
@@ -93,6 +104,7 @@ export default function HomePage() {
               <div className="grid h-12 w-12 place-items-center rounded-2xl bg-servelect-600">
                 <Zap className="h-6 w-6" />
               </div>
+
               <div>
                 <div className="text-sm font-black">Live work graph</div>
                 <div className="text-xs text-slate-400">
@@ -106,6 +118,7 @@ export default function HomePage() {
                 <b className="text-2xl">{urgent}</b>
                 <p className="text-xs text-slate-300">urgente/blocate</p>
               </div>
+
               <div className="rounded-2xl bg-white/10 p-3 ring-1 ring-white/10">
                 <b className="text-2xl">{activeProjects}</b>
                 <p className="text-xs text-slate-300">proiecte active</p>
@@ -117,6 +130,7 @@ export default function HomePage() {
                 <span>Workload operațional</span>
                 <span>Live</span>
               </div>
+
               <svg viewBox="0 0 112 52" className="h-20 w-full overflow-visible">
                 <polyline
                   points={sparkPoints}
@@ -126,11 +140,7 @@ export default function HomePage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <polyline
-                  points={`0,52 ${sparkPoints} 112,52`}
-                  fill="#22C55E"
-                  opacity="0.12"
-                />
+                <polyline points={`0,52 ${sparkPoints} 112,52`} fill="#22C55E" opacity="0.12" />
               </svg>
             </div>
           </div>
@@ -138,10 +148,31 @@ export default function HomePage() {
       </section>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <LiteKpi icon={FolderKanban} label="Proiecte active" value={String(activeProjects)} sub={`${projects.length} totale`} tone="green" />
-        <LiteKpi icon={ClipboardList} label="Taskuri urgente" value={String(urgent)} sub={`din ${tasks.length} totale`} tone="red" />
+        <LiteKpi
+          icon={FolderKanban}
+          label="Proiecte active"
+          value={String(activeProjects)}
+          sub={`${projects.length} totale`}
+          tone="green"
+        />
+
+        <LiteKpi
+          icon={ClipboardList}
+          label="Taskuri urgente"
+          value={String(urgent)}
+          sub={`din ${tasks.length} totale`}
+          tone="red"
+        />
+
         <LiteKpi icon={Gauge} label="Instalații monitorizate" value="152" sub="online 84%" tone="blue" />
-        <LiteKpi icon={BriefcaseBusiness} label="Pipeline vânzări" value="12,45 mil. RON" sub="18 oportunități" tone="green" />
+
+        <LiteKpi
+          icon={BriefcaseBusiness}
+          label="Pipeline vânzări"
+          value="12,45 mil. RON"
+          sub="18 oportunități"
+          tone="green"
+        />
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-[1.1fr_.9fr_.8fr]">
@@ -170,6 +201,7 @@ export default function HomePage() {
                       {task.projectCode} · {task.projectName}
                     </div>
                   </div>
+
                   <Badge tone={priorityTone(task.priority)}>{task.priority}</Badge>
                 </div>
 
@@ -202,6 +234,7 @@ export default function HomePage() {
                     <b>{project.code}</b>
                     <div className="text-xs text-slate-500">{project.name}</div>
                   </div>
+
                   <Badge tone={project.health === "Bun" ? "green" : project.health === "Atenție" ? "orange" : "red"}>
                     {project.phase}
                   </Badge>
@@ -222,6 +255,7 @@ export default function HomePage() {
           <div className="grid grid-cols-2 gap-3 p-5 pt-0">
             {statusColumns.map((status) => {
               const count = tasks.filter((task) => task.status === status).length;
+
               return (
                 <Link
                   href="/taskuri"
@@ -232,6 +266,7 @@ export default function HomePage() {
                     <b className="text-sm text-slate-900">{status}</b>
                     <Badge tone={statusTone(status)}>{count}</Badge>
                   </div>
+
                   <p className="mt-4 text-xs font-semibold text-slate-500">Work queue</p>
                 </Link>
               );
@@ -250,6 +285,7 @@ export default function HomePage() {
                 <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-900 text-xs font-black text-white">
                   {user.avatar}
                 </div>
+
                 <div className="text-sm">
                   <b>{user.name}</b> {index % 2 ? "a încărcat documentul" : "a actualizat statusul proiectului"}
                   <div className="text-xs text-slate-500">acum {15 + index * 17} min</div>
@@ -291,6 +327,7 @@ export default function HomePage() {
                   <span>{user.name}</span>
                   <b>{user.workload}%</b>
                 </div>
+
                 <ProgressBar value={user.workload} tone={user.workload > 100 ? "red" : "green"} />
               </div>
             ))}
@@ -319,10 +356,12 @@ export default function HomePage() {
                 <span>Producție reală vs estimat</span>
                 <span>Live</span>
               </div>
+
               <svg viewBox="0 0 320 120" className="h-32 w-full overflow-visible">
                 <line x1="0" x2="320" y1="100" y2="100" stroke="#E2E8F0" strokeDasharray="5 6" />
                 <line x1="0" x2="320" y1="65" y2="65" stroke="#E2E8F0" strokeDasharray="5 6" />
                 <line x1="0" x2="320" y1="30" y2="30" stroke="#E2E8F0" strokeDasharray="5 6" />
+
                 <polyline
                   points="0,100 32,92 64,74 96,53 128,39 160,28 192,35 224,50 256,66 288,82 320,96"
                   fill="none"
@@ -331,6 +370,7 @@ export default function HomePage() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
+
                 <polyline
                   points="0,104 32,96 64,82 96,61 128,45 160,36 192,40 224,48 256,57 288,70 320,90"
                   fill="none"
@@ -372,7 +412,11 @@ export default function HomePage() {
                     .filter((task) => task.status === status)
                     .slice(0, 2)
                     .map((task) => (
-                      <Link key={task.id} href="/taskuri" className="block rounded-2xl border border-slate-200 bg-white p-3 text-sm shadow-sm">
+                      <Link
+                        key={task.id}
+                        href="/taskuri"
+                        className="block rounded-2xl border border-slate-200 bg-white p-3 text-sm shadow-sm"
+                      >
                         <b className="line-clamp-1 text-slate-950">{task.title}</b>
                         <div className="mt-1 text-xs text-slate-500">{task.projectCode}</div>
                       </Link>
@@ -394,7 +438,6 @@ export default function HomePage() {
           </div>
         </Card>
       </div>
-
     </>
   );
 }
@@ -406,7 +449,7 @@ function LiteKpi({
   sub,
   tone
 }: {
-  icon: typeof FolderKanban;
+  icon: LucideIcon;
   label: string;
   value: string;
   sub: string;
@@ -425,6 +468,7 @@ function LiteKpi({
           <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${toneClass}`}>
             <Icon className="h-6 w-6" />
           </div>
+
           <div>
             <div className="text-xs font-semibold text-slate-500">{label}</div>
             <div className="mt-1 text-2xl font-extrabold tracking-tight text-slate-950">{value}</div>
@@ -453,7 +497,7 @@ function LiteKpi({
   );
 }
 
-function Metric({ icon: Icon, label, value }: { icon: typeof Zap; label: string; value: string }) {
+function Metric({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-3">
       <Icon className="mx-auto mb-2 h-5 w-5 text-servelect-600" />
@@ -469,7 +513,7 @@ function AlertRow({
   meta,
   tone
 }: {
-  icon: typeof AlertTriangle;
+  icon: LucideIcon;
   title: string;
   meta: string;
   tone: "red" | "orange" | "green" | "blue";
@@ -482,10 +526,14 @@ function AlertRow({
   };
 
   return (
-    <Link href="/taskuri" className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-emerald-200 hover:shadow-card">
+    <Link
+      href="/taskuri"
+      className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-emerald-200 hover:shadow-card"
+    >
       <div className={`grid h-10 w-10 place-items-center rounded-2xl ${colors[tone]}`}>
         <Icon className="h-5 w-5" />
       </div>
+
       <div>
         <div className="text-sm font-black text-slate-950">{title}</div>
         <div className="text-xs text-slate-500">{meta}</div>
