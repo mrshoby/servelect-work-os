@@ -1,0 +1,31 @@
+{
+  "folders": [
+    {
+      "name": "SERVELECT WORK OS",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    },
+    "tailwindCSS.includeLanguages": {
+      "typescript": "javascript",
+      "typescriptreact": "javascript"
+    },
+    "eslint.workingDirectories": [
+      { "directory": "apps/web", "changeProcessCWD": true },
+      { "directory": "apps/mobile", "changeProcessCWD": true },
+      { "directory": "packages/shared", "changeProcessCWD": true }
+    ],
+    "files.exclude": {
+      "**/.next": true,
+      "**/node_modules": true,
+      "**/.expo": true
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "SERVELECT: install dependencies",
+      "type": "shell",
+      "command": "pnpm install",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "SERVELECT: dev web",
+      "type": "shell",
+      "command": "pnpm --filter @servelect/web dev",
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "SERVELECT: dev web port 3001",
+      "type": "shell",
+      "command": "pnpm --filter @servelect/web dev -- --port 3001",
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "SERVELECT: build web",
+      "type": "shell",
+      "command": "pnpm --filter @servelect/web build",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "SERVELECT: typecheck web",
+      "type": "shell",
+      "command": "pnpm --filter @servelect/web typecheck",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "SERVELECT: clean web cache",
+      "type": "shell",
+      "command": "powershell -ExecutionPolicy Bypass -File ./scripts/clean-web.ps1",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "SERVELECT: dev mobile",
+      "type": "shell",
+      "command": "pnpm --filter @servelect/mobile start",
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ]
+}

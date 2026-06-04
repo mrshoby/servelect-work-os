@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "SERVELECT Web: Next.js dev server",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm --filter @servelect/web dev",
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "SERVELECT Web: open Chrome localhost:3000",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/apps/web"
+    }
+  ]
+}

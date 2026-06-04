@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --servelect-green: #0B8F43;
+  --servelect-green-dark: #006B31;
+  --navy: #071826;
+  --navy-soft: #0B1F2A;
+  --text: #0F172A;
+  --muted: #64748B;
+  --border: #E2E8F0;
+  --bg: #F8FAFC;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --blue: #2563EB;
+  --purple: #7C3AED;
+}
+
+html, body { height: 100%; }
+body {
+  background: radial-gradient(circle at 20% 0%, rgba(11, 143, 67, 0.07), transparent 22rem), var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+::selection { background: rgba(11, 143, 67, 0.18); }
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-slate-200/80 bg-white shadow-card;
+  }
+  .card-tight {
+    @apply rounded-xl border border-slate-200/80 bg-white shadow-subtle;
+  }
+  .section-title {
+    @apply text-sm font-semibold text-slate-950;
+  }
+  .muted {
+    @apply text-slate-500;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-servelect-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-servelect-700 focus:outline-none focus:ring-2 focus:ring-servelect-500/30;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50;
+  }
+  .sidebar-link {
+    @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10 hover:text-white;
+  }
+  .sidebar-link-active {
+    @apply bg-servelect-600 text-white shadow-[0_10px_30px_rgba(0,132,61,.28)];
+  }
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+  .input-shell {
+    @apply flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-500 shadow-sm;
+  }
+}
+
+.scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 999px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+
+.map-grid {
+  background-image: linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+
+.gantt-grid {
+  background-image: linear-gradient(90deg, rgba(148, 163, 184, .18) 1px, transparent 1px), linear-gradient(rgba(148, 163, 184, .12) 1px, transparent 1px);
+  background-size: 96px 44px;
+}

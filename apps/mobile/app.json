@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "SERVELECT EMP",
+    "slug": "servelect-emp",
+    "scheme": "servelectemp",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": { "supportsTablet": true },
+    "android": { "adaptiveIcon": { "backgroundColor": "#071826" } },
+    "plugins": ["expo-router"]
+  }
+}
