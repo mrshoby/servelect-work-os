@@ -39,28 +39,24 @@ export default function HomePage() {
 
   return (
     <>
-      <PageHeader
-        title="Home / Command Center"
-        subtitle="Platformă unificată pentru proiecte, taskuri, echipe și operațiuni energetice."
-      >
-        <Link href="/taskuri" className="btn-secondary">
-          Vezi taskuri
-        </Link>
-        <Link href="/proiecte" className="btn-secondary">
-  <Plus className="h-4 w-4" />
-  Proiect rapid
-</Link>
-          <Plus className="h-4 w-4" />
-          Proiect rapid
-        </button>
-       <Link href="/taskuri" className="btn-primary">
-  <Plus className="h-4 w-4" />
-  Task rapid
-</Link>
-          <Plus className="h-4 w-4" />
-          Task rapid
-        </button>
-      </PageHeader>
+<PageHeader
+  title="Home / Command Center"
+  subtitle="Platformă unificată pentru proiecte, taskuri, echipe și operațiuni energetice."
+>
+  <Link href="/taskuri" className="btn-secondary">
+    Vezi taskuri
+  </Link>
+
+  <Link href="/proiecte" className="btn-secondary">
+    <Plus className="h-4 w-4" />
+    Proiect rapid
+  </Link>
+
+  <Link href="/taskuri" className="btn-primary">
+    <Plus className="h-4 w-4" />
+    Task rapid
+  </Link>
+</PageHeader>
 
       <section className="mb-5 overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-br from-white via-white to-emerald-50 shadow-card">
         <div className="grid gap-0 xl:grid-cols-[1fr_360px]">
