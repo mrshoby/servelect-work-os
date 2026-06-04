@@ -58,6 +58,16 @@ body {
   .input-shell {
     @apply flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-500 shadow-sm;
   }
+
+  .field-input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-servelect-500 focus:ring-2 focus:ring-servelect-500/15;
+  }
+  .surface-premium {
+    @apply rounded-[1.75rem] border border-slate-200/80 bg-white shadow-card;
+  }
+  .nav-pill {
+    @apply inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold text-slate-600 transition hover:bg-slate-100 data-[state=active]:bg-servelect-600 data-[state=active]:text-white;
+  }
 }
 
 .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
@@ -72,4 +82,33 @@ body {
 .gantt-grid {
   background-image: linear-gradient(90deg, rgba(148, 163, 184, .18) 1px, transparent 1px), linear-gradient(rgba(148, 163, 184, .12) 1px, transparent 1px);
   background-size: 96px 44px;
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-3xl border border-white/60 bg-white/80 shadow-card backdrop-blur-xl;
+  }
+  .enterprise-card {
+    @apply rounded-[1.75rem] border border-slate-200/80 bg-white shadow-card transition hover:-translate-y-0.5 hover:shadow-[0_20px_55px_rgba(15,23,42,0.09)];
+  }
+  .soft-chip {
+    @apply inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-black text-slate-600 shadow-sm;
+  }
+  .mobile-nav-item {
+    @apply flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-black text-slate-500;
+  }
+}
+
+.content-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 420px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
