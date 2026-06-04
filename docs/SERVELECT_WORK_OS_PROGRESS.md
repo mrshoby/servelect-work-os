@@ -1,62 +1,72 @@
-# SERVELECT WORK OS / SERVELECT EMP — progres proiect
+# SERVELECT WORK OS / SERVELECT EMP — Progress Log
 
-## Direcție generală
+## Direcție produs
 
-SERVELECT WORK OS este construit ca o aplicație enterprise task-first, inspirată de GoodDay, ClickUp, Linear, Asana Enterprise și Monday.com, adaptată pentru operațiuni de energie/fotovoltaice.
+Platforma rămâne un **Work OS task-first** pentru Servelect: proiecte, taskuri, Kanban, listă, timeline, calendar, workload, timesheet, documente, approvals, rapoarte și module operaționale integrate. Modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR sunt sub-sisteme conectate la proiecte/taskuri, nu aplicații separate.
 
-Principiul de bază rămâne: modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR nu sunt aplicații separate, ci module operaționale conectate la proiecte, taskuri, aprobări, audit log și rapoarte.
+## Versiuni livrate
 
-## v0.1 — MVP inițial
+### v0.1 — MVP inițial
 
-- monorepo cu `apps/web`, `apps/mobile`, `packages/shared`;
-- Next.js 15, React 19, TypeScript, Tailwind;
-- layout desktop cu sidebar/topbar;
-- mock data românească;
-- pagini principale pentru Dashboard, Proiecte, Taskuri, CRM, IoT, Echipamente, Mentenanță, Finanțări & ESG, HR Admin;
-- schelet mobile/Expo.
+- Monorepo `apps/web`, `apps/mobile`, `packages/shared`.
+- Next.js 15, React 19, TypeScript, Tailwind.
+- Layout desktop cu sidebar/topbar.
+- Pagini principale: dashboard, proiecte, taskuri, CRM, IoT, echipamente, mentenanță, finanțări/ESG, HR/admin.
+- Mock data românească.
 
-## v0.2 — Task & Project Core
+### v0.2 — Task & Project Core
 
-- creare/editare task în mock/local state;
-- Kanban demo;
-- tabel taskuri;
-- drawer detalii task;
-- proiecte cu drawer detalii;
-- taskuri legate de proiecte;
-- localStorage pentru persistență locală;
-- deploy GitHub + Vercel configurat.
+- Task CRUD local/mock.
+- Task drawer, Kanban, tabel taskuri, filtre.
+- Creare/editare proiecte în UI.
+- Persistență localStorage.
+- Deploy GitHub + Vercel funcțional.
 
-## v0.2 Performance Fix
+### v0.2 Global Performance Fix
 
-- homepage light;
-- Recharts înlocuit cu SVG unde era sensibil la blocaje;
-- KpiCard optimizat;
-- EnergyChart optimizat;
-- Kanban limitat ca număr de carduri randate;
-- TaskTable optimizat;
-- store localStorage trecut pe versiune nouă și limitări pentru date persistate.
+- Homepage light.
+- KpiCard și EnergyChart optimizate cu SVG nativ.
+- Kanban și TaskTable limitate/optimizate.
+- Store localStorage trecut la `servelect-work-os-store-v3`.
+- Patch pentru lag/freeze pe homepage, proiecte și taskuri.
 
-## v0.3 — Enterprise UI Polish
+### v0.3 — Enterprise UI Polish
 
-- shell enterprise: sidebar/topbar/mobile nav;
-- pagini principale polish;
-- carduri și page headers mai premium;
-- meniu mai apropiat de Work OS enterprise;
-- continuare fără componente grele care blocau pagina.
+- Enterprise Shell complet.
+- Sidebar/Topbar/MobileNav rafinate.
+- Card/PageHeader polish.
+- Pagini principale păstrate rapide și coerente vizual.
+- Documentație release v0.3.
 
-## v0.4 — Backend Foundation
+### v0.4 — Backend Foundation
 
-- API REST prin Next.js Route Handlers;
-- endpointuri pentru health, dashboard, proiecte, taskuri, alerte IoT, aprobări, search, audit log;
-- repository layer mock server-side, pregătit pentru Prisma;
-- RBAC mock pe roluri și permisiuni;
-- audit log server-side;
-- flow IoT alert → task;
-- Prisma schema completă, pregătită pentru PostgreSQL;
-- `.env.example` și script de testare endpointuri.
+- API REST în Next.js Route Handlers.
+- Endpointuri `/api/v1/projects`, `/tasks`, `/dashboard`, `/iot/alerts`, `/approvals`, `/search`, `/audit-log`.
+- Repository layer server-side pe mock data.
+- RBAC mock + audit log.
+- Prisma schema pregătită pentru PostgreSQL.
 
-## Următorul milestone
+### v0.5 — Database + Prisma Activation
 
-**v0.5 — Real Database + Prisma Activation**
+- Provider selector `mock` / `prisma`.
+- Repository Prisma pentru proiecte/taskuri.
+- Dynamic Prisma client ca build-ul Vercel să rămână stabil până la activarea DB.
+- Endpointuri `/api/v1/db/mode`, `/api/v1/db/status`, `/api/v1/db/seed`.
+- Scripturi pentru instalare Prisma, migrate și seed.
+- `.env.example` actualizat.
 
-Obiectiv: activarea PostgreSQL/Prisma real, fără să pierdem fallback-ul mock și fără să stricăm deploy-ul Vercel.
+## Următoarea etapă recomandată
+
+```text
+v0.6 — Auth + RBAC real + Protected App
+```
+
+Obiective v0.6:
+
+- login real;
+- sesiune server-side;
+- protejare route groups;
+- RBAC real per rol;
+- user menu conectat la sesiune;
+- audit log cu user real;
+- pregătire multi-tenant.

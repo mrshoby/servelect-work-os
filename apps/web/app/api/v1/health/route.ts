@@ -1,13 +1,14 @@
+import { getDatabaseStatus } from "@/lib/backend/data-provider";
 import { jsonOk } from "@/lib/backend/http";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   return jsonOk({
+    service: "SERVELECT WORK OS API",
+    version: "0.5.0",
     status: "ok",
-    app: "SERVELECT WORK OS",
-    version: "0.4.0-backend-foundation",
-    mode: process.env.DATABASE_URL ? "database-ready" : "mock-api",
+    database: getDatabaseStatus(),
     timestamp: new Date().toISOString()
   });
 }

@@ -5,6 +5,5 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const query = searchParams.get("q") ?? "";
-  return jsonOk(repository.search(query));
+  return jsonOk(await repository.search(searchParams.get("q") ?? ""));
 }

@@ -5,6 +5,6 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const limit = Math.min(Number(searchParams.get("limit") ?? 100), 500);
+  const limit = Math.min(Math.max(Number(searchParams.get("limit") ?? 100), 1), 500);
   return jsonOk(listAuditEvents(limit));
 }

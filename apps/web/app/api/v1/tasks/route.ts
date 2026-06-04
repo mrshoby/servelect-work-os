@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const { limit, offset } = getPagination(searchParams);
-  const items = repository.listTasks(
+  const items = await repository.listTasks(
     searchParams.get("q") ?? undefined,
     (searchParams.get("status") as TaskStatus | null) ?? undefined,
     searchParams.get("projectId") ?? undefined
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   const body = await readJson<TaskCreateInput>(request);
   if (!body?.title) return jsonError("BAD_REQUEST", "Câmpul title este obligatoriu.", 400);
 
-  const task = repository.createTask(body);
+  const task = await repository.createTask(body);
   writeAuditEvent(session, {
     action: "a creat taskul",
     target: task.title,

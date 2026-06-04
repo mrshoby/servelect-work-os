@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const { limit, offset } = getPagination(searchParams);
-  const items = repository.listProjects(searchParams.get("q") ?? undefined);
+  const items = await repository.listProjects(searchParams.get("q") ?? undefined);
   return jsonList(paginate(items, limit, offset), { total: items.length, limit, offset });
 }
 
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     return jsonError("BAD_REQUEST", "Câmpurile name, clientName și location sunt obligatorii.", 400);
   }
 
-  const project = repository.createProject(body);
+  const project = await repository.createProject(body);
   writeAuditEvent(session, {
     action: "a creat proiectul",
     target: project.code,

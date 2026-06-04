@@ -4,53 +4,39 @@ import { getSessionFromRequest, hasPermission } from "@/lib/backend/rbac";
 import { writeAuditEvent } from "@/lib/backend/audit";
 import type { TaskUpdateInput } from "@/lib/backend/api-types";
 
-type RouteContext = { params: Promise<{ id: string }> };
-
 export const dynamic = "force-dynamic";
 
-export async function GET(_request: Request, context: RouteContext) {
-  const { id } = await context.params;
-  const task = repository.getTask(id);
+type Params = { params: Promise<{ id: string }> };
+
+export async function GET(_request: Request, { params }: Params) {
+  const { id } = await params;
+  const task = await repository.getTask(id);
   if (!task) return jsonError("NOT_FOUND", "Taskul nu a fost găsit.", 404);
   return jsonOk(task);
 }
 
-export async function PATCH(request: Request, context: RouteContext) {
+export async function PATCH(request: Request, { params }: Params) {
   const session = getSessionFromRequest(request);
   if (!hasPermission(session, "task:write")) return jsonError("FORBIDDEN", "Nu ai permisiune pentru editare task.", 403);
 
-  const { id } = await context.params;
+  const { id } = await params;
   const body = await readJson<TaskUpdateInput>(request);
-  if (!body) return jsonError("BAD_REQUEST", "Payload invalid.", 400);
+  if (!body) return jsonError("BAD_REQUEST", "Body JSON invalid.", 400);
 
-  const task = repository.updateTask(id, body);
+  const task = await repository.updateTask(id, body);
   if (!task) return jsonError("NOT_FOUND", "Taskul nu a fost găsit.", 404);
 
-  writeAuditEvent(session, {
-    action: "a actualizat taskul",
-    target: task.title,
-    entityType: "task",
-    entityId: task.id,
-    metadata: body
-  });
-
+  writeAuditEvent(session, { action: "a actualizat taskul", target: task.title, entityType: "task", entityId: task.id, metadata: { status: task.status } });
   return jsonOk(task);
 }
 
-export async function DELETE(request: Request, context: RouteContext) {
+export async function DELETE(request: Request, { params }: Params) {
   const session = getSessionFromRequest(request);
   if (!hasPermission(session, "task:write")) return jsonError("FORBIDDEN", "Nu ai permisiune pentru ștergere task.", 403);
 
-  const { id } = await context.params;
-  const deleted = repository.deleteTask(id);
+  const { id } = await params;
+  const deleted = await repository.deleteTask(id);
   if (!deleted) return jsonError("NOT_FOUND", "Taskul nu a fost găsit.", 404);
-
-  writeAuditEvent(session, {
-    action: "a șters taskul",
-    target: id,
-    entityType: "task",
-    entityId: id
-  });
-
+  writeAuditEvent(session, { action: "a șters taskul", target: id, entityType: "task", entityId: id });
   return jsonOk({ deleted: true });
 }

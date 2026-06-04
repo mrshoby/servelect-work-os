@@ -4,25 +4,27 @@ import { getSessionFromRequest, hasPermission } from "@/lib/backend/rbac";
 import { writeAuditEvent } from "@/lib/backend/audit";
 import type { CreateTaskFromAlertInput } from "@/lib/backend/api-types";
 
-type RouteContext = { params: Promise<{ id: string }> };
-
 export const dynamic = "force-dynamic";
 
-export async function POST(request: Request, context: RouteContext) {
-  const session = getSessionFromRequest(request);
-  if (!hasPermission(session, "maintenance:write")) return jsonError("FORBIDDEN", "Nu ai permisiune pentru creare ticket/task din alertă.", 403);
+type Params = { params: Promise<{ id: string }> };
 
-  const { id } = await context.params;
+export async function POST(request: Request, { params }: Params) {
+  const session = getSessionFromRequest(request);
+  if (!hasPermission(session, "maintenance:write") && !hasPermission(session, "task:write")) {
+    return jsonError("FORBIDDEN", "Nu ai permisiune pentru creare task din alertă IoT.", 403);
+  }
+
+  const { id } = await params;
   const body = (await readJson<CreateTaskFromAlertInput>(request)) ?? {};
-  const result = repository.createTaskFromAlert(id, body);
+  const result = await repository.createTaskFromAlert(id, body);
   if (!result) return jsonError("NOT_FOUND", "Alerta IoT nu a fost găsită.", 404);
 
   writeAuditEvent(session, {
-    action: "a generat task din alertă IoT",
-    target: result.alert.title,
+    action: "a creat task din alertă IoT",
+    target: result.task.title,
     entityType: "alert",
     entityId: result.alert.id,
-    metadata: { taskId: result.task.id, projectId: result.alert.projectId }
+    metadata: { taskId: result.task.id }
   });
 
   return jsonOk(result, { status: 201 });
