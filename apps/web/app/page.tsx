@@ -20,8 +20,6 @@ import { calendarEvents, priorityTone, statusTone, users, type TaskStatus } from
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader, PageHeader } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import { TaskCreateModal } from "@/components/tasks/TaskCreateModal";
-import { ProjectCreateModal } from "@/components/projects/ProjectCreateModal";
 import { useWorkOsStore } from "@/lib/store";
 
 const statusColumns: TaskStatus[] = ["De făcut", "În lucru", "Review / QA", "Finalizat"];
@@ -29,7 +27,7 @@ const statusColumns: TaskStatus[] = ["De făcut", "În lucru", "Review / QA", "F
 const sparkPoints = "0,44 16,38 32,41 48,29 64,34 80,22 96,25 112,13";
 
 export default function HomePage() {
-  const { tasks, projects, setTaskCreateOpen, setProjectCreateOpen } = useWorkOsStore();
+  const { tasks, projects } = useWorkOsStore();
 
   const urgent = tasks.filter(
     (task) => task.priority === "Urgent" || task.priority === "Critic" || task.status === "Blocat"
@@ -48,11 +46,17 @@ export default function HomePage() {
         <Link href="/taskuri" className="btn-secondary">
           Vezi taskuri
         </Link>
-        <button onClick={() => setProjectCreateOpen(true)} className="btn-secondary">
+        <Link href="/proiecte" className="btn-secondary">
+  <Plus className="h-4 w-4" />
+  Proiect rapid
+</Link>
           <Plus className="h-4 w-4" />
           Proiect rapid
         </button>
-        <button onClick={() => setTaskCreateOpen(true)} className="btn-primary">
+       <Link href="/taskuri" className="btn-primary">
+  <Plus className="h-4 w-4" />
+  Task rapid
+</Link>
           <Plus className="h-4 w-4" />
           Task rapid
         </button>
@@ -395,8 +399,6 @@ export default function HomePage() {
         </Card>
       </div>
 
-      <TaskCreateModal />
-      <ProjectCreateModal />
     </>
   );
 }
