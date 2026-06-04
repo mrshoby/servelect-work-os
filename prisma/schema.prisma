@@ -1,0 +1,354 @@
+// SERVELECT WORK OS / EMP — v0.4 Backend Foundation
+// This schema is intentionally backend-ready but not required for the current Vercel mock API.
+// When a real PostgreSQL database is provisioned, install prisma + @prisma/client, set DATABASE_URL,
+// then run: pnpm prisma generate && pnpm prisma migrate dev
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Administrator
+  Manager
+  Tehnician
+  Client
+  Financiar
+  Vanzari
+  Auditor
+  Viewer
+}
+
+enum ProjectPhase {
+  Planificat
+  Proiectare
+  Avizare
+  Montaj
+  Testare
+  PIF
+  In_desfasurare
+  Finalizat
+  Blocat
+}
+
+enum ProjectHealth {
+  Bun
+  Atentie
+  Risc
+  Critic
+}
+
+enum TaskStatus {
+  Backlog
+  De_facut
+  In_lucru
+  Review_QA
+  Blocat
+  Finalizat
+  Anulat
+}
+
+enum Priority {
+  Scazut
+  Mediu
+  Ridicat
+  Urgent
+  Critic
+}
+
+enum ApprovalStatus {
+  In_asteptare
+  Aprobat
+  Respins
+  Anulat
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  tenantSlug String  @unique
+  plan      String   @default("Enterprise")
+  users     User[]
+  projects  Project[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id          String   @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name        String
+  email       String   @unique
+  role        Role     @default(Viewer)
+  title       String?
+  team        String?
+  avatar      String?
+  workload    Int      @default(0)
+  online      Boolean  @default(false)
+  tasks       Task[]   @relation("TaskAssignee")
+  ownedTasks  Task[]   @relation("TaskOwner")
+  ownedProjects Project[]
+  timeEntries TimeEntry[]
+  comments    Comment[]
+  auditEvents AuditEvent[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([workspaceId, role])
+}
+
+model Client {
+  id          String   @id @default(cuid())
+  name        String
+  industry    String?
+  location    String?
+  email       String?
+  phone       String?
+  contactPerson String?
+  segment     String?
+  projects    Project[]
+  opportunities Opportunity[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  clientId    String?
+  client      Client?  @relation(fields: [clientId], references: [id])
+  code        String   @unique
+  name        String
+  clientName  String
+  location    String
+  powerKwp    Float    @default(0)
+  phase       ProjectPhase @default(Planificat)
+  progress    Int      @default(0)
+  health      ProjectHealth @default(Bun)
+  ownerId     String?
+  owner       User?    @relation(fields: [ownerId], references: [id])
+  deadline    DateTime?
+  budgetRon   Float    @default(0)
+  workedHours Float    @default(0)
+  tasks       Task[]
+  documents   Document[]
+  installations EnergyInstallation[]
+  tickets     MaintenanceTicket[]
+  fundingCases FundingCase[]
+  approvals   ApprovalRequest[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([workspaceId, phase, health])
+  @@index([clientId])
+}
+
+model Task {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title       String
+  description String   @default("")
+  status      TaskStatus @default(De_facut)
+  priority    Priority @default(Mediu)
+  assigneeId  String?
+  assignee    User?    @relation("TaskAssignee", fields: [assigneeId], references: [id])
+  ownerId     String?
+  owner       User?    @relation("TaskOwner", fields: [ownerId], references: [id])
+  parentTaskId String?
+  parentTask   Task?   @relation("Subtasks", fields: [parentTaskId], references: [id])
+  subtasks     Task[]  @relation("Subtasks")
+  startDate    DateTime?
+  dueDate      DateTime?
+  estimateHours Float @default(0)
+  trackedHours  Float @default(0)
+  tags          String[]
+  comments      Comment[]
+  attachments   Document[]
+  timeEntries   TimeEntry[]
+  approvals     ApprovalRequest[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([projectId, status])
+  @@index([assigneeId, dueDate])
+  @@index([priority, status])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  body      String
+  createdAt DateTime @default(now())
+}
+
+model TimeEntry {
+  id        String   @id @default(cuid())
+  taskId    String
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  startedAt DateTime
+  endedAt   DateTime?
+  minutes   Int      @default(0)
+  billable   Boolean @default(true)
+}
+
+model Document {
+  id        String   @id @default(cuid())
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId    String?
+  task      Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  name      String
+  type      String
+  size      String?
+  url       String?
+  createdAt DateTime @default(now())
+}
+
+model Opportunity {
+  id        String   @id @default(cuid())
+  clientId  String?
+  client    Client?  @relation(fields: [clientId], references: [id])
+  company   String
+  contact   String?
+  valueRon  Float    @default(0)
+  stage     String
+  probability Int    @default(0)
+  nextStep  String?
+  expectedCloseDate DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EnergyInstallation {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name      String
+  location  String
+  powerKwp  Float    @default(0)
+  status    String   @default("Online")
+  inverterBrand String?
+  telemetry EnergyTelemetry[]
+  alerts    IoTAlert[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EnergyTelemetry {
+  id             String   @id @default(cuid())
+  installationId String
+  installation   EnergyInstallation @relation(fields: [installationId], references: [id], onDelete: Cascade)
+  ts             DateTime
+  livePowerKw    Float
+  energyTodayKwh Float
+  yieldKwhKwp    Float?
+  co2AvoidedKg   Float?
+
+  @@index([installationId, ts])
+}
+
+model IoTAlert {
+  id             String   @id @default(cuid())
+  installationId String
+  installation   EnergyInstallation @relation(fields: [installationId], references: [id], onDelete: Cascade)
+  title          String
+  severity       String
+  status         String   @default("Deschis")
+  recommendedAction String
+  linkedTaskId   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Equipment {
+  id           String   @id @default(cuid())
+  name         String
+  category     String
+  manufacturer String
+  model        String
+  power        String?
+  datasheet    String?
+  inventory    InventoryItem[]
+}
+
+model InventoryItem {
+  id           String   @id @default(cuid())
+  equipmentId  String
+  equipment    Equipment @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+  serialNumber String   @unique
+  qrCode       String   @unique
+  status       String
+  warehouse    String
+  locationCode String?
+  warrantyUntil DateTime?
+  createdAt    DateTime @default(now())
+}
+
+model MaintenanceTicket {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title     String
+  severity  String
+  status    String
+  slaDueAt  DateTime?
+  assigneeId String?
+  etaMinutes Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FundingCase {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  program   String
+  valueRon  Float    @default(0)
+  stage     String
+  progress  Int      @default(0)
+  deadline  DateTime?
+  ownerId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ApprovalRequest {
+  id        String   @id @default(cuid())
+  title     String
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  taskId    String?
+  task      Task?    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  status    ApprovalStatus @default(In_asteptare)
+  priority  Priority @default(Mediu)
+  dueDate   DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditEvent {
+  id         String   @id @default(cuid())
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+  action     String
+  target     String
+  entityType String
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@index([createdAt])
+}

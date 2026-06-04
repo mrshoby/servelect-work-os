@@ -1,80 +1,62 @@
-# SERVELECT WORK OS / SERVELECT EMP — Progress Log
+# SERVELECT WORK OS / SERVELECT EMP — progres proiect
 
-## Context proiect
+## Direcție generală
 
-SERVELECT WORK OS este o platformă enterprise task-first pentru project management, task management, operațiuni energetice, CRM, IoT, echipamente, mentenanță, finanțări/ESG și HR/Admin.
+SERVELECT WORK OS este construit ca o aplicație enterprise task-first, inspirată de GoodDay, ClickUp, Linear, Asana Enterprise și Monday.com, adaptată pentru operațiuni de energie/fotovoltaice.
 
-Stack actual:
+Principiul de bază rămâne: modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR nu sunt aplicații separate, ci module operaționale conectate la proiecte, taskuri, aprobări, audit log și rapoarte.
 
-- Next.js 15 App Router
-- React 19
-- TypeScript strict
-- Tailwind CSS
-- Radix UI
-- Lucide React
-- TanStack Table
-- Zustand
-- pnpm monorepo
-- GitHub repo: `mrshoby/servelect-work-os`
-- Deploy: Vercel, Root Directory `apps/web`
+## v0.1 — MVP inițial
 
-## v0.1 / MVP
-
-- Monorepo creat.
-- Web app Next.js creată.
-- Mobile Expo schelet creat.
-- Shared package cu types și mock data.
-- Sidebar/topbar inițial.
-- Pagini inițiale pentru principalele module.
-- Mock data în română.
+- monorepo cu `apps/web`, `apps/mobile`, `packages/shared`;
+- Next.js 15, React 19, TypeScript, Tailwind;
+- layout desktop cu sidebar/topbar;
+- mock data românească;
+- pagini principale pentru Dashboard, Proiecte, Taskuri, CRM, IoT, Echipamente, Mentenanță, Finanțări & ESG, HR Admin;
+- schelet mobile/Expo.
 
 ## v0.2 — Task & Project Core
 
-- Task CRUD local.
-- Task drawer.
-- Task create modal.
-- Task table.
-- Kanban board.
-- Filtre taskuri.
-- Timer demo.
-- Project create modal.
-- Project detail drawer.
-- Persistență localStorage.
-- Deploy pe GitHub + Vercel.
+- creare/editare task în mock/local state;
+- Kanban demo;
+- tabel taskuri;
+- drawer detalii task;
+- proiecte cu drawer detalii;
+- taskuri legate de proiecte;
+- localStorage pentru persistență locală;
+- deploy GitHub + Vercel configurat.
 
-## Hotfixuri deploy / build
+## v0.2 Performance Fix
 
-- Config PostCSS/Tailwind ajustat pentru ESM/CJS.
-- Tailwind invalid class `white/7` corectat.
-- Server/Client component issues corectate.
-- Homepage blocat înlocuit cu variantă light.
-- Store `projects` luat corect din mock data / store actual.
+- homepage light;
+- Recharts înlocuit cu SVG unde era sensibil la blocaje;
+- KpiCard optimizat;
+- EnergyChart optimizat;
+- Kanban limitat ca număr de carduri randate;
+- TaskTable optimizat;
+- store localStorage trecut pe versiune nouă și limitări pentru date persistate.
 
-## Global Performance Fix
+## v0.3 — Enterprise UI Polish
 
-- Recharts eliminate din carduri și chart-uri grele.
-- SVG nativ pentru grafice rapide.
-- localStorage versionat și limitat.
-- Kanban și TaskTable limitate pentru randare rapidă.
-- Documentație `V02_GLOBAL_PERFORMANCE_FIX.md`.
+- shell enterprise: sidebar/topbar/mobile nav;
+- pagini principale polish;
+- carduri și page headers mai premium;
+- meniu mai apropiat de Work OS enterprise;
+- continuare fără componente grele care blocau pagina.
 
-## v0.3 — Complete Enterprise UI Polish
+## v0.4 — Backend Foundation
 
-- Enterprise shell nou.
-- Sidebar premium dark navy.
-- Topbar premium cu search, notifications, quick create, user menu.
-- Mobile nav.
-- Card/PageHeader polish.
-- Dashboard, Taskuri, Proiecte și module operaționale stabilizate.
-- Documentație `V03_COMPLETE_RELEASE.md`.
+- API REST prin Next.js Route Handlers;
+- endpointuri pentru health, dashboard, proiecte, taskuri, alerte IoT, aprobări, search, audit log;
+- repository layer mock server-side, pregătit pentru Prisma;
+- RBAC mock pe roluri și permisiuni;
+- audit log server-side;
+- flow IoT alert → task;
+- Prisma schema completă, pregătită pentru PostgreSQL;
+- `.env.example` și script de testare endpointuri.
 
-## Următorul pas
+## Următorul milestone
 
-v0.4 — Backend Foundation:
+**v0.5 — Real Database + Prisma Activation**
 
-- Prisma + PostgreSQL.
-- API real.
-- Auth/RBAC.
-- Audit log.
-- Persistență DB pentru proiecte/taskuri.
-
+Obiectiv: activarea PostgreSQL/Prisma real, fără să pierdem fallback-ul mock și fără să stricăm deploy-ul Vercel.
