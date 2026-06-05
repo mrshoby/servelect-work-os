@@ -1,86 +1,47 @@
-# AI Continuation — SERVELECT WORK OS / SERVELECT EMP
+# AI CONTINUATION — SERVELECT WORK OS / SERVELECT EMP
 
-## Current target version
-v2.0.0 — Enterprise Beta Stabilization.
+## Versiune curentă pregătită
+v2.1.0 — DB Provider Wiring & Prisma Runtime Pack
 
-## Project purpose
-SERVELECT WORK OS / SERVELECT EMP is a task-first Work OS inspired by GoodDay, ClickUp, Linear, Asana Enterprise and Monday, adapted for Servelect / energy / photovoltaic operations.
+## Context proiect
+SERVELECT WORK OS este o platformă Work OS task-first pentru proiecte, taskuri, CRM, IoT/energie, echipamente, mentenanță, finanțări/ESG, HR/admin și workflow-uri. Web-ul este Next.js/React/TypeScript/Tailwind, iar mobile rămâne momentan schelet Expo.
 
-The app must remain centered on projects, tasks, subtasks, Kanban, task table, Gantt/timeline, calendar, workload, timesheet, documents, chat/updates, approvals, reports, workflows and RBAC. Energy, IoT, equipment, maintenance, CRM, financing, ESG and HR are operational modules inside the same Work OS, not separate apps.
+## Stadiu înainte de v2.1
+- v2.0 Enterprise Beta Stabilization a introdus beta console și route audit.
+- Task/project API contracts există, dar providerul este încă mock-memory.
+- UI store este hibrid: localStorage fallback + API contracts + feature flags.
+- DB real nu este activ încă.
 
-## Current technical stack
-- Monorepo.
-- Web: Next.js 15 App Router, React 19, TypeScript strict, Tailwind CSS.
-- State: Zustand/localStorage with API migration in progress.
-- Backend current: Next.js route handlers, mock-memory contracts.
-- Future backend: PostgreSQL, Prisma, Redis, TimescaleDB, WebSocket, Auth.js/JWT/RBAC/audit log.
-- Mobile: Expo/React Native skeleton only, not production-ready.
+## Ce adaugă v2.1
+- Consolă `/admin/db-provider`.
+- API manifest `/api/v1/enterprise/db-provider`.
+- Health endpoint `/api/v1/enterprise/db-provider-health`.
+- Runtime plan `/api/v1/enterprise/db-provider-runtime-plan`.
+- Prisma checklist `/api/v1/enterprise/prisma-runtime-checklist`.
+- Fișier central: `apps/web/lib/enterprise/db-provider-runtime.ts`.
+- Script audit: `scripts/db-provider-runtime-test.ps1`.
 
-## Version history summary
-- v0.7: protected app + user management foundation.
-- v0.8: persistence/governance core.
-- v0.9: action center + audit automation.
-- v1.0: enterprise release baseline.
-- v1.1: enterprise operations release.
-- v1.2: enterprise data foundation.
-- v1.3: database activation pack.
-- v1.4: WorkGraph persistence core.
-- v1.5: Auth/RBAC production pack.
-- v1.6: Task & Project persistence pack.
-- v1.7: Real Task CRUD & API-backed store contracts.
-- v1.8: API-backed UI Store integration pack.
-- v1.9: UI Task Store feature flag pack.
-- v2.0: Enterprise Beta Stabilization.
+## Reguli importante
+- Nu schimba interfața vizuală principală fără cerere explicită.
+- Păstrează `/taskuri` performant: view activ, tabel/board light, fără randare simultană masivă.
+- Păstrează fișierul `docs/AI_CONTINUATION_SERVELECT_WORK_OS.md` actualizat la fiecare build.
+- Nu activa `prisma-active` fără DATABASE_URL, seed, RBAC server-side și audit persistent.
 
-## Important recurring build fixes
-Keep these defensive fixes in future install scripts until the codebase is fully cleaned:
-1. Remove `mobile` prop passed to `Sidebar` from `AppShell` if present.
-2. Remove duplicate `generatedAt` / `manifestWithoutGeneratedAt` from `/api/v1/performance/audit`.
-3. Ensure `/api/v1/enterprise/task-project-health` returns `NextResponse.json(getTaskProjectPersistenceHealth())` directly, without `ok: true` spread duplication.
-4. Remove all `db-ready` strings from `apps/web/**/*.ts(x)` and normalize DB status to `ready | partial | mock | blocked`.
-5. Keep `/taskuri` performance-safe: render only active view, limit heavy lists, do not render full heavy TanStack/Kanban simultaneously.
-6. Update localStorage key on major builds to avoid old browser state freezing the app.
+## Erori istorice care trebuie evitate
+- `PageHeader actions` nu este valid dacă PageHeader acceptă children.
+- `Sidebar mobile` prop nu există.
+- `generatedAt` duplicat în route JSON spread.
+- `manifestWithoutGeneratedAt` lipsă.
+- `db-ready` a cauzat incompatibilități de type/tone; folosește doar `ready | partial | mock | blocked`.
+- `ok: true` duplicat cu spread din health manifest.
 
-## v2.0.0 additions
-Files added:
-- `apps/web/lib/enterprise/beta-stabilization.ts`
-- `apps/web/app/admin/beta-stabilization/page.tsx`
-- `apps/web/app/api/v1/enterprise/beta-stabilization/route.ts`
-- `apps/web/app/api/v1/enterprise/beta-health/route.ts`
-- `apps/web/app/api/v1/enterprise/beta-route-audit/route.ts`
-- `apps/web/app/api/v1/enterprise/beta-release-checklist/route.ts`
-- `scripts/beta-stabilization-test.ps1`
-- `docs/V20_ENTERPRISE_BETA_STABILIZATION.md`
+## Fixuri defensive de inclus în scripturi
+- Elimină prop-ul `mobile` din Sidebar.
+- Curăță `db-ready` din `apps/web` TS/TSX.
+- Normalizează `DatabaseActivationStatus`.
+- Rescrie `task-project-health/route.ts` să returneze direct health manifest.
 
-## Current state after v2.0
-Website is intended to be an internal beta candidate, not production.
-Mobile remains not beta-ready.
-Task/project API contracts exist, but DB provider remains mock-memory/local-first.
-Auth/RBAC production still needs real provider wiring.
+## Următorul build recomandat
+v2.2.0 — Prisma Schema & Seed Pack
 
-## Required tests after v2.0 deploy
-```powershell
-pnpm --filter @servelect/web build
-.\scripts\beta-stabilization-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
-```
-
-Routes to test manually:
-- `/admin/beta-stabilization`
-- `/api/v1/enterprise/beta-stabilization`
-- `/api/v1/enterprise/beta-health`
-- `/api/v1/enterprise/beta-route-audit`
-- `/api/v1/enterprise/beta-release-checklist`
-- `/taskuri`
-- `/proiecte`
-- `/api/v1/tasks`
-- `/api/v1/projects`
-
-## Next recommended build
-v2.1.0 — DB Provider Wiring & Prisma Runtime Pack.
-
-Goals:
-- configure DB provider contract;
-- add Prisma runtime health endpoint;
-- define seed/rollback flow;
-- keep mock provider fallback;
-- do not enable production DB writes by default without feature flag.
+Obiectiv: adaugă schema Prisma completă, seed deterministic Servelect, scripts migrate/seed/rollback și documentație pentru preview DB.
