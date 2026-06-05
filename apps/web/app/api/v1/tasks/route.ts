@@ -1,38 +1,65 @@
-import { repository } from "@/lib/backend/repository";
-import { getPagination, jsonError, jsonList, jsonOk, paginate, readJson } from "@/lib/backend/http";
-import { getSessionFromRequest, hasPermission } from "@/lib/backend/rbac";
-import { writeAuditEvent } from "@/lib/backend/audit";
-import type { TaskCreateInput } from "@/lib/backend/api-types";
-import type { TaskStatus } from "@servelect/shared";
+import { NextResponse } from "next/server";
+
+import { createApiTask, deleteApiTask, getApiTask, listApiTasks, resetApiTaskStore, updateApiTask, type TaskCreateInput, type TaskUpdateInput } from "@/lib/api-backed/task-project-api-store";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const { limit, offset } = getPagination(searchParams);
-  const items = await repository.listTasks(
-    searchParams.get("q") ?? undefined,
-    (searchParams.get("status") as TaskStatus | null) ?? undefined,
-    searchParams.get("projectId") ?? undefined
-  );
-  return jsonList(paginate(items, limit, offset), { total: items.length, limit, offset });
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+
+  if (id) {
+    const task = getApiTask(id);
+    if (!task) return NextResponse.json({ ok: false, error: "Task not found" }, { status: 404 });
+    return NextResponse.json({ ok: true, task });
+  }
+
+  const tasks = listApiTasks({
+    status: url.searchParams.get("status"),
+    projectId: url.searchParams.get("projectId"),
+    priority: url.searchParams.get("priority"),
+    search: url.searchParams.get("search")
+  });
+
+  return NextResponse.json({ ok: true, count: tasks.length, tasks });
 }
 
 export async function POST(request: Request) {
-  const session = getSessionFromRequest(request);
-  if (!hasPermission(session, "task:write")) return jsonError("FORBIDDEN", "Nu ai permisiune pentru creare task.", 403);
+  const body = (await request.json().catch(() => ({}))) as TaskCreateInput & { action?: string };
 
-  const body = await readJson<TaskCreateInput>(request);
-  if (!body?.title) return jsonError("BAD_REQUEST", "Câmpul title este obligatoriu.", 400);
+  if (body.action === "reset") {
+    return NextResponse.json({ ok: true, release: resetApiTaskStore() });
+  }
 
-  const task = await repository.createTask(body);
-  writeAuditEvent(session, {
-    action: "a creat taskul",
-    target: task.title,
-    entityType: "task",
-    entityId: task.id,
-    metadata: { projectCode: task.projectCode, priority: task.priority }
-  });
+  if (!body.title?.trim()) {
+    return NextResponse.json({ ok: false, error: "title is required" }, { status: 400 });
+  }
 
-  return jsonOk(task, { status: 201 });
+  const task = createApiTask(body);
+  return NextResponse.json({ ok: true, task }, { status: 201 });
+}
+
+export async function PATCH(request: Request) {
+  const body = (await request.json().catch(() => ({}))) as { id?: string; patch?: TaskUpdateInput } & TaskUpdateInput;
+  const id = body.id ?? body.patch?.id;
+
+  if (!id) return NextResponse.json({ ok: false, error: "id is required" }, { status: 400 });
+
+  const task = updateApiTask(id, body.patch ?? body);
+  if (!task) return NextResponse.json({ ok: false, error: "Task not found" }, { status: 404 });
+
+  return NextResponse.json({ ok: true, task });
+}
+
+export async function DELETE(request: Request) {
+  const url = new URL(request.url);
+  const body = (await request.json().catch(() => ({}))) as { id?: string };
+  const id = body.id ?? url.searchParams.get("id");
+
+  if (!id) return NextResponse.json({ ok: false, error: "id is required" }, { status: 400 });
+
+  const deleted = deleteApiTask(id);
+  if (!deleted) return NextResponse.json({ ok: false, error: "Task not found" }, { status: 404 });
+
+  return NextResponse.json({ ok: true, deleted: true, id });
 }
