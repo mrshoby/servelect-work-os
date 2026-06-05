@@ -1,4 +1,4 @@
-export type DatabaseActivationStatus = "ready" | "partial" | "mock" | "blocked" | "db-ready";
+export type DatabaseActivationStatus = "ready" | "partial" | "mock" | "blocked";
 export type DatabaseActivationPriority = "critical" | "high" | "medium" | "low";
 
 export type DatabaseEntityReadiness = {
@@ -83,7 +83,7 @@ const entities: DatabaseEntityReadiness[] = [
     key: "workspace",
     label: "Workspace / tenant",
     module: "Administrare",
-    status: "db-ready",
+    status: "ready",
     readiness: 82,
     source: "api-ready",
     priority: "critical",
@@ -274,5 +274,6 @@ export function getDatabaseSchemaManifest() {
     ]
   };
 }
+
 
 

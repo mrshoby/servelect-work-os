@@ -9,8 +9,7 @@ const statusTone = {
   ready: "green",
   partial: "blue",
   mock: "orange",
-  blocked: "red",
-  "db-ready": "green"
+  blocked: "red"
 } as const;
 
 export default function AdminDatabasePage() {
@@ -192,5 +191,6 @@ function NextCard({ icon, title, text }: { icon: React.ReactNode; title: string;
     </div>
   );
 }
+
 
 

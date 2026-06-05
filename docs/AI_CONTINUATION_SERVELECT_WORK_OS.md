@@ -1,113 +1,86 @@
 # AI CONTINUATION — SERVELECT WORK OS / SERVELECT EMP
 
-## Versiune curentă recomandată
+## Stadiu curent
 
-v1.4.0 — Enterprise WorkGraph Persistence Core
+Versiune curentă pregătită: **v1.5.0 — Auth & RBAC Production Pack**.
 
-## Context proiect
+Repository GitHub: `https://github.com/mrshoby/servelect-work-os`
+Website Vercel: `https://servelect-work-os-web.vercel.app`
+Repo local folosit de utilizator:
+`D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live`
 
-SERVELECT WORK OS / SERVELECT EMP este o platformă web tip Work OS pentru Servelect, inspirată de GoodDay, ClickUp, Linear, Asana Enterprise și Monday.com, dar adaptată pentru energie/fotovoltaice. Aplicația trebuie să fie task-first: proiecte, taskuri, subtaskuri, Kanban, list/table, Gantt/timeline, calendar, workload, timesheet, documente, chat/updates, approvals, rapoarte, workflow-uri custom, roluri și permisiuni.
+## Regula de lucru cerută de utilizator
 
-Modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR trebuie integrate în același sistem de proiecte/taskuri, nu aplicații separate.
+Utilizatorul nu mai vrea doar hotfix-uri `v1.0.x`. Vrea build-uri majore de tip `v1.X`.
+Pentru fiecare build nou trebuie livrat:
 
-## Repo și deploy
+1. ZIP cu fișierele schimbate.
+2. Comandă PowerShell completă care:
+   - ia ZIP-ul din Downloads;
+   - îl extrage;
+   - copiază fișierele în repo;
+   - aplică fixuri de compatibilitate;
+   - setează versiunea în package.json;
+   - rulează build local;
+   - face commit;
+   - face push pe GitHub;
+   - pornește deploy Vercel automat.
+3. Document MD cu ce s-a făcut și ce urmează.
 
-- GitHub: `https://github.com/mrshoby/servelect-work-os`
-- Vercel live: `https://servelect-work-os-web.vercel.app`
-- Folder local folosit frecvent:
-  `D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live`
+## Evoluție versiuni
 
-## Stack curent
+- v1.1 — Enterprise Operations Release
+- v1.2 — Enterprise Data Foundation Release
+- v1.3 — Enterprise Database Activation Pack
+- v1.4 — Enterprise WorkGraph Persistence Core
+- v1.5 — Auth & RBAC Production Pack
 
-- Monorepo pnpm
-- Next.js 15 App Router
-- React 19
-- TypeScript strict
-- Tailwind CSS
-- Zustand/localStorage pentru MVP
-- Mock data în `packages/shared`
-- Route handlers în `apps/web/app/api/v1/...`
-- Expo mobile schelet, nu complet production
+## Erori rezolvate anterior
 
-## Istoric relevant
+- `/taskuri` se bloca: pagina a fost optimizată prin randare doar pentru view-ul activ și limitare taskuri afișate.
+- Topbar search era suprapus de textul SERVELECT WORK OS / Live / Demo Auth: textul a fost eliminat din topbar.
+- `PageHeader actions` nu exista: s-a trecut la children.
+- `generatedAt` duplicat în performance audit route: manual generatedAt eliminat când manifest îl are deja.
+- `manifestWithoutGeneratedAt` lipsă: înlocuit cu manifest.
+- `Sidebar mobile` prop invalid: eliminat din AppShell.
+- `db-ready` TypeScript error: trebuie fie adăugat în tipuri, fie convertit la `ready` în data pentru build stabil.
 
-- v0.7: protected app + user management demo.
-- v0.8: system/governance core.
-- v0.9: action center + audit automation.
-- v1.0: enterprise release baseline.
-- v1.1: enterprise operations release.
-- v1.2: data foundation release.
-- v1.3: database activation pack.
-- v1.4: WorkGraph persistence core.
+## Build v1.5.0
 
-## Probleme apărute și fixuri
+Adaugă:
 
-1. `/taskuri` se bloca în browser.
-   - Fix: randare doar view activ, tabel/board light, limitare taskuri afișate, schimbare localStorage key.
+- `/admin/auth-rbac`
+- `/api/v1/enterprise/auth-rbac`
+- `/api/v1/enterprise/auth-rbac-health`
+- `/api/v1/enterprise/permission-matrix`
+- `apps/web/lib/enterprise/auth-rbac.ts`
+- `scripts/auth-rbac-readiness-test.ps1`
+- `docs/V15_AUTH_RBAC_PRODUCTION_PACK.md`
 
-2. Topbar search era suprapus cu texte `SERVELECT WORK OS / Live / Demo auth`.
-   - Fix: topbar simplificat, search curat, fără texte peste input.
+Scop:
 
-3. `PageHeader actions` nu exista.
-   - Fix: folosire children sau rescriere page.
+- Definește contractul pentru Auth.js/SSO.
+- Definește capabilități auth/RBAC.
+- Definește matricea roluri/permisiuni.
+- Pregătește persistent auth/session/user management pentru DB real.
 
-4. `generatedAt` duplicat în `/api/v1/performance/audit`.
-   - Fix: lăsat manifestul să furnizeze generatedAt; eliminat `manifestWithoutGeneratedAt` lipsă.
+## Atenție importantă
 
-5. `Sidebar mobile` prop invalid.
-   - Fix: eliminat prop-ul `mobile` din `AppShell.tsx`.
+Înainte de orice build/push, scripturile trebuie să repare compatibilitatea:
 
-6. `db-ready` nu era în type `DatabaseActivationStatus` și apoi nu era în `statusTone`.
-   - Fix: adăugat `db-ready` în type și mapping.
-
-## Stadiu aplicație web
-
-Aplicația web este un MVP enterprise avansat. Are module pentru dashboard, proiecte, taskuri, CRM, IoT, echipamente, mentenanță, finanțări/ESG, HR/Admin, performance audit, enterprise release, data foundation, database activation și workgraph.
-
-Încă nu este fully production real DB-backed. Multe module sunt încă mock/API manifest/localStorage.
-
-## Stadiu aplicație mobilă
-
-Mobile este încă schelet Expo / concept. Nu este încă aplicație mobilă completă production.
-
-## Ce aduce v1.4
-
-- `/admin/workgraph`
-- `/api/v1/enterprise/workgraph`
-- `/api/v1/enterprise/workgraph-health`
-- `/api/v1/enterprise/workgraph-migration-plan`
-- `apps/web/lib/enterprise/workgraph-persistence.ts`
-- `scripts/workgraph-readiness-test.ps1`
-- documentație `docs/V14_WORKGRAPH_PERSISTENCE_CORE.md`
+- în `AppShell.tsx`, elimină prop-ul `mobile` de pe `<Sidebar />`;
+- în `performance/audit/route.ts`, elimină generatedAt duplicat și manifestWithoutGeneratedAt;
+- în `database-activation.ts`, fie include `db-ready` în tip, fie transformă `status: "db-ready"` în `status: "ready"`;
+- în `admin/database/page.tsx`, statusTone trebuie să accepte orice status folosit.
 
 ## Următorul build recomandat
 
-v1.5.0 — Auth & RBAC Production Pack
+**v1.6.0 — Task & Project Persistence Pack**
 
-Obiective:
+Focus:
 
-- Auth.js / Microsoft login real.
-- User sessions persistente.
-- users + memberships + roles + permissions persistente.
-- route guards server-side.
-- RBAC enforcement în UI.
-- audit event pentru login/logout/impersonate/admin changes.
-
-## Rute de testat după deploy v1.4
-
-- `/admin/workgraph`
-- `/api/v1/enterprise/workgraph`
-- `/api/v1/enterprise/workgraph-health`
-- `/api/v1/enterprise/workgraph-migration-plan`
-- `/admin/database`
-- `/taskuri`
-- `/enterprise`
-
-## Comenzi utile
-
-```powershell
-pnpm --filter @servelect/web build
-.\scripts\site-deep-audit.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
-.\scripts\database-readiness-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
-.\scripts\workgraph-readiness-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
-```
+- Task/Project persistence reală în repository layer.
+- API mock -> repository switching clar.
+- Pregătire pentru Prisma/PostgreSQL real.
+- Comments, time entries, subtasks, status history.
+- Persistență pentru timer și workflow events.
