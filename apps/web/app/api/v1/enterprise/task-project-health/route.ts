@@ -5,8 +5,5 @@ import { getTaskProjectPersistenceHealth } from "@/lib/enterprise/task-project-p
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json({
-    ok: true,
-    ...getTaskProjectPersistenceHealth()
-  });
+  return NextResponse.json(getTaskProjectPersistenceHealth());
 }

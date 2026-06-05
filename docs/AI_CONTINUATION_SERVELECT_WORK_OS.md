@@ -104,3 +104,10 @@ Recommended scope:
 - implement task create/status update through API with optimistic UI;
 - write audit events for task create/update/status/timer;
 - keep mock fallback if `DATABASE_URL` is missing.
+
+---
+v1.6.1 fix: task-project-health duplicate ok
+Date: 2026-06-05 10:40:18
+Fixed apps/web/app/api/v1/enterprise/task-project-health/route.ts.
+Problem: Vercel build failed because ok was specified twice: ok: true plus spread from getTaskProjectPersistenceHealth().
+Fix: route now returns NextResponse.json(getTaskProjectPersistenceHealth()) directly.
