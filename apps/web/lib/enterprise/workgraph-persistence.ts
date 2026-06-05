@@ -15,7 +15,7 @@ export type WorkGraphEntityKind =
   | "equipment"
   | "crm-opportunity";
 
-export type WorkGraphReadinessStatus = "ready" | "api-ready" | "partial" | "mock" | "blocked" | "planned" | "draft" | "shadow-ready";
+export type WorkGraphReadinessStatus = "ready" | "db-ready" | "api-ready" | "partial" | "mock" | "blocked" | "planned" | "draft" | "shadow-ready";
 export type WorkGraphPriority = "critical" | "high" | "medium" | "low";
 
 export type WorkGraphTablePlan = {
@@ -317,4 +317,5 @@ export function getWorkGraphMigrationPlan() {
     ]
   };
 }
+
 

@@ -44,3 +44,9 @@ Date: 2026-06-05 14:02:13
 Reason: repeated build failures from stale completion.website access, generated .next scan, and duplicated ready tone maps.
 Fix: rewrote /admin/task-api-wiring and /admin/prisma-seed-execution to stable build-safe pages.
 Also globally replaced old completion.* fields with completion.overallCompletion, excluding .next.
+
+---
+v2.7.5 fix: WorkGraph db-ready status
+Date: 2026-06-05 14:11:44
+Fixed Vercel build error in apps/web/lib/enterprise/workgraph-persistence.ts.
+WorkGraphReadinessStatus now accepts ready, db-ready, api-ready, partial, mock, blocked, planned, draft, shadow-ready.
