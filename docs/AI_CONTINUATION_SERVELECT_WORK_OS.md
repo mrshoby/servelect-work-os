@@ -2,91 +2,90 @@
 
 ## Context proiect
 
-Proiectul este `SERVELECT WORK OS / SERVELECT EMP`, o platformă Work OS task-first pentru Servelect: project management, task management, Kanban, list/table, Gantt/timeline, calendar, workload, timesheet, documente, approvals, rapoarte, workflow-uri, roluri/permisiuni, plus module operaționale pentru energie/IoT, echipamente, mentenanță, CRM, finanțări/ESG și HR.
+Se dezvoltă aplicația **SERVELECT WORK OS / SERVELECT EMP**, o platformă Work OS task-first pentru Servelect, inspirată de GoodDay.work, ClickUp, Linear, Asana Enterprise și Monday.com, adaptată pentru energie/fotovoltaice.
 
-Repo GitHub: `https://github.com/mrshoby/servelect-work-os`
-Vercel: `https://servelect-work-os-web.vercel.app`
-Folder local folosit: `D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live`
+Aplicația trebuie să rămână centrată pe:
 
-## Reguli de lucru stabilite
+- proiecte;
+- taskuri;
+- subtaskuri;
+- Kanban;
+- task table/list;
+- Gantt/timeline;
+- calendar;
+- workload/resource planning;
+- timesheet;
+- documente;
+- chat/updates;
+- approvals;
+- rapoarte;
+- workflow-uri custom;
+- roluri și permisiuni.
 
-- Versiunile trebuie să fie build-uri majore `v1.X.0`, nu doar `v1.0.X`, când se adaugă funcționalități importante.
-- Pentru patch-uri se livrează ZIP cu fișierele schimbate + comandă PowerShell completă.
-- Documentul acesta trebuie actualizat la fiecare build, ca alt chat/AI să continue fără pierdere de context.
-- Interfața vizuală trebuie păstrată, dar optimizată pentru performanță.
-- Orice eroare Vercel trebuie reparată cu build local înainte de commit/push.
+Modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR trebuie integrate în același sistem de taskuri/proiecte, nu ca aplicații separate.
 
-## Istoric relevant
+## Repo și deploy
 
-- v1.1 — Enterprise Operations Release.
-- v1.2 — Enterprise Data Foundation.
-- v1.3 — Database Activation Pack.
-- v1.4 — WorkGraph Persistence Core.
-- v1.5 — Auth & RBAC Production Pack.
-- v1.6 — Task & Project Persistence Pack.
-- v1.7 — Real Task CRUD & API-backed Store.
+- GitHub: `https://github.com/mrshoby/servelect-work-os`
+- Vercel: `https://servelect-work-os-web.vercel.app`
+- Folder local folosit de utilizator:
+  `D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live`
 
-## Erori reparate anterior
+## Stadiu versiuni
 
-- `PageHeader actions` invalid; PageHeader folosește children.
-- `Topbar` search overlap; eliminate textele SERVELECT WORK OS / Live / Demo auth din topbar.
-- `/taskuri` freeze; optimizare prin randare doar a view-ului activ.
-- `repository.dashboard().catch` când dashboard nu era Promise.
-- `approvalRequests` export inexistent; corect la `approvals`.
-- `generatedAt` dublat în performance audit route.
-- `manifestWithoutGeneratedAt` lipsă.
-- `Sidebar mobile` prop invalid.
-- `db-ready` status inconsistency; normalizat la `ready`.
-- `task-project-health` avea `ok` dublat; ruta trebuie să returneze direct health payload.
+### v1.0
+Enterprise Release Baseline.
 
-## Stadiu la v1.7.0
+### v1.1
+Enterprise Operations Release.
 
-v1.7.0 introduce API CRUD pentru taskuri și proiecte:
+### v1.2
+Enterprise Data Foundation Release.
 
-- `GET/POST/PATCH/DELETE /api/v1/tasks`
-- `GET/POST/PATCH/DELETE /api/v1/projects`
-- `/admin/task-crud`
-- `/api/v1/enterprise/task-crud`
-- `/api/v1/enterprise/task-crud-health`
-- `/api/v1/enterprise/task-crud-schema`
+### v1.3
+Database Activation Pack.
 
-Providerul este `mock-memory`, deci nu este încă DB persistent, dar este API-backed și pregătit pentru înlocuire cu Prisma/PostgreSQL.
+Probleme apărute:
 
-## Ce trebuie făcut în continuare
+- `db-ready` nu era inclus în `DatabaseActivationStatus`;
+- `statusTone` nu avea cheia `db-ready`;
+- ulterior s-a decis normalizarea la `ready`, nu `db-ready`.
 
-### v1.8.0 — API-backed UI Store Integration Pack
+### v1.4
+WorkGraph Persistence Core.
 
-1. `/taskuri` să citească taskurile prin `/api/v1/tasks`.
-2. Create task din UI să folosească `POST /api/v1/tasks`.
-3. Update status din Kanban/tabel să folosească `PATCH /api/v1/tasks`.
-4. Delete task să folosească `DELETE /api/v1/tasks`.
-5. `/proiecte` să citească proiectele prin `/api/v1/projects`.
-6. Fallback localStorage doar când API-ul pică.
-7. Optimistic UI + rollback.
+A introdus planul pentru WorkGraph, entități persistente și ordinea de migrare.
 
-### v1.9.0 — PostgreSQL Task/Project Provider
+### v1.5
+Auth & RBAC Production Pack.
 
-1. Prisma schema pentru task/project/subtask/comment/activity log.
-2. Provider DB real în loc de mock-memory.
-3. Seed script.
-4. Audit log persistent.
-5. Vercel env pentru DATABASE_URL.
+A introdus pagină și API-uri pentru auth/RBAC production readiness.
 
-## Validare după v1.7
+Problemă v1.5:
 
-Rulează:
+- rămăseseră referințe `db-ready` în cod după normalizare.
+- fix recomandat: toate aparițiile `db-ready` din `apps/web/*.ts/*.tsx` trebuie înlocuite cu `ready`.
 
-```powershell
-pnpm --filter @servelect/web build
-```
+### v1.6
+Task & Project Persistence Pack.
 
-După deploy:
+A introdus planul pentru persistența proiectelor/taskurilor:
 
-```powershell
-.\scripts\task-crud-readiness-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
-```
+- `/admin/task-projects`
+- `/api/v1/enterprise/task-project-persistence`
+- `/api/v1/enterprise/task-project-health`
+- `/api/v1/enterprise/task-project-schema`
+- `/api/v1/enterprise/task-project-migration-plan`
 
-Testează:
+Problemă v1.6:
+
+- `task-project-health/route.ts` avea `ok: true` și apoi spread peste un obiect care avea deja `ok`.
+- fix: ruta trebuie să returneze direct `NextResponse.json(getTaskProjectPersistenceHealth())`.
+
+### v1.7
+Real Task CRUD & API-backed Store.
+
+A introdus contract CRUD API:
 
 - `/admin/task-crud`
 - `/api/v1/tasks`
@@ -94,3 +93,56 @@ Testează:
 - `/api/v1/enterprise/task-crud`
 - `/api/v1/enterprise/task-crud-health`
 - `/api/v1/enterprise/task-crud-schema`
+
+Providerul rămâne `mock-memory`, nu PostgreSQL real.
+
+### v1.8
+API-backed UI Store Integration Pack.
+
+A introdus:
+
+- `/admin/api-ui-store`
+- `/api/v1/enterprise/api-ui-store`
+- `/api/v1/enterprise/api-ui-store-health`
+- `/api/v1/enterprise/api-ui-store-integration-plan`
+- `apps/web/lib/enterprise/api-ui-store.ts`
+- `scripts/api-ui-store-readiness-test.ps1`
+
+Scop: conectarea progresivă a UI-ului existent la API contracte, fără modificarea designului vizual și fără dezactivarea fallback-ului localStorage/mock data.
+
+## Fixuri defensive importante care trebuie păstrate
+
+În orice script de aplicare patch trebuie păstrate aceste fixuri:
+
+1. Elimină prop-ul `mobile` din `Sidebar` în `AppShell.tsx`.
+2. Curăță `performance/audit/route.ts` de duplicate `generatedAt` și `manifestWithoutGeneratedAt`.
+3. Curăță global `db-ready` din `apps/web/**/*.ts` și `apps/web/**/*.tsx`.
+4. Normalizează `DatabaseActivationStatus` la:
+   `"ready" | "partial" | "mock" | "blocked"`.
+5. Normalizează `statusTone` din `admin/database/page.tsx` fără `db-ready`.
+6. Rescrie `task-project-health/route.ts` să returneze direct `getTaskProjectPersistenceHealth()`.
+7. Schimbă cheia Zustand/localStorage la fiecare build major pentru a evita state vechi/blocat.
+
+## Următorul build recomandat
+
+**v1.9.0 — UI Task Store Feature Flag Pack**
+
+Obiective:
+
+- feature flag pentru API-backed UI store;
+- hook `useApiBackedTasks`;
+- fallback la Zustand/localStorage;
+- optimistic updates pentru create/update/delete;
+- audit event la acțiuni CRUD;
+- fără schimbare de design.
+
+## Reguli de lucru pentru următorul AI/chat
+
+- Răspunde în română.
+- Dă ZIP cu fișiere schimbate pentru fiecare build.
+- Dă și comandă PowerShell completă care ia ZIP-ul din Downloads, îl extrage, îl aplică, face build, commit și push.
+- Nu da doar cod lipit în chat.
+- Păstrează interfața existentă.
+- Nu schimba designul fără cerere explicită.
+- Rulează/impune build local înainte de commit/push.
+- Dacă Vercel pică, repară cauza punctual și actualizează acest fișier MD.
