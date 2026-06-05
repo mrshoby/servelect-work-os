@@ -85,29 +85,6 @@ export default function ReleaseStatusPage() {
                 <div className="h-full rounded-full bg-emerald-500" style={{ width: `${area.completion}%` }} />
               </div>
             </div>
-
-            <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <div>
-                <div className="text-xs font-black uppercase tracking-[0.16em] text-emerald-600">Done</div>
-                <ul className="mt-2 space-y-2 text-sm text-slate-600">
-                  {area.done.map((item) => (
-                    <li key={item} className="rounded-xl bg-emerald-50 px-3 py-2 text-emerald-800">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <div className="text-xs font-black uppercase tracking-[0.16em] text-amber-600">Missing / next</div>
-                <ul className="mt-2 space-y-2 text-sm text-slate-600">
-                  {area.missing.map((item) => (
-                    <li key={item} className="rounded-xl bg-amber-50 px-3 py-2 text-amber-800">
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
           </article>
         ))}
       </section>
