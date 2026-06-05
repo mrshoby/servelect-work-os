@@ -46,5 +46,16 @@
 - Endpointuri authorize, impersonate și user detail/patch demo.
 - Integrare în HR & Admin și sidebar.
 
+## v0.8 — Persistence & Governance Core
+- `GET /api/v1/system/status` pentru versiune, runtime, provider, capabilities și RBAC matrix.
+- `GET /api/v1/system/readiness` pentru checks de build/runtime/auth/DB.
+- `/admin/system` pentru UI governance și readiness.
+- Workflow templates foundation:
+  - `GET /api/v1/workflows/templates`
+  - `POST /api/v1/workflows/run`
+  - `/workflows`
+- Template-uri pentru IoT alert → task, CRM ofertă → aprobare, SLA risc → escaladare, finanțări → documente lipsă.
+- Vercel-safe: mock provider implicit, Prisma pregătit pentru activare controlată.
+
 ## Direcție păstrată
 Aplicația rămâne un Work OS task-first, inspirat de GoodDay / ClickUp / Linear / Asana Enterprise, adaptat pentru operațiuni Servelect: proiecte, taskuri, Kanban, Gantt/timeline, workload, CRM, IoT, echipamente, mentenanță, finanțări/ESG și HR integrate într-un singur sistem.
