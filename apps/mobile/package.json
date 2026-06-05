@@ -1,6 +1,6 @@
 {
   "name": "@servelect/mobile",
-  "version": "2.7.0",
+  "version": "2.7.3",
   "private": true,
   "main": "expo-router/entry",
   "scripts": {

@@ -37,3 +37,10 @@ SERVELECT WORK OS este un Work OS task-first pentru companie de energie/fotovolt
 v2.8.0 — Task Page API Bridge Activation
 
 Obiectiv: pagina `/taskuri` începe să citească din API bridge cu fallback localStorage, fără schimbare vizuală majoră.
+
+---
+v2.7.3 stabilization fix
+Date: 2026-06-05 14:02:13
+Reason: repeated build failures from stale completion.website access, generated .next scan, and duplicated ready tone maps.
+Fix: rewrote /admin/task-api-wiring and /admin/prisma-seed-execution to stable build-safe pages.
+Also globally replaced old completion.* fields with completion.overallCompletion, excluding .next.

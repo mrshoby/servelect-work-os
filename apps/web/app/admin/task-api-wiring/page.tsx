@@ -1,108 +1,158 @@
-import { Cable, CheckCircle2, GitBranch, Layers3, RefreshCcw, ShieldAlert } from "lucide-react";
+import { Activity, CheckCircle2, Database, GitBranch, ServerCog } from "lucide-react";
 
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader, PageHeader } from "@/components/ui/Card";
 import { ProgressBar } from "@/components/ui/ProgressBar";
-import { getTaskApiWiringStatus } from "@/lib/enterprise/task-api-wiring";
-import { getProductCompletion } from "@/lib/enterprise/release-dashboard";
+
+const completion = {
+  version: "2.7.3",
+  overallCompletion: 80,
+  areas: [
+    { id: "website", label: "Website / Web App", completion: 80, tone: "green" },
+    { id: "task-project", label: "Task & Project Core", completion: 68, tone: "blue" },
+    { id: "backend-api", label: "Backend / API", completion: 62, tone: "blue" },
+    { id: "database", label: "Database / Prisma / Seed", completion: 55, tone: "orange" },
+    { id: "auth-rbac", label: "Auth / RBAC", completion: 42, tone: "orange" },
+    { id: "iot-ops", label: "IoT / Operations", completion: 36, tone: "red" },
+    { id: "mobile", label: "Mobile App", completion: 23, tone: "red" }
+  ] as const
+};
+
+const bridgeItems = [
+  {
+    title: "Task API Client",
+    description: "Client TypeScript pregătit pentru /api/v1/tasks și /api/v1/projects.",
+    status: "ready"
+  },
+  {
+    title: "UI Store Bridge",
+    description: "Punte între Zustand/localStorage și API-backed store, cu fallback local.",
+    status: "partial"
+  },
+  {
+    title: "Task Board API Contract",
+    description: "Contract pentru board state, status changes, drawer hydration și optimistic updates.",
+    status: "partial"
+  },
+  {
+    title: "Production DB Writes",
+    description: "Încă nu este activ complet. Necesită repository adapter + Prisma write-gate.",
+    status: "planned"
+  }
+] as const;
 
 const toneByStatus = {
   ready: "green",
   partial: "blue",
+  planned: "orange",
   blocked: "red"
 } as const;
 
 export default function TaskApiWiringPage() {
-  const status = getTaskApiWiringStatus();
-  const completion = getProductCompletion();
-
   return (
     <>
       <PageHeader
         title="Task API Wiring"
-        subtitle="v2.6.0 conectează controlat UI-ul de taskuri la API-backed store, păstrând aceeași interfață vizuală."
-      >
-        <Badge tone="blue">{status.version}</Badge>
-      </PageHeader>
+        subtitle="Stabilizare v2.7.3: pregătire UI taskuri pentru API-backed mode fără să schimbăm interfața vizuală principală."
+      />
 
-      <section className="grid gap-4 xl:grid-cols-4">
-        <Card className="xl:col-span-2">
-          <CardHeader title="Stadiu task core" subtitle="Progres real pentru modulul de taskuri/proiecte." />
+      <section className="grid gap-4 lg:grid-cols-4">
+        <Card className="lg:col-span-2">
+          <CardHeader title="Product completion" subtitle="Status general website + aplicație" />
           <div className="p-5">
             <div className="flex items-end justify-between gap-4">
               <div>
-                <div className="text-4xl font-black text-slate-950">{status.completion}%</div>
-                <p className="mt-2 text-sm font-semibold text-slate-500">Task & Project Core readiness</p>
+                <div className="text-4xl font-black text-slate-950">{completion.overallCompletion}%</div>
+                <p className="mt-2 text-sm text-slate-500">
+                  Enterprise beta avansată. Taskurile sunt în migrare spre API-backed mode, dar nu sunt încă 100% production DB-backed.
+                </p>
               </div>
-              <Cable className="h-14 w-14 text-emerald-600" />
+              <Badge tone="blue">v{completion.version}</Badge>
             </div>
-            <div className="mt-5"><ProgressBar value={status.completion} tone="green" /></div>
-            <p className="mt-4 text-sm leading-6 text-slate-600">Mod curent: <b>{status.defaultMode}</b>. {status.visualChange}</p>
+            <ProgressBar value={completion.overallCompletion} tone="blue" className="mt-5" />
           </div>
         </Card>
 
         <Card>
-          <CardHeader title="Website" subtitle="Beta readiness" />
+          <CardHeader title="Task Core" subtitle="Readiness" />
           <div className="p-5">
-            <div className="text-3xl font-black text-slate-950">{completion.website}%</div>
-            <ProgressBar value={completion.website} tone="blue" className="mt-4" />
-            <p className="mt-3 text-sm text-slate-500">Website-ul este în beta enterprise avansată.</p>
+            <div className="text-3xl font-black text-slate-950">68%</div>
+            <ProgressBar value={68} tone="blue" className="mt-4" />
+            <p className="mt-3 text-sm text-slate-500">UI + board + drawer pregătite pentru API-backed mode.</p>
           </div>
         </Card>
 
         <Card>
-          <CardHeader title="Mobile" subtitle="App readiness" />
+          <CardHeader title="API / Backend" subtitle="Readiness" />
           <div className="p-5">
-            <div className="text-3xl font-black text-slate-950">{completion.mobile}%</div>
-            <ProgressBar value={completion.mobile} tone="orange" className="mt-4" />
-            <p className="mt-3 text-sm text-slate-500">Mobile rămâne schelet Expo/concept.</p>
+            <div className="text-3xl font-black text-slate-950">62%</div>
+            <ProgressBar value={62} tone="blue" className="mt-4" />
+            <p className="mt-3 text-sm text-slate-500">Contracte API disponibile, providerul real DB nu este încă fully active.</p>
           </div>
         </Card>
       </section>
 
-      <section className="mt-5 grid gap-4 xl:grid-cols-3">
-        {status.capabilities.map((capability) => (
-          <Card key={capability.key}>
-            <div className="p-5">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="text-base font-black text-slate-950">{capability.label}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-500">{capability.current}</p>
+      <section className="mt-5 grid gap-4 xl:grid-cols-2">
+        <Card>
+          <CardHeader title="API-backed bridge components" subtitle="Ce există în v2.7.x" />
+          <div className="space-y-3 p-5">
+            {bridgeItems.map((item) => (
+              <div key={item.title} className="rounded-2xl border border-slate-200 bg-white p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <div className="font-black text-slate-950">{item.title}</div>
+                    <p className="mt-1 text-sm leading-6 text-slate-500">{item.description}</p>
+                  </div>
+                  <Badge tone={toneByStatus[item.status]}>{item.status}</Badge>
                 </div>
-                <Badge tone={toneByStatus[capability.status]}>{capability.status}</Badge>
               </div>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="w-12 text-sm font-black text-slate-700">{capability.percent}%</div>
-                <ProgressBar value={capability.percent} tone={capability.status === "blocked" ? "red" : capability.status === "partial" ? "blue" : "green"} />
+            ))}
+          </div>
+        </Card>
+
+        <Card>
+          <CardHeader title="Next implementation steps" subtitle="Ce trebuie făcut pentru taskuri full funcționale" />
+          <div className="space-y-3 p-5">
+            {[
+              "Leagă pagina /taskuri la useTaskApiBridge pentru load/refresh real.",
+              "Activează create/update/delete task prin API, cu fallback local.",
+              "Adaugă optimistic update + rollback pentru schimbare status.",
+              "Persistă subtaskuri, comments, attachments și time entries.",
+              "Adaugă audit event la fiecare mutație task/project.",
+              "Activează DB-backed mode controlat prin feature flag."
+            ].map((step, index) => (
+              <div key={step} className="flex gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-slate-950 text-xs font-black text-white">
+                  {index + 1}
+                </div>
+                <div className="text-sm font-semibold leading-6 text-slate-700">{step}</div>
               </div>
-              <p className="mt-4 rounded-2xl bg-slate-50 p-3 text-xs font-semibold leading-5 text-slate-600">Următor: {capability.next}</p>
-            </div>
-          </Card>
-        ))}
+            ))}
+          </div>
+        </Card>
       </section>
 
-      <Card className="mt-5">
-        <CardHeader title="Plan de integrare v2.6 → v2.7" subtitle="Pașii necesari pentru ca /taskuri să folosească API-ul real fără să se schimbe designul." />
-        <div className="grid gap-3 p-5 lg:grid-cols-2">
-          {status.plan.map((step, index) => (
-            <div key={step} className="flex gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <div className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-emerald-50 text-sm font-black text-emerald-700">{index + 1}</div>
-              <div className="text-sm font-semibold leading-6 text-slate-700">{step}</div>
-            </div>
-          ))}
-        </div>
-      </Card>
-
-      <section className="mt-5 grid gap-4 lg:grid-cols-3">
-        <Card>
-          <div className="flex gap-3 p-5"><CheckCircle2 className="h-5 w-5 text-emerald-600" /><p className="text-sm font-semibold text-slate-600">Citirea din API poate fi activată controlat.</p></div>
-        </Card>
-        <Card>
-          <div className="flex gap-3 p-5"><GitBranch className="h-5 w-5 text-blue-600" /><p className="text-sm font-semibold text-slate-600">Feature flags previn întreruperea UI-ului existent.</p></div>
-        </Card>
-        <Card>
-          <div className="flex gap-3 p-5"><ShieldAlert className="h-5 w-5 text-amber-600" /><p className="text-sm font-semibold text-slate-600">DB write active rămâne blocat până la audit/RBAC complet.</p></div>
-        </Card>
+      <section className="mt-5 grid gap-4 md:grid-cols-4">
+        {[
+          { icon: ServerCog, label: "API client", value: "ready" },
+          { icon: GitBranch, label: "Feature flags", value: "ready" },
+          { icon: Activity, label: "Board state", value: "partial" },
+          { icon: Database, label: "DB writes", value: "planned" }
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <Card key={item.label}>
+              <div className="p-5">
+                <Icon className="h-6 w-6 text-emerald-600" />
+                <div className="mt-4 text-sm font-black text-slate-950">{item.label}</div>
+                <div className="mt-2 flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                  <span className="text-xs font-bold uppercase tracking-wide text-slate-500">{item.value}</span>
+                </div>
+              </div>
+            </Card>
+          );
+        })}
       </section>
     </>
   );

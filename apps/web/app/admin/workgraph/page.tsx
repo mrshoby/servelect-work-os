@@ -1,7 +1,7 @@
 import { getWorkGraphHealth, getWorkGraphMigrationPlan, getWorkGraphPersistenceRelease, type WorkGraphReadinessStatus } from "@/lib/enterprise/workgraph-persistence";
 
 const statusTone: Record<WorkGraphReadinessStatus, string> = {
-  "db-ready": "bg-emerald-50 text-emerald-700 border-emerald-200",
+  "ready": "bg-emerald-50 text-emerald-700 border-emerald-200",
   "api-ready": "bg-blue-50 text-blue-700 border-blue-200",
   partial: "bg-violet-50 text-violet-700 border-violet-200",
   mock: "bg-amber-50 text-amber-700 border-amber-200",
@@ -32,7 +32,7 @@ export default function AdminWorkGraphPage() {
         <div className="mt-6 grid gap-3 md:grid-cols-4">
           <Metric label="Readiness global" value={`${release.globalReadiness}%`} />
           <Metric label="Tabele WorkGraph" value={String(health.counters.totalTables)} />
-          <Metric label="DB-ready" value={String(health.counters.dbReady)} />
+          <Metric label="ready" value={String(health.counters.dbReady)} />
           <Metric label="Mock rămase" value={String(health.counters.mock)} />
         </div>
       </section>
@@ -144,3 +144,4 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
 function Badge({ className, children }: { className: string; children: React.ReactNode }) {
   return <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-black ${className}`}>{children}</span>;
 }
+
