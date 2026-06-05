@@ -258,7 +258,7 @@ export function getDatabaseSchemaManifest() {
       module: entity.module,
       priority: entity.priority,
       readiness: entity.readiness,
-      migrationStatus: entity.status === "db-ready" ? "ready" : entity.status === "partial" ? "draft" : "planned"
+      migrationStatus: entity.status === "ready" ? "ready" : entity.status === "partial" ? "draft" : "planned"
     })),
     relationships: [
       "workspace -> users",
@@ -274,6 +274,7 @@ export function getDatabaseSchemaManifest() {
     ]
   };
 }
+
 
 
 

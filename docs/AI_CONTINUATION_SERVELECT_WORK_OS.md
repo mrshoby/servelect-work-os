@@ -84,3 +84,11 @@ Focus:
 - Pregătire pentru Prisma/PostgreSQL real.
 - Comments, time entries, subtasks, status history.
 - Persistență pentru timer și workflow events.
+
+---
+v1.5.1 fix: global db-ready cleanup
+Date: 2026-06-05 10:28:45
+Fixed all db-ready references in apps/web TS/TSX source.
+Normalized DatabaseActivationStatus to ready | partial | mock | blocked.
+Normalized admin/database statusTone mapping.
+Reason: Vercel build failed because db-ready remained in migrationStatus logic after the status type had been normalized.
