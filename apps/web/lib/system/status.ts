@@ -1,6 +1,8 @@
 import { countCapabilitiesByStatus, getRoleMatrix, SERVELECT_APP_CHANNEL, SERVELECT_APP_VERSION, systemCapabilities } from "./capabilities";
 import { getDatabaseStatus } from "@/lib/backend/data-provider";
 import { isAuthRequired } from "@/lib/auth/session";
+import { getActionCenterSummary } from "@/lib/action-center/actions";
+import { getWorkflowExecutionSummary } from "@/lib/workflows/executions";
 
 export type ServelectSystemStatus = ReturnType<typeof getServelectSystemStatus>;
 
@@ -29,11 +31,15 @@ export function getServelectSystemStatus() {
       items: systemCapabilities,
       byStatus: countCapabilitiesByStatus()
     },
+    operational: {
+      actionCenter: getActionCenterSummary(),
+      workflowExecutions: getWorkflowExecutionSummary()
+    },
     roles: getRoleMatrix(),
     notes: [
-      "v0.8 adaugă status/readiness API, governance UI și workflow templates.",
+      "v0.9 adaugă Action Center, audit log UI/API și jurnal de execuții workflow.",
       "Mock provider rămâne implicit pentru Vercel-safe deploy.",
-      "Prisma/PostgreSQL se activează doar când există DATABASE_URL și SERVELECT_DATA_PROVIDER=prisma."
+      "Prisma/PostgreSQL rămâne pregătit pentru activare controlată în etapa DB real."
     ]
   };
 }

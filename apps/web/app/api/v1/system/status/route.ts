@@ -20,7 +20,7 @@ export async function GET() {
 
   return NextResponse.json({
     ok: true,
-    version: "0.8.0",
+    version: "0.9.0",
     generatedAt: new Date().toISOString(),
     status,
     dashboard

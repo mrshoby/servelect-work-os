@@ -2,6 +2,8 @@ import { repository } from "@/lib/backend/repository";
 import { jsonOk } from "@/lib/backend/http";
 import { getDatabaseStatus } from "@/lib/backend/data-provider";
 import { isAuthRequired } from "@/lib/auth/session";
+import { getActionCenterItems } from "@/lib/action-center/actions";
+import { listWorkflowExecutions } from "@/lib/workflows/executions";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +16,7 @@ type ReadinessCheck = {
 
 async function checkRepository(): Promise<ReadinessCheck> {
   try {
-    const dashboard = await repository.dashboard();
+    const dashboard = await Promise.resolve(repository.dashboard());
     return {
       id: "repository",
       label: "Repository layer",
@@ -33,8 +35,23 @@ async function checkRepository(): Promise<ReadinessCheck> {
 
 export async function GET() {
   const db = getDatabaseStatus();
+  const actionItems = getActionCenterItems();
+  const executions = listWorkflowExecutions();
+
   const checks: ReadinessCheck[] = [
     await checkRepository(),
+    {
+      id: "action-center",
+      label: "Action Center",
+      status: actionItems.length > 0 ? "pass" : "warn",
+      detail: `${actionItems.length} acțiuni operaționale agregate din taskuri, IoT, aprobări, mentenanță și finanțări.`
+    },
+    {
+      id: "workflow-executions",
+      label: "Workflow execution log",
+      status: executions.length > 0 ? "pass" : "warn",
+      detail: `${executions.length} execuții workflow disponibile în jurnalul mock.`
+    },
     {
       id: "data-provider",
       label: "Data provider",
@@ -61,7 +78,7 @@ export async function GET() {
       id: "version",
       label: "Versiune aplicație",
       status: "pass",
-      detail: "v0.8.0 Persistence & Governance Core."
+      detail: "v0.9.0 Action Center & Audit Automation."
     }
   ];
 

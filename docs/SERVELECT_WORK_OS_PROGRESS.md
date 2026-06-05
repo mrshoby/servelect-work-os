@@ -57,5 +57,15 @@
 - Template-uri pentru IoT alert → task, CRM ofertă → aprobare, SLA risc → escaladare, finanțări → documente lipsă.
 - Vercel-safe: mock provider implicit, Prisma pregătit pentru activare controlată.
 
+## v0.9 — Action Center & Audit Automation
+- `/action-center` pentru coadă task-first unificată: taskuri, IoT, aprobări, tickete, finanțări și riscuri.
+- `GET /api/v1/action-center` pentru summary + acțiuni agregate.
+- `/admin/audit` pentru audit log operațional și governance events.
+- `GET /api/v1/audit/events` pentru audit API.
+- `GET /api/v1/workflows/executions` pentru jurnal execuții workflow.
+- `POST /api/v1/workflows/run` întoarce acum `execution` și `auditEvent`.
+- `GET /api/v1/system/status` și readiness includ Action Center + workflow executions.
+- Include fixul v0.8 pentru `repository.dashboard()` sync/async.
+
 ## Direcție păstrată
 Aplicația rămâne un Work OS task-first, inspirat de GoodDay / ClickUp / Linear / Asana Enterprise, adaptat pentru operațiuni Servelect: proiecte, taskuri, Kanban, Gantt/timeline, workload, CRM, IoT, echipamente, mentenanță, finanțări/ESG și HR integrate într-un singur sistem.

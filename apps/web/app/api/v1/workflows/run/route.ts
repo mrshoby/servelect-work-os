@@ -3,6 +3,7 @@ import { writeAuditEvent } from "@/lib/backend/audit";
 import { jsonError, jsonOk, readJson } from "@/lib/backend/http";
 import { getSessionFromRequest, hasPermission } from "@/lib/backend/rbac";
 import { getWorkflowTemplate } from "@/lib/workflows/templates";
+import { createWorkflowExecution } from "@/lib/workflows/executions";
 
 export const dynamic = "force-dynamic";
 
@@ -26,9 +27,9 @@ export async function POST(request: Request) {
     return jsonError("FORBIDDEN", `Nu ai permisiunea ${template.requiredPermission} pentru acest workflow.`, 403);
   }
 
-  const task = await repository.createTask({
+  const task = await Promise.resolve(repository.createTask({
     title: template.defaultTask.title,
-    description: `${template.description}\n\nWorkflow v0.8: ${template.name}\nTrigger: ${template.trigger}`,
+    description: `${template.description}\n\nWorkflow v0.9: ${template.name}\nTrigger: ${template.trigger}`,
     projectId: body?.projectId,
     projectCode: body?.projectCode,
     projectName: body?.projectName,
@@ -39,20 +40,31 @@ export async function POST(request: Request) {
     ownerId: session.user.id,
     estimateHours: template.defaultTask.estimateHours,
     tags: template.defaultTask.tags
+  }));
+
+  const execution = createWorkflowExecution({
+    template,
+    actor: session.user.name,
+    entityType: "task",
+    entityId: task.id,
+    projectCode: body?.projectCode ?? task.projectCode,
+    message: `Workflow rulat: task ${task.title} creat pentru ${body?.projectCode ?? task.projectCode ?? "proiect"}.`
   });
 
-  writeAuditEvent(session, {
+  const auditEvent = writeAuditEvent(session, {
     action: "a rulat workflow-ul",
     target: template.name,
     entityType: "task",
     entityId: task.id,
-    metadata: { templateId: template.id, category: template.category }
+    metadata: { templateId: template.id, category: template.category, executionId: execution.id, version: "0.9.0" }
   });
 
   return jsonOk({
     workflow: template,
+    execution,
+    auditEvent,
     task,
     persisted: true,
-    note: "Taskul a fost creat prin repository layer. În mock rămâne în memoria serverului; în prisma se salvează în DB."
+    note: "Taskul a fost creat prin repository layer. Jurnalul de execuție și auditul sunt disponibile în v0.9. În mock rămân în memoria serverului; în Prisma se vor salva în DB."
   }, { status: 201 });
 }

@@ -1,8 +1,8 @@
 import type { Permission, Role } from "@servelect/shared";
 import { rolePermissionMap } from "@/lib/auth/permissions";
 
-export const SERVELECT_APP_VERSION = "0.8.0";
-export const SERVELECT_APP_CHANNEL = "v0.8 Persistence & Governance Core";
+export const SERVELECT_APP_VERSION = "0.9.0";
+export const SERVELECT_APP_CHANNEL = "v0.9 Action Center & Audit Automation";
 
 export type CapabilityStatus = "ready" | "foundation" | "mock" | "planned";
 
@@ -27,6 +27,15 @@ export const systemCapabilities: SystemCapability[] = [
     routes: ["/taskuri", "/proiecte", "/api/v1/tasks", "/api/v1/projects"]
   },
   {
+    id: "action-center-v09",
+    module: "Work OS",
+    title: "Action Center task-first",
+    status: "foundation",
+    description: "Coadă unificată pentru taskuri urgente, alerte IoT, aprobări, tickete, dosare și riscuri de proiect.",
+    requiredPermissions: ["task:read", "project:read"],
+    routes: ["/action-center", "/api/v1/action-center"]
+  },
+  {
     id: "governance-rbac",
     module: "Administrare",
     title: "Protected App + RBAC",
@@ -34,6 +43,15 @@ export const systemCapabilities: SystemCapability[] = [
     description: "Sesiune demo cookie HTTP-only, autorizare API și permisiuni pe roluri Servelect.",
     requiredPermissions: ["admin:manage"],
     routes: ["/admin/users", "/api/v1/auth/session", "/api/v1/auth/authorize", "/api/v1/auth/impersonate"]
+  },
+  {
+    id: "audit-log-v09",
+    module: "Administrare",
+    title: "Audit log operațional",
+    status: "foundation",
+    description: "Jurnal central pentru workflow-uri, RBAC, acțiuni critice și evenimente de sistem, pregătit pentru persistență DB.",
+    requiredPermissions: ["admin:manage"],
+    routes: ["/admin/audit", "/api/v1/audit/events"]
   },
   {
     id: "persistence-provider",
@@ -45,13 +63,13 @@ export const systemCapabilities: SystemCapability[] = [
     routes: ["/api/v1/system/status", "/api/v1/system/readiness"]
   },
   {
-    id: "workflows-v08",
+    id: "workflows-v09",
     module: "Automatizări",
-    title: "Workflow Templates",
+    title: "Workflow templates + execution log",
     status: "foundation",
-    description: "Template-uri operaționale pentru alerte IoT, CRM, mentenanță și finanțări, cu execuție API demo.",
+    description: "Template-uri operaționale cu jurnal de execuție pentru IoT, CRM, mentenanță și finanțări.",
     requiredPermissions: ["task:write"],
-    routes: ["/workflows", "/api/v1/workflows/templates", "/api/v1/workflows/run"]
+    routes: ["/workflows", "/api/v1/workflows/templates", "/api/v1/workflows/run", "/api/v1/workflows/executions"]
   },
   {
     id: "mobile-field",

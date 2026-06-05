@@ -9,11 +9,14 @@ import {
   CalendarDays,
   ChevronRight,
   ClipboardList,
+  FileClock,
+  GitBranch,
   Cog,
   FileText,
   FolderKanban,
   Gauge,
   Home,
+  Inbox,
   Menu,
   PackageOpen,
   ShieldCheck,
@@ -43,6 +46,7 @@ const groups: NavGroup[] = [
     label: "Work OS",
     items: [
       { href: "/", label: "Command Center", icon: Home, accent: "green", meta: "Home" },
+      { href: "/action-center", label: "Action Center", icon: Inbox, accent: "orange", meta: "Priorități", badge: "v0.9" },
       { href: "/proiecte", label: "Proiecte", icon: FolderKanban, accent: "green", meta: "Gantt · board" },
       { href: "/taskuri", label: "Taskuri", icon: ClipboardList, accent: "blue", meta: "My work", badge: "12" },
       { href: "/calendar", label: "Calendar", icon: CalendarDays, accent: "purple", meta: "Agenda" },
@@ -64,8 +68,11 @@ const groups: NavGroup[] = [
     items: [
       { href: "/documente", label: "Documente", icon: FileText, accent: "blue", meta: "Library" },
       { href: "/rapoarte", label: "Rapoarte", icon: BarChart3, accent: "purple", meta: "BI" },
+      { href: "/workflows", label: "Workflow-uri", icon: GitBranch, accent: "green", meta: "Automatizări" },
       { href: "/hr-admin", label: "Administrare", icon: Cog, accent: "green", meta: "HR" },
-      { href: "/admin/users", label: "Utilizatori & RBAC", icon: ShieldCheck, accent: "green", meta: "Access" }
+      { href: "/admin/users", label: "Utilizatori & RBAC", icon: ShieldCheck, accent: "green", meta: "Access" },
+      { href: "/admin/system", label: "System status", icon: Cog, accent: "blue", meta: "Readiness" },
+      { href: "/admin/audit", label: "Audit log", icon: FileClock, accent: "purple", meta: "Governance" }
     ]
   }
 ];
