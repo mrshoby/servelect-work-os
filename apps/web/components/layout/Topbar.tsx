@@ -9,7 +9,6 @@ import {
   ChevronDown,
   Command,
   HelpCircle,
-  LogIn,
   LogOut,
   Menu,
   Plus,
@@ -19,8 +18,9 @@ import {
   Sparkles,
   Zap
 } from "lucide-react";
-import { notifications, projects, users } from "@servelect/shared";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
+import { notifications, projects, users } from "@servelect/shared";
 
 type SessionUser = {
   id: string;
@@ -41,28 +41,17 @@ type SessionPayload = {
   requireAuth: boolean;
 };
 
-const pageMeta: Record<string, { title: string; section: string }> = {
-  "/": { title: "Command Center", section: "Work OS" },
-  "/proiecte": { title: "Proiecte", section: "Work OS" },
-  "/taskuri": { title: "Taskuri", section: "Work OS" },
-  "/calendar": { title: "Calendar", section: "Planificare" },
-  "/echipa": { title: "Echipă / Workload", section: "Resurse" },
-  "/crm": { title: "CRM & Vânzări", section: "Operațiuni" },
-  "/iot": { title: "Monitorizare IoT", section: "Energie" },
-  "/echipamente": { title: "Echipamente", section: "Logistică" },
-  "/mentenanta": { title: "Mentenanță", section: "Dispatch" },
-  "/finantari-esg": { title: "Finanțări & ESG", section: "Conformitate" },
-  "/documente": { title: "Documente", section: "Company" },
-  "/rapoarte": { title: "Rapoarte", section: "BI" },
-  "/hr-admin": { title: "HR & Administrare", section: "Admin" },
-  "/admin/users": { title: "Utilizatori & RBAC", section: "Admin" },
-  "/mobile": { title: "Mobile Preview", section: "Field OS" }
-};
-
-export function Topbar({ collapsed, onMobileMenu }: { collapsed: boolean; onMobileMenu?: () => void }) {
+export function Topbar({
+  collapsed: _collapsed,
+  onMobileMenu
+}: {
+  collapsed: boolean;
+  onMobileMenu?: () => void;
+}) {
   const pathname = usePathname();
   const router = useRouter();
-  const unread = useMemo(() => notifications.filter((n) => !n.read).length, []);
+
+  const unread = useMemo(() => notifications.filter((notification) => !notification.read).length, []);
   const [query, setQuery] = useState("");
   const [session, setSession] = useState<SessionPayload | null>(null);
 
@@ -83,87 +72,87 @@ export function Topbar({ collapsed, onMobileMenu }: { collapsed: boolean; onMobi
 
   async function logout() {
     await fetch("/api/v1/auth/logout", { method: "POST" }).catch(() => undefined);
+
     setSession((value) => (value ? { ...value, isAuthenticated: false, authMode: "demo" } : value));
     router.refresh();
   }
 
-  const meta = pageMeta[pathname] ?? { title: "SERVELECT EMP", section: "Workspace" };
-  const currentUser = session?.user ?? {
-    id: "demo",
-    name: "Andrei Popescu",
-    email: "andrei.popescu@servelect.ro",
-    role: "Administrator",
-    title: "Manager proiect",
-    avatar: "AP",
-    team: "Operations",
-    permissionsCount: 19
-  };
+  const currentUser =
+    session?.user ??
+    ({
+      id: "demo",
+      name: "Andrei Popescu",
+      email: "andrei.popescu@servelect.ro",
+      role: "Administrator",
+      title: "Manager proiect",
+      avatar: "AP",
+      team: "Operations",
+      permissionsCount: 19
+    } satisfies SessionUser);
 
   const searchResults = useMemo(() => {
     const q = query.trim().toLowerCase();
+
     if (!q) return [];
 
     const projectResults = projects
       .filter((project) => `${project.code} ${project.name} ${project.clientName}`.toLowerCase().includes(q))
       .slice(0, 3)
-      .map((project) => ({ label: project.name, meta: project.code, href: "/proiecte" }));
+      .map((project) => ({
+        label: project.name,
+        meta: project.code,
+        href: "/proiecte"
+      }));
 
     const peopleResults = users
       .filter((user) => `${user.name} ${user.role} ${user.team}`.toLowerCase().includes(q))
       .slice(0, 2)
-      .map((user) => ({ label: user.name, meta: user.title, href: "/echipa" }));
+      .map((user) => ({
+        label: user.name,
+        meta: user.title,
+        href: "/echipa"
+      }));
 
     return [...projectResults, ...peopleResults];
   }, [query]);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/90 backdrop-blur-xl supports-[backdrop-filter]:bg-white/75">
-      <div className="mx-auto flex h-[76px] max-w-[1800px] items-center gap-3 px-4 sm:px-6 lg:px-7">
+    <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/92 backdrop-blur-xl">
+      <div className="flex h-16 items-center gap-3 px-4 lg:px-6">
         <button
           onClick={onMobileMenu}
-          className="grid h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm lg:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-sm lg:hidden"
           aria-label="Deschide meniul"
         >
           <Menu className="h-5 w-5" />
         </button>
 
-        <div className="min-w-0 flex-1">
-          <div className="hidden items-center gap-2 text-xs font-black uppercase tracking-[0.18em] text-slate-400 md:flex">
-            <span>SERVELECT EMP</span>
-            <span>/</span>
-            <span className="text-servelect-600">{meta.section}</span>
-          </div>
-          <div className="mt-0.5 flex items-center gap-3">
-            <h1 className="truncate text-base font-black tracking-tight text-slate-950 md:text-xl">{meta.title}</h1>
-            <span className="hidden rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700 ring-1 ring-emerald-100 sm:inline-flex">
-              Live
-            </span>
-            <span className="hidden rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-black text-blue-700 ring-1 ring-blue-100 xl:inline-flex">
-              {session?.isAuthenticated ? "Session cookie" : "Demo auth"}
-            </span>
-          </div>
-        </div>
-
-        <div className="relative hidden w-full max-w-[620px] lg:block">
-          <div className="input-shell h-11 rounded-2xl bg-slate-50/80">
-            <Search className="h-4 w-4 text-slate-400" />
+        <div className="relative min-w-0 flex-1">
+          <div className="flex h-11 w-full items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-3 shadow-sm transition focus-within:border-emerald-300 focus-within:bg-white focus-within:ring-4 focus-within:ring-emerald-100">
+            <Search className="h-4 w-4 shrink-0 text-slate-400" />
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Caută proiecte, taskuri, clienți, echipamente..."
               className="w-full bg-transparent text-sm font-semibold text-slate-700 outline-none placeholder:text-slate-400"
             />
-            <span className="ml-auto inline-flex items-center gap-1 rounded-xl bg-white px-2 py-1 text-xs font-bold text-slate-500 ring-1 ring-slate-200">
-              <Command className="h-3 w-3" />K
-            </span>
+            <div className="hidden items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-black text-slate-400 sm:flex">
+              <Command className="h-3 w-3" />
+              K
+            </div>
           </div>
 
           {searchResults.length > 0 && (
-            <div className="absolute left-0 right-0 top-[3.5rem] z-50 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl">
+            <div className="absolute left-0 right-0 top-13 z-50 rounded-3xl border border-slate-200 bg-white p-2 shadow-2xl">
               {searchResults.map((item) => (
-                <Link key={`${item.href}-${item.label}`} href={item.href} className="flex items-center justify-between rounded-2xl px-3 py-2 text-sm hover:bg-slate-50">
-                  <span className="font-bold text-slate-800">{item.label}</span>
-                  <span className="text-xs font-semibold text-slate-400">{item.meta}</span>
+                <Link
+                  key={`${item.href}-${item.label}`}
+                  href={item.href}
+                  onClick={() => setQuery("")}
+                  className="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-bold text-slate-700 hover:bg-emerald-50 hover:text-emerald-700"
+                >
+                  <span>{item.label}</span>
+                  <span className="text-xs text-slate-400">{item.meta}</span>
                 </Link>
               ))}
             </div>
@@ -172,107 +161,129 @@ export function Topbar({ collapsed, onMobileMenu }: { collapsed: boolean; onMobi
 
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
-            <button className="hidden items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm font-black text-slate-700 shadow-sm transition hover:bg-slate-50 md:inline-flex">
-              <Sparkles className="h-4 w-4 text-servelect-600" />
+            <button className="hidden h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 text-sm font-black text-slate-700 shadow-sm transition hover:border-emerald-200 hover:bg-emerald-50 xl:inline-flex">
+              <Sparkles className="h-4 w-4 text-emerald-600" />
               AI Brief
             </button>
           </DropdownMenu.Trigger>
-          <DropdownMenu.Content align="end" className="z-50 mt-2 w-80 rounded-3xl border border-slate-200 bg-white p-3 shadow-xl">
-            <div className="px-2 pb-2 text-sm font-black text-slate-950">Rezumat operațional</div>
+
+          <DropdownMenu.Content align="end" className="z-50 w-80 rounded-3xl border border-slate-200 bg-white p-3 shadow-2xl">
+            <div className="px-2 py-2 text-sm font-black text-slate-950">Rezumat operațional</div>
             <div className="space-y-2">
-              <div className="rounded-2xl bg-emerald-50 p-3 text-sm text-emerald-900">7 alerte IoT pot genera taskuri de mentenanță.</div>
-              <div className="rounded-2xl bg-blue-50 p-3 text-sm text-blue-900">3 proiecte au milestone în următoarele 48h.</div>
-              <div className="rounded-2xl bg-amber-50 p-3 text-sm text-amber-900">Workload ridicat pe echipa de teren.</div>
+              <BriefLine>7 alerte IoT pot genera taskuri de mentenanță.</BriefLine>
+              <BriefLine>3 proiecte au milestone în următoarele 48h.</BriefLine>
+              <BriefLine>Workload ridicat pe echipa de teren.</BriefLine>
             </div>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
-            <button className="btn-primary h-11 rounded-2xl px-3 sm:px-4">
+            <button className="inline-flex h-11 items-center gap-2 rounded-2xl bg-servelect-600 px-3 text-sm font-black text-white shadow-sm transition hover:bg-servelect-700">
               <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">Adaugă nou</span>
+              <span className="hidden sm:inline">Adaugă</span>
             </button>
           </DropdownMenu.Trigger>
-          <DropdownMenu.Content align="end" className="z-50 mt-2 w-72 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl">
-            <Link href="/taskuri" className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-bold text-slate-800 hover:bg-slate-50">
-              <Check className="h-4 w-4 text-servelect-600" /> Task / subtask
-            </Link>
-            <Link href="/proiecte" className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-bold text-slate-800 hover:bg-slate-50">
-              <Zap className="h-4 w-4 text-servelect-600" /> Proiect nou
-            </Link>
-            <Link href="/mentenanta" className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-bold text-slate-800 hover:bg-slate-50">
-              <Bell className="h-4 w-4 text-red-500" /> Ticket / alarmă
-            </Link>
+
+          <DropdownMenu.Content align="end" className="z-50 w-56 rounded-3xl border border-slate-200 bg-white p-2 shadow-2xl">
+            <DropdownMenu.Item className="rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-emerald-50">
+              Task / subtask
+            </DropdownMenu.Item>
+            <DropdownMenu.Item className="rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-emerald-50">
+              Proiect nou
+            </DropdownMenu.Item>
+            <DropdownMenu.Item className="rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-emerald-50">
+              Ticket / alarmă
+            </DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
-            <button className="relative grid h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50">
+            <button className="relative inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50">
               <Bell className="h-5 w-5" />
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-servelect-600 text-[11px] font-black text-white">{unread}</span>
+              {unread > 0 && (
+                <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-red-500 px-1 text-[10px] font-black text-white">
+                  {unread}
+                </span>
+              )}
             </button>
           </DropdownMenu.Trigger>
-          <DropdownMenu.Content align="end" className="z-50 mt-2 w-96 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl">
-            <div className="flex items-center justify-between px-3 py-2">
-              <div className="font-black text-slate-950">Notificări</div>
-              <span className="text-xs font-bold text-servelect-600">{unread} noi</span>
+
+          <DropdownMenu.Content align="end" className="z-50 w-96 rounded-3xl border border-slate-200 bg-white p-3 shadow-2xl">
+            <div className="mb-2 flex items-center justify-between px-2">
+              <div className="text-sm font-black text-slate-950">Notificări</div>
+              <div className="text-xs font-bold text-emerald-600">{unread} noi</div>
             </div>
-            {notifications.map((notification) => (
-              <div key={notification.id} className="rounded-2xl px-3 py-3 text-sm hover:bg-slate-50">
-                <div className="font-black text-slate-900">{notification.title}</div>
-                <div className="mt-1 text-xs leading-5 text-slate-500">{notification.body}</div>
-              </div>
-            ))}
+
+            <div className="max-h-80 space-y-2 overflow-auto">
+              {notifications.map((notification) => (
+                <div key={notification.id} className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
+                  <div className="text-sm font-black text-slate-900">{notification.title}</div>
+                  <div className="mt-1 text-xs leading-5 text-slate-500">{notification.body}</div>
+                </div>
+              ))}
+            </div>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
 
-        <button className="hidden h-11 w-11 place-items-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50 sm:grid">
-          <HelpCircle className="h-5 w-5" />
-        </button>
-
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
-            <button className="flex h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-2 shadow-sm transition hover:bg-slate-50">
-              <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-slate-950 to-slate-600 text-xs font-black text-white">{currentUser.avatar}</div>
-              <div className="hidden text-left xl:block">
-                <div className="text-sm font-black leading-4">{currentUser.name}</div>
-                <div className="text-xs font-semibold text-slate-500">{currentUser.role}</div>
+            <button className="inline-flex h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-2.5 shadow-sm transition hover:bg-slate-50">
+              <div className="grid h-8 w-8 place-items-center rounded-xl bg-slate-950 text-xs font-black text-white">
+                {currentUser.avatar}
               </div>
-              <ChevronDown className="h-4 w-4 text-slate-500" />
+              <div className="hidden text-left lg:block">
+                <div className="text-xs font-black text-slate-900">{currentUser.name}</div>
+                <div className="text-[11px] font-semibold text-slate-500">{currentUser.role}</div>
+              </div>
+              <ChevronDown className="hidden h-4 w-4 text-slate-400 lg:block" />
             </button>
           </DropdownMenu.Trigger>
-          <DropdownMenu.Content align="end" className="z-50 mt-2 w-80 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl">
-            <div className="rounded-3xl bg-slate-50 p-3">
-              <div className="flex items-center gap-3">
-                <div className="grid h-11 w-11 place-items-center rounded-full bg-slate-950 text-xs font-black text-white">{currentUser.avatar}</div>
-                <div>
-                  <div className="font-black text-slate-950">{currentUser.name}</div>
-                  <div className="text-xs font-semibold text-slate-500">{currentUser.email}</div>
+
+          <DropdownMenu.Content align="end" className="z-50 w-72 rounded-3xl border border-slate-200 bg-white p-3 shadow-2xl">
+            <div className="mb-2 flex items-center gap-3 rounded-2xl bg-slate-50 p-3">
+              <div className="grid h-11 w-11 place-items-center rounded-2xl bg-slate-950 text-sm font-black text-white">
+                {currentUser.avatar}
+              </div>
+              <div className="min-w-0">
+                <div className="truncate text-sm font-black text-slate-950">{currentUser.name}</div>
+                <div className="truncate text-xs font-semibold text-slate-500">{currentUser.email}</div>
+                <div className="mt-1 text-[11px] font-bold text-emerald-700">
+                  {currentUser.role} · {currentUser.permissionsCount} permisiuni
                 </div>
               </div>
-              <div className="mt-3 flex items-center gap-2 rounded-2xl bg-white px-3 py-2 text-xs font-black text-slate-600 ring-1 ring-slate-200">
-                <ShieldCheck className="h-4 w-4 text-servelect-600" />
-                {currentUser.role} · {currentUser.permissionsCount} permisiuni
-              </div>
             </div>
 
-            <Link href="/login" className="mt-2 flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-slate-50">
-              <LogIn className="h-4 w-4" /> Schimbă utilizatorul
-            </Link>
-            <DropdownMenu.Item className="rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-slate-50">Profilul meu</DropdownMenu.Item>
-            <DropdownMenu.Item className="rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-slate-50">Setări workspace</DropdownMenu.Item>
-            <div className="my-2 h-px bg-slate-100" />
-            <DropdownMenu.Item className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-bold text-servelect-700 outline-none hover:bg-servelect-50">
-              <Settings className="h-4 w-4" /> Sistem operațional
-            </DropdownMenu.Item>
-            <button onClick={logout} className="mt-1 flex w-full items-center gap-2 rounded-2xl px-3 py-2 text-left text-sm font-bold text-red-600 outline-none hover:bg-red-50">
-              <LogOut className="h-4 w-4" /> Logout demo
+            <DropdownItem icon={ShieldCheck}>Schimbă utilizatorul</DropdownItem>
+            <DropdownItem icon={Settings}>Setări workspace</DropdownItem>
+            <DropdownItem icon={HelpCircle}>Sistem operațional</DropdownItem>
+
+            <button onClick={logout} className="mt-2 flex w-full items-center gap-2 rounded-2xl px-3 py-2 text-sm font-bold text-red-600 outline-none hover:bg-red-50">
+              <LogOut className="h-4 w-4" />
+              Logout demo
             </button>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </div>
     </header>
+  );
+}
+
+function BriefLine({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex items-start gap-2 rounded-2xl bg-slate-50 p-3 text-sm text-slate-600">
+      <Zap className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
+      <span>{children}</span>
+    </div>
+  );
+}
+
+function DropdownItem({ icon: Icon, children }: { icon: typeof Check; children: React.ReactNode }) {
+  return (
+    <DropdownMenu.Item className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-bold text-slate-700 outline-none hover:bg-slate-50">
+      <Icon className="h-4 w-4 text-slate-400" />
+      {children}
+    </DropdownMenu.Item>
   );
 }
