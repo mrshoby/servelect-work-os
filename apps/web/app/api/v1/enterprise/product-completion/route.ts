@@ -1,9 +1,4 @@
 import { NextResponse } from "next/server";
-
-import { getProductCompletion, getReleaseStatus, changelog, currentRelease, nextUpdates } from "@/lib/enterprise/release-dashboard";
-
+import { getProductCompletion } from "@/lib/enterprise/release-dashboard";
 export const dynamic = "force-dynamic";
-
-export async function GET() {
-  return NextResponse.json(getProductCompletion());
-}
+export async function GET() { return NextResponse.json(getProductCompletion()); }

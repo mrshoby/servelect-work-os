@@ -1,79 +1,53 @@
-import { Badge } from "@/components/ui/Badge";
-import { Card, CardHeader, PageHeader } from "@/components/ui/Card";
-import { ProgressBar } from "@/components/ui/ProgressBar";
 import { getReleaseStatus } from "@/lib/enterprise/release-dashboard";
 
-const toneByStatus = {
-  stable: "green",
-  progress: "blue",
-  risk: "orange",
-  early: "gray"
+const tone = {
+  stable: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+  beta: "bg-blue-50 text-blue-700 ring-blue-200",
+  partial: "bg-amber-50 text-amber-700 ring-amber-200",
+  mock: "bg-slate-100 text-slate-700 ring-slate-200",
+  blocked: "bg-red-50 text-red-700 ring-red-200"
 } as const;
 
 export default function ReleaseStatusPage() {
-  const release = getReleaseStatus();
-
+  const status = getReleaseStatus();
   return (
-    <>
-      <PageHeader title="Release status & product completion" subtitle="Status vizibil pentru website, aplicație mobilă, task core, backend, DB, Auth/RBAC și următoarele update-uri.">
-        <Badge tone="green">v{release.version}</Badge>
-      </PageHeader>
-
-      <section className="grid gap-4 xl:grid-cols-4">
-        <Card className="xl:col-span-2">
-          <CardHeader title={release.name} subtitle={release.productStatus} />
-          <div className="p-5">
-            <div className="grid gap-4 sm:grid-cols-3">
-              <Metric label="Beta readiness" value={release.betaReadiness} tone="green" />
-              <Metric label="Production readiness" value={release.productionReadiness} tone="orange" />
-              <Metric label="Mobile readiness" value={release.mobileReadiness} tone="blue" />
-            </div>
-            <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-sm font-semibold text-slate-600">Următorul build major: {release.nextMajor}</p>
-          </div>
-        </Card>
-
-        <Card className="xl:col-span-2">
-          <CardHeader title="Ce s-a făcut în ultima versiune" subtitle="Changelog scurt pentru build-ul curent." />
-          <div className="space-y-3 p-5">
-            {release.changelog[0]?.shipped.map((item) => (
-              <div key={item} className="rounded-2xl border border-slate-200 bg-white p-3 text-sm font-semibold text-slate-700">{item}</div>
-            ))}
-          </div>
-        </Card>
+    <main className="space-y-6">
+      <section className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+        <p className="text-xs font-black uppercase tracking-[0.25em] text-emerald-600">Release status live</p>
+        <h1 className="mt-2 text-3xl font-black text-slate-950">SERVELECT WORK OS {status.version}</h1>
+        <p className="mt-3 max-w-5xl text-sm leading-6 text-slate-600">{status.summary}</p>
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          <Metric label="Overall" value={`${status.overallCompletion}%`} />
+          <Metric label="Website/Web" value={`${status.websiteCompletion}%`} />
+          <Metric label="Mobile App" value={`${status.appCompletion}%`} />
+        </div>
       </section>
 
-      <section className="mt-5 grid gap-4 xl:grid-cols-3">
-        {release.areas.map((area) => (
-          <Card key={area.id}>
-            <div className="p-5">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <h3 className="font-black text-slate-950">{area.label}</h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-500">{area.summary}</p>
-                </div>
-                <Badge tone={toneByStatus[area.status]}>{area.status}</Badge>
+      <section className="grid gap-4 xl:grid-cols-2">
+        {status.areas.map((area) => (
+          <article key={area.id} className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-black text-slate-950">{area.label}</h2>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{area.summary}</p>
               </div>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="w-12 text-sm font-black text-slate-700">{area.percent}%</div>
-                <ProgressBar value={area.percent} tone={area.status === "risk" ? "orange" : area.status === "early" ? "blue" : "green"} />
-              </div>
-              <div className="mt-4 space-y-2">
-                {area.next.slice(0, 3).map((item) => <div key={item} className="text-xs font-semibold text-slate-500">• {item}</div>)}
-              </div>
+              <span className={`rounded-full px-3 py-1 text-xs font-black ring-1 ${tone[area.status]}`}>{area.status}</span>
             </div>
-          </Card>
+            <div className="mt-4 flex items-center gap-3">
+              <div className="min-w-14 text-sm font-black text-slate-800">{area.completion}%</div>
+              <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-500" style={{ width: `${area.completion}%` }} /></div>
+            </div>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div><div className="text-xs font-black uppercase text-slate-400">Făcut</div><ul className="mt-2 space-y-1 text-sm text-slate-500">{area.done.map((i) => <li key={i}>• {i}</li>)}</ul></div>
+              <div><div className="text-xs font-black uppercase text-slate-400">Urmează</div><ul className="mt-2 space-y-1 text-sm text-slate-500">{area.next.map((i) => <li key={i}>• {i}</li>)}</ul></div>
+            </div>
+          </article>
         ))}
       </section>
-    </>
+    </main>
   );
 }
 
-function Metric({ label, value, tone }: { label: string; value: number; tone: "green" | "blue" | "orange" }) {
-  return (
-    <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="text-3xl font-black text-slate-950">{value}%</div>
-      <div className="mt-1 text-xs font-black uppercase tracking-wide text-slate-400">{label}</div>
-      <ProgressBar value={value} tone={tone} className="mt-4" />
-    </div>
-  );
+function Metric({ label, value }: { label: string; value: string }) {
+  return <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-400">{label}</div><div className="mt-1 text-3xl font-black text-slate-950">{value}</div></div>;
 }
