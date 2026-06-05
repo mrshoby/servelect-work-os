@@ -1,58 +1,19 @@
-# AI CONTINUATION — SERVELECT WORK OS / SERVELECT EMP
+# AI Continuation — SERVELECT WORK OS / EMP
 
-## Versiune curentă pregătită
-v2.7.0 — API-backed Task Board & Drawer Pack
+Current package: v2.8.0 — Task Page API Bridge Activation.
 
-## Stadiu produs
-- Website/Web App: ~80%
-- Task & Project Core: ~68%
-- Backend/API: ~62%
-- Database/Prisma/Seed: ~55%
-- Auth/RBAC: ~42%
-- IoT/Ops: ~36%
-- Mobile App: ~23%
+Important context:
+- v2.7 is not a full production task system. It provides board/drawer API contracts and a board-state endpoint, but DB writes are OFF.
+- v2.8 activates a safe visible API bridge in `/taskuri` through `TaskApiBridgeBanner`.
+- The app must keep the same enterprise UI; no visual redesign is intended.
+- Task production completeness remains incomplete until create/update/delete, comments, subtasks, attachments, time entries and audit logs are persisted through the DB-backed repository adapter.
 
-## Ce este aplicația
-SERVELECT WORK OS este un Work OS task-first pentru companie de energie/fotovoltaice. Modulele energie, IoT, echipamente, mentenanță, CRM, finanțări și HR trebuie să fie integrate în proiecte/taskuri, nu aplicații separate.
+New routes:
+- `/admin/task-page-api-bridge`
+- `/api/v1/enterprise/task-page-api-bridge`
+- `/api/v1/enterprise/task-page-api-bridge-health`
+- `/api/v1/enterprise/task-page-api-bridge-contract`
+- `/api/v1/enterprise/task-page-api-bridge-plan`
 
-## Ce s-a făcut până la v2.7
-- Dashboard, proiecte, taskuri, CRM, IoT, echipamente, mentenanță, finanțări, HR/Admin.
-- Performance fixes pentru /taskuri.
-- Release-status și changelog vizibile pe site.
-- API contracts pentru taskuri/proiecte.
-- Prisma/DB readiness, shadow mode, seed/repository adapter plan.
-- Task mutations readiness.
-- API-backed UI store readiness.
-- v2.7 adaugă API-backed Task Board & Drawer Pack.
-
-## Ce NU este încă final
-- Task CRUD 100% DB-backed production.
-- Comments/subtasks/attachments persistente.
-- Auth.js/SSO production.
-- RBAC enforcement complet pe API.
-- Mobile app completă.
-- IoT real / TimescaleDB / MQTT.
-
-## Următorul build recomandat
-v2.8.0 — Task Page API Bridge Activation
-
-Obiectiv: pagina `/taskuri` începe să citească din API bridge cu fallback localStorage, fără schimbare vizuală majoră.
-
----
-v2.7.3 stabilization fix
-Date: 2026-06-05 14:02:13
-Reason: repeated build failures from stale completion.website access, generated .next scan, and duplicated ready tone maps.
-Fix: rewrote /admin/task-api-wiring and /admin/prisma-seed-execution to stable build-safe pages.
-Also globally replaced old completion.* fields with completion.overallCompletion, excluding .next.
-
----
-v2.7.5 fix: WorkGraph db-ready status
-Date: 2026-06-05 14:11:44
-Fixed Vercel build error in apps/web/lib/enterprise/workgraph-persistence.ts.
-WorkGraphReadinessStatus now accepts ready, db-ready, api-ready, partial, mock, blocked, planned, draft, shadow-ready.
-
----
-v2.7.5 fix: WorkGraph db-ready status
-Date: 2026-06-05 14:13:53
-Fixed Vercel build error in apps/web/lib/enterprise/workgraph-persistence.ts.
-WorkGraphReadinessStatus now accepts ready, db-ready, api-ready, partial, mock, blocked, planned, draft, shadow-ready.
+Next recommended build:
+- v2.9.0 — Real Task Create/Update API UI Activation.

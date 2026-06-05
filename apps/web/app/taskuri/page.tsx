@@ -9,6 +9,8 @@ import { ProgressBar } from "@/components/ui/ProgressBar";
 import { TaskCreateModal } from "@/components/tasks/TaskCreateModal";
 import { TaskDrawer } from "@/components/tasks/TaskDrawer";
 import { TaskFiltersBar } from "@/components/tasks/TaskFiltersBar";
+
+import { TaskApiBridgeBanner } from "@/components/tasks/TaskApiBridgeBanner";
 import { useWorkOsStore } from "@/lib/store";
 import { priorityTone, statusTone, type Task, type TaskStatus } from "@servelect/shared";
 
@@ -102,6 +104,8 @@ export default function TasksPage() {
           </div>
         </div>
       </section>
+
+      <TaskApiBridgeBanner />
 
       <TaskFiltersBar />
 
@@ -216,3 +220,4 @@ function CalendarLite({ tasks, onSelect }: { tasks: Task[]; onSelect: (id?: stri
 function ApprovalsLite({ tasks, onSelect }: { tasks: Task[]; onSelect: (id?: string) => void }) {
   return <div className="space-y-3 p-5">{tasks.map((task) => <button key={task.id} onClick={() => onSelect(task.id)} className="flex w-full items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-4 text-left transition hover:border-emerald-200 hover:bg-emerald-50/40"><div><div className="font-black text-slate-950">{task.title}</div><div className="mt-1 text-sm text-slate-500">{task.projectCode} · {task.assigneeName}</div></div><div className="flex items-center gap-2"><Badge tone={priorityTone(task.priority)}>{task.priority}</Badge><Badge tone={statusTone(task.status)}>{task.status}</Badge><CheckCircle2 className="h-5 w-5 text-emerald-600" /></div></button>)}{tasks.length === 0 && <div className="rounded-2xl border border-dashed border-slate-300 p-8 text-center text-sm font-semibold text-slate-500">Nu există aprobări în coadă.</div>}</div>;
 }
+
