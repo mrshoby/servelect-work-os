@@ -21,14 +21,16 @@ export async function getPrisma(): Promise<PrismaClientLike> {
     throw new Error("DATABASE_URL lipsește. Setează connection string-ul PostgreSQL în Vercel Environment Variables.");
   }
 
-  if (!globalThis.__servelectPrismaClient) {
-    const PrismaClient = await importPrismaClientConstructor();
-    globalThis.__servelectPrismaClient = new PrismaClient({
-      log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"]
-    });
-  }
+  const existingClient = globalThis.__servelectPrismaClient;
+  if (existingClient) return existingClient;
 
-  return globalThis.__servelectPrismaClient;
+  const PrismaClient = await importPrismaClientConstructor();
+  const client = new PrismaClient({
+    log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"]
+  }) as PrismaClientLike;
+
+  globalThis.__servelectPrismaClient = client;
+  return client;
 }
 
 export async function testPrismaConnection() {
