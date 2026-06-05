@@ -25,3 +25,8 @@ Known stabilization rules:
 - Do not replace all `db-ready` globally. It is valid for WorkGraphReadinessStatus.
 - In `task-page-api-bridge`, use `release.readiness` if `productCompletion` has area fields only.
 - Preserve release dashboard backward-compatible fields: `overall`, `overallCompletion`, `website`, `mobile`, `production`, `areas`.
+
+---
+v3.0.1 fix: release-status overallCompletion
+Date: 2026-06-05 21:17:46
+Fixed Vercel build error: status.overallCompletion no longer exists on release status object. Page now calculates overall from websiteCompletion and appCompletion.

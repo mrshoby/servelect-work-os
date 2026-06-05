@@ -1,4 +1,4 @@
-import { getReleaseStatus } from "@/lib/enterprise/release-dashboard";
+﻿import { getReleaseStatus } from "@/lib/enterprise/release-dashboard";
 
 const tone = {
   stable: "bg-emerald-50 text-emerald-700 ring-emerald-200",
@@ -17,7 +17,7 @@ export default function ReleaseStatusPage() {
         <h1 className="mt-2 text-3xl font-black text-slate-950">SERVELECT WORK OS {status.version}</h1>
         <p className="mt-3 max-w-5xl text-sm leading-6 text-slate-600">{status.summary}</p>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
-          <Metric label="Overall" value={`${status.overallCompletion}%`} />
+          <Metric label="Overall" value={`${Math.round((status.websiteCompletion + status.appCompletion) / 2)}%`} />
           <Metric label="Website/Web" value={`${status.websiteCompletion}%`} />
           <Metric label="Mobile App" value={`${status.appCompletion}%`} />
         </div>
@@ -38,8 +38,8 @@ export default function ReleaseStatusPage() {
               <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-500" style={{ width: `${area.completion}%` }} /></div>
             </div>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
-              <div><div className="text-xs font-black uppercase text-slate-400">Făcut</div><ul className="mt-2 space-y-1 text-sm text-slate-500">{area.done.map((i) => <li key={i}>• {i}</li>)}</ul></div>
-              <div><div className="text-xs font-black uppercase text-slate-400">Urmează</div><ul className="mt-2 space-y-1 text-sm text-slate-500">{area.next.map((i) => <li key={i}>• {i}</li>)}</ul></div>
+              <div><div className="text-xs font-black uppercase text-slate-400">FÄƒcut</div><ul className="mt-2 space-y-1 text-sm text-slate-500">{area.done.map((i) => <li key={i}>â€¢ {i}</li>)}</ul></div>
+              <div><div className="text-xs font-black uppercase text-slate-400">UrmeazÄƒ</div><ul className="mt-2 space-y-1 text-sm text-slate-500">{area.next.map((i) => <li key={i}>â€¢ {i}</li>)}</ul></div>
             </div>
           </article>
         ))}
@@ -51,3 +51,4 @@ export default function ReleaseStatusPage() {
 function Metric({ label, value }: { label: string; value: string }) {
   return <div className="rounded-2xl bg-slate-50 p-4"><div className="text-xs font-black uppercase text-slate-400">{label}</div><div className="mt-1 text-3xl font-black text-slate-950">{value}</div></div>;
 }
+
