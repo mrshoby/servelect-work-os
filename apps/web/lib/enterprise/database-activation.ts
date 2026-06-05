@@ -1,4 +1,4 @@
-export type DatabaseActivationStatus = "ready" | "partial" | "mock" | "blocked";
+export type DatabaseActivationStatus = "ready" | "partial" | "mock" | "blocked" | "db-ready";
 export type DatabaseActivationPriority = "critical" | "high" | "medium" | "low";
 
 export type DatabaseEntityReadiness = {
@@ -274,3 +274,4 @@ export function getDatabaseSchemaManifest() {
     ]
   };
 }
+

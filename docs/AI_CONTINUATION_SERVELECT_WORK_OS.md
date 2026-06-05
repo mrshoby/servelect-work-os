@@ -111,3 +111,12 @@ După deploy:
 - `/api/v1/enterprise/database-activation`
 - `/api/v1/enterprise/database-health`
 - `/api/v1/enterprise/database-schema`
+
+---
+v1.3 fix: database activation status type and tone mapping
+Date: 2026-06-05 10:11:02
+Fixed DatabaseActivationStatus to include db-ready.
+Fixed admin/database statusTone to include db-ready green badge.
+Files changed:
+- apps/web/lib/enterprise/database-activation.ts
+- apps/web/app/admin/database/page.tsx
