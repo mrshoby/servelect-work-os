@@ -28,3 +28,8 @@ Problem: release.productcompletion was used instead of release.productCompletion
 v2.8.2 fix: forced productCompletion casing in Git-tracked source
 Date: 2026-06-05 14:26:02
 Fixed Vercel build error: release.productcompletion -> release.productCompletion in apps/web/app/admin/task-page-api-bridge/page.tsx and any other tracked TS/TSX source.
+
+---
+v2.8.3 fix: direct productCompletion casing in task-page-api-bridge
+Date: 2026-06-05 14:28:34
+Fixed exact Vercel error: release.productcompletion -> release.productCompletion in apps/web/app/admin/task-page-api-bridge/page.tsx.

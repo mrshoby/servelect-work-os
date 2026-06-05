@@ -42,8 +42,8 @@ export default function TaskPageApiBridgeAdminPage() {
           <CardHeader title="Task core" subtitle="completion" />
           <div className="p-5">
             <Activity className="h-6 w-6 text-blue-600" />
-            <div className="mt-4 text-3xl font-black text-slate-950">{release.productcompletion.overallCompletion}%</div>
-            <ProgressBar value={release.productcompletion.overallCompletion} tone="blue" className="mt-4" />
+            <div className="mt-4 text-3xl font-black text-slate-950">{release.productCompletion.overallCompletion}%</div>
+            <ProgressBar value={release.productCompletion.overallCompletion} tone="blue" className="mt-4" />
           </div>
         </Card>
 
@@ -94,4 +94,5 @@ export default function TaskPageApiBridgeAdminPage() {
     </>
   );
 }
+
 
