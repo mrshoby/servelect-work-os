@@ -1,35 +1,56 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
 import { cn } from "@servelect/shared";
 
 export function Card({ children, className }: { children: ReactNode; className?: string }) {
-  return <section className={cn("card content-auto", className)}>{children}</section>;
+  return <section className={cn("card", className)}>{children}</section>;
 }
 
-export function CardHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
+export function CardHeader({
+  title,
+  subtitle,
+  action
+}: {
+  title: string;
+  subtitle?: string;
+  action?: ReactNode;
+}) {
   return (
-    <div className="flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4">
+    <div className="flex flex-col gap-3 border-b border-slate-100 px-5 py-4 md:flex-row md:items-center md:justify-between">
       <div className="min-w-0">
-        <h2 className="section-title truncate">{title}</h2>
-        {subtitle && <p className="mt-1 text-xs leading-5 text-slate-500">{subtitle}</p>}
+        <h2 className="text-lg font-black tracking-tight text-slate-950">{title}</h2>
+        {subtitle ? <p className="mt-1 text-sm font-medium leading-5 text-slate-500">{subtitle}</p> : null}
       </div>
-      {action && <div className="shrink-0">{action}</div>}
+
+      {action ? <div className="flex shrink-0 flex-wrap items-center gap-2">{action}</div> : null}
     </div>
   );
 }
 
-export function PageHeader({ title, subtitle, children }: { title: string; subtitle: string; children?: ReactNode }) {
+export function PageHeader({
+  title,
+  subtitle,
+  children,
+  actions
+}: {
+  title: string;
+  subtitle: string;
+  children?: ReactNode;
+  actions?: ReactNode;
+}) {
+  const actionContent = actions ?? children;
+
   return (
-    <div className="mb-5 overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-card">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="min-w-0">
-          <div className="mb-2 inline-flex rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-black uppercase tracking-[0.16em] text-servelect-700 ring-1 ring-emerald-100">
-            SERVELECT WORK OS
-          </div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-950 lg:text-3xl">{title}</h1>
-          <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-500">{subtitle}</p>
+    <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div className="min-w-0">
+        <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-[11px] font-black uppercase tracking-[0.18em] text-emerald-700">
+          Servelect EMP
         </div>
-        {children && <div className="flex flex-wrap items-center gap-2">{children}</div>}
+        <h1 className="text-3xl font-black tracking-tight text-slate-950 lg:text-4xl">{title}</h1>
+        <p className="mt-2 max-w-3xl text-sm font-medium leading-6 text-slate-500">{subtitle}</p>
       </div>
+
+      {actionContent ? <div className="flex shrink-0 flex-wrap items-center gap-2">{actionContent}</div> : null}
     </div>
   );
 }
