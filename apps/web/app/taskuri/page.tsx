@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { TaskApiMutationPanel } from "@/components/tasks/TaskApiMutationPanel";
 import { useMemo, useState } from "react";
@@ -17,8 +17,8 @@ import { priorityTone, statusTone, type Task, type TaskStatus } from "@servelect
 
 type ViewId = "table" | "board" | "mywork" | "calendar" | "approvals";
 
-const statusColumns: TaskStatus[] = ["Backlog", "De fÄƒcut", "ÃŽn lucru", "Review / QA", "Blocat", "Finalizat"];
-const statusOptions: TaskStatus[] = ["Backlog", "De fÄƒcut", "ÃŽn lucru", "Review / QA", "Blocat", "Finalizat", "Anulat"];
+const statusColumns: TaskStatus[] = ["Backlog", "De făcut", "În lucru", "Review / QA", "Blocat", "Finalizat"];
+const statusOptions: TaskStatus[] = ["Backlog", "De făcut", "În lucru", "Review / QA", "Blocat", "Finalizat", "Anulat"];
 
 const views: Array<{ id: ViewId; label: string; icon: typeof ClipboardList }> = [
   { id: "table", label: "Task Table", icon: ClipboardList },
@@ -134,8 +134,8 @@ export default function TasksPage() {
         {activeView === "board" && <BoardLite tasks={filteredTasks.slice(0, 140)} total={filteredTasks.length} onSelect={setSelectedTask} onStatus={updateTaskStatus} />}
         {activeView === "mywork" && (
           <div className="grid gap-4 p-5 xl:grid-cols-3">
-            <WorkBucket title="De fÄƒcut" tasks={filteredTasks.filter((task) => task.status === "De fÄƒcut")} tone="orange" onSelect={setSelectedTask} />
-            <WorkBucket title="ÃŽn lucru" tasks={filteredTasks.filter((task) => task.status === "ÃŽn lucru")} tone="purple" onSelect={setSelectedTask} />
+            <WorkBucket title="De făcut" tasks={filteredTasks.filter((task) => task.status === "De făcut")} tone="orange" onSelect={setSelectedTask} />
+            <WorkBucket title="În lucru" tasks={filteredTasks.filter((task) => task.status === "În lucru")} tone="purple" onSelect={setSelectedTask} />
             <WorkBucket title="Urgent / blocat" tasks={urgentTasks} tone="red" onSelect={setSelectedTask} />
           </div>
         )}
