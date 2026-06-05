@@ -1,40 +1,32 @@
-# AI Continuation — SERVELECT WORK OS / EMP
+# AI Continuation — SERVELECT WORK OS v2.9.0
 
-Current package: v2.8.0 — Task Page API Bridge Activation.
+Current target build: v2.9.0 — Real Task Create/Update API UI Activation.
 
-Important context:
-- v2.7 is not a full production task system. It provides board/drawer API contracts and a board-state endpoint, but DB writes are OFF.
-- v2.8 activates a safe visible API bridge in `/taskuri` through `TaskApiBridgeBanner`.
-- The app must keep the same enterprise UI; no visual redesign is intended.
-- Task production completeness remains incomplete until create/update/delete, comments, subtasks, attachments, time entries and audit logs are persisted through the DB-backed repository adapter.
+This patch adds a real UI panel for API-backed task create/update:
+- `apps/web/components/tasks/TaskApiMutationPanel.tsx`
+- `apps/web/app/admin/real-task-ui-activation/page.tsx`
+- `apps/web/lib/enterprise/real-task-ui-activation.ts`
+- enterprise API routes under `/api/v1/enterprise/real-task-ui-activation*`
 
-New routes:
-- `/admin/task-page-api-bridge`
-- `/api/v1/enterprise/task-page-api-bridge`
-- `/api/v1/enterprise/task-page-api-bridge-health`
-- `/api/v1/enterprise/task-page-api-bridge-contract`
-- `/api/v1/enterprise/task-page-api-bridge-plan`
+Important compatibility fixes to keep:
+- `release.productCompletion.taskProjectCore` is valid in v2.8; `overallCompletion` may not exist on that object.
+- WorkGraph must allow `db-ready` as valid `WorkGraphReadinessStatus`.
+- Do not globally delete `db-ready`; only DatabaseActivationStatus should normalize it when needed.
+- Never scan `apps/web/.next` in patch scripts.
 
-Next recommended build:
-- v2.9.0 — Real Task Create/Update API UI Activation.
+Honest status after v2.9:
+- Website/Web App: ~84%
+- Task & Project Core: ~78%
+- Backend/API: ~74%
+- Database/Prisma/Seed: ~62%
+- Auth/RBAC: ~45%
+- IoT/Ops: ~39%
+- Mobile App: ~26%
 
----
-v2.8.1 fix: productCompletion casing
-Date: 2026-06-05 14:22:28
-Fixed Vercel build error in apps/web/app/admin/task-page-api-bridge/page.tsx.
-Problem: release.productcompletion was used instead of release.productCompletion.
-
----
-v2.8.2 fix: forced productCompletion casing in Git-tracked source
-Date: 2026-06-05 14:26:02
-Fixed Vercel build error: release.productcompletion -> release.productCompletion in apps/web/app/admin/task-page-api-bridge/page.tsx and any other tracked TS/TSX source.
+Task system is still not 100% production DB-backed. Provider is mock-memory until Prisma write-gate is activated.
 
 ---
-v2.8.3 fix: direct productCompletion casing in task-page-api-bridge
-Date: 2026-06-05 14:28:34
-Fixed exact Vercel error: release.productcompletion -> release.productCompletion in apps/web/app/admin/task-page-api-bridge/page.tsx.
-
----
-v2.8.4 fix: task-page-api-bridge readiness field
-Date: 2026-06-05 14:32:38
-Fixed Vercel build error: release.productCompletion.overallCompletion does not exist. The page now uses release.readiness.
+v2.9.0: Real Task Create/Update API UI Activation
+Date: 2026-06-05 14:42:46
+Added real UI panel for POST/PATCH /api/v1/tasks through TaskApiMutationPanel.
+Task system remains mock-memory provider until Prisma write-gate is active.

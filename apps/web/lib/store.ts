@@ -300,8 +300,8 @@ export const useWorkOsStore = create<WorkOsStore>()(
       })
     }),
     {
-      name: "servelect-work-os-store-v28",
-      version: 28,
+      name: "servelect-work-os-store-v29",
+      version: 29,
       onRehydrateStorage: () => (state) => {
         if (!state) return;
         const tasks = Array.isArray(state.tasks) ? state.tasks.map(capTaskRuntime).slice(0, 200) : initialTasks.map(capTaskRuntime);
@@ -316,6 +316,7 @@ export const useWorkOsStore = create<WorkOsStore>()(
     }
   )
 );
+
 
 
 
