@@ -50,3 +50,9 @@ v2.7.5 fix: WorkGraph db-ready status
 Date: 2026-06-05 14:11:44
 Fixed Vercel build error in apps/web/lib/enterprise/workgraph-persistence.ts.
 WorkGraphReadinessStatus now accepts ready, db-ready, api-ready, partial, mock, blocked, planned, draft, shadow-ready.
+
+---
+v2.7.5 fix: WorkGraph db-ready status
+Date: 2026-06-05 14:13:53
+Fixed Vercel build error in apps/web/lib/enterprise/workgraph-persistence.ts.
+WorkGraphReadinessStatus now accepts ready, db-ready, api-ready, partial, mock, blocked, planned, draft, shadow-ready.
