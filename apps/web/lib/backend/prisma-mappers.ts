@@ -1,4 +1,4 @@
-import type { ActivityLog, Project, Task, Priority, TaskStatus } from "@servelect/shared";
+import type { ActivityLog, Project, Task, Priority, TaskStatus, ProjectPhase } from "@servelect/shared";
 
 export const taskStatusToDb: Record<TaskStatus, string> = {
   Backlog: "Backlog",
@@ -48,7 +48,7 @@ export const projectPhaseToDb: Record<string, string> = {
   Blocat: "Blocat"
 };
 
-export const projectPhaseFromDb: Record<string, string> = {
+export const projectPhaseFromDb: Record<string, ProjectPhase> = {
   Planificat: "Planificat",
   Proiectare: "Proiectare",
   Avizare: "Avizare",
@@ -67,7 +67,7 @@ export const healthToDb: Record<string, string> = {
   Critic: "Critic"
 };
 
-export const healthFromDb: Record<string, string> = {
+export const healthFromDb: Record<string, Project["health"]> = {
   Bun: "Bun",
   Atentie: "Atenție",
   Risc: "Risc",
@@ -84,6 +84,16 @@ export function toIsoDate(value?: Date | string | null) {
   return date.toISOString().slice(0, 10);
 }
 
+function normalizeProjectPhase(value: unknown): ProjectPhase {
+  const raw = String(value ?? "Planificat");
+  return projectPhaseFromDb[raw] ?? "Planificat";
+}
+
+function normalizeProjectHealth(value: unknown): Project["health"] {
+  const raw = String(value ?? "Bun");
+  return healthFromDb[raw] ?? "Bun";
+}
+
 export function mapProjectFromPrisma(row: any): Project {
   return {
     id: row.id,
@@ -93,9 +103,9 @@ export function mapProjectFromPrisma(row: any): Project {
     clientName: row.clientName ?? row.client?.name ?? "Client necunoscut",
     location: row.location ?? "—",
     powerKwp: Number(row.powerKwp ?? 0),
-    phase: projectPhaseFromDb[String(row.phase)] ?? String(row.phase ?? "Planificat"),
+    phase: normalizeProjectPhase(row.phase),
     progress: Number(row.progress ?? 0),
-    health: (healthFromDb[String(row.health)] ?? String(row.health ?? "Bun")) as Project["health"],
+    health: normalizeProjectHealth(row.health),
     ownerId: row.ownerId ?? row.owner?.id ?? "u1",
     ownerName: row.owner?.name ?? "Andrei Popescu",
     deadline: toIsoDate(row.deadline),
