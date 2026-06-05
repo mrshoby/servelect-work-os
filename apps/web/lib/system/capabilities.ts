@@ -1,8 +1,8 @@
 import type { Permission, Role } from "@servelect/shared";
 import { rolePermissionMap } from "@/lib/auth/permissions";
 
-export const SERVELECT_APP_VERSION = "0.9.0";
-export const SERVELECT_APP_CHANNEL = "v0.9 Action Center & Audit Automation";
+export const SERVELECT_APP_VERSION = "1.0.0";
+export const SERVELECT_APP_CHANNEL = "v1.0 Enterprise Work OS Baseline";
 
 export type CapabilityStatus = "ready" | "foundation" | "mock" | "planned";
 
@@ -36,6 +36,15 @@ export const systemCapabilities: SystemCapability[] = [
     routes: ["/action-center", "/api/v1/action-center"]
   },
   {
+    id: "release-console-v10",
+    module: "Administrare",
+    title: "Release Console v1",
+    status: "ready",
+    description: "Manifest v1, release gates, checklist production readiness și roadmap de tranziție către DB/mobile/IoT real.",
+    requiredPermissions: ["admin:manage"],
+    routes: ["/admin/release", "/api/v1/release/manifest", "/api/v1/release/checklist"]
+  },
+  {
     id: "governance-rbac",
     module: "Administrare",
     title: "Protected App + RBAC",
@@ -63,11 +72,11 @@ export const systemCapabilities: SystemCapability[] = [
     routes: ["/api/v1/system/status", "/api/v1/system/readiness"]
   },
   {
-    id: "workflows-v09",
+    id: "workflows-v08-v09",
     module: "Automatizări",
-    title: "Workflow templates + execution log",
+    title: "Workflow Templates & Executions",
     status: "foundation",
-    description: "Template-uri operaționale cu jurnal de execuție pentru IoT, CRM, mentenanță și finanțări.",
+    description: "Template-uri operaționale și execuții demo cu audit event pentru alerte IoT, CRM, mentenanță și finanțări.",
     requiredPermissions: ["task:write"],
     routes: ["/workflows", "/api/v1/workflows/templates", "/api/v1/workflows/run", "/api/v1/workflows/executions"]
   },
@@ -98,7 +107,10 @@ export function getRoleMatrix() {
 
 export function countCapabilitiesByStatus() {
   return systemCapabilities.reduce<Record<CapabilityStatus, number>>(
-    (acc, item) => ({ ...acc, [item.status]: acc[item.status] + 1 }),
+    (acc, item) => {
+      acc[item.status] += 1;
+      return acc;
+    },
     { ready: 0, foundation: 0, mock: 0, planned: 0 }
   );
 }

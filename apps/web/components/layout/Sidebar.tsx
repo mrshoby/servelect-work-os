@@ -19,6 +19,7 @@ import {
   Inbox,
   Menu,
   PackageOpen,
+  Rocket,
   ShieldCheck,
   Sparkles,
   Users,
@@ -72,7 +73,8 @@ const groups: NavGroup[] = [
       { href: "/hr-admin", label: "Administrare", icon: Cog, accent: "green", meta: "HR" },
       { href: "/admin/users", label: "Utilizatori & RBAC", icon: ShieldCheck, accent: "green", meta: "Access" },
       { href: "/admin/system", label: "System status", icon: Cog, accent: "blue", meta: "Readiness" },
-      { href: "/admin/audit", label: "Audit log", icon: FileClock, accent: "purple", meta: "Governance" }
+      { href: "/admin/audit", label: "Audit log", icon: FileClock, accent: "purple", meta: "Governance" },
+      { href: "/admin/release", label: "Release v1", icon: Rocket, accent: "green", meta: "Baseline", badge: "v1" }
     ]
   }
 ];

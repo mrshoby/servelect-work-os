@@ -2,6 +2,7 @@ import { countCapabilitiesByStatus, getRoleMatrix, SERVELECT_APP_CHANNEL, SERVEL
 import { getDatabaseStatus } from "@/lib/backend/data-provider";
 import { isAuthRequired } from "@/lib/auth/session";
 import { getActionCenterSummary } from "@/lib/action-center/actions";
+import { getReleaseChecklist } from "@/lib/release/manifest";
 import { getWorkflowExecutionSummary } from "@/lib/workflows/executions";
 
 export type ServelectSystemStatus = ReturnType<typeof getServelectSystemStatus>;
@@ -9,6 +10,7 @@ export type ServelectSystemStatus = ReturnType<typeof getServelectSystemStatus>;
 export function getServelectSystemStatus() {
   const db = getDatabaseStatus();
   const authRequired = isAuthRequired();
+  const release = getReleaseChecklist();
 
   return {
     app: {
@@ -33,13 +35,19 @@ export function getServelectSystemStatus() {
     },
     operational: {
       actionCenter: getActionCenterSummary(),
-      workflowExecutions: getWorkflowExecutionSummary()
+      workflowExecutions: getWorkflowExecutionSummary(),
+      release: {
+        productionScore: release.productionScore,
+        blockers: release.blockers.length,
+        warnings: release.warnings.length,
+        planned: release.planned.length
+      }
     },
     roles: getRoleMatrix(),
     notes: [
-      "v0.9 adaugă Action Center, audit log UI/API și jurnal de execuții workflow.",
+      "v1.0 marchează baseline-ul enterprise: release manifest, production gates și roadmap v1.x.",
       "Mock provider rămâne implicit pentru Vercel-safe deploy.",
-      "Prisma/PostgreSQL rămâne pregătit pentru activare controlată în etapa DB real."
+      "Următorul pas recomandat este v1.1 Database Activation Pack: Prisma/PostgreSQL real, seed, audit log persistent și user persistence."
     ]
   };
 }
