@@ -1,280 +1,270 @@
-# SERVELECT WORK OS / SERVELECT EMP — context de continuare pentru AI
+# SERVELECT WORK OS / SERVELECT EMP — AI Continuation Context
 
-Acest fișier trebuie păstrat în repo și actualizat la fiecare versiune. Rolul lui este să permită continuarea proiectului într-un alt chat / alt AI fără pierderea contextului.
+Acest fișier este documentul principal de continuitate. Dacă proiectul trebuie continuat într-un alt chat sau de un alt AI, se pornește de aici.
 
-## 1. Scopul aplicației
+## Proiect
 
-SERVELECT WORK OS / SERVELECT EMP este o platformă Work OS task-first pentru Servelect, inspirată de GoodDay.work, ClickUp, Linear, Asana Enterprise și Monday.com, adaptată pentru energie / fotovoltaice.
+- Repo GitHub: `https://github.com/mrshoby/servelect-work-os`
+- Deploy Vercel: `https://servelect-work-os-web.vercel.app`
+- Folder local folosit până acum: `D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live`
+- Aplicație: `SERVELECT WORK OS / SERVELECT EMP`
+- Tip produs: Work OS enterprise task-first pentru proiecte, taskuri, operațiuni energetice, CRM, IoT, logistică, mentenanță, finanțări, ESG, HR și administrare.
 
-Aplicația NU trebuie să fie doar dashboard de energie sau stocuri. Ea trebuie să fie în primul rând un sistem de lucru centralizat, centrat pe:
+## Principiu critic
 
-- proiecte;
-- taskuri;
-- subtaskuri;
-- Kanban board;
-- list / table view;
-- Gantt / timeline;
-- calendar;
-- workload / resource planning;
-- timesheet;
-- documente;
-- chat / updates;
-- approvals;
-- rapoarte;
-- workflow-uri custom;
-- roluri și permisiuni.
+Aplicația nu trebuie transformată într-un simplu dashboard de energie sau stocuri. Toate modulele trebuie să fie integrate în același sistem de proiecte + taskuri + acțiuni + audit:
 
-Modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR trebuie să fie integrate operațional în același sistem de proiecte/taskuri, nu tratate ca aplicații separate.
+- proiecte
+- taskuri
+- subtaskuri
+- Kanban
+- task table
+- Gantt/timeline
+- calendar
+- workload/resource planning
+- timesheet
+- documente
+- chat/updates
+- approvals
+- rapoarte
+- workflow-uri custom
+- roluri și permisiuni
 
-## 2. Stack curent
+Modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR sunt module operaționale legate de proiecte/taskuri, nu aplicații separate.
 
-Repo: `https://github.com/mrshoby/servelect-work-os`
-
-Folder local folosit pentru patch-uri:
-
-```powershell
-D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live
-```
-
-Stack web:
-
-- monorepo pnpm;
-- Next.js 15 App Router;
-- React 19;
-- TypeScript strict;
-- Tailwind CSS;
-- Radix UI;
-- Lucide React;
-- Recharts;
-- TanStack / Zustand unde există;
-- mock data local + API routes mock.
-
-Stack pregătit conceptual:
-
-- Expo / React Native pentru mobile;
-- Prisma / PostgreSQL pentru DB real;
-- Redis / WebSocket / TimescaleDB pentru IoT;
-- RBAC / Auth real / audit log persistent.
-
-## 3. Versiuni și istoric scurt
+## Versiuni livrate până acum
 
 ### v0.7
 
-Protected app + User Management:
+Protected App + User Management.
 
-- middleware protected app;
-- `/unauthorized`;
-- `/admin/users`;
-- user detail / patch demo;
-- RBAC foundation;
-- impersonate / authorize demo.
+A inclus:
+
+- protected app mode
+- middleware
+- `/unauthorized`
+- `/admin/users`
+- user detail/patch demo
+- auth/RBAC foundation
+- Next.js 15 route fix
 
 ### v0.8
 
-Persistence Governance Core:
+Persistence Governance Core.
 
-- `/admin/system`;
-- `/workflows`;
-- system status/readiness routes;
-- workflow templates/run;
-- documentație governance.
+A inclus:
 
-Fix important v0.8:
-
-- `repository.dashboard().catch(...)` era greșit deoarece `dashboard()` returna obiect direct, nu Promise; fix cu `Promise.resolve(...)` + `try/catch`.
+- `/admin/system`
+- `/workflows`
+- system status/readiness API
+- workflow templates/run API
+- governance capability map
 
 ### v0.9
 
-Action Center & Audit Automation:
+Action Center & Audit Automation.
 
-- `/action-center`;
-- `/admin/audit`;
-- `/api/v1/action-center`;
-- `/api/v1/audit/events`;
-- `/api/v1/workflows/executions`;
-- workflow run întoarce execution + auditEvent.
+A inclus:
 
-Fix important v0.9:
+- `/action-center`
+- `/admin/audit`
+- `/api/v1/action-center`
+- `/api/v1/audit/events`
+- workflow executions
+- audit event simulation
 
-- `approvalRequests` nu exista exportat din `@servelect/shared`; corect este `approvals`.
+Fix cunoscut: `approvalRequests` trebuia înlocuit cu `approvals` din `@servelect/shared`.
 
 ### v1.0
 
-Enterprise Release Baseline:
+Enterprise Release Baseline.
 
-- `/admin/release`;
-- `/api/v1/release/manifest`;
-- `/api/v1/release/checklist`;
-- release readiness în System Status;
-- documentație release baseline.
+A inclus:
+
+- `/admin/release`
+- release manifest/checklist API
+- v1 release readiness
+- release console
 
 ### v1.0.1 / v1.0.2
 
-Site stability + performance hotfix:
+Performance hotfix pentru `/taskuri` și topbar.
 
-- focus pe `/taskuri`, unde browserul se bloca cu mesajul `This page isn't responding`;
-- scop: păstrarea aceleiași interfețe, dar cu randare mai ușoară;
-- fix topbar: scoatere text care intra peste bara de search (`SERVELECT WORK OS`, `Live`, `Demo auth`);
-- adăugare `/admin/performance` și `/api/v1/performance/audit`;
-- schimbare localStorage key ca să nu mai încarce state vechi/blocat.
+Probleme rezolvate / de urmărit:
 
-Bug apărut în v1.0.1:
+- `/taskuri` se bloca în browser cu `this page isn't responding`.
+- cauza probabilă: randare simultană a multor componente grele și state vechi în localStorage.
+- topbar avea textul `SERVELECT WORK OS / Live / Demo auth` peste search.
+- `PageHeader` nu acceptă `actions`; trebuie folosit `children` între tag-uri.
 
-- `PageHeader` nu acceptă prop `actions`;
-- trebuie folosit `children` în interiorul `PageHeader` sau trebuie extins tipul `PageHeader`.
+### v1.1 — Enterprise Operations Release
 
-## 4. Reguli de lucru pentru următoarele versiuni
+Această versiune este primul release major după v1.0, nu un micro-patch.
 
-1. Nu rupe designul existent. Interfața trebuie să rămână premium SaaS enterprise.
-2. Nu transforma aplicația într-un ERP sau dashboard simplu. Taskurile rămân centrul sistemului.
-3. Fiecare modul nou trebuie să fie legat de proiecte / taskuri / owners / status / deadline / audit.
-4. Orice patch trebuie livrat ca ZIP cu fișierele modificate + comandă PowerShell completă care:
-   - ia ZIP-ul din Downloads;
-   - îl extrage automat;
-   - copiază fișierele peste repo;
-   - setează versiunea;
-   - rulează build local;
-   - face commit;
-   - face push pe GitHub.
-5. Înainte de push trebuie să treacă:
-   - `pnpm --filter @servelect/web build`;
-   - preferabil smoke test pe rutele principale.
-6. Nu adăuga dependințe noi fără să actualizezi lockfile-ul.
-7. Păstrează compatibilitatea cu Vercel.
-8. Evită componente grele randate simultan. Folosește randare pe tab activ, limitare listă și lazy loading.
+A inclus:
 
-## 5. Probleme curente / de verificat
+- `/enterprise` — Enterprise Work OS v1.1 board
+- `/admin/performance` — Performance & Site Audit
+- `/admin/roadmap` — Roadmap v1.x
+- `/admin/quality` — Quality Gates
+- `/api/v1/enterprise/release`
+- `/api/v1/enterprise/site-map`
+- `/api/v1/performance/audit`
+- `/api/v1/performance/deep-audit`
+- `apps/web/lib/enterprise/v11.ts`
+- `apps/web/lib/performance/audit-routes.ts`
+- `/taskuri` rescris cu randare controlată și fără `PageHeader actions`
+- `Topbar` rescris ca search-ul să nu mai fie acoperit
+- `Sidebar` actualizat cu Enterprise v1.1 / Action Center / Performance / Roadmap / Quality Gates
+- `scripts/site-deep-audit.ps1`
+- `docs/V11_ENTERPRISE_OPERATIONS_RELEASE.md`
 
-### Critic
+## Reguli de versiune de acum înainte
 
-- Verifică dacă v1.0.2 a trecut build-ul pe Vercel.
-- Verifică `/taskuri` în browser real după deploy, inclusiv Incognito și Ctrl+F5.
-- Verifică dacă topbar-ul nu mai suprapune text peste search.
+Userul a cerut explicit: nu mai vrea doar `v1.0.x` incrementale. Următoarele livrări trebuie să fie build-uri majore:
 
-### Performance audit necesar pe tot site-ul
+- v1.1 — Enterprise Operations Release
+- v1.2 — Database Activation Pack
+- v1.3 — Task & Project Production Core
+- v1.4 — Operations Modules Production
+- v1.5 — Mobile Field App Pack
 
-Trebuie verificate rutele:
+Patch-urile `v1.1.1`, `v1.1.2` se folosesc doar pentru build fixes urgente, nu pentru feature delivery principal.
 
-- `/`
-- `/dashboard`
+## Ce trebuie verificat după v1.1
+
+După deploy Vercel, se verifică manual:
+
 - `/taskuri`
-- `/proiecte`
-- `/calendar`
-- `/echipa`
-- `/crm`
-- `/iot`
-- `/echipamente`
-- `/mentenanta`
-- `/finantari`
-- `/documente`
-- `/rapoarte`
-- `/administrare`
+- `/enterprise`
+- `/admin/performance`
+- `/admin/roadmap`
+- `/admin/quality`
 - `/action-center`
 - `/workflows`
 - `/admin/system`
-- `/admin/audit`
 - `/admin/release`
-- `/admin/performance`
+- `/api/v1/enterprise/release`
+- `/api/v1/enterprise/site-map`
+- `/api/v1/performance/audit`
+- `/api/v1/performance/deep-audit`
 
-Pentru fiecare pagină trebuie verificat:
+Rulare audit complet:
 
-- build TypeScript;
-- Vercel deploy;
-- cod 200/3xx;
-- timp de răspuns;
-- freeze în browser;
-- erori console;
-- suprapuneri UI;
-- mobile responsive;
-- componente grele randate simultan;
-- localStorage state vechi.
+```powershell
+cd "D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live"
+.\scripts\site-deep-audit.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
+```
 
-## 6. TODO tehnic prioritar
+Raportul se salvează în `audit-results/` ca `.json` și `.md`.
 
-### v1.0.3 — Site-wide performance audit pack
+## Ce trebuie făcut în v1.2
 
-- adaugă script de deep smoke test;
-- adaugă document de audit permanent;
-- adaugă API route pentru lista de rute și recomandări de audit;
-- documentează ce trebuie verificat manual în browser;
-- păstrează totul non-breaking.
+v1.2 trebuie să fie Database Activation Pack, nu doar patch vizual.
 
-### v1.1 — Database Activation Pack
+Obiective recomandate:
 
-- activare Prisma/PostgreSQL real;
-- seed real;
-- user persistence;
-- audit log persistent;
-- workflow executions persistente;
-- migration scripts;
-- fallback mock safe.
+1. Prisma/PostgreSQL activ real
+   - tabele pentru users, projects, tasks, comments, attachments, audit events, workflow executions
+   - migrations
+   - seed real
+   - repository mode: `mock | local | database`
 
-### v1.2 — Task Core Production
+2. Auth real
+   - Auth.js / NextAuth
+   - Microsoft/Google OAuth
+   - demo mode separat de production mode
+   - session persistent
 
-- CRUD task complet;
-- subtaskuri reale;
-- comments;
-- attachments metadata;
-- dependencies;
-- checklist;
-- time entries;
-- activity log persistent;
-- relationare task ↔ proiect ↔ owner ↔ audit.
+3. RBAC real
+   - roles + permissions persistente
+   - route guards pe server
+   - UI guard pentru butoane critice
 
-### v1.3 — Project Detail Production
+4. Audit log persistent
+   - fiecare create/update/delete/task transition să producă event
+   - audit events vizibile în `/admin/audit`
 
-- pagină detaliu proiect;
-- taskuri per proiect;
-- documente per proiect;
-- risc / approvals / chat / budget / timeline;
-- Gantt mai realist.
+5. Workflow executions persistente
+   - workflow run să salveze execution + status + actor + payload
 
-### v1.4 — Mobile / Field Technician MVP
+## Ce trebuie făcut în v1.3
 
-- Expo app mai complet;
-- check-in GPS mock;
-- checklist instalare;
-- QR mock;
-- foto mock;
-- semnătură mock;
-- offline queue conceptual.
+v1.3 trebuie să fie Task & Project Production Core:
 
-## 7. Comandă standard pentru patch-uri viitoare
+- CRUD complet task
+- CRUD complet project
+- project detail page
+- subtask CRUD
+- comments CRUD
+- attachments metadata
+- Kanban persistent
+- table filters persistente
+- calendar real cu taskuri/milestones
+- workload real pe user
+- timer/time entries persistente
 
-Formatul dorit de utilizator:
+## Ce trebuie făcut în v1.4
+
+v1.4 trebuie să transforme modulele operaționale din mock în aplicații reale task-first:
+
+- CRM opportunity detail
+- ofertare/workflow aprobare ofertă
+- IoT alert → task/ticket persistent
+- equipment reservations
+- serial/QR traceability
+- maintenance ticket detail
+- dispatch/SLA logic
+- funding/audit case task ownership
+
+## Ce trebuie făcut în v1.5
+
+v1.5 trebuie să activeze mobile field app:
+
+- Expo app completă
+- Home mobile
+- My Work mobile
+- Task Detail mobile
+- Board mobile
+- Calendar mobile
+- Timesheet mobile
+- Field Technician / Instalare FV
+- Dispatch mobile
+- Client portal mobile
+- offline-first conceptual + local storage mock
+
+## Atenționări tehnice
+
+- Nu folosi `PageHeader actions={...}`. Componenta acceptă `children`.
+- Nu importa `approvalRequests`; exportul existent este `approvals`.
+- Dacă `/taskuri` se blochează, verifică localStorage și evită randarea simultană a componentelor grele.
+- Nu strica interfața existentă. Orice optimizare trebuie să păstreze look-ul premium enterprise.
+- Pentru patch-uri, userul preferă ZIP cu fișierele schimbate + comandă PowerShell completă care extrage din Downloads, copiază peste repo, build, commit, push.
+
+## Comandă standard de aplicare patch
+
+Userul preferă comenzi de forma:
 
 ```powershell
 $repo = "D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live"
-$zipName = "servelect-work-os-vXXX-nume-patch.zip"
-$zip = "$env:USERPROFILE\Downloads\$zipName"
-$tmp = "$env:TEMP\servelect-vXXX"
-
-# apoi:
-# - verificare repo
-# - git reset --hard origin/main
-# - Expand-Archive
-# - Copy-Item
-# - set version
-# - pnpm --filter @servelect/web build
-# - git add .
-# - git commit -m "..."
-# - git push origin main
+$zip = "$env:USERPROFILE\Downloads\PATCH_NAME.zip"
+$tmp = "$env:TEMP\PATCH_TEMP"
+Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
+Expand-Archive -Path $zip -DestinationPath $tmp -Force
+Copy-Item "$tmp\*" $repo -Recurse -Force
+cd $repo
+Remove-Item ".\servelect-work-os" -Recurse -Force -ErrorAction SilentlyContinue
+pnpm --filter @servelect/web build
+git add .
+git commit -m "Commit message"
+git push origin main
 ```
 
-## 8. Note despre stil UI
+## Ton preferat user
 
-- sidebar dark navy / verde Servelect;
-- fundal alb / gri foarte deschis;
-- carduri albe cu shadow subtil;
-- badge-uri status/prioritate;
-- tabele curate;
-- densitate mare dar aerisită;
-- fără wireframe simplu;
-- fără texte care se suprapun peste search;
-- responsive desktop / tablet / mobile.
-
-## 9. Dacă proiectul este continuat în alt chat
-
-Instrucțiune scurtă pentru AI:
-
-> Continuă proiectul SERVELECT WORK OS / SERVELECT EMP din repo-ul `mrshoby/servelect-work-os`. Este un Work OS task-first pentru Servelect, nu dashboard simplu. Suntem după v1.0/v1.0.2, cu patch-uri pentru performance pe `/taskuri`, topbar search overlap, Action Center, Audit, Workflow, System Status și Release Console. Păstrează interfața existentă, lucrează prin ZIP patch + comandă PowerShell completă, actualizează acest fișier MD la fiecare versiune și verifică build-ul înainte de push.
+- Română
+- Direct, practic
+- Fișiere concrete
+- Comenzi complete PowerShell
+- Fără explicații lungi inutile când cere build/patch
+- Să se spună sincer dacă ceva este mock/foundation și nu production real
