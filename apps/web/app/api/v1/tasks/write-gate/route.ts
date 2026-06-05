@@ -8,7 +8,6 @@ export async function GET() {
   const writeGate = getProductionTaskCrudWriteGate();
 
   return NextResponse.json({
-    ok: true,
     scope: "tasks",
     ...writeGate
   });
