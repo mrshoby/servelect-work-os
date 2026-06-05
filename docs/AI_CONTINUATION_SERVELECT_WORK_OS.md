@@ -33,3 +33,8 @@ Fixed Vercel build error: release.productcompletion -> release.productCompletion
 v2.8.3 fix: direct productCompletion casing in task-page-api-bridge
 Date: 2026-06-05 14:28:34
 Fixed exact Vercel error: release.productcompletion -> release.productCompletion in apps/web/app/admin/task-page-api-bridge/page.tsx.
+
+---
+v2.8.4 fix: task-page-api-bridge readiness field
+Date: 2026-06-05 14:32:38
+Fixed Vercel build error: release.productCompletion.overallCompletion does not exist. The page now uses release.readiness.

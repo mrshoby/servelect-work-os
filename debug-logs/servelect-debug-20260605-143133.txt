@@ -1,0 +1,174 @@
+=== SERVELECT WORK OS DEBUG LOG ===
+Date: 06/05/2026 14:31:33
+Repo: D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live
+
+=== GIT STATUS ===
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	debug-logs/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+=== CURRENT BRANCH ===
+main
+
+=== LAST 10 COMMITS ===
+c009e6b Fix v2.8.3 productCompletion casing in task API bridge
+89574e4 Fix v2.8.2 productCompletion casing in task page API bridge
+41f2204 Fix v2.8.1 task page API bridge productCompletion casing
+19cbf7e Add v2.8 task page API bridge activation
+b9c4e36 Fix v2.7.5 WorkGraph db-ready readiness status
+5313eb9 Fix v2.7.5 WorkGraph db-ready readiness status
+6a318f9 Fix v2.7.4 WorkGraph readiness status compatibility
+2aa15f4 Fix v2.7.3 build stabilization for product completion pages
+1cdf522 Add v2.7 API backed task board and drawer pack
+7bf1bda Add v2.6 task UI API wiring pack
+
+=== REMOTE MAIN ===
+c009e6bb75cbbc82805e865c47ca0235a66d3f40	refs/heads/main
+
+=== PACKAGE VERSIONS ===
+{
+  "name": "servelect-work-os",
+  "private": true,
+  "version": "2.8.3",
+  "description": "SERVELECT EMP / WORK OS - task-first enterprise platform for PV projects, operations, IoT, CRM, maintenance and HR.",
+  "packageManager": "pnpm@11.5.1",
+  "scripts": {
+    "dev": "pnpm --filter @servelect/web dev",
+    "dev:web": "pnpm --filter @servelect/web dev",
+    "dev:mobile": "pnpm --filter @servelect/mobile start",
+    "build": "pnpm --filter @servelect/web build",
+    "lint": "pnpm --filter @servelect/web lint",
+    "typecheck": "pnpm --filter @servelect/web typecheck"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}
+
+{
+  "name": "@servelect/web",
+  "version": "2.8.3",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-dropdown-menu": "^2.1.2",
+    "@radix-ui/react-tabs": "^1.1.1",
+    "@servelect/shared": "workspace:*",
+    "@tanstack/react-table": "^8.20.5",
+    "@tanstack/react-query": "^5.59.16",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "lucide-react": "^0.468.0",
+    "next": "^15.0.0",
+    "next-themes": "^0.4.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^2.13.3",
+    "tailwind-merge": "^2.5.4",
+    "zustand": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.15.0",
+    "eslint-config-next": "^15.0.0",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.6.3"
+  }
+}
+
+
+=== SEARCH productcompletion ===
+
+=== SEARCH completion.website / old completion props ===
+
+=== SEARCH db-ready ===
+apps/web/app/admin/workgraph/page.tsx:5:  "db-ready": "bg-emerald-50 text-emerald-700 border-emerald-200",
+apps/web/lib/enterprise/database-activation.ts:10:  source: "mock" | "localStorage" | "api-ready" | "db-ready";
+apps/web/lib/enterprise/prisma-seed-execution.ts:18:  status: "mock-memory" | "shadow-ready" | "db-ready" | "blocked";
+apps/web/lib/enterprise/release-status.ts:108:  { version: "1.3.0", title: "Database Activation Pack", date: "2026-06-05", type: "major", status: "shipped", risk: "high", done: ["database activation manifest", "schema endpoint", "database readiness test"], missing: ["db-ready cleanup fix was required", "no real writes"] },
+apps/web/lib/enterprise/workgraph-persistence.ts:18:export type WorkGraphReadinessStatus = "ready" | "db-ready" | "api-ready" | "partial" | "mock" | "blocked" | "planned" | "draft" | "shadow-ready";
+apps/web/lib/enterprise/workgraph-persistence.ts:40:  dataMode: "mock-first-db-ready";
+apps/web/lib/enterprise/workgraph-persistence.ts:56:    status: "db-ready",
+apps/web/lib/enterprise/workgraph-persistence.ts:243:    dataMode: "mock-first-db-ready",
+apps/web/lib/enterprise/workgraph-persistence.ts:270:  const dbReady = release.tables.filter((table) => table.status === "db-ready");
+
+=== SEARCH WorkGraphReadinessStatus ===
+apps/web/app/admin/workgraph/page.tsx:1:import { getWorkGraphHealth, getWorkGraphMigrationPlan, getWorkGraphPersistenceRelease, type WorkGraphReadinessStatus } from "@/lib/enterprise/workgraph-persistence";
+apps/web/app/admin/workgraph/page.tsx:3:const statusTone: Record<WorkGraphReadinessStatus, string> = {
+apps/web/lib/enterprise/workgraph-persistence.ts:18:export type WorkGraphReadinessStatus = "ready" | "db-ready" | "api-ready" | "partial" | "mock" | "blocked" | "planned" | "draft" | "shadow-ready";
+apps/web/lib/enterprise/workgraph-persistence.ts:26:  status: WorkGraphReadinessStatus;
+
+=== REMOVE NEXT CACHE ===
+
+=== PNPM BUILD START ===
+$ next build
+   Γû▓ Next.js 15.5.19
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 12.4s
+   Linting and checking validity of types ...
+Failed to compile.
+
+./app/admin/task-page-api-bridge/page.tsx:45:97
+Type error: Property 'overallCompletion' does not exist on type '{ website: number; taskProjectCore: number; backendApi: number; databasePrismaSeed: number; authRbac: number; iotOps: number; mobileApp: number; }'.
+
+  43 |           <div className="p-5">
+  44 |             <Activity className="h-6 w-6 text-blue-600" />
+> 45 |             <div className="mt-4 text-3xl font-black text-slate-950">{release.productCompletion.overallCompletion}%</div>
+     |                                                                                                 ^
+  46 |             <ProgressBar value={release.productCompletion.overallCompletion} tone="blue" className="mt-4" />
+  47 |           </div>
+  48 |         </Card>
+Next.js build worker exited with code: 1 and signal: null
+D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live\apps\web:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] @servelect/web@2.8.3 build: `next build`
+Exit status 1
+
+=== BUILD EXIT CODE ===
+1
+
+=== LAST 250 BUILD LINES ===
+$ next build
+   Γû▓ Next.js 15.5.19
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 12.4s
+   Linting and checking validity of types ...
+Failed to compile.
+
+./app/admin/task-page-api-bridge/page.tsx:45:97
+Type error: Property 'overallCompletion' does not exist on type '{ website: number; taskProjectCore: number; backendApi: number; databasePrismaSeed: number; authRbac: number; iotOps: number; mobileApp: number; }'.
+
+  43 |           <div className="p-5">
+  44 |             <Activity className="h-6 w-6 text-blue-600" />
+> 45 |             <div className="mt-4 text-3xl font-black text-slate-950">{release.productCompletion.overallCompletion}%</div>
+     |                                                                                                 ^
+  46 |             <ProgressBar value={release.productCompletion.overallCompletion} tone="blue" className="mt-4" />
+  47 |           </div>
+  48 |         </Card>
+Next.js build worker exited with code: 1 and signal: null
+D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live\apps\web:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] @servelect/web@2.8.3 build: `next build`
+Exit status 1
