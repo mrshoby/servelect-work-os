@@ -275,3 +275,10 @@ Date: 2026-06-05 09:35:41
 Fixed apps/web/app/api/v1/performance/audit/route.ts
 Removed duplicate generatedAt and replaced missing manifestWithoutGeneratedAt with manifest.
 Next validation: pnpm --filter @servelect/web build, then Vercel deploy.
+
+---
+v1.1 fix: AppShell Sidebar mobile prop
+Date: 2026-06-05 09:43:36
+Fixed Vercel TypeScript build error in apps/web/components/layout/AppShell.tsx.
+Removed unsupported mobile prop from Sidebar invocation.
+Next validation: pnpm --filter @servelect/web build, then Vercel deploy.

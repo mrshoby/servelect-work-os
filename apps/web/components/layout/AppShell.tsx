@@ -36,7 +36,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       {mobileOpen && (
         <div className="fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-sm lg:hidden" onClick={() => setMobileOpen(false)}>
           <div className="h-full w-[318px] max-w-[88vw]" onClick={(event) => event.stopPropagation()}>
-            <Sidebar collapsed={false} onToggle={() => setMobileOpen(false)} mobile />
+            <Sidebar collapsed={false} onToggle={() => setMobileOpen(false)} />
             <button
               onClick={() => setMobileOpen(false)}
               className="absolute left-[268px] top-4 grid h-10 w-10 place-items-center rounded-2xl bg-white text-slate-800 shadow-xl"
@@ -59,3 +59,4 @@ export function AppShell({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
