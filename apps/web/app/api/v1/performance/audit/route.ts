@@ -6,8 +6,6 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const manifest = getRouteAuditManifest();
-  const { generatedAt: manifestGeneratedAt, ...manifestWithoutGeneratedAt } = manifest;
-
   return NextResponse.json({
     ok: true,
     version: "1.1.0",
@@ -16,5 +14,6 @@ export async function GET() {
     ...manifest
   });
 }
+
 
 
