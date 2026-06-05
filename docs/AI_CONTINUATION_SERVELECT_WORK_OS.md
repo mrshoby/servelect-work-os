@@ -30,3 +30,10 @@ v2.9.0: Real Task Create/Update API UI Activation
 Date: 2026-06-05 14:42:46
 Added real UI panel for POST/PATCH /api/v1/tasks through TaskApiMutationPanel.
 Task system remains mock-memory provider until Prisma write-gate is active.
+
+---
+v2.9.1 fix: taskuri use client directive order
+Date: 2026-06-05 14:45:35
+Fixed Vercel build error in apps/web/app/taskuri/page.tsx.
+Problem: TaskApiMutationPanel import was inserted before the use client directive.
+Fix: use client is now the first line, then TaskApiMutationPanel import.
