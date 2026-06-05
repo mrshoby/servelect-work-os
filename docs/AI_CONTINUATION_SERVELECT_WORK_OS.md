@@ -2,147 +2,114 @@
 
 ## Context proiect
 
-Se dezvoltă aplicația **SERVELECT WORK OS / SERVELECT EMP**, o platformă Work OS task-first pentru Servelect, inspirată de GoodDay.work, ClickUp, Linear, Asana Enterprise și Monday.com, adaptată pentru energie/fotovoltaice.
+Proiect: `SERVELECT WORK OS / SERVELECT EMP`
 
-Aplicația trebuie să rămână centrată pe:
+Repository GitHub:
+`https://github.com/mrshoby/servelect-work-os`
 
-- proiecte;
-- taskuri;
-- subtaskuri;
-- Kanban;
-- task table/list;
-- Gantt/timeline;
-- calendar;
-- workload/resource planning;
-- timesheet;
-- documente;
-- chat/updates;
-- approvals;
-- rapoarte;
-- workflow-uri custom;
-- roluri și permisiuni.
+Deployment Vercel:
+`https://servelect-work-os-web.vercel.app`
 
-Modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR trebuie integrate în același sistem de taskuri/proiecte, nu ca aplicații separate.
+Repo local folosit de utilizator:
+`D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live`
 
-## Repo și deploy
+Scop: platformă Work OS task-first pentru Servelect, inspirată de GoodDay/ClickUp/Linear/Asana/Monday, adaptată pentru energie/fotovoltaice.
 
-- GitHub: `https://github.com/mrshoby/servelect-work-os`
-- Vercel: `https://servelect-work-os-web.vercel.app`
-- Folder local folosit de utilizator:
-  `D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live`
+## Reguli de lucru stabilite cu utilizatorul
 
-## Stadiu versiuni
+1. Utilizatorul vrea versiuni majore de tip `v1.X`, nu doar hotfix-uri `v1.0.X`.
+2. Când se livrează un build, se dă ZIP cu fișierele schimbate.
+3. Se dă și comandă PowerShell completă care ia ZIP-ul din Downloads, îl extrage, îl copiază peste repo, aplică fixuri defensive, setează versiunea, rulează build, commit și push.
+4. Interfața vizuală existentă trebuie păstrată.
+5. Orice build trebuie să actualizeze acest MD pentru continuitate în alt chat/AI.
 
-### v1.0
-Enterprise Release Baseline.
+## Fixuri defensive care trebuie păstrate în scripturile viitoare
 
-### v1.1
-Enterprise Operations Release.
+### AppShell Sidebar mobile prop
 
-### v1.2
-Enterprise Data Foundation Release.
+În `apps/web/components/layout/AppShell.tsx`, `Sidebar` nu acceptă prop `mobile`.
+Elimină orice `mobile` din `<Sidebar ... mobile />`.
 
-### v1.3
-Database Activation Pack.
+### Performance audit route
 
-Probleme apărute:
+În `apps/web/app/api/v1/performance/audit/route.ts`, evită:
+- `generatedAt` dublat;
+- `manifestWithoutGeneratedAt` fără variabilă.
 
-- `db-ready` nu era inclus în `DatabaseActivationStatus`;
-- `statusTone` nu avea cheia `db-ready`;
-- ulterior s-a decis normalizarea la `ready`, nu `db-ready`.
+### Database activation status
 
-### v1.4
-WorkGraph Persistence Core.
+Nu folosi `db-ready`.
+Folosește:
+`ready | partial | mock | blocked`
 
-A introdus planul pentru WorkGraph, entități persistente și ordinea de migrare.
+Curăță global `db-ready` din `apps/web/**/*.ts(x)`.
 
-### v1.5
-Auth & RBAC Production Pack.
+### Task project health
 
-A introdus pagină și API-uri pentru auth/RBAC production readiness.
+În `apps/web/app/api/v1/enterprise/task-project-health/route.ts`, nu adăuga:
+`ok: true, ...getTaskProjectPersistenceHealth()`
 
-Problemă v1.5:
+Folosește direct:
+`NextResponse.json(getTaskProjectPersistenceHealth())`.
 
-- rămăseseră referințe `db-ready` în cod după normalizare.
-- fix recomandat: toate aparițiile `db-ready` din `apps/web/*.ts/*.tsx` trebuie înlocuite cu `ready`.
+## Istoric build-uri recente
 
-### v1.6
-Task & Project Persistence Pack.
+- v1.3 — Enterprise Database Activation Pack.
+- v1.4 — Enterprise WorkGraph Persistence Core.
+- v1.5 — Auth & RBAC Production Pack.
+- v1.6 — Task & Project Persistence Pack.
+- v1.7 — Real Task CRUD & API-backed Store.
+- v1.8 — API-backed UI Store Integration Pack.
+- v1.9 — UI Task Store Feature Flag Pack.
 
-A introdus planul pentru persistența proiectelor/taskurilor:
+## v1.9 adaugă
 
-- `/admin/task-projects`
-- `/api/v1/enterprise/task-project-persistence`
-- `/api/v1/enterprise/task-project-health`
-- `/api/v1/enterprise/task-project-schema`
-- `/api/v1/enterprise/task-project-migration-plan`
+- `/admin/ui-task-store`
+- `/api/v1/enterprise/ui-task-store-flags`
+- `/api/v1/enterprise/ui-task-store-health`
+- `/api/v1/enterprise/ui-task-store-integration-plan`
+- `apps/web/lib/enterprise/ui-task-store-flags.ts`
+- `scripts/ui-task-store-feature-flags-test.ps1`
 
-Problemă v1.6:
+Scop: feature flags pentru migrarea controlată a UI store-ului task/proiecte către API-backed store.
 
-- `task-project-health/route.ts` avea `ok: true` și apoi spread peste un obiect care avea deja `ok`.
-- fix: ruta trebuie să returneze direct `NextResponse.json(getTaskProjectPersistenceHealth())`.
+## Stadiu real aplicație
 
-### v1.7
-Real Task CRUD & API-backed Store.
+Website:
+- MVP enterprise avansat;
+- multe module admin/enterprise;
+- multe API routes mock/manifest;
+- task CRUD API contract pregătit;
+- încă nu este DB production complet.
 
-A introdus contract CRUD API:
+Mobile:
+- schelet/concept Expo;
+- nu este aplicație mobilă complet production.
 
-- `/admin/task-crud`
-- `/api/v1/tasks`
-- `/api/v1/projects`
-- `/api/v1/enterprise/task-crud`
-- `/api/v1/enterprise/task-crud-health`
-- `/api/v1/enterprise/task-crud-schema`
+Backend:
+- încă predominant mock/local/API manifest;
+- DB real PostgreSQL/Prisma nu este complet activ ca provider production.
 
-Providerul rămâne `mock-memory`, nu PostgreSQL real.
+## Următor build recomandat
 
-### v1.8
-API-backed UI Store Integration Pack.
+Opțiunea A:
+`v2.0.0 — Enterprise Beta Stabilization`
 
-A introdus:
+Focus:
+- stabilizare build;
+- audit toate rutele;
+- reparare version drift;
+- release manifest unic;
+- smoke tests;
+- pregătire demo beta.
 
-- `/admin/api-ui-store`
-- `/api/v1/enterprise/api-ui-store`
-- `/api/v1/enterprise/api-ui-store-health`
-- `/api/v1/enterprise/api-ui-store-integration-plan`
-- `apps/web/lib/enterprise/api-ui-store.ts`
-- `scripts/api-ui-store-readiness-test.ps1`
+Opțiunea B:
+`v1.10.0 — DB Provider Wiring Pack`
 
-Scop: conectarea progresivă a UI-ului existent la API contracte, fără modificarea designului vizual și fără dezactivarea fallback-ului localStorage/mock data.
-
-## Fixuri defensive importante care trebuie păstrate
-
-În orice script de aplicare patch trebuie păstrate aceste fixuri:
-
-1. Elimină prop-ul `mobile` din `Sidebar` în `AppShell.tsx`.
-2. Curăță `performance/audit/route.ts` de duplicate `generatedAt` și `manifestWithoutGeneratedAt`.
-3. Curăță global `db-ready` din `apps/web/**/*.ts` și `apps/web/**/*.tsx`.
-4. Normalizează `DatabaseActivationStatus` la:
-   `"ready" | "partial" | "mock" | "blocked"`.
-5. Normalizează `statusTone` din `admin/database/page.tsx` fără `db-ready`.
-6. Rescrie `task-project-health/route.ts` să returneze direct `getTaskProjectPersistenceHealth()`.
-7. Schimbă cheia Zustand/localStorage la fiecare build major pentru a evita state vechi/blocat.
-
-## Următorul build recomandat
-
-**v1.9.0 — UI Task Store Feature Flag Pack**
-
-Obiective:
-
-- feature flag pentru API-backed UI store;
-- hook `useApiBackedTasks`;
-- fallback la Zustand/localStorage;
-- optimistic updates pentru create/update/delete;
-- audit event la acțiuni CRUD;
-- fără schimbare de design.
-
-## Reguli de lucru pentru următorul AI/chat
-
-- Răspunde în română.
-- Dă ZIP cu fișiere schimbate pentru fiecare build.
-- Dă și comandă PowerShell completă care ia ZIP-ul din Downloads, îl extrage, îl aplică, face build, commit și push.
-- Nu da doar cod lipit în chat.
-- Păstrează interfața existentă.
-- Nu schimba designul fără cerere explicită.
-- Rulează/impune build local înainte de commit/push.
-- Dacă Vercel pică, repară cauza punctual și actualizează acest fișier MD.
+Focus:
+- DATABASE_URL;
+- Prisma provider;
+- seed;
+- repository switch mock -> db;
+- audit log persistent;
+- task/project persistence real.
