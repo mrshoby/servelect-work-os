@@ -5,8 +5,5 @@ import { completionAreas, getOverallProductStatus } from "@/lib/enterprise/relea
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json({
-    ...getOverallProductStatus(),
-    completionAreas
-  });
+  return NextResponse.json({ ...getOverallProductStatus(), completionAreas });
 }

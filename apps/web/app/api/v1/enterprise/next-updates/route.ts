@@ -5,10 +5,5 @@ import { currentEnterpriseVersion, nextUpdates } from "@/lib/enterprise/release-
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json({
-    ok: true,
-    version: currentEnterpriseVersion,
-    generatedAt: new Date().toISOString(),
-    nextUpdates
-  });
+  return NextResponse.json({ ok: true, version: currentEnterpriseVersion, generatedAt: new Date().toISOString(), nextUpdates });
 }
