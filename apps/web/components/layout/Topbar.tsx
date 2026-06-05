@@ -1,23 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Bell,
   Check,
   ChevronDown,
   Command,
   HelpCircle,
+  LogIn,
+  LogOut,
   Menu,
   Plus,
   Search,
   Settings,
+  ShieldCheck,
   Sparkles,
   Zap
 } from "lucide-react";
 import { notifications, projects, users } from "@servelect/shared";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
+type SessionUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  title: string;
+  avatar: string;
+  team: string;
+  permissionsCount: number;
+};
+
+type SessionPayload = {
+  user: SessionUser;
+  role: string;
+  isAuthenticated: boolean;
+  authMode: "demo" | "cookie";
+  requireAuth: boolean;
+};
 
 const pageMeta: Record<string, { title: string; section: string }> = {
   "/": { title: "Command Center", section: "Work OS" },
@@ -38,10 +60,44 @@ const pageMeta: Record<string, { title: string; section: string }> = {
 
 export function Topbar({ collapsed, onMobileMenu }: { collapsed: boolean; onMobileMenu?: () => void }) {
   const pathname = usePathname();
+  const router = useRouter();
   const unread = useMemo(() => notifications.filter((n) => !n.read).length, []);
   const [query, setQuery] = useState("");
+  const [session, setSession] = useState<SessionPayload | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    fetch("/api/v1/auth/session")
+      .then((response) => response.json())
+      .then((payload) => {
+        if (active && payload?.ok) setSession(payload.data as SessionPayload);
+      })
+      .catch(() => undefined);
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  async function logout() {
+    await fetch("/api/v1/auth/logout", { method: "POST" }).catch(() => undefined);
+    setSession((value) => (value ? { ...value, isAuthenticated: false, authMode: "demo" } : value));
+    router.refresh();
+  }
 
   const meta = pageMeta[pathname] ?? { title: "SERVELECT EMP", section: "Workspace" };
+  const currentUser = session?.user ?? {
+    id: "demo",
+    name: "Andrei Popescu",
+    email: "andrei.popescu@servelect.ro",
+    role: "Administrator",
+    title: "Manager proiect",
+    avatar: "AP",
+    team: "Operations",
+    permissionsCount: 19
+  };
+
   const searchResults = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
@@ -80,6 +136,9 @@ export function Topbar({ collapsed, onMobileMenu }: { collapsed: boolean; onMobi
             <h1 className="truncate text-base font-black tracking-tight text-slate-950 md:text-xl">{meta.title}</h1>
             <span className="hidden rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-black text-emerald-700 ring-1 ring-emerald-100 sm:inline-flex">
               Live
+            </span>
+            <span className="hidden rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-black text-blue-700 ring-1 ring-blue-100 xl:inline-flex">
+              {session?.isAuthenticated ? "Session cookie" : "Demo auth"}
             </span>
           </div>
         </div>
@@ -175,22 +234,41 @@ export function Topbar({ collapsed, onMobileMenu }: { collapsed: boolean; onMobi
         <DropdownMenu.Root>
           <DropdownMenu.Trigger asChild>
             <button className="flex h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-2 shadow-sm transition hover:bg-slate-50">
-              <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-slate-950 to-slate-600 text-xs font-black text-white">AP</div>
+              <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-slate-950 to-slate-600 text-xs font-black text-white">{currentUser.avatar}</div>
               <div className="hidden text-left xl:block">
-                <div className="text-sm font-black leading-4">Andrei Popescu</div>
-                <div className="text-xs font-semibold text-slate-500">Administrator</div>
+                <div className="text-sm font-black leading-4">{currentUser.name}</div>
+                <div className="text-xs font-semibold text-slate-500">{currentUser.role}</div>
               </div>
               <ChevronDown className="h-4 w-4 text-slate-500" />
             </button>
           </DropdownMenu.Trigger>
-          <DropdownMenu.Content align="end" className="z-50 mt-2 w-72 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl">
+          <DropdownMenu.Content align="end" className="z-50 mt-2 w-80 rounded-3xl border border-slate-200 bg-white p-2 shadow-xl">
+            <div className="rounded-3xl bg-slate-50 p-3">
+              <div className="flex items-center gap-3">
+                <div className="grid h-11 w-11 place-items-center rounded-full bg-slate-950 text-xs font-black text-white">{currentUser.avatar}</div>
+                <div>
+                  <div className="font-black text-slate-950">{currentUser.name}</div>
+                  <div className="text-xs font-semibold text-slate-500">{currentUser.email}</div>
+                </div>
+              </div>
+              <div className="mt-3 flex items-center gap-2 rounded-2xl bg-white px-3 py-2 text-xs font-black text-slate-600 ring-1 ring-slate-200">
+                <ShieldCheck className="h-4 w-4 text-servelect-600" />
+                {currentUser.role} · {currentUser.permissionsCount} permisiuni
+              </div>
+            </div>
+
+            <Link href="/login" className="mt-2 flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-slate-50">
+              <LogIn className="h-4 w-4" /> Schimbă utilizatorul
+            </Link>
             <DropdownMenu.Item className="rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-slate-50">Profilul meu</DropdownMenu.Item>
             <DropdownMenu.Item className="rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-slate-50">Setări workspace</DropdownMenu.Item>
-            <DropdownMenu.Item className="rounded-2xl px-3 py-2 text-sm font-bold outline-none hover:bg-slate-50">Notificări</DropdownMenu.Item>
             <div className="my-2 h-px bg-slate-100" />
             <DropdownMenu.Item className="flex items-center gap-2 rounded-2xl px-3 py-2 text-sm font-bold text-servelect-700 outline-none hover:bg-servelect-50">
               <Settings className="h-4 w-4" /> Sistem operațional
             </DropdownMenu.Item>
+            <button onClick={logout} className="mt-1 flex w-full items-center gap-2 rounded-2xl px-3 py-2 text-left text-sm font-bold text-red-600 outline-none hover:bg-red-50">
+              <LogOut className="h-4 w-4" /> Logout demo
+            </button>
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </div>

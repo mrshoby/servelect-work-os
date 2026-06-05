@@ -1,12 +1,14 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { MobileNav } from "./MobileNav";
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -21,6 +23,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       window.localStorage.setItem("servelect-shell-collapsed", next ? "1" : "0");
       return next;
     });
+  }
+
+  if (pathname?.startsWith("/login")) {
+    return <>{children}</>;
   }
 
   return (

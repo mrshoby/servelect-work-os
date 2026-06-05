@@ -1,72 +1,77 @@
 # SERVELECT WORK OS / SERVELECT EMP — Progress Log
 
-## Direcție produs
+## Context principal
 
-Platforma rămâne un **Work OS task-first** pentru Servelect: proiecte, taskuri, Kanban, listă, timeline, calendar, workload, timesheet, documente, approvals, rapoarte și module operaționale integrate. Modulele de energie, IoT, echipamente, mentenanță, CRM, finanțări și HR sunt sub-sisteme conectate la proiecte/taskuri, nu aplicații separate.
+SERVELECT WORK OS / SERVELECT EMP este construit ca platformă enterprise task-first, inspirată de GoodDay, ClickUp, Linear, Asana Enterprise și Monday, adaptată pentru companie de energie/fotovoltaice.
 
-## Versiuni livrate
+Aplicația nu trebuie să fie doar dashboard energie/stocuri. Modulele CRM, IoT, echipamente, mentenanță, finanțări, ESG și HR trebuie să fie operaționale în același sistem de proiecte, taskuri, tickete, aprobări și documente.
 
-### v0.1 — MVP inițial
+## v0.1 — MVP inițial
 
-- Monorepo `apps/web`, `apps/mobile`, `packages/shared`.
-- Next.js 15, React 19, TypeScript, Tailwind.
-- Layout desktop cu sidebar/topbar.
-- Pagini principale: dashboard, proiecte, taskuri, CRM, IoT, echipamente, mentenanță, finanțări/ESG, HR/admin.
-- Mock data românească.
+- monorepo `apps/web`, `apps/mobile`, `packages/shared`;
+- Next.js 15, React 19, TypeScript, Tailwind;
+- layout de bază, sidebar, topbar;
+- pagini principale mock;
+- mock data în română.
 
-### v0.2 — Task & Project Core
+## v0.2 — Task & Project Core
 
-- Task CRUD local/mock.
-- Task drawer, Kanban, tabel taskuri, filtre.
-- Creare/editare proiecte în UI.
-- Persistență localStorage.
-- Deploy GitHub + Vercel funcțional.
+- taskuri editabile local;
+- Kanban, task table, drawer;
+- proiecte și project drawer;
+- localStorage pentru date demo;
+- deploy GitHub + Vercel.
 
-### v0.2 Global Performance Fix
+## v0.2 Performance Fix
 
-- Homepage light.
-- KpiCard și EnergyChart optimizate cu SVG nativ.
-- Kanban și TaskTable limitate/optimizate.
-- Store localStorage trecut la `servelect-work-os-store-v3`.
-- Patch pentru lag/freeze pe homepage, proiecte și taskuri.
+- homepage light;
+- Recharts înlocuit cu SVG în zone critice;
+- localStorage versioning `servelect-work-os-store-v3`;
+- Kanban și TaskTable optimizate;
+- blocajele principale de browser reduse.
 
-### v0.3 — Enterprise UI Polish
+## v0.3 — Enterprise UI Polish
 
-- Enterprise Shell complet.
-- Sidebar/Topbar/MobileNav rafinate.
-- Card/PageHeader polish.
-- Pagini principale păstrate rapide și coerente vizual.
-- Documentație release v0.3.
+- Enterprise shell complet;
+- sidebar nou grupat pe Work OS / Operațiuni / Companie;
+- topbar premium;
+- mobile nav;
+- card/page header polish;
+- pagini principale polish: Dashboard, Proiecte, Taskuri, CRM, IoT, Echipamente, Mentenanță, Finanțări, HR, Calendar, Echipă, Documente, Rapoarte.
 
-### v0.4 — Backend Foundation
+## v0.4 — Backend Foundation
 
-- API REST în Next.js Route Handlers.
-- Endpointuri `/api/v1/projects`, `/tasks`, `/dashboard`, `/iot/alerts`, `/approvals`, `/search`, `/audit-log`.
-- Repository layer server-side pe mock data.
-- RBAC mock + audit log.
-- Prisma schema pregătită pentru PostgreSQL.
+- API REST în Next.js route handlers;
+- endpointuri pentru dashboard, proiecte, taskuri, alerte IoT, aprobări, search și audit log;
+- repository layer;
+- RBAC mock;
+- audit log server-side;
+- flow alertă IoT → task.
 
-### v0.5 — Database + Prisma Activation
+## v0.5 — Database + Prisma Activation
 
-- Provider selector `mock` / `prisma`.
-- Repository Prisma pentru proiecte/taskuri.
-- Dynamic Prisma client ca build-ul Vercel să rămână stabil până la activarea DB.
-- Endpointuri `/api/v1/db/mode`, `/api/v1/db/status`, `/api/v1/db/seed`.
-- Scripturi pentru instalare Prisma, migrate și seed.
-- `.env.example` actualizat.
+- Prisma schema pentru PostgreSQL;
+- provider `mock` / `prisma`;
+- endpointuri DB mode/status/seed;
+- repository Prisma pregătit;
+- fallback mock deployment-safe.
 
-## Următoarea etapă recomandată
+## v0.6 — Auth + RBAC Foundation
 
-```text
-v0.6 — Auth + RBAC real + Protected App
-```
+- pagină `/login`;
+- endpointuri auth/session/login/logout/users/permissions;
+- cookie demo HTTP-only;
+- roluri și permisiuni centralizate;
+- RBAC conectat la endpointurile write existente;
+- topbar cu utilizator curent, auth mode și logout demo;
+- `.env.example` extins cu `SERVELECT_DEMO_PASSWORD` și `SERVELECT_REQUIRE_AUTH`.
 
-Obiective v0.6:
+## Următorul pas recomandat
 
-- login real;
-- sesiune server-side;
-- protejare route groups;
-- RBAC real per rol;
-- user menu conectat la sesiune;
-- audit log cu user real;
-- pregătire multi-tenant.
+v0.7 — Protected App + Real Auth polish:
+
+- middleware auth opțional;
+- protejare pagini sensibile;
+- ecran Unauthorized;
+- management utilizatori în HR Admin;
+- pregătire Auth.js / Microsoft / Google SSO.
