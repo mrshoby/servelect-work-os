@@ -1,11 +1,11 @@
 {
-  "name": "@servelect/shared",
-  "version": "3.0.0",
-  "private": true,
-  "type": "module",
-  "main": "./index.ts",
-  "types": "./index.ts",
-  "exports": {
-    ".": "./index.ts"
-  }
+    "name":  "@servelect/shared",
+    "version":  "3.0.2",
+    "private":  true,
+    "type":  "module",
+    "main":  "./index.ts",
+    "types":  "./index.ts",
+    "exports":  {
+                    ".":  "./index.ts"
+                }
 }

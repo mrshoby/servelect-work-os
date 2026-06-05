@@ -1,22 +1,22 @@
 {
-  "name": "servelect-work-os",
-  "private": true,
-  "version": "3.0.0",
-  "description": "SERVELECT EMP / WORK OS - task-first enterprise platform for PV projects, operations, IoT, CRM, maintenance and HR.",
-  "packageManager": "pnpm@11.5.1",
-  "scripts": {
-    "dev": "pnpm --filter @servelect/web dev",
-    "dev:web": "pnpm --filter @servelect/web dev",
-    "dev:mobile": "pnpm --filter @servelect/mobile start",
-    "build": "pnpm --filter @servelect/web build",
-    "lint": "pnpm --filter @servelect/web lint",
-    "typecheck": "pnpm --filter @servelect/web typecheck"
-  },
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "devDependencies": {
-    "typescript": "^5.6.3"
-  }
+    "name":  "servelect-work-os",
+    "private":  true,
+    "version":  "3.0.2",
+    "description":  "SERVELECT EMP / WORK OS - task-first enterprise platform for PV projects, operations, IoT, CRM, maintenance and HR.",
+    "packageManager":  "pnpm@11.5.1",
+    "scripts":  {
+                    "dev":  "pnpm --filter @servelect/web dev",
+                    "dev:web":  "pnpm --filter @servelect/web dev",
+                    "dev:mobile":  "pnpm --filter @servelect/mobile start",
+                    "build":  "pnpm --filter @servelect/web build",
+                    "lint":  "pnpm --filter @servelect/web lint",
+                    "typecheck":  "pnpm --filter @servelect/web typecheck"
+                },
+    "workspaces":  [
+                       "apps/*",
+                       "packages/*"
+                   ],
+    "devDependencies":  {
+                            "typescript":  "^5.6.3"
+                        }
 }
