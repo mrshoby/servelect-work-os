@@ -1,147 +1,101 @@
-# SERVELECT WORK OS — AI Continuation Context
+# AI CONTINUATION — SERVELECT WORK OS / SERVELECT EMP
 
-Acest fișier trebuie folosit în orice chat/AI nou pentru a continua dezvoltarea fără pierdere de context.
+## Context proiect
 
-## Proiect
+Aplicația este `SERVELECT WORK OS / SERVELECT EMP`, un Work OS task-first pentru Servelect, inspirat de GoodDay, ClickUp, Linear, Asana Enterprise și Monday.com. Scopul este o platformă unică pentru proiecte, taskuri, subtaskuri, Kanban, list/table, Gantt, calendar, workload, timesheet, documente, chat/updates, approvals, rapoarte, workflow-uri, roluri și permisiuni. Modulele energie/IoT/echipamente/mentenanță/CRM/finanțări/HR trebuie integrate în același sistem de proiecte/taskuri, nu aplicații separate.
 
-Repo GitHub: `https://github.com/mrshoby/servelect-work-os`
-Deploy Vercel: `https://servelect-work-os-web.vercel.app`
-Folder local folosit în PowerShell:
+## Repo și deploy
 
-```powershell
-D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live
-```
+- GitHub: `https://github.com/mrshoby/servelect-work-os`
+- Vercel: `https://servelect-work-os-web.vercel.app`
+- Folder local folosit în PowerShell: `D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live`
+- Package manager: `pnpm`
+- Framework web: Next.js 15 App Router, React 19, TypeScript, Tailwind.
 
-## Direcție produs
+## Versiuni recente
 
-SERVELECT WORK OS / SERVELECT EMP este un Work OS task-first pentru Servelect, inspirat de GoodDay, ClickUp, Linear, Asana Enterprise și Monday.com, adaptat pentru energie/fotovoltaice.
+### v1.0 — Enterprise Release Baseline
+A introdus Release Console și manifest enterprise.
 
-Nu trebuie tratat ca simplu dashboard de energie sau stocuri. Centrul produsului este:
+### v1.1 — Enterprise Operations Release
+A introdus `/enterprise`, roadmap, quality/performance/admin pages și a mutat proiectul spre release-uri majore v1.X.
 
-- proiecte;
-- taskuri/subtaskuri;
-- Kanban/list/table/calendar/Gantt;
-- workload/timesheet;
-- documente;
-- chat/updates;
-- approvals;
-- rapoarte;
-- workflow-uri custom;
-- roluri/permisiuni;
-- module operaționale integrate: CRM, IoT/energie, echipamente, mentenanță, finanțări/ESG, HR/Admin.
+### Fixuri v1.1
+Au fost reparate mai multe erori Vercel:
+- duplicate `generatedAt` în `/api/v1/performance/audit`;
+- variabilă lipsă `manifestWithoutGeneratedAt`;
+- prop invalid `mobile` trimis către `Sidebar` în `AppShell`.
 
-## Versiuni livrate
-
-### v0.7
-Protected App + User Management foundation. A introdus auth/RBAC demo, `/admin/users`, impersonare/authorize demo.
-
-### v0.8
-Persistence Governance Core. A introdus `/admin/system`, `/workflows`, system readiness/status API, workflow templates/run.
-
-### v0.9
-Action Center & Audit Automation. A introdus `/action-center`, `/admin/audit`, action-center API, audit events, workflow executions.
-
-### v1.0
-Enterprise Release Baseline. A introdus `/admin/release`, release manifest/checklist, baseline enterprise.
-
-### v1.0.1 / v1.0.2
-Performance hotfix pentru `/taskuri`, topbar overlap fix, page render optimizat, localStorage version bump, `/admin/performance`, API audit.
-
-### v1.0.3
-Site-wide audit + continuation context. A introdus `scripts/site-deep-audit.ps1`, manifest rute, document de continuitate.
-
-### v1.1
-Enterprise Operations Release. A introdus `/enterprise`, `/admin/roadmap`, `/admin/quality`, release APIs, documentație enterprise operations.
-
-### v1.2 — acest build
-Enterprise Data Foundation Release.
-
-Adaugă:
-
+### v1.2 — Enterprise Data Foundation Release
+A introdus:
 - `/admin/data-foundation`
 - `/api/v1/enterprise/data-foundation`
 - `/api/v1/enterprise/data-readiness`
 - `apps/web/lib/enterprise/data-foundation.ts`
-- taskuri page performance-safe actualizat;
-- fixuri automate pentru build-uri anterioare;
-- documentație actualizată.
 
-## Erori întâlnite și fixuri
+Scop: clarificarea stării datelor reale vs mock/localStorage.
 
-1. `PageHeader actions does not exist` în `/taskuri`
-   - Fix: `PageHeader` primește acțiunile ca `children`, nu ca prop `actions`.
+### v1.3 — Enterprise Database Activation Pack
+Build-ul curent propus. Adaugă:
+- `/admin/database`
+- `/api/v1/enterprise/database-activation`
+- `/api/v1/enterprise/database-health`
+- `/api/v1/enterprise/database-schema`
+- `apps/web/lib/enterprise/database-activation.ts`
+- `scripts/database-readiness-test.ps1`
 
-2. `generatedAt is specified more than once` în `/api/v1/performance/audit`
-   - Fix: nu se definește manual `generatedAt` dacă manifestul îl conține deja.
+Scop: pregătirea concretă pentru PostgreSQL/Prisma, fără activare riscantă directă în producție.
 
-3. `manifestWithoutGeneratedAt not found`
-   - Fix: se folosește direct `...manifest` după eliminarea `generatedAt` manual.
+## Stadiu real aplicație
 
-4. `Sidebar mobile prop does not exist`
-   - Fix: în `AppShell.tsx`, se elimină prop-ul `mobile` din `<Sidebar />`.
+Website-ul este un MVP enterprise avansat. Are layout, sidebar/topbar, dashboard, taskuri optimizate, proiecte, CRM, IoT, echipamente, mentenanță, finanțări/ESG, HR/Admin, action center, audit, workflows, release/admin consoles și pagini de readiness.
 
-5. `/taskuri` se bloca în browser
-   - Fix: pagina randează doar view-ul activ, limitează numărul de taskuri afișate, folosește board/table light și schimbă localStorage key.
+Încă nu este complet production DB-backed. Multe date sunt mock/localStorage/API manifest. Mobile app este încă schelet/concept, nu aplicație Expo completă.
 
-## Ce trebuie făcut în continuare
+## Reguli importante pentru continuare
 
-### v1.3 — Database Activation Pack
+1. Nu mai face versiuni `v1.0.x` decât pentru hotfix-uri critice. Pentru build-uri mari folosește `v1.3`, `v1.4`, `v1.5` etc.
+2. Fiecare build trebuie livrat ca ZIP cu fișiere schimbate + script PowerShell complet care:
+   - ia ZIP-ul din Downloads;
+   - îl extrage;
+   - copiază fișierele peste repo;
+   - setează versiunea package.json;
+   - schimbă localStorage key când e nevoie;
+   - rulează build local;
+   - face commit și push.
+3. Păstrează aceeași interfață vizuală; optimizează fără redesign agresiv.
+4. Actualizează mereu acest fișier după fiecare build/fix.
+5. Nu introduce dependențe noi fără să actualizezi lockfile și să verifici Vercel.
 
-Prioritate mare:
+## Probleme cunoscute / atenție
 
-- Prisma schema real;
-- PostgreSQL real;
-- seed script;
-- task/project CRUD persistent;
-- user management persistent;
-- audit log persistent;
-- workflow executions persistente;
-- fallback mock dacă DB nu există.
+- `/taskuri` a avut freeze în browser. A fost optimizat prin randare doar pe view activ și limitarea listelor mari.
+- Topbar avea text care se suprapunea peste search. A fost simplificat.
+- LocalStorage vechi poate bloca UI; la build-uri importante schimbă cheia store.
+- Vercel build oprește la type-check, deci orice prop invalid sau import greșit pică deploy-ul.
 
-### v1.4 — Auth/SSO Production Pack
+## Următorul build recomandat după v1.3
 
-- Auth.js / NextAuth;
-- Microsoft/Google SSO;
-- session reală;
-- RBAC pe componente;
-- permisiuni pe API;
-- route guards reale.
+`v1.4 — Real Task & Project Persistence`
 
-### v1.5 — Mobile Field Ops Pack
+Obiective:
+- repository provider real pentru projects/tasks;
+- API CRUD pentru taskuri și proiecte;
+- seed idempotent;
+- audit event persistent pentru create/update/status change;
+- păstrarea UI taskuri/proiecte fără să se blocheze.
 
-- Expo app extins;
-- Field Technician screens;
-- offline queue;
-- QR/camera/GPS mock;
-- sync policy.
-
-### v1.6 — IoT Operations Pack
-
-- MQTT/Modbus/Timescale architecture;
-- alertă IoT -> task/ticket;
-- SLA persistent;
-- dashboard installations real.
-
-## Reguli de lucru cerute de user
-
-- Nu mai livra doar bucăți mici v1.0.x când se cere următorul build major.
-- Folosește versiuni majore/minore clare: v1.1, v1.2, v1.3 etc.
-- Livrează ZIP cu fișierele schimbate.
-- Dă și o comandă PowerShell completă care:
-  - ia ZIP-ul din Downloads;
-  - îl extrage;
-  - îl copiază peste repo;
-  - rulează build;
-  - face commit;
-  - face push.
-- Păstrează interfața existentă când faci fixuri de performanță.
-- Actualizează mereu acest fișier MD cu ce s-a făcut și ce trebuie făcut.
-
-## Comandă de audit după deploy
+## Comenzi de validare
 
 ```powershell
-cd "D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03_v003\servelect-work-os-v003-live"
+pnpm --filter @servelect/web build
+```
+
+După deploy:
+
+```powershell
 .\scripts\site-deep-audit.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
+.\scripts\database-readiness-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
 ```
 
 ## Rute importante de verificat
@@ -150,19 +104,10 @@ cd "D:\01_digitalizare_automatizare\02_productie\05_aplicatie_goodday\02_beta\03
 - `/dashboard`
 - `/taskuri`
 - `/proiecte`
-- `/action-center`
 - `/enterprise`
-- `/admin/system`
 - `/admin/performance`
-- `/admin/release`
-- `/admin/audit`
-- `/admin/quality`
-- `/admin/roadmap`
+- `/admin/database`
 - `/admin/data-foundation`
-- `/api/v1/system/status`
-- `/api/v1/system/readiness`
-- `/api/v1/performance/audit`
-- `/api/v1/enterprise/release`
-- `/api/v1/enterprise/site-map`
-- `/api/v1/enterprise/data-foundation`
-- `/api/v1/enterprise/data-readiness`
+- `/api/v1/enterprise/database-activation`
+- `/api/v1/enterprise/database-health`
+- `/api/v1/enterprise/database-schema`
