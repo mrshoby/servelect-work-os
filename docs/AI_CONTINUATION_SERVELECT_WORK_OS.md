@@ -1,47 +1,98 @@
 # AI CONTINUATION — SERVELECT WORK OS / SERVELECT EMP
 
-## Versiune curentă pregătită
-v2.1.0 — DB Provider Wiring & Prisma Runtime Pack
+## Current target version
 
-## Context proiect
-SERVELECT WORK OS este o platformă Work OS task-first pentru proiecte, taskuri, CRM, IoT/energie, echipamente, mentenanță, finanțări/ESG, HR/admin și workflow-uri. Web-ul este Next.js/React/TypeScript/Tailwind, iar mobile rămâne momentan schelet Expo.
+Current requested build: **v2.3.0 — Prisma Runtime Shadow Mode Pack**
 
-## Stadiu înainte de v2.1
-- v2.0 Enterprise Beta Stabilization a introdus beta console și route audit.
-- Task/project API contracts există, dar providerul este încă mock-memory.
-- UI store este hibrid: localStorage fallback + API contracts + feature flags.
-- DB real nu este activ încă.
+## Product goal
 
-## Ce adaugă v2.1
-- Consolă `/admin/db-provider`.
-- API manifest `/api/v1/enterprise/db-provider`.
-- Health endpoint `/api/v1/enterprise/db-provider-health`.
-- Runtime plan `/api/v1/enterprise/db-provider-runtime-plan`.
-- Prisma checklist `/api/v1/enterprise/prisma-runtime-checklist`.
-- Fișier central: `apps/web/lib/enterprise/db-provider-runtime.ts`.
-- Script audit: `scripts/db-provider-runtime-test.ps1`.
+SERVELECT WORK OS / SERVELECT EMP is intended to be a task-first Work OS for Servelect:
+- projects
+- tasks
+- subtasks
+- Kanban/list/table/calendar/Gantt
+- workload
+- timesheet
+- documents
+- comments/activity
+- approvals
+- CRM, IoT, equipment, maintenance, funding/ESG, HR/admin integrated around tasks/projects.
 
-## Reguli importante
-- Nu schimba interfața vizuală principală fără cerere explicită.
-- Păstrează `/taskuri` performant: view activ, tabel/board light, fără randare simultană masivă.
-- Păstrează fișierul `docs/AI_CONTINUATION_SERVELECT_WORK_OS.md` actualizat la fiecare build.
-- Nu activa `prisma-active` fără DATABASE_URL, seed, RBAC server-side și audit persistent.
+## Honest current status
 
-## Erori istorice care trebuie evitate
-- `PageHeader actions` nu este valid dacă PageHeader acceptă children.
-- `Sidebar mobile` prop nu există.
-- `generatedAt` duplicat în route JSON spread.
-- `manifestWithoutGeneratedAt` lipsă.
-- `db-ready` a cauzat incompatibilități de type/tone; folosește doar `ready | partial | mock | blocked`.
-- `ok: true` duplicat cu spread din health manifest.
+The web app is an advanced enterprise beta / architecture prototype with many admin readiness modules and mock/API foundations.
 
-## Fixuri defensive de inclus în scripturi
-- Elimină prop-ul `mobile` din Sidebar.
-- Curăță `db-ready` din `apps/web` TS/TSX.
-- Normalizează `DatabaseActivationStatus`.
-- Rescrie `task-project-health/route.ts` să returneze direct health manifest.
+The task module is **not yet fully functional production**.
 
-## Următorul build recomandat
-v2.2.0 — Prisma Schema & Seed Pack
+Current task capabilities:
+- task UI exists;
+- task table/board/calendar/approvals exist as optimized UI;
+- localStorage/Zustand still exists;
+- API contracts for tasks/projects were introduced in v1.7;
+- UI store integration and flags were introduced in v1.8/v1.9;
+- beta stabilization v2.0 and DB provider runtime v2.1 were planned;
+- Prisma schema/seed planning v2.2 was introduced.
 
-Obiectiv: adaugă schema Prisma completă, seed deterministic Servelect, scripts migrate/seed/rollback și documentație pentru preview DB.
+Missing for full task functionality:
+- real Prisma/PostgreSQL persistence;
+- UI hydrated from API provider by default;
+- create/update/delete persisted in DB;
+- comments/subtasks/attachments/dependencies CRUD;
+- persistent time tracking;
+- audit log on every mutation;
+- RBAC enforcement per mutation;
+- server-side filtering/pagination/sorting;
+- E2E task lifecycle tests.
+
+## Build history relevant problems
+
+Repeated TypeScript/Vercel build failures were fixed defensively:
+- `PageHeader actions` prop issue on `/taskuri`;
+- Sidebar `mobile` prop issue in `AppShell`;
+- duplicate `generatedAt` in performance audit route;
+- missing `manifestWithoutGeneratedAt`;
+- `db-ready` type/tone mismatches;
+- duplicate `ok` in task-project-health route.
+
+Future scripts should keep defensive cleanups:
+- remove Sidebar `mobile` prop;
+- normalize performance audit route;
+- force task-project-health route to return `NextResponse.json(getTaskProjectPersistenceHealth())`;
+- remove all `db-ready` references from `apps/web` TS/TSX.
+
+## v2.3.0 adds
+
+- Prisma shadow runtime readiness module;
+- task functionality status dashboard;
+- shadow mode health endpoints;
+- explicit answer that task module is not full production yet;
+- plan for v2.4 repository adapter and seed execution.
+
+## New v2.3 files
+
+- `apps/web/lib/enterprise/prisma-shadow-mode.ts`
+- `apps/web/lib/enterprise/task-functionality-status.ts`
+- `apps/web/app/admin/prisma-shadow/page.tsx`
+- `apps/web/app/admin/task-completeness/page.tsx`
+- `apps/web/app/api/v1/enterprise/prisma-shadow/route.ts`
+- `apps/web/app/api/v1/enterprise/prisma-shadow-health/route.ts`
+- `apps/web/app/api/v1/enterprise/prisma-shadow-plan/route.ts`
+- `apps/web/app/api/v1/enterprise/task-functionality-status/route.ts`
+- `scripts/prisma-shadow-mode-test.ps1`
+- `docs/V23_PRISMA_RUNTIME_SHADOW_MODE_PACK.md`
+
+## Next logical build
+
+**v2.4.0 — Prisma Seed Execution & Repository Adapter Pack**
+
+Recommended scope:
+1. add `prisma/seed.ts`;
+2. add repository adapter interfaces;
+3. add mock-memory vs prisma-shadow provider switch;
+4. add safe read-only shadow tests;
+5. do not enable production writes yet;
+6. expose route-level provider diagnostics.
+
+## User preference
+
+The user wants larger, meaningful version releases, not tiny incremental patches. Continue with bigger v2.x builds that move the app closer to a real production Work OS.
