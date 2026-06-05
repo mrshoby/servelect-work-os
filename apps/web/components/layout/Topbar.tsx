@@ -55,6 +55,7 @@ const pageMeta: Record<string, { title: string; section: string }> = {
   "/documente": { title: "Documente", section: "Company" },
   "/rapoarte": { title: "Rapoarte", section: "BI" },
   "/hr-admin": { title: "HR & Administrare", section: "Admin" },
+  "/admin/users": { title: "Utilizatori & RBAC", section: "Admin" },
   "/mobile": { title: "Mobile Preview", section: "Field OS" }
 };
 

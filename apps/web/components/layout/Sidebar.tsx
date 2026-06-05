@@ -64,7 +64,8 @@ const groups: NavGroup[] = [
     items: [
       { href: "/documente", label: "Documente", icon: FileText, accent: "blue", meta: "Library" },
       { href: "/rapoarte", label: "Rapoarte", icon: BarChart3, accent: "purple", meta: "BI" },
-      { href: "/hr-admin", label: "Administrare", icon: Cog, accent: "green", meta: "RBAC" }
+      { href: "/hr-admin", label: "Administrare", icon: Cog, accent: "green", meta: "HR" },
+      { href: "/admin/users", label: "Utilizatori & RBAC", icon: ShieldCheck, accent: "green", meta: "Access" }
     ]
   }
 ];
