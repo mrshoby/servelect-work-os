@@ -1,232 +1,227 @@
-export type ProductAreaStatus = "stable" | "beta" | "partial" | "mock" | "blocked";
+export type ProductAreaStatus = "stable" | "beta" | "partial" | "mock" | "blocked" | "risk" | "early" | "progress";
 
 export type ProductCompletionArea = {
   id: string;
   label: string;
   completion: number;
+  percent: number;
   status: ProductAreaStatus;
   summary: string;
   done: string[];
   next: string[];
 };
 
+export type CompletionArea = ProductCompletionArea;
+
 export type ReleaseChangelogItem = {
   version: string;
   date: string;
   title: string;
   type: "major" | "minor" | "fix";
-  status: "deployed" | "ready" | "planned";
+  status: "deployed" | "ready" | "planned" | "current" | "baseline" | "shipped";
   highlights: string[];
+  shipped: string[];
   next: string[];
 };
 
+export type ChangelogEntry = ReleaseChangelogItem;
+
 export const currentRelease = {
-  version: "2.7.0",
-  name: "API-backed Task Board & Drawer Pack",
+  version: "3.0.0",
+  name: "Production Task CRUD Stabilization & Prisma Write-Gate",
   status: "beta" as const,
   generatedAt: new Date().toISOString(),
   releaseChannel: "enterprise-beta",
+  productStatus: "Enterprise beta — production task CRUD stabilization stage",
+  betaReadiness: 74,
+  productionReadiness: 56,
+  websiteReadiness: 84,
+  mobileReadiness: 25,
+  nextMajor: "v3.1.0 — Prisma Task Repository Adapter Activation",
   summary:
-    "v2.7 conectează conceptual board-ul și drawer-ul de taskuri la API-backed store: board state, drawer contract, optimistic update plan, dirty-state handling și rollback strategy. UI-ul existent rămâne păstrat, dar primește fundația pentru hidratare API reală în build-urile următoare."
+    "v3.0 marchează trecerea de la simple readiness pages la stabilizarea nucleului de Task CRUD: write-gate explicit pentru Prisma/PostgreSQL, create/update/delete în regim guarded, audit prerequisites și roadmap clar pentru activarea DB-backed task mutations."
 };
 
 export const productCompletion: ProductCompletionArea[] = [
   {
     id: "web-app",
     label: "Website / Web App",
-    completion: 80,
+    completion: 84,
+    percent: 84,
     status: "beta",
-    summary: "Interfața web este utilizabilă ca enterprise beta: dashboard-uri, module principale, admin readiness, changelog și audit route coverage.",
-    done: [
-      "layout enterprise cu sidebar/topbar",
-      "dashboard, taskuri, proiecte și module operaționale",
-      "release-status + changelog vizibile pe site",
-      "pagini admin pentru DB/Auth/Task/Prisma readiness"
-    ],
-    next: [
-      "legare UI reală la API pentru task create/update/delete",
-      "testare browser completă pentru slowdowns",
-      "stabilizare responsive tablet/mobile web"
-    ]
+    summary: "Interfața web este funcțională ca beta internă enterprise: dashboard, taskuri, proiecte, admin status, changelog și module principale.",
+    done: ["layout enterprise", "module principale", "release status/changelog", "task API bridge", "admin CRUD/write-gate"],
+    next: ["smoke tests automate", "polish responsive", "error boundary per modul"]
   },
   {
     id: "task-project-core",
     label: "Task & Project Core",
-    completion: 68,
+    completion: 72,
+    percent: 72,
     status: "partial",
-    summary: "Taskurile au UI, board/list/drawer, API contracts și feature flags. Încă nu sunt complet DB-backed production.",
-    done: [
-      "task table/board optimizate",
-      "task drawer păstrat ca UX central",
-      "API contracts pentru /api/v1/tasks și /api/v1/projects",
-      "board/drawer API bridge plan în v2.7"
-    ],
-    next: [
-      "mutations reale din UI către API",
-      "comments/subtasks/attachments persistente",
-      "server-side filtering/sorting/pagination",
-      "audit event la fiecare schimbare task"
-    ]
+    summary: "Taskurile au UI, API contracts, create/update panel și write-gate. Încă nu sunt complet Prisma/PostgreSQL-backed production.",
+    done: ["task table/board", "drawer", "API client", "mutation panel", "write-gate plan"],
+    next: ["Prisma repository adapter", "real persisted create/update/archive", "subtasks/comments/time entries", "server pagination"]
   },
   {
     id: "backend-api",
     label: "Backend / API",
-    completion: 62,
+    completion: 68,
+    percent: 68,
     status: "partial",
-    summary: "Există multe endpoints enterprise și contracte API, dar providerul real DB este încă controlat / shadow-mode.",
-    done: [
-      "API readiness endpoints",
-      "task/project API foundation",
-      "task board state endpoint",
-      "release and product completion APIs"
-    ],
-    next: [
-      "repository adapter activ pentru task mutations",
-      "API validation cu schema runtime",
-      "rate-limit/error envelope consistent"
-    ]
+    summary: "API-urile enterprise și task/project contracts există; providerul DB real este încă write-gated.",
+    done: ["task/project endpoints", "board state", "enterprise status endpoints", "write-gate status"],
+    next: ["repository adapter", "server validation", "audit events", "RBAC guards"]
   },
   {
-    id: "database-prisma",
-    label: "Database / Prisma / Seed",
-    completion: 55,
+    id: "database",
+    label: "Database / Prisma",
+    completion: 59,
+    percent: 59,
     status: "partial",
-    summary: "Schema/seed/runtime plan există, dar DB production-write încă nu este activat implicit.",
-    done: [
-      "Prisma schema/seed planning",
-      "DB provider runtime planning",
-      "Prisma shadow mode plan",
-      "repository adapter plan"
-    ],
-    next: [
-      "seed execution real",
-      "shadow read compare cu API mock",
-      "write-gate pentru task mutations",
-      "migration scripts verificate"
-    ]
+    summary: "Schema/seed/shadow/write-gate sunt definite, dar scrierile production în PostgreSQL nu sunt încă active.",
+    done: ["schema readiness", "seed plan", "shadow mode", "write-gate"],
+    next: ["PrismaTaskRepository", "migration tests", "staging DATABASE_URL", "seed execution real"]
   },
   {
-    id: "auth-rbac",
+    id: "auth",
     label: "Auth / RBAC",
-    completion: 42,
-    status: "partial",
-    summary: "RBAC/admin foundation există, dar Auth.js/SSO production și enforcement complet pe API nu sunt încă finalizate.",
-    done: ["role/permission readiness", "protected app foundation", "user management demo"],
-    next: ["Auth.js/SSO real", "server-side RBAC enforcement", "audit security events", "persistent users/sessions"]
+    completion: 43,
+    percent: 43,
+    status: "risk",
+    summary: "Există fundație RBAC, dar Auth.js/SSO și enforcement complet pe API sunt încă incomplete.",
+    done: ["role matrix", "admin readiness", "permission plan"],
+    next: ["Auth.js", "session persistence", "API permission guards", "security audit log"]
   },
   {
     id: "iot-ops",
-    label: "IoT / Ops / Mentenanță",
-    completion: 36,
-    status: "mock",
-    summary: "Modulele există în UI și concept, dar integrarea reală IoT/alarme/tickete nu este încă production.",
-    done: ["IoT dashboard mock", "maintenance/ticket pages", "task-first concept"],
-    next: ["alerts -> tickets real", "TimescaleDB/MQTT/Modbus plan", "dispatch workflow", "SLA automation"]
+    label: "IoT / Operațiuni energie",
+    completion: 37,
+    percent: 37,
+    status: "early",
+    summary: "Modulele IoT/energie există în UX, dar date live/Timescale/MQTT nu sunt încă active.",
+    done: ["energy module UI", "alert to task concept", "maintenance integration"],
+    next: ["TimescaleDB", "MQTT/Modbus ingest", "alert to ticket real", "SLA dispatch"]
   },
   {
-    id: "mobile-app",
+    id: "mobile",
     label: "Mobile App",
-    completion: 23,
-    status: "mock",
-    summary: "Mobile rămâne schelet Expo/concept. Nu este încă app completă pentru teren.",
-    done: ["Expo skeleton", "mobile concept screens", "field technician flow planned"],
-    next: ["bottom nav real", "offline queue", "GPS/QR/photo flows", "task sync with API"]
+    completion: 25,
+    percent: 25,
+    status: "early",
+    summary: "Mobile rămâne schelet/concept Expo; încă nu este aplicație field technician production.",
+    done: ["mobile architecture", "screen concepts"],
+    next: ["Expo screens reale", "offline queue", "GPS/check-in", "foto și semnătură client"]
   }
 ];
 
-export const releaseChangelog: ReleaseChangelogItem[] = [
+export const completionAreas: CompletionArea[] = productCompletion;
+
+export const changelog: ReleaseChangelogItem[] = [
+  {
+    version: "3.0.0",
+    date: "2026-06-05",
+    title: "Production Task CRUD Stabilization & Prisma Write-Gate",
+    type: "major",
+    status: "current",
+    highlights: ["Task CRUD write-gate", "production guard rules", "admin production CRUD page", "release status v3"],
+    shipped: [
+      "Adaugă /admin/production-task-crud pentru statusul Task CRUD production.",
+      "Adaugă endpoints enterprise pentru production-task-crud, health, write-gate și plan.",
+      "Definește condițiile de activare Prisma/PostgreSQL writes fără să forțeze DATABASE_URL la build.",
+      "Actualizează release dashboard la v3.0 cu procente website/app/module."
+    ],
+    next: ["v3.1 Prisma Task Repository Adapter", "v3.2 UI production mutations", "v3.3 subtasks/comments/time entries"]
+  },
+  {
+    version: "2.9.0",
+    date: "2026-06-05",
+    title: "Real Task Create/Update API UI Activation",
+    type: "major",
+    status: "deployed",
+    highlights: ["TaskApiMutationPanel", "create/update UI", "mock-memory provider"],
+    shipped: ["Real UI panel pentru POST/PATCH task", "Admin page real-task-ui-activation", "API readiness endpoints"],
+    next: ["write-gate", "Prisma adapter", "audit/RBAC"]
+  },
+  {
+    version: "2.8.0",
+    date: "2026-06-05",
+    title: "Task Page API Bridge Activation",
+    type: "major",
+    status: "deployed",
+    highlights: ["Task API bridge", "taskuri banner", "fallback local"],
+    shipped: ["TaskApiBridgeBanner", "bridge health endpoints", "fallback mode"],
+    next: ["real create/update", "drawer hydration"]
+  },
   {
     version: "2.7.0",
     date: "2026-06-05",
     title: "API-backed Task Board & Drawer Pack",
     type: "major",
-    status: "ready",
-    highlights: [
-      "Adaugă /admin/task-board-drawer pentru status board/drawer API integration.",
-      "Adaugă endpoint-uri enterprise pentru board/drawer contract, health și plan.",
-      "Adaugă /api/v1/tasks/board-state ca endpoint demo pentru board state API-backed.",
-      "Actualizează release-status și changelog la v2.7 cu procente reale de progres."
-    ],
-    next: [
-      "v2.8 — Task Page API Bridge Activation",
-      "Mutations reale din UI către /api/v1/tasks",
-      "Drawer hydrate/save cu optimistic update + rollback"
-    ]
+    status: "deployed",
+    highlights: ["board state endpoint", "drawer contract", "optimistic update plan"],
+    shipped: ["/api/v1/tasks/board-state", "admin task-board-drawer", "board/drawer contracts"],
+    next: ["task page bridge", "real mutations"]
   },
   {
     version: "2.6.0",
     date: "2026-06-05",
     title: "Task UI API Wiring Pack",
     type: "major",
-    status: "ready",
-    highlights: ["Client API pentru taskuri", "useTaskApiBridge hook", "contracte UI/API pentru task store"],
-    next: ["Board/drawer API-backed", "UI task store feature flag activation"]
-  },
-  {
-    version: "2.5.0",
-    date: "2026-06-05",
-    title: "DB-backed Task Mutations Pack",
-    type: "major",
-    status: "ready",
-    highlights: ["plan pentru create/update/delete task", "task mutation audit", "write-gated/shadow mode"],
-    next: ["conectare UI reală la task mutations"]
-  },
-  {
-    version: "2.4.0",
-    date: "2026-06-05",
-    title: "Prisma Seed Execution & Repository Adapter Pack",
-    type: "major",
-    status: "ready",
-    highlights: ["release status dashboard", "changelog", "product completion percentages", "repository adapter plan"],
-    next: ["seed execution real", "DB-backed repository adapter"]
-  },
-  {
-    version: "2.3.0",
-    date: "2026-06-05",
-    title: "Prisma Runtime Shadow Mode Pack",
-    type: "major",
-    status: "ready",
-    highlights: ["Prisma shadow mode", "task functionality status", "task completeness dashboard"],
-    next: ["repository adapter wiring"]
+    status: "deployed",
+    highlights: ["API client", "UI store bridge", "feature flags"],
+    shipped: ["API wiring admin", "Task API client", "release dashboard"],
+    next: ["board/drawer API"]
   }
 ];
 
 export const nextUpdates = [
   {
-    version: "2.8.0",
-    title: "Task Page API Bridge Activation",
+    version: "3.1.0",
+    title: "Prisma Task Repository Adapter Activation",
     priority: "critical",
-    goal: "Pagina /taskuri începe să citească din API bridge cu fallback localStorage, fără să schimbe UI-ul vizual.",
-    scope: ["hydrate tasks from /api/v1/tasks", "status update via API", "drawer save through API", "rollback on failure"]
+    outcome: "Task create/update/archive vor trece prin repository interface cu mock/prisma parity.",
+    required: ["TaskRepository interface", "PrismaTaskRepository", "MockTaskRepository", "shadow compare"]
   },
   {
-    version: "2.9.0",
-    title: "Task Comments/Subtasks Persistence Pack",
+    version: "3.2.0",
+    title: "Task UI Production Mutations",
+    priority: "critical",
+    outcome: "Pagina /taskuri va folosi mutații API reale cu optimistic update + rollback.",
+    required: ["create task modal", "update status", "archive", "error state", "toast feedback"]
+  },
+  {
+    version: "3.3.0",
+    title: "Subtasks, Comments & Time Entries Persistence",
     priority: "high",
-    goal: "Subtaskuri și comentarii salvate prin API/repository adapter.",
-    scope: ["comment CRUD", "subtask CRUD", "activity log", "audit events"]
-  },
-  {
-    version: "3.0.0",
-    title: "Production DB Task Core",
-    priority: "critical",
-    goal: "Task core trece din mock-memory/localStorage în DB-backed production mode controlat.",
-    scope: ["PostgreSQL provider active", "Prisma writes", "seed data", "RBAC enforced mutations"]
+    outcome: "Task detail devine complet cu subtaskuri, comentarii și timer persistente.",
+    required: ["comments API", "subtasks API", "time entries", "activity log"]
   }
 ];
 
 export function getReleaseStatus() {
-  const average = Math.round(productCompletion.reduce((sum, item) => sum + item.completion, 0) / productCompletion.length);
-
   return {
     ok: true,
     ...currentRelease,
-    overallCompletion: average,
-    websiteCompletion: productCompletion.find((item) => item.id === "web-app")?.completion ?? average,
-    appCompletion: productCompletion.find((item) => item.id === "mobile-app")?.completion ?? 0,
     areas: productCompletion,
-    latestChangelog: releaseChangelog[0],
+    changelog: changelog.slice(0, 8),
     nextUpdates
+  };
+}
+
+export function getProductCompletion() {
+  const average = Math.round(productCompletion.reduce((sum, area) => sum + area.completion, 0) / productCompletion.length);
+
+  return {
+    ok: true,
+    version: currentRelease.version,
+    generatedAt: new Date().toISOString(),
+    overall: average,
+    overallCompletion: average,
+    website: currentRelease.websiteReadiness,
+    mobile: currentRelease.mobileReadiness,
+    production: currentRelease.productionReadiness,
+    areas: productCompletion
   };
 }
 
@@ -235,17 +230,7 @@ export function getReleaseChangelog() {
     ok: true,
     version: currentRelease.version,
     generatedAt: new Date().toISOString(),
-    changelog: releaseChangelog
-  };
-}
-
-export function getProductCompletion() {
-  return {
-    ok: true,
-    version: currentRelease.version,
-    generatedAt: new Date().toISOString(),
-    areas: productCompletion,
-    overallCompletion: Math.round(productCompletion.reduce((sum, item) => sum + item.completion, 0) / productCompletion.length)
+    changelog
   };
 }
 
@@ -254,6 +239,6 @@ export function getNextUpdates() {
     ok: true,
     version: currentRelease.version,
     generatedAt: new Date().toISOString(),
-    updates: nextUpdates
+    nextUpdates
   };
 }

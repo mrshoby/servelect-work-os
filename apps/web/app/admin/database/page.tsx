@@ -1,4 +1,4 @@
-import { Database, ServerCog, ShieldCheck, Table2, Workflow } from "lucide-react";
+﻿import { Database, ServerCog, ShieldCheck, Table2, Workflow } from "lucide-react";
 
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader, PageHeader } from "@/components/ui/Card";
@@ -7,6 +7,7 @@ import { getDatabaseActivationRelease, getDatabaseHealth, getDatabaseSchemaManif
 
 const statusTone = {
   ready: "green",
+  "db-ready": "green",
   partial: "blue",
   mock: "orange",
   blocked: "red"
@@ -21,7 +22,7 @@ export default function AdminDatabasePage() {
     <>
       <PageHeader
         title="Database Activation"
-        subtitle="v1.3.0 — fundația pentru PostgreSQL, Prisma, seed, audit persistent și migrarea din mock/localStorage către date reale."
+        subtitle="v1.3.0 â€” fundaÈ›ia pentru PostgreSQL, Prisma, seed, audit persistent È™i migrarea din mock/localStorage cÄƒtre date reale."
       >
         <div className="flex flex-wrap gap-2">
           <Badge tone={release.productionDatabaseEnabled ? "green" : "orange"}>
@@ -41,17 +42,17 @@ export default function AdminDatabasePage() {
             </div>
 
             <h2 className="mt-4 max-w-4xl text-3xl font-black tracking-tight lg:text-4xl">
-              Activăm treptat baza de date reală fără să stricăm interfața Work OS.
+              ActivÄƒm treptat baza de date realÄƒ fÄƒrÄƒ sÄƒ stricÄƒm interfaÈ›a Work OS.
             </h2>
 
             <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300">
-              v1.3 definește layer-ele și entitățile care trebuie migrate în PostgreSQL/Prisma. UI-ul rămâne același,
-              dar aplicația devine pregătită pentru taskuri, proiecte, useri, audit și workflow-uri persistente.
+              v1.3 defineÈ™te layer-ele È™i entitÄƒÈ›ile care trebuie migrate Ã®n PostgreSQL/Prisma. UI-ul rÄƒmÃ¢ne acelaÈ™i,
+              dar aplicaÈ›ia devine pregÄƒtitÄƒ pentru taskuri, proiecte, useri, audit È™i workflow-uri persistente.
             </p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               <HeroMetric label="Readiness DB" value={`${release.overallReadiness}%`} />
-              <HeroMetric label="Entități mapate" value={String(release.entities.length)} />
+              <HeroMetric label="EntitÄƒÈ›i mapate" value={String(release.entities.length)} />
               <HeroMetric label="API routes" value={String(release.apiRoutes.length)} />
             </div>
           </div>
@@ -71,7 +72,7 @@ export default function AdminDatabasePage() {
 
       <div className="grid gap-5 xl:grid-cols-[1.15fr_0.85fr]">
         <Card>
-          <CardHeader title="Data layers" subtitle="Ce componente trebuie stabilizate înainte de persistare reală." />
+          <CardHeader title="Data layers" subtitle="Ce componente trebuie stabilizate Ã®nainte de persistare realÄƒ." />
           <div className="space-y-3 p-5 pt-0">
             {release.layers.map((layer) => (
               <div key={layer.key} className="rounded-[1.35rem] border border-slate-200 bg-white p-4 shadow-sm">
@@ -90,7 +91,7 @@ export default function AdminDatabasePage() {
                   <div className="flex-1"><ProgressBar value={layer.readiness} /></div>
                 </div>
                 <div className="mt-3 rounded-2xl bg-slate-50 p-3 text-xs font-semibold text-slate-600">
-                  Următorul pas: {layer.nextAction}
+                  UrmÄƒtorul pas: {layer.nextAction}
                 </div>
               </div>
             ))}
@@ -117,7 +118,7 @@ export default function AdminDatabasePage() {
                 <div key={table.table} className="flex items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
                   <div className="min-w-0">
                     <div className="truncate text-sm font-black text-slate-900">{table.table}</div>
-                    <div className="truncate text-xs font-semibold text-slate-500">{table.label} · {table.module}</div>
+                    <div className="truncate text-xs font-semibold text-slate-500">{table.label} Â· {table.module}</div>
                   </div>
                   <Badge tone={table.migrationStatus === "ready" ? "green" : table.migrationStatus === "draft" ? "blue" : "orange"}>
                     {table.migrationStatus}
@@ -130,14 +131,14 @@ export default function AdminDatabasePage() {
       </div>
 
       <Card className="mt-5">
-        <CardHeader title="Entity migration backlog" subtitle="Ordinea în care modulele trebuie mutate din mock/localStorage în DB real." />
+        <CardHeader title="Entity migration backlog" subtitle="Ordinea Ã®n care modulele trebuie mutate din mock/localStorage Ã®n DB real." />
         <div className="overflow-x-auto">
           <table className="min-w-full text-left text-sm">
             <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
               <tr>
                 <th className="px-5 py-3">Entitate</th>
                 <th className="px-5 py-3">Modul</th>
-                <th className="px-5 py-3">Sursă curentă</th>
+                <th className="px-5 py-3">SursÄƒ curentÄƒ</th>
                 <th className="px-5 py-3">Status</th>
                 <th className="px-5 py-3">Prioritate</th>
                 <th className="px-5 py-3">Readiness</th>
@@ -162,11 +163,11 @@ export default function AdminDatabasePage() {
       </Card>
 
       <Card className="mt-5">
-        <CardHeader title="Next build plan" subtitle="v1.4 trebuie să transforme fundația v1.3 în persistare reală." />
+        <CardHeader title="Next build plan" subtitle="v1.4 trebuie sÄƒ transforme fundaÈ›ia v1.3 Ã®n persistare realÄƒ." />
         <div className="grid gap-4 p-5 pt-0 md:grid-cols-3">
-          <NextCard icon={<Table2 className="h-5 w-5" />} title="Task & Project persistence" text="Mută taskurile și proiectele din mock/localStorage în repository DB real." />
-          <NextCard icon={<Workflow className="h-5 w-5" />} title="Workflow executions" text="Persistă execuțiile workflow și leagă-le de audit events." />
-          <NextCard icon={<ShieldCheck className="h-5 w-5" />} title="Audit & RBAC" text="Leagă acțiunile sensibile de audit log și permisiuni reale." />
+          <NextCard icon={<Table2 className="h-5 w-5" />} title="Task & Project persistence" text="MutÄƒ taskurile È™i proiectele din mock/localStorage Ã®n repository DB real." />
+          <NextCard icon={<Workflow className="h-5 w-5" />} title="Workflow executions" text="PersistÄƒ execuÈ›iile workflow È™i leagÄƒ-le de audit events." />
+          <NextCard icon={<ShieldCheck className="h-5 w-5" />} title="Audit & RBAC" text="LeagÄƒ acÈ›iunile sensibile de audit log È™i permisiuni reale." />
         </div>
       </Card>
     </>
@@ -191,6 +192,7 @@ function NextCard({ icon, title, text }: { icon: React.ReactNode; title: string;
     </div>
   );
 }
+
 
 
 

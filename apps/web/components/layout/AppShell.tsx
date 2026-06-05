@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { ReactNode, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
@@ -40,7 +40,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <button
               onClick={() => setMobileOpen(false)}
               className="absolute left-[268px] top-4 grid h-10 w-10 place-items-center rounded-2xl bg-white text-slate-800 shadow-xl"
-              aria-label="Închide meniul"
+              aria-label="ÃŽnchide meniul"
             >
               <X className="h-5 w-5" />
             </button>
@@ -59,6 +59,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
 
 
 

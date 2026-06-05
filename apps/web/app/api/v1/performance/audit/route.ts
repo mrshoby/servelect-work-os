@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
 import { getRouteAuditManifest } from "@/lib/performance/audit-routes";
 
@@ -10,10 +10,11 @@ export async function GET() {
     ok: true,
     version: "1.1.0",
     auditMode: "manifest",
-    message: "Rulează scripts/site-deep-audit.ps1 pentru test HTTP real cu timpi de răspuns.",
+    message: "RuleazÄƒ scripts/site-deep-audit.ps1 pentru test HTTP real cu timpi de rÄƒspuns.",
     ...manifest
   });
 }
+
 
 
 

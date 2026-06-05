@@ -1,39 +1,27 @@
-# AI Continuation — SERVELECT WORK OS v2.9.0
+# AI Continuation — SERVELECT WORK OS / EMP
 
-Current target build: v2.9.0 — Real Task Create/Update API UI Activation.
+Current target build: v3.0.0 — Production Task CRUD Stabilization & Prisma Write-Gate.
 
-This patch adds a real UI panel for API-backed task create/update:
-- `apps/web/components/tasks/TaskApiMutationPanel.tsx`
-- `apps/web/app/admin/real-task-ui-activation/page.tsx`
-- `apps/web/lib/enterprise/real-task-ui-activation.ts`
-- enterprise API routes under `/api/v1/enterprise/real-task-ui-activation*`
+Important current repo path on user's PC:
+- `D:\servelect-work-os-main`
 
-Important compatibility fixes to keep:
-- `release.productCompletion.taskProjectCore` is valid in v2.8; `overallCompletion` may not exist on that object.
-- WorkGraph must allow `db-ready` as valid `WorkGraphReadinessStatus`.
-- Do not globally delete `db-ready`; only DatabaseActivationStatus should normalize it when needed.
-- Never scan `apps/web/.next` in patch scripts.
+Downloads folder:
+- `C:\Users\shoby\Downloads`
 
-Honest status after v2.9:
-- Website/Web App: ~84%
-- Task & Project Core: ~78%
-- Backend/API: ~74%
-- Database/Prisma/Seed: ~62%
-- Auth/RBAC: ~45%
-- IoT/Ops: ~39%
-- Mobile App: ~26%
+Recent context:
+- v2.7 introduced API-backed board/drawer foundation.
+- v2.8 introduced task page API bridge.
+- v2.9 introduced real create/update UI panel with API calls, still mock-memory.
+- v3.0 introduces production task CRUD stabilization and explicit Prisma write-gate.
 
-Task system is still not 100% production DB-backed. Provider is mock-memory until Prisma write-gate is activated.
+Truth/status:
+- Website/Web App is beta advanced.
+- Task CRUD is not yet 100% production DB-backed.
+- Prisma/PostgreSQL writes must remain OFF unless write-gate is explicitly enabled.
+- Next build should be v3.1.0 — Prisma Task Repository Adapter Activation.
 
----
-v2.9.0: Real Task Create/Update API UI Activation
-Date: 2026-06-05 14:42:46
-Added real UI panel for POST/PATCH /api/v1/tasks through TaskApiMutationPanel.
-Task system remains mock-memory provider until Prisma write-gate is active.
-
----
-v2.9.1 fix: taskuri use client directive order
-Date: 2026-06-05 14:45:35
-Fixed Vercel build error in apps/web/app/taskuri/page.tsx.
-Problem: TaskApiMutationPanel import was inserted before the use client directive.
-Fix: use client is now the first line, then TaskApiMutationPanel import.
+Known stabilization rules:
+- In Next.js client pages, `'use client';` must be first line.
+- Do not replace all `db-ready` globally. It is valid for WorkGraphReadinessStatus.
+- In `task-page-api-bridge`, use `release.readiness` if `productCompletion` has area fields only.
+- Preserve release dashboard backward-compatible fields: `overall`, `overallCompletion`, `website`, `mobile`, `production`, `areas`.

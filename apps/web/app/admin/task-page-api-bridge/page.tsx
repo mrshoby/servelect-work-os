@@ -1,4 +1,4 @@
-import { Activity, CheckCircle2, Database, GitBranch, ShieldAlert } from "lucide-react";
+﻿import { Activity, CheckCircle2, Database, GitBranch, ShieldAlert } from "lucide-react";
 
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader, PageHeader } from "@/components/ui/Card";
@@ -20,7 +20,7 @@ export default function TaskPageApiBridgeAdminPage() {
     <>
       <PageHeader
         title="Task Page API Bridge Activation"
-        subtitle="v2.8 activează vizibil bridge-ul API în pagina Taskuri, cu fallback local și fără schimbare vizuală majoră."
+        subtitle="v2.8 activeazÄƒ vizibil bridge-ul API Ã®n pagina Taskuri, cu fallback local È™i fÄƒrÄƒ schimbare vizualÄƒ majorÄƒ."
       />
 
       <section className="grid gap-4 lg:grid-cols-4">
@@ -52,14 +52,14 @@ export default function TaskPageApiBridgeAdminPage() {
           <div className="p-5">
             <Database className="h-6 w-6 text-amber-600" />
             <div className="mt-4 text-2xl font-black text-slate-950">OFF</div>
-            <p className="mt-2 text-sm text-slate-500">DB writes reale rămân pentru v2.9+.</p>
+            <p className="mt-2 text-sm text-slate-500">DB writes reale rÄƒmÃ¢n pentru v2.9+.</p>
           </div>
         </Card>
       </section>
 
       <section className="mt-5 grid gap-4 xl:grid-cols-2">
         <Card>
-          <CardHeader title="Capabilities" subtitle="Ce este activat în v2.8" />
+          <CardHeader title="Capabilities" subtitle="Ce este activat Ã®n v2.8" />
           <div className="space-y-3 p-5">
             {release.capabilities.map((capability) => (
               <div key={capability.id} className="rounded-2xl border border-slate-200 bg-white p-4">
@@ -78,7 +78,7 @@ export default function TaskPageApiBridgeAdminPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Before full production" subtitle="Ce mai lipsește" />
+          <CardHeader title="Before full production" subtitle="Ce mai lipseÈ™te" />
           <div className="space-y-3 p-5">
             {health.requiredBeforeProduction.map((item, index) => (
               <div key={item} className="flex gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
@@ -94,6 +94,7 @@ export default function TaskPageApiBridgeAdminPage() {
     </>
   );
 }
+
 
 
 

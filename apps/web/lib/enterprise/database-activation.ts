@@ -1,4 +1,4 @@
-export type DatabaseActivationStatus = "ready" | "partial" | "mock" | "blocked";
+﻿export type DatabaseActivationStatus = "ready" | "db-ready" | "partial" | "mock" | "blocked";
 export type DatabaseActivationPriority = "critical" | "high" | "medium" | "low";
 
 export type DatabaseEntityReadiness = {
@@ -41,40 +41,40 @@ const layers: DatabaseActivationLayer[] = [
     label: "Prisma/PostgreSQL schema map",
     status: "partial",
     readiness: 76,
-    purpose: "Definește entitățile care trebuie mutate din mock/localStorage în PostgreSQL.",
-    nextAction: "Stabilizează schema.prisma și pregătește migrări controlate."
+    purpose: "DefineÈ™te entitÄƒÈ›ile care trebuie mutate din mock/localStorage Ã®n PostgreSQL.",
+    nextAction: "StabilizeazÄƒ schema.prisma È™i pregÄƒteÈ™te migrÄƒri controlate."
   },
   {
     key: "repository",
     label: "Repository abstraction",
     status: "partial",
     readiness: 70,
-    purpose: "Permite comutarea între mock provider și database provider fără să rescriem UI-ul.",
-    nextAction: "Activează provider selectat prin env: SERVELECT_DATA_PROVIDER=mock|postgres."
+    purpose: "Permite comutarea Ã®ntre mock provider È™i database provider fÄƒrÄƒ sÄƒ rescriem UI-ul.",
+    nextAction: "ActiveazÄƒ provider selectat prin env: SERVELECT_DATA_PROVIDER=mock|postgres."
   },
   {
     key: "seed",
     label: "Seed & demo tenant",
     status: "partial",
     readiness: 64,
-    purpose: "Populează workspace demo Servelect cu utilizatori, proiecte, taskuri și approvals.",
-    nextAction: "Adaugă script de seed idempotent pentru PostgreSQL."
+    purpose: "PopuleazÄƒ workspace demo Servelect cu utilizatori, proiecte, taskuri È™i approvals.",
+    nextAction: "AdaugÄƒ script de seed idempotent pentru PostgreSQL."
   },
   {
     key: "audit",
     label: "Persistent audit log",
     status: "mock",
     readiness: 45,
-    purpose: "Înregistrează acțiuni reale: creare task, schimbare status, impersonare, workflow run.",
-    nextAction: "Creează tabel audit_events și folosește-l în admin/audit."
+    purpose: "ÃŽnregistreazÄƒ acÈ›iuni reale: creare task, schimbare status, impersonare, workflow run.",
+    nextAction: "CreeazÄƒ tabel audit_events È™i foloseÈ™te-l Ã®n admin/audit."
   },
   {
     key: "auth",
     label: "User/session persistence",
     status: "partial",
     readiness: 58,
-    purpose: "Leagă demo auth/RBAC de utilizatori reali și roluri persistente.",
-    nextAction: "Introduce Auth.js/NextAuth + adapter Prisma în v1.4/v1.5."
+    purpose: "LeagÄƒ demo auth/RBAC de utilizatori reali È™i roluri persistente.",
+    nextAction: "Introduce Auth.js/NextAuth + adapter Prisma Ã®n v1.4/v1.5."
   }
 ];
 
@@ -87,7 +87,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 82,
     source: "api-ready",
     priority: "critical",
-    notes: "Necesită model central pentru izolarea datelor pe companie/client."
+    notes: "NecesitÄƒ model central pentru izolarea datelor pe companie/client."
   },
   {
     key: "users",
@@ -97,7 +97,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 72,
     source: "api-ready",
     priority: "critical",
-    notes: "v0.7 a introdus user management demo; următorul pas este persistarea reală."
+    notes: "v0.7 a introdus user management demo; urmÄƒtorul pas este persistarea realÄƒ."
   },
   {
     key: "projects",
@@ -107,7 +107,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 78,
     source: "api-ready",
     priority: "critical",
-    notes: "Proiectele sunt nucleul Work OS și trebuie mutate primele în DB."
+    notes: "Proiectele sunt nucleul Work OS È™i trebuie mutate primele Ã®n DB."
   },
   {
     key: "tasks",
@@ -117,7 +117,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 74,
     source: "localStorage",
     priority: "critical",
-    notes: "Pagina /taskuri a fost optimizată; persistarea reală este următorul pas major."
+    notes: "Pagina /taskuri a fost optimizatÄƒ; persistarea realÄƒ este urmÄƒtorul pas major."
   },
   {
     key: "comments",
@@ -127,7 +127,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 48,
     source: "mock",
     priority: "high",
-    notes: "Necesar pentru colaborare reală tip GoodDay/ClickUp."
+    notes: "Necesar pentru colaborare realÄƒ tip GoodDay/ClickUp."
   },
   {
     key: "approvals",
@@ -137,7 +137,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 67,
     source: "api-ready",
     priority: "high",
-    notes: "v0.9 a introdus action center; approvals trebuie mutate în DB."
+    notes: "v0.9 a introdus action center; approvals trebuie mutate Ã®n DB."
   },
   {
     key: "audit-events",
@@ -147,7 +147,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 42,
     source: "mock",
     priority: "high",
-    notes: "Trebuie să devină persistent pentru enterprise governance."
+    notes: "Trebuie sÄƒ devinÄƒ persistent pentru enterprise governance."
   },
   {
     key: "workflow-executions",
@@ -157,7 +157,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 46,
     source: "mock",
     priority: "high",
-    notes: "Executările workflow trebuie urmărite cu status, input/output și audit."
+    notes: "ExecutÄƒrile workflow trebuie urmÄƒrite cu status, input/output È™i audit."
   },
   {
     key: "iot-alerts",
@@ -172,12 +172,12 @@ const entities: DatabaseEntityReadiness[] = [
   {
     key: "maintenance-tickets",
     label: "Maintenance tickets",
-    module: "Mentenanță",
+    module: "MentenanÈ›Äƒ",
     status: "partial",
     readiness: 60,
     source: "api-ready",
     priority: "medium",
-    notes: "Ticketele trebuie să fie generate din alerte IoT și solicitări client."
+    notes: "Ticketele trebuie sÄƒ fie generate din alerte IoT È™i solicitÄƒri client."
   },
   {
     key: "equipment",
@@ -187,7 +187,7 @@ const entities: DatabaseEntityReadiness[] = [
     readiness: 54,
     source: "mock",
     priority: "medium",
-    notes: "Stocurile trebuie legate de proiecte/taskuri, nu transformate într-un ERP separat."
+    notes: "Stocurile trebuie legate de proiecte/taskuri, nu transformate Ã®ntr-un ERP separat."
   }
 ];
 
@@ -220,7 +220,7 @@ export function getDatabaseActivationRelease(): DatabaseActivationRelease {
       "/api/v1/enterprise/database-schema",
       "/admin/database"
     ],
-    nextMilestone: "v1.4 — Real Task & Project Persistence"
+    nextMilestone: "v1.4 â€” Real Task & Project Persistence"
   };
 }
 
@@ -243,8 +243,8 @@ export function getDatabaseHealth() {
     checks,
     warning:
       provider === "postgres"
-        ? "Provider postgres selectat. Verifică migrările și seed-ul înainte de producție reală."
-        : "Aplicația rulează safe pe mock/localStorage. DB real nu este încă activat."
+        ? "Provider postgres selectat. VerificÄƒ migrÄƒrile È™i seed-ul Ã®nainte de producÈ›ie realÄƒ."
+        : "AplicaÈ›ia ruleazÄƒ safe pe mock/localStorage. DB real nu este Ã®ncÄƒ activat."
   };
 }
 
@@ -274,6 +274,7 @@ export function getDatabaseSchemaManifest() {
     ]
   };
 }
+
 
 
 

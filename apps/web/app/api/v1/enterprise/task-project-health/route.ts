@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
 import { getTaskProjectPersistenceHealth } from "@/lib/enterprise/task-project-persistence";
 

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -172,7 +172,7 @@ export const useWorkOsStore = create<WorkOsStore>()(
       },
 
       updateTaskStatus: (id, status) => set({
-        tasks: get().tasks.map((task) => task.id === id ? addLog({ ...task, status }, `a mutat taskul în ${status}`) : task)
+        tasks: get().tasks.map((task) => task.id === id ? addLog({ ...task, status }, `a mutat taskul Ã®n ${status}`) : task)
       }),
 
       createTask: (draft) => {
@@ -195,7 +195,7 @@ export const useWorkOsStore = create<WorkOsStore>()(
           trackedHours: 0,
           tags: draft.tags,
           dependencies: [],
-          customFields: { Sursă: "v0.2 localStorage" },
+          customFields: { SursÄƒ: "v0.2 localStorage" },
           subtasks: [],
           comments: [],
           attachments: [],
@@ -215,7 +215,7 @@ export const useWorkOsStore = create<WorkOsStore>()(
       duplicateTask: (id) => {
         const task = get().tasks.find((item) => item.id === id);
         if (!task) return;
-        const copy: Task = addLog({ ...task, id: newId("task"), title: `${task.title} — copie`, status: "Backlog", trackedHours: 0 }, "a duplicat taskul");
+        const copy: Task = addLog({ ...task, id: newId("task"), title: `${task.title} â€” copie`, status: "Backlog", trackedHours: 0 }, "a duplicat taskul");
         set({ tasks: [copy, ...get().tasks].slice(0, 200), selectedTaskId: copy.id });
       },
 
@@ -232,7 +232,7 @@ export const useWorkOsStore = create<WorkOsStore>()(
         if (!cleanTitle) return;
         const subtask: Subtask = { id: newId("sub"), title: cleanTitle, done: false };
         set({
-          tasks: get().tasks.map((task) => task.id === taskId ? addLog({ ...task, subtasks: [...task.subtasks, subtask] }, "a adăugat un subtask", cleanTitle) : task)
+          tasks: get().tasks.map((task) => task.id === taskId ? addLog({ ...task, subtasks: [...task.subtasks, subtask] }, "a adÄƒugat un subtask", cleanTitle) : task)
         });
       },
 
@@ -300,8 +300,8 @@ export const useWorkOsStore = create<WorkOsStore>()(
       })
     }),
     {
-      name: "servelect-work-os-store-v29",
-      version: 29,
+      name: "servelect-work-os-store-v30",
+      version: 30,
       onRehydrateStorage: () => (state) => {
         if (!state) return;
         const tasks = Array.isArray(state.tasks) ? state.tasks.map(capTaskRuntime).slice(0, 200) : initialTasks.map(capTaskRuntime);
@@ -316,6 +316,7 @@ export const useWorkOsStore = create<WorkOsStore>()(
     }
   )
 );
+
 
 
 

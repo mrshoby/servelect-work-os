@@ -1,4 +1,4 @@
-import { getWorkGraphHealth, getWorkGraphMigrationPlan, getWorkGraphPersistenceRelease, type WorkGraphReadinessStatus } from "@/lib/enterprise/workgraph-persistence";
+﻿import { getWorkGraphHealth, getWorkGraphMigrationPlan, getWorkGraphPersistenceRelease, type WorkGraphReadinessStatus } from "@/lib/enterprise/workgraph-persistence";
 
 const statusTone: Record<WorkGraphReadinessStatus, string> = {
   ready: "bg-emerald-50 text-emerald-700 border-emerald-200",
@@ -28,7 +28,7 @@ export default function AdminWorkGraphPage() {
     <main className="space-y-6">
       <section className="rounded-[2rem] border border-slate-200 bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 p-6 text-white shadow-sm lg:p-8">
         <div className="inline-flex rounded-full bg-white/10 px-3 py-1 text-xs font-black text-emerald-100 ring-1 ring-white/10">
-          SERVELECT WORK OS · {release.version}
+          SERVELECT WORK OS Â· {release.version}
         </div>
         <h1 className="mt-4 max-w-4xl text-3xl font-black tracking-tight lg:text-4xl">{release.name}</h1>
         <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-300">{release.objective}</p>
@@ -37,7 +37,7 @@ export default function AdminWorkGraphPage() {
           <Metric label="Readiness global" value={`${release.globalReadiness}%`} />
           <Metric label="Tabele WorkGraph" value={String(health.counters.totalTables)} />
           <Metric label="ready" value={String(health.counters.dbReady)} />
-          <Metric label="Mock rămase" value={String(health.counters.mock)} />
+          <Metric label="Mock rÄƒmase" value={String(health.counters.mock)} />
         </div>
       </section>
 
@@ -46,7 +46,7 @@ export default function AdminWorkGraphPage() {
           <div className="mb-4 flex items-start justify-between gap-4">
             <div>
               <h2 className="text-lg font-black text-slate-950">WorkGraph persistence matrix</h2>
-              <p className="mt-1 text-sm text-slate-500">Harta entităților care trebuie mutate din mock/localStorage în Prisma/PostgreSQL.</p>
+              <p className="mt-1 text-sm text-slate-500">Harta entitÄƒÈ›ilor care trebuie mutate din mock/localStorage Ã®n Prisma/PostgreSQL.</p>
             </div>
             <span className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
               {health.recommendation}
@@ -58,8 +58,8 @@ export default function AdminWorkGraphPage() {
               <thead className="bg-slate-50 text-xs uppercase tracking-wide text-slate-500">
                 <tr>
                   <th className="px-4 py-3">Entitate</th>
-                  <th className="px-4 py-3">Tabel țintă</th>
-                  <th className="px-4 py-3">Sursă curentă</th>
+                  <th className="px-4 py-3">Tabel È›intÄƒ</th>
+                  <th className="px-4 py-3">SursÄƒ curentÄƒ</th>
                   <th className="px-4 py-3">Status</th>
                   <th className="px-4 py-3">Readiness</th>
                   <th className="px-4 py-3">Prioritate</th>
@@ -96,7 +96,7 @@ export default function AdminWorkGraphPage() {
             </ul>
           </Panel>
 
-          <Panel title={`Next build · ${release.nextBuild.version}`}>
+          <Panel title={`Next build Â· ${release.nextBuild.version}`}>
             <div className="font-black text-slate-950">{release.nextBuild.name}</div>
             <ul className="mt-3 space-y-2 text-sm text-slate-600">
               {release.nextBuild.focus.map((item) => <li key={item} className="rounded-2xl border border-slate-200 p-3">{item}</li>)}
@@ -111,13 +111,13 @@ export default function AdminWorkGraphPage() {
           {plan.phases.map((phase) => (
             <div key={phase.id} className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4">
               <div className="text-sm font-black text-slate-950">{phase.title}</div>
-              <div className="mt-3 text-xs font-black uppercase tracking-wide text-slate-400">Entități</div>
+              <div className="mt-3 text-xs font-black uppercase tracking-wide text-slate-400">EntitÄƒÈ›i</div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {phase.entities.map((entity) => <span key={entity.entity} className="rounded-full bg-white px-2.5 py-1 text-xs font-bold text-slate-600 ring-1 ring-slate-200">{entity.entity}</span>)}
               </div>
               <div className="mt-4 text-xs font-black uppercase tracking-wide text-slate-400">Exit criteria</div>
               <ul className="mt-2 space-y-2 text-sm text-slate-600">
-                {phase.exitCriteria.map((criteria) => <li key={criteria}>• {criteria}</li>)}
+                {phase.exitCriteria.map((criteria) => <li key={criteria}>â€¢ {criteria}</li>)}
               </ul>
             </div>
           ))}
@@ -148,6 +148,7 @@ function Panel({ title, children }: { title: string; children: React.ReactNode }
 function Badge({ className, children }: { className: string; children: React.ReactNode }) {
   return <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-black ${className}`}>{children}</span>;
 }
+
 
 
 
