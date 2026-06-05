@@ -1,0 +1,65 @@
+[
+  {
+    "route": "/admin/database",
+    "url": "https://servelect-work-os-web.vercel.app/admin/database",
+    "status": 200,
+    "ms": 1157,
+    "ok": true
+  },
+  {
+    "route": "/api/v1/enterprise/database-activation",
+    "url": "https://servelect-work-os-web.vercel.app/api/v1/enterprise/database-activation",
+    "status": 200,
+    "ms": 752,
+    "ok": true
+  },
+  {
+    "route": "/api/v1/enterprise/database-health",
+    "url": "https://servelect-work-os-web.vercel.app/api/v1/enterprise/database-health",
+    "status": 200,
+    "ms": 541,
+    "ok": true
+  },
+  {
+    "route": "/api/v1/enterprise/database-schema",
+    "url": "https://servelect-work-os-web.vercel.app/api/v1/enterprise/database-schema",
+    "status": 200,
+    "ms": 448,
+    "ok": true
+  },
+  {
+    "route": "/admin/data-foundation",
+    "url": "https://servelect-work-os-web.vercel.app/admin/data-foundation",
+    "status": 200,
+    "ms": 700,
+    "ok": true
+  },
+  {
+    "route": "/api/v1/enterprise/data-foundation",
+    "url": "https://servelect-work-os-web.vercel.app/api/v1/enterprise/data-foundation",
+    "status": 200,
+    "ms": 367,
+    "ok": true
+  },
+  {
+    "route": "/api/v1/enterprise/data-readiness",
+    "url": "https://servelect-work-os-web.vercel.app/api/v1/enterprise/data-readiness",
+    "status": 200,
+    "ms": 438,
+    "ok": true
+  },
+  {
+    "route": "/taskuri",
+    "url": "https://servelect-work-os-web.vercel.app/taskuri",
+    "status": 200,
+    "ms": 338,
+    "ok": true
+  },
+  {
+    "route": "/enterprise",
+    "url": "https://servelect-work-os-web.vercel.app/enterprise",
+    "status": 200,
+    "ms": 370,
+    "ok": true
+  }
+]
