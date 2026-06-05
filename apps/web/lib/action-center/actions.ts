@@ -1,4 +1,4 @@
-import { approvalRequests, fundingCases, iotAlerts, maintenanceTickets, projects, tasks } from "@servelect/shared";
+import { approvals, fundingCases, iotAlerts, maintenanceTickets, projects, tasks } from "@servelect/shared";
 
 export type ActionCenterSource = "Task" | "IoT" | "Aprobare" | "Mentenanță" | "Finanțări" | "Proiect";
 export type ActionCenterUrgency = "low" | "medium" | "high" | "critical";
@@ -63,7 +63,7 @@ export function getActionCenterItems(): ActionCenterItem[] {
     recommendedNextStep: "Generează task/ticket și alocă tehnicianul disponibil."
   }));
 
-  const approvalItems: ActionCenterItem[] = approvalRequests.slice(0, 5).map((approval) => ({
+  const approvalItems: ActionCenterItem[] = approvals.slice(0, 5).map((approval) => ({
     id: `act-approval-${approval.id}`,
     title: approval.title,
     description: `Aprobare ${approval.status}`,
@@ -140,3 +140,4 @@ export function getActionCenterSummary() {
     }, {})
   };
 }
+
