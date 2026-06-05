@@ -268,3 +268,10 @@ git push origin main
 - Comenzi complete PowerShell
 - Fără explicații lungi inutile când cere build/patch
 - Să se spună sincer dacă ceva este mock/foundation și nu production real
+
+---
+v1.1 fix: performance audit route
+Date: 2026-06-05 09:35:41
+Fixed apps/web/app/api/v1/performance/audit/route.ts
+Removed duplicate generatedAt and replaced missing manifestWithoutGeneratedAt with manifest.
+Next validation: pnpm --filter @servelect/web build, then Vercel deploy.
