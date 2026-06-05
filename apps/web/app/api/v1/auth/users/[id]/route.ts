@@ -4,17 +4,14 @@ import { getPermissionsForRole, normalizeRole } from "@/lib/auth/permissions";
 import { requireApiPermission } from "@/lib/auth/guard";
 import { jsonError, jsonOk, readJson } from "@/lib/backend/http";
 
-type RouteContext = {
-  params: Promise<{ id: string }> | { id: string };
+export const dynamic = "force-dynamic";
+
+type UserRouteParams = {
+  params: Promise<{ id: string }>;
 };
 
-async function getRouteId(context: RouteContext) {
-  const params = await Promise.resolve(context.params);
-  return params.id;
-}
-
-export async function GET(_request: Request, context: RouteContext) {
-  const id = await getRouteId(context);
+export async function GET(_request: Request, { params }: UserRouteParams) {
+  const { id } = await params;
   const user = getAuthUsers().find((item) => item.id === id || item.email === id);
 
   if (!user) return jsonError("NOT_FOUND", "Utilizatorul nu există în lista demo.", 404);
@@ -25,11 +22,11 @@ export async function GET(_request: Request, context: RouteContext) {
   });
 }
 
-export async function PATCH(request: Request, context: RouteContext) {
+export async function PATCH(request: Request, { params }: UserRouteParams) {
   const auth = requireApiPermission(request, "admin:manage");
   if (!auth.ok) return auth.response;
 
-  const id = await getRouteId(context);
+  const { id } = await params;
   const body = await readJson<Partial<{ role: Role; title: string; team: string; workload: number; online: boolean }>>(request);
   const user = getAuthUsers().find((item) => item.id === id || item.email === id);
 
