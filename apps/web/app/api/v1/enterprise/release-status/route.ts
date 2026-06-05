@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { getReleaseStatusDashboard } from "@/lib/enterprise/release-status";
+import { getProductCompletion, getReleaseStatus, changelog, currentRelease, nextUpdates } from "@/lib/enterprise/release-dashboard";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  return NextResponse.json(getReleaseStatusDashboard());
+  return NextResponse.json(getReleaseStatus());
 }

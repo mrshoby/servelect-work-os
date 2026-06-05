@@ -1,69 +1,77 @@
-# AI Continuation — SERVELECT WORK OS / SERVELECT EMP
+# AI CONTINUATION — SERVELECT WORK OS / SERVELECT EMP
 
-## Current version
-v2.5.0 — DB-backed Task Mutations Pack
+## Current known target
+Project: SERVELECT WORK OS / SERVELECT EMP  
+Current build package prepared: **v2.6.0 — Task UI API Wiring Pack**
 
-## Project goal
-SERVELECT WORK OS is a task-first enterprise Work OS for Servelect: projects, tasks, subtasks, Kanban, table/list, calendar, workload, timesheet, documents, approvals, CRM, IoT/energy monitoring, equipment/logistics, maintenance, financing/ESG, HR/admin and mobile field operations.
+## Product vision
+The application must be a task-first enterprise Work OS for Servelect, similar in direction to GoodDay/ClickUp/Linear/Asana/Monday, but adapted to photovoltaic/energy operations.
 
-## Current status
-The web app is an advanced enterprise beta, not final production.
+Core must remain centered on:
+- projects
+- tasks/subtasks
+- Kanban/list/table/Gantt/calendar/workload
+- timesheet
+- documents
+- chat/updates
+- approvals
+- reports
+- workflows
+- roles/RBAC
 
-Estimated completion after v2.5:
-- Website/Web App: ~76%
-- Task & Project Core: ~58%
-- Backend/API: ~52%
-- Database/Prisma/Seed: ~48%
-- Auth/RBAC: ~38%
-- IoT/Ops: ~35%
-- Mobile App: ~20%
+Energy/IoT/equipment/maintenance/CRM/funding/HR are operational modules integrated into the same task/project system, not separate apps.
 
-## Important honest note
-Task management is still not fully production complete. It has UI, mock/localStorage fallback, API contracts, feature flags and now DB-backed mutation planning/shadow mode. Real PostgreSQL writes are still gated/off by default.
-
-## v2.5 changes
+## Latest build v2.6.0
 Added:
-- apps/web/lib/enterprise/task-mutations.ts
-- apps/web/app/admin/task-mutations/page.tsx
-- apps/web/app/api/v1/enterprise/task-mutations/route.ts
-- apps/web/app/api/v1/enterprise/task-mutations-health/route.ts
-- apps/web/app/api/v1/enterprise/task-mutations-plan/route.ts
-- apps/web/app/api/v1/enterprise/task-mutation-audit/route.ts
-- updated release-status and changelog data to show v2.5 status and next updates
-- scripts/task-mutations-test.ps1
-- docs/V25_DB_BACKED_TASK_MUTATIONS_PACK.md
+- `/admin/task-api-wiring`
+- `/admin/release-status`
+- `/changelog`
+- `/api/v1/enterprise/task-api-wiring`
+- `/api/v1/enterprise/task-api-wiring-health`
+- `/api/v1/enterprise/task-ui-api-contract`
+- `/api/v1/enterprise/task-api-wiring-plan`
+- `apps/web/lib/task-api/client.ts`
+- `apps/web/hooks/useTaskApiBridge.ts`
+- visible release status and product completion percentages.
 
-## Required checks after deployment
-Test:
-- /admin/task-mutations
-- /admin/release-status
-- /changelog
-- /api/v1/enterprise/task-mutations
-- /api/v1/enterprise/task-mutations-health
-- /api/v1/enterprise/task-mutations-plan
-- /api/v1/enterprise/task-mutation-audit
-- /api/v1/enterprise/release-status
-- /taskuri
+## Current completion estimates after v2.6
+- Website/Web App: 78%
+- Task & Project Core: 64%
+- Backend/API: 58%
+- Database/Prisma/Seed: 52%
+- Auth/RBAC: 40%
+- IoT/Ops: 36%
+- Mobile App: 22%
 
-Run:
-```powershell
-.\scripts\task-mutations-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
-```
+## Important truth
+The task module is NOT yet fully functional production. It has UI, mock/localStorage store, API contracts, API client and feature-flag bridge, but not complete DB-backed production CRUD.
 
-## Previous recurring build issues to guard against
-- Do not use `PageHeader actions={...}` because PageHeader uses children, not actions.
-- Do not pass `mobile` prop to `Sidebar` from AppShell.
-- Avoid duplicate properties in response objects such as `ok` or `generatedAt` before spreading objects.
-- Remove/normalize all `db-ready` references in TS/TSX if the status type does not include it.
-- Keep localStorage key bumped per release to avoid old browser state freezes.
+Missing for full task production:
+- UI task list/board/drawer reading directly from API
+- create/update/delete/status-change through API in visible UI
+- optimistic update + rollback
+- comments/subtasks API endpoints
+- persistent activity log
+- RBAC enforcement on all mutations
+- DB-backed writes via Prisma
+- server pagination/filter/sort
+- attachments/documents persistence
 
-## Next build
-v2.6.0 — Task UI API Wiring Pack
+## Known defensive fixes to preserve
+Every future patch should preserve:
+- remove `mobile` prop passed to Sidebar in AppShell
+- remove duplicate `generatedAt` in performance audit route
+- return task-project-health directly without duplicate `ok`
+- remove any `db-ready` status from TS/TSX source or normalize it to `ready`
+- update localStorage key with each major build to avoid stale browser state
 
-Must deliver:
-- load tasks from `/api/v1/tasks` under feature flag;
-- create task modal posts to API;
-- task status change uses PATCH API;
-- fallback to localStorage if API fails;
-- no freeze on `/taskuri`;
-- release-status/changelog updated visibly on site.
+## Next recommended build
+**v2.7.0 — API-backed Task Board & Drawer Pack**
+
+Goals:
+1. Add feature flag controlled API read mode for `/taskuri`.
+2. Task table/list reads from `/api/v1/tasks` when flag enabled.
+3. Kanban status change calls API and rolls back on failure.
+4. Task drawer refreshes selected task from API after mutation.
+5. Keep exact same visual interface.
+6. Update `/admin/release-status` and `/changelog` with v2.7.
