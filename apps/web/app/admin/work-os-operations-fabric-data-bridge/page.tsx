@@ -11,8 +11,8 @@ export default function Page() {
         <p className="mt-3 max-w-5xl text-sm leading-6 text-slate-600">Connectors, adapters and source-of-truth bridge readiness</p>
       </section>
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {items.map((item) => (
-          <article key={"id" in item ? String(item.id) : "title" in item ? String(item.title) : JSON.stringify(item)} className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
+        {items.map((item, index) => (
+          <article key={index} className="rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
             <pre className="whitespace-pre-wrap break-words text-xs leading-5 text-slate-700">{JSON.stringify(item, null, 2)}</pre>
           </article>
         ))}
