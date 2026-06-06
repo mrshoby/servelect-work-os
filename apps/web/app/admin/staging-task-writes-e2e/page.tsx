@@ -109,7 +109,7 @@ export default function StagingTaskWritesE2EPage() {
                   <div className="font-black text-slate-950">{check.label}</div>
                   <span className={`rounded-full px-3 py-1 text-xs font-black ring-1 ${toneFor(check.status)}`}>{check.status}</span>
                 </div>
-                <p className="mt-2 text-sm text-slate-600">{check.source} -> {check.target}</p>
+                <p className="mt-2 text-sm text-slate-600">{check.source}{" → "}{check.target}</p>
                 <p className="mt-2 text-xs font-semibold text-slate-400">{check.notes}</p>
               </div>
             ))}
