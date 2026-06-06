@@ -13,7 +13,7 @@ export type SotCommand = { id: string; title: string; domain: SourceDomainId; st
 export type SotRisk = { id: string; title: string; domain: SourceDomainId; severity: string; status: string; mitigation: string; owner: string; };
 export type Release = { ok: boolean; version: string; name: string; generatedAt: string; productionWrites: string; summary: string; readiness: ProductReadiness; metrics: SotMetric[]; domains: SotDomain[]; adapters: SotAdapter[]; contracts: SotContract[]; syncLanes: SotSyncLane[]; reconciliation: SotReconciliation[]; flows: SotFlow[]; runbooks: SotRunbook[]; commands: SotCommand[]; risks: SotRisk[]; roadmap: Array<{ version: string; title: string; outcome: string; required: string[] }>; };
 const readiness: ProductReadiness = {"websiteWebApp": 99, "taskProjectCore": 99, "backendApi": 99, "databasePrismaSeed": 99, "authRbac": 99, "iotOps": 92, "mobileApp": 90};
-const metrics = [
+const metrics: SotMetric[] = [
   { id: "domains", label: "Source domains", value: "14", trend: "all modules mapped", status: "ready", evidence: "visible in v5.0 source-of-truth dashboard" },
   { id: "adapters", label: "Adapters", value: "44", trend: "real, shadow, bridge, planned", status: "ready", evidence: "visible in v5.0 source-of-truth dashboard" },
   { id: "contracts", label: "Data contracts", value: "42", trend: "canonical entity contracts", status: "ready", evidence: "visible in v5.0 source-of-truth dashboard" },
@@ -23,7 +23,7 @@ const metrics = [
   { id: "runbooks", label: "Runbooks", value: "18", trend: "operational source runbooks", status: "ready", evidence: "visible in v5.0 source-of-truth dashboard" },
   { id: "risks", label: "Risk register", value: "22", trend: "source activation risks", status: "guarded", evidence: "visible in v5.0 source-of-truth dashboard" }
 ];
-const domains = [
+const domains: SotDomain[] = [
   { id: "tasks", label: "Taskuri", summary: "Task management source-of-truth", adapter: "Prisma Task Adapter", entity: "task", readiness: 99, mode: "env-gated", owner: "Platform Owner", endpoint: "/api/v1/work-os/domains/tasks/source-of-truth", writeMode: "env-gated", sourceSystem: "Prisma", targetSystem: "Work OS canonical read model", goLiveCriteria: ["adapter health green", "RBAC preflight present", "audit envelope present", "rollback snapshot valid"], blockers: ["production writes off by default", "requires source owner signoff"] },
   { id: "projects", label: "Proiecte", summary: "Project portfolio source-of-truth", adapter: "Project Repository Adapter", entity: "project", readiness: 94, mode: "shadow", owner: "Operations Lead", endpoint: "/api/v1/work-os/domains/projects/source-of-truth", writeMode: "read-shadow", sourceSystem: "D1", targetSystem: "Work OS canonical read model", goLiveCriteria: ["adapter health green", "RBAC preflight present", "audit envelope present", "rollback snapshot valid"], blockers: ["production writes off by default", "requires source owner signoff"] },
   { id: "stock", label: "Stocuri", summary: "Inventory and material movements source-of-truth", adapter: "Cloudflare D1 Stock Adapter", entity: "stock_item", readiness: 91, mode: "shadow", owner: "Database Owner", endpoint: "/api/v1/work-os/domains/stock/source-of-truth", writeMode: "read-shadow", sourceSystem: "Google Sheets", targetSystem: "Work OS canonical read model", goLiveCriteria: ["adapter health green", "RBAC preflight present", "audit envelope present", "rollback snapshot valid"], blockers: ["production writes off by default", "requires source owner signoff"] },
@@ -39,7 +39,7 @@ const domains = [
   { id: "reports", label: "Reports", summary: "Reporting snapshots and export source-of-truth", adapter: "Reporting Snapshot Adapter", entity: "report_snapshot", readiness: 80, mode: "shadow", owner: "HR Ops", endpoint: "/api/v1/work-os/domains/reports/source-of-truth", writeMode: "read-shadow", sourceSystem: "Prisma", targetSystem: "Work OS canonical read model", goLiveCriteria: ["adapter health green", "RBAC preflight present", "audit envelope present", "rollback snapshot valid"], blockers: ["production writes off by default", "requires source owner signoff"] },
   { id: "mobile", label: "Mobile Field App", summary: "Offline queue and field proposal source-of-truth", adapter: "Mobile Queue Adapter", entity: "mobile_event", readiness: 79, mode: "shadow", owner: "Field Ops", endpoint: "/api/v1/work-os/domains/mobile/source-of-truth", writeMode: "read-shadow", sourceSystem: "D1", targetSystem: "Work OS canonical read model", goLiveCriteria: ["adapter health green", "RBAC preflight present", "audit envelope present", "rollback snapshot valid"], blockers: ["production writes off by default", "requires source owner signoff"] }
 ];
-const adapters = [
+const adapters: SotAdapter[] = [
   { id: "tasks-primary", label: "Taskuri Primary Adapter", domain: "tasks", kind: "Primary Adapter", mode: "env-gated", readiness: 99, endpoint: "/api/v1/enterprise/source-of-truth-adapters/tasks-primary", healthEndpoint: "/api/v1/enterprise/source-of-truth-adapters/tasks-primary/health", requiredEnv: ["SOURCE_OF_TRUTH_MODE", "TASKS_ADAPTER_MODE"], capabilities: ["read", "health", "snapshot", "audit", "rollback"], evidence: "adapter health + owner signoff + audit tap + rollback snapshot" },
   { id: "tasks-read-model", label: "Taskuri Read Model Adapter", domain: "tasks", kind: "Read Model Adapter", mode: "shadow", readiness: 99, endpoint: "/api/v1/enterprise/source-of-truth-adapters/tasks-read-model", healthEndpoint: "/api/v1/enterprise/source-of-truth-adapters/tasks-read-model/health", requiredEnv: ["SOURCE_OF_TRUTH_MODE", "TASKS_ADAPTER_MODE"], capabilities: ["read", "health", "snapshot", "audit", "rollback"], evidence: "adapter health + owner signoff + audit tap + rollback snapshot" },
   { id: "tasks-audit-tap", label: "Taskuri Audit Tap Adapter", domain: "tasks", kind: "Audit Tap Adapter", mode: "ready", readiness: 99, endpoint: "/api/v1/enterprise/source-of-truth-adapters/tasks-audit-tap", healthEndpoint: "/api/v1/enterprise/source-of-truth-adapters/tasks-audit-tap/health", requiredEnv: ["SOURCE_OF_TRUTH_MODE", "TASKS_ADAPTER_MODE"], capabilities: ["read", "health", "snapshot", "audit", "rollback"], evidence: "adapter health + owner signoff + audit tap + rollback snapshot" },
@@ -83,7 +83,7 @@ const adapters = [
   { id: "mobile-read-model", label: "Mobile Field App Read Model Adapter", domain: "mobile", kind: "Read Model Adapter", mode: "shadow", readiness: 81, endpoint: "/api/v1/enterprise/source-of-truth-adapters/mobile-read-model", healthEndpoint: "/api/v1/enterprise/source-of-truth-adapters/mobile-read-model/health", requiredEnv: ["SOURCE_OF_TRUTH_MODE", "MOBILE_ADAPTER_MODE"], capabilities: ["read", "health", "snapshot", "audit", "rollback"], evidence: "adapter health + owner signoff + audit tap + rollback snapshot" },
   { id: "mobile-audit-tap", label: "Mobile Field App Audit Tap Adapter", domain: "mobile", kind: "Audit Tap Adapter", mode: "shadow", readiness: 83, endpoint: "/api/v1/enterprise/source-of-truth-adapters/mobile-audit-tap", healthEndpoint: "/api/v1/enterprise/source-of-truth-adapters/mobile-audit-tap/health", requiredEnv: ["SOURCE_OF_TRUTH_MODE", "MOBILE_ADAPTER_MODE"], capabilities: ["read", "health", "snapshot", "audit", "rollback"], evidence: "adapter health + owner signoff + audit tap + rollback snapshot" }
 ];
-const contracts = [
+const contracts: SotContract[] = [
   { id: "task.canonical.v1", entity: "task", domain: "tasks", fields: ["id", "tenantId", "version", "updatedAt", "status", "ownerId"], purpose: "canonical source-of-truth contract", readiness: 99, version: "v1", auditRequired: true, rbacRequired: true, rollbackRequired: true, persistenceTarget: "Prisma" },
   { id: "task.snapshot.v1", entity: "task", domain: "tasks", fields: ["id", "snapshotAt", "source", "checksum", "payload"], purpose: "snapshot source-of-truth contract", readiness: 99, version: "v1", auditRequired: true, rbacRequired: true, rollbackRequired: true, persistenceTarget: "D1" },
   { id: "task.mutation.v1", entity: "task", domain: "tasks", fields: ["id", "actorId", "before", "after", "commandId", "rbacDecision"], purpose: "mutation source-of-truth contract", readiness: 99, version: "v1", auditRequired: true, rbacRequired: true, rollbackRequired: true, persistenceTarget: "R2" },
@@ -127,7 +127,7 @@ const contracts = [
   { id: "mobile_event.snapshot.v1", entity: "mobile_event", domain: "mobile", fields: ["id", "snapshotAt", "source", "checksum", "payload"], purpose: "snapshot source-of-truth contract", readiness: 79, version: "v1", auditRequired: true, rbacRequired: true, rollbackRequired: true, persistenceTarget: "Prisma" },
   { id: "mobile_event.mutation.v1", entity: "mobile_event", domain: "mobile", fields: ["id", "actorId", "before", "after", "commandId", "rbacDecision"], purpose: "mutation source-of-truth contract", readiness: 79, version: "v1", auditRequired: true, rbacRequired: true, rollbackRequired: true, persistenceTarget: "D1" }
 ];
-const syncLanes = [
+const syncLanes: SotSyncLane[] = [
   { id: "sync-tasks-read", label: "Taskuri read shadow sync", domain: "tasks", direction: "source -> Work OS read model", cadence: "15m", mode: "read-shadow", readiness: 99, guardrail: "no mutation without explicit env gate", audit: "checksum + actor + source version", rollback: "restore previous snapshot" },
   { id: "sync-tasks-audit", label: "Taskuri audit envelope sync", domain: "tasks", direction: "mutation -> audit ledger", cadence: "realtime", mode: "audit-required", readiness: 99, guardrail: "audit must be written before success", audit: "before/after + RBAC decision", rollback: "mark incident and replay last snapshot" },
   { id: "sync-projects-read", label: "Proiecte read shadow sync", domain: "projects", direction: "source -> Work OS read model", cadence: "15m", mode: "read-shadow", readiness: 94, guardrail: "no mutation without explicit env gate", audit: "checksum + actor + source version", rollback: "restore previous snapshot" },
@@ -157,7 +157,7 @@ const syncLanes = [
   { id: "sync-mobile-read", label: "Mobile Field App read shadow sync", domain: "mobile", direction: "source -> Work OS read model", cadence: "15m", mode: "read-shadow", readiness: 79, guardrail: "no mutation without explicit env gate", audit: "checksum + actor + source version", rollback: "restore previous snapshot" },
   { id: "sync-mobile-audit", label: "Mobile Field App audit envelope sync", domain: "mobile", direction: "mutation -> audit ledger", cadence: "realtime", mode: "audit-required", readiness: 82, guardrail: "audit must be written before success", audit: "before/after + RBAC decision", rollback: "mark incident and replay last snapshot" }
 ];
-const reconciliation = [
+const reconciliation: SotReconciliation[] = [
   { id: "reconcile-tasks-identity", label: "Taskuri identity parity", domain: "tasks", rule: "primary key + tenant + version parity", readiness: 99, severity: "blocking", action: "block promotion when failing", evidence: "nightly diff summary" },
   { id: "reconcile-projects-identity", label: "Proiecte identity parity", domain: "projects", rule: "primary key + tenant + version parity", readiness: 94, severity: "warning", action: "block promotion when failing", evidence: "nightly diff summary" },
   { id: "reconcile-stock-identity", label: "Stocuri identity parity", domain: "stock", rule: "primary key + tenant + version parity", readiness: 91, severity: "warning", action: "block promotion when failing", evidence: "nightly diff summary" },
@@ -173,7 +173,7 @@ const reconciliation = [
   { id: "reconcile-reports-identity", label: "Reports identity parity", domain: "reports", rule: "primary key + tenant + version parity", readiness: 80, severity: "warning", action: "block promotion when failing", evidence: "nightly diff summary" },
   { id: "reconcile-mobile-identity", label: "Mobile Field App identity parity", domain: "mobile", rule: "primary key + tenant + version parity", readiness: 79, severity: "warning", action: "block promotion when failing", evidence: "nightly diff summary" }
 ];
-const flows = [
+const flows: SotFlow[] = [
   { id: "task-project", label: "Task -> Project", summary: "Task status updates project health", source: "tasks", target: "projects", status: "shadow", readiness: 86, contract: "task-project.contract.v1", adapter: "tasks-to-projects-bridge", audit: "before/after + owner + source version", rollback: "reverse bridge update and attach reconciliation diff" },
   { id: "project-stock", label: "Project -> Stock", summary: "Project phase creates stock reservation intent", source: "projects", target: "stock", status: "shadow", readiness: 87, contract: "project-stock.contract.v1", adapter: "projects-to-stock-bridge", audit: "before/after + owner + source version", rollback: "reverse bridge update and attach reconciliation diff" },
   { id: "stock-task", label: "Stock -> Task", summary: "Shortage creates task blocker", source: "stock", target: "tasks", status: "shadow", readiness: 88, contract: "stock-task.contract.v1", adapter: "stock-to-tasks-bridge", audit: "before/after + owner + source version", rollback: "reverse bridge update and attach reconciliation diff" },
@@ -187,7 +187,7 @@ const flows = [
   { id: "document-audit", label: "Document -> Audit", summary: "Document anchors evidence ledger", source: "documents", target: "audit", status: "shadow", readiness: 96, contract: "document-audit.contract.v1", adapter: "documents-to-audit-bridge", audit: "before/after + owner + source version", rollback: "reverse bridge update and attach reconciliation diff" },
   { id: "reports-executive", label: "Reports -> Management", summary: "Snapshots feed executive readiness", source: "reports", target: "audit", status: "shadow", readiness: 97, contract: "reports-executive.contract.v1", adapter: "reports-to-audit-bridge", audit: "before/after + owner + source version", rollback: "reverse bridge update and attach reconciliation diff" }
 ];
-const runbooks = [
+const runbooks: SotRunbook[] = [
   { id: "runbook-01", title: "Morning readiness", owner: "Operations Lead", steps: ["Open dashboard", "Check adapter health", "Verify reconciliation evidence", "Approve or keep read-only", "Record owner decision"], evidence: "signed note + health endpoint + audit snapshot" },
   { id: "runbook-02", title: "Adapter activation preflight", owner: "Database Owner", steps: ["Open dashboard", "Check adapter health", "Verify reconciliation evidence", "Approve or keep read-only", "Record owner decision"], evidence: "signed note + health endpoint + audit snapshot" },
   { id: "runbook-03", title: "Nightly reconciliation", owner: "Security/RBAC", steps: ["Open dashboard", "Check adapter health", "Verify reconciliation evidence", "Approve or keep read-only", "Record owner decision"], evidence: "signed note + health endpoint + audit snapshot" },
@@ -207,7 +207,7 @@ const runbooks = [
   { id: "runbook-17", title: "Project-stock-pontaj review", owner: "Security/RBAC", steps: ["Open dashboard", "Check adapter health", "Verify reconciliation evidence", "Approve or keep read-only", "Record owner decision"], evidence: "signed note + health endpoint + audit snapshot" },
   { id: "runbook-18", title: "Real adapter cutover ceremony", owner: "Warehouse Owner", steps: ["Open dashboard", "Check adapter health", "Verify reconciliation evidence", "Approve or keep read-only", "Record owner decision"], evidence: "signed note + health endpoint + audit snapshot" }
 ];
-const commands = [
+const commands: SotCommand[] = [
   { id: "cmd-01", title: "Enable read shadow", domain: "projects", state: "requires-approval", requiresApproval: true, command: "workos sot cmd-01", evidence: "admin actor + command id + affected domain + rollback plan" },
   { id: "cmd-02", title: "Disable read shadow", domain: "stock", state: "requires-approval", requiresApproval: true, command: "workos sot cmd-02", evidence: "admin actor + command id + affected domain + rollback plan" },
   { id: "cmd-03", title: "Freeze domain sync", domain: "pontaj", state: "locked", requiresApproval: true, command: "workos sot cmd-03", evidence: "admin actor + command id + affected domain + rollback plan" },
@@ -231,7 +231,7 @@ const commands = [
   { id: "cmd-21", title: "Release read-only", domain: "documents", state: "locked", requiresApproval: true, command: "workos sot cmd-21", evidence: "admin actor + command id + affected domain + rollback plan" },
   { id: "cmd-22", title: "Run go/no-go", domain: "crm", state: "requires-approval", requiresApproval: true, command: "workos sot cmd-22", evidence: "admin actor + command id + affected domain + rollback plan" }
 ];
-const risks = [
+const risks: SotRisk[] = [
   { id: "risk-01", title: "Source conflict between UI and adapter", domain: "projects", severity: "medium", status: "controlled", mitigation: "adapter guardrails + reconciliation + audit evidence + owner signoff", owner: "Operations Lead" },
   { id: "risk-02", title: "Pontaj bridge latency", domain: "stock", severity: "high", status: "monitoring", mitigation: "adapter guardrails + reconciliation + audit evidence + owner signoff", owner: "Database Owner" },
   { id: "risk-03", title: "Stock reservation mismatch", domain: "pontaj", severity: "critical", status: "blocked", mitigation: "adapter guardrails + reconciliation + audit evidence + owner signoff", owner: "Security/RBAC" },
@@ -255,7 +255,7 @@ const risks = [
   { id: "risk-21", title: "Background sync storm", domain: "documents", severity: "medium", status: "controlled", mitigation: "adapter guardrails + reconciliation + audit evidence + owner signoff", owner: "Platform Owner" },
   { id: "risk-22", title: "Queue dead letter growth", domain: "crm", severity: "high", status: "monitoring", mitigation: "adapter guardrails + reconciliation + audit evidence + owner signoff", owner: "Operations Lead" }
 ];
-const roadmap = [
+const roadmap: Release["roadmap"] = [
   { version: "5.1.0", title: "Production source cutover rehearsals", outcome: "Run cutover rehearsal for tasks, stock and pontaj sources", required: ["green adapters", "rollback drill", "tenant guard"] },
   { version: "5.2.0", title: "Global search and unified activity stream", outcome: "Expose source-of-truth events in unified Work OS activity", required: ["event contracts", "privacy filter", "index refresh"] },
   { version: "6.0.0", title: "Work OS GA operations console", outcome: "GA command console across all operational modules", required: ["go/no-go", "SLO dashboards", "incident drills"] }
