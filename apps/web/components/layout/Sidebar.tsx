@@ -101,7 +101,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
               </Link>
               {showChildren ? (
                 <div className="ml-5 mt-1 space-y-1 border-l border-white/10 pl-3">
-                  {item.children.map((child) => {
+                  {(item.children ?? []).map((child) => {
                     const childActive = pathname === child.href;
                     return <Link key={child.href} href={child.href} className={cn("block rounded-xl px-3 py-2 text-sm font-semibold text-slate-300 hover:bg-white/5 hover:text-white", childActive && "bg-emerald-600/80 text-white shadow-sm")}>{child.label}</Link>;
                   })}
@@ -137,3 +137,4 @@ function Shortcut({ href, label, icon: Icon }: { href: string; label: string; ic
     </Link>
   );
 }
+
