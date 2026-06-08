@@ -12,6 +12,7 @@ const items = [
   { href: "/proiecte", label: "Proiecte", icon: FolderKanban, expandable: true },
   { href: "/taskuri", label: "Taskuri", icon: ClipboardList, expandable: true },
   { href: "/workflows", label: "Workflow-uri", icon: GitBranch, expandable: true },
+  { href: "/work-os/data-switchboard", label: "DB Switchboard", icon: Database, badge: "5.7" },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
   { href: "/echipa", label: "Echipă / Workload", icon: Users },
   { href: "/crm", label: "CRM & Vânzări", icon: BriefcaseBusiness, expandable: true },
@@ -34,7 +35,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
     <aside className={cn("fixed inset-y-0 left-0 z-40 hidden border-r border-white/10 bg-[#071826] text-white shadow-2xl transition-all lg:flex lg:flex-col", collapsed ? "w-[86px]" : "w-[292px]")}> 
       <div className="flex h-20 items-center gap-3 px-5">
         <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-servelect-500 to-emerald-700 shadow-lg"><Zap className="h-6 w-6 fill-white/20" /></div>
-        {!collapsed && <div><div className="text-xl font-extrabold tracking-tight">SERVELECT <span className="font-semibold text-slate-300">EMP</span></div><div className="text-xs text-slate-400">Work OS · Enterprise v1.1</div></div>}
+        {!collapsed && <div><div className="text-xl font-extrabold tracking-tight">SERVELECT <span className="font-semibold text-slate-300">EMP</span></div><div className="text-xs text-slate-400">Work OS · v5.7</div></div>}
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-3 scrollbar-thin">
@@ -62,6 +63,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
             <Shortcut href="/enterprise" label="Enterprise" icon={Rocket} />
             <Shortcut href="/admin/performance" label="Performance" icon={Gauge} />
             <Shortcut href="/admin/roadmap" label="Roadmap" icon={GitBranch} />
+            <Shortcut href="/work-os/data-switchboard" label="DB Switchboard" icon={Database} />
             <Shortcut href="/documente" label="Documente" icon={FileText} />
           </div>
         </div>
