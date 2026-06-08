@@ -102,3 +102,29 @@ pnpm --filter @servelect/web dev
 Sau din VS Code: `Ctrl + Shift + P` → `Tasks: Run Task` → `SERVELECT: dev web`.
 
 Ghid complet: `docs/DEV_VSCODE.md`.
+
+## v5.5.0 — Work OS Task Execution Interaction Pack
+
+Latest local build package: v5.5.0 adds the interactive task/project execution layer on top of v5.4:
+
+- task execution cockpit on `/work-os/tasks` and `/taskuri`;
+- saved views, quick edit, bulk operations and dependency map;
+- comments/activity timeline, attachments UI and role-aware Admin/Manager controls;
+- API audit endpoint `/api/v1/work-os/task-execution-interactions`;
+- safe-by-default local/shadow-safe behavior, with persistent records planned for v5.6.0.
+
+See `docs/V55_TASK_EXECUTION_INTERACTION_PACK.md`, `docs/V55_CHANGELOG.md`, `docs/V55_QA_REPORT.md` and `docs/V55_DEPLOYMENT_REPORT.md`.
+
+
+
+## v5.6.0 — Real Persistent Records, Inline Editing & Activity Comments
+
+v5.6 continuă direcția originală SERVELECT WORK OS: platformă task-first inspirată de GoodDay/ClickUp/Linear/Asana/Monday, nu dashboard separat de energie sau stocuri.
+
+Adăugări principale:
+- `/work-os/persistent-records` — cockpit pentru recorduri persistente, inline editing și activity comments.
+- `/work-os/status` — status/procente vizibile pe site pentru Website/Web App, Task & Project Core, Backend/API, Database/Prisma/Seed, Auth/RBAC, IoT/Ops și Mobile App.
+- `/api/v1/work-os/persistent-records` și `/api/v1/work-os/status` — API read-only pentru raportul v5.6.
+- Pregătire pentru v5.7: Real Database Adapter Switchboard & Record Mutations.
+
+Scrierile reale rămân controlate; `SERVELECT_WORK_OS_WRITE_MODE` nu este activat automat.

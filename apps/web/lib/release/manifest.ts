@@ -22,10 +22,26 @@ export type ReleaseMilestone = {
   routes: string[];
 };
 
-export const SERVELECT_RELEASE_VERSION = "1.0.0";
-export const SERVELECT_RELEASE_CHANNEL = "v1.0 Enterprise Work OS Baseline";
+export const SERVELECT_RELEASE_VERSION = "5.6.0";
+export const SERVELECT_RELEASE_CHANNEL = "v5.6 Real Persistent Records, Inline Editing & Activity Comments";
 
 export const releaseMilestones: ReleaseMilestone[] = [
+  {
+    id: "v56",
+    title: "Real Persistent Records, Inline Editing & Activity Comments",
+    version: "5.6.0",
+    date: "2026-06-08",
+    summary: "Record families, inline editing cockpit, local persistence state, activity comments timeline and status/procente visible from code/site readiness.",
+    routes: ["/work-os/persistent-records", "/work-os/status", "/api/v1/work-os/persistent-records", "/api/v1/work-os/status"]
+  },
+  {
+    id: "v55",
+    title: "Work OS Task Execution Interaction Pack",
+    version: "5.5.0",
+    date: "2026-06-08",
+    summary: "Task drawer hardening, quick edit, bulk operations, saved views, dependencies, comments/activity timeline, attachments UI and role-aware interaction controls.",
+    routes: ["/work-os/tasks", "/taskuri", "/api/v1/work-os/task-execution-interactions"]
+  },
   {
     id: "v07",
     title: "Protected App + User Management",
@@ -146,7 +162,7 @@ export function getReleaseManifest() {
       name: "SERVELECT WORK OS / SERVELECT EMP",
       version: SERVELECT_RELEASE_VERSION,
       channel: SERVELECT_RELEASE_CHANNEL,
-      releaseType: "enterprise-baseline"
+      releaseType: "persistent-records-inline-editing"
     },
     summary: {
       productionScore: checklist.productionScore,
@@ -160,19 +176,19 @@ export function getReleaseManifest() {
     checklist,
     nextRecommendedVersions: [
       {
-        version: "1.1.0",
-        title: "Database Activation Pack",
-        focus: "Prisma/PostgreSQL real, seed, audit log persistent, user persistence și migrations gate."
+        version: "5.7.0",
+        title: "IoT/Pontaj/Materials Persistent Operations",
+        focus: "Leagă task execution de IoT alerts, pontaj real și rezervări materiale persistente."
       },
       {
-        version: "1.2.0",
-        title: "Mobile Field Operations Pack",
-        focus: "Expo mobile real pentru tehnicieni, checklist, QR, foto obligatorii și offline queue."
+        version: "5.8.0",
+        title: "IoT/Pontaj/Materials Persistent Operations",
+        focus: "Leagă task execution de IoT alerts, pontaj real și rezervări materiale persistente."
       },
       {
-        version: "1.3.0",
-        title: "IoT Telemetry Pack",
-        focus: "MQTT/Modbus/API ingestie reală, TimescaleDB și alert rules care generează task/ticket."
+        version: "5.8.0",
+        title: "Mobile Offline Field Operations",
+        focus: "Offline queue, QR/camera/GPS real, field technician checklists și client signature sync."
       }
     ]
   };

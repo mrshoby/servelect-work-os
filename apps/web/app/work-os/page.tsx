@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { WorkOsBadge, WorkOsCard, WorkOsMetric, WorkOsProgress, WorkOsShell } from "@/components/work-os/WorkOsBlocks";
 import { getWorkOsDashboard, getWorkOsReadiness } from "@/lib/enterprise/work-os-core-modules";
 
@@ -5,13 +6,26 @@ export default function WorkOsPage() {
   const dashboard = getWorkOsDashboard();
   const readiness = getWorkOsReadiness();
   return (
-    <WorkOsShell eyebrow="SERVELECT WORK OS v5.2" title="Unified Work OS Core" subtitle="Platformă reală pentru proiecte, taskuri, stocuri, pontaj, CRM, ofertare, audit și operațiuni energetice.">
+    <WorkOsShell eyebrow="SERVELECT WORK OS v5.6" title="Unified Work OS Core + Persistent Records" subtitle="Platformă reală pentru proiecte, taskuri, stocuri, pontaj, CRM, ofertare, audit și operațiuni energetice. v5.6 adaugă recorduri persistente demo, inline editing și activity comments.">
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <WorkOsMetric label="Proiecte active" value={dashboard.kpis.activeProjects} />
         <WorkOsMetric label="Taskuri deschise" value={dashboard.kpis.openTasks} />
         <WorkOsMetric label="Blocaje" value={dashboard.kpis.blockedTasks} />
         <WorkOsMetric label="Valoare oferte" value={`€${dashboard.kpis.openOfferValueEur.toLocaleString("ro-RO")}`} />
       </section>
+
+
+
+      <WorkOsCard title="v5.6 · Persistent Records & status" subtitle="Următorul update major după v5.5: inline editing, activity comments și procente vizibile pe site/cod.">
+        <div className="grid gap-3 md:grid-cols-2">
+          <Link href="/work-os/persistent-records" className="rounded-2xl bg-emerald-50 p-4 font-black text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100">
+            Deschide v5.6 Persistent Records
+          </Link>
+          <Link href="/work-os/status" className="rounded-2xl bg-blue-50 p-4 font-black text-blue-800 ring-1 ring-blue-200 hover:bg-blue-100">
+            Vezi status/procente pe site
+          </Link>
+        </div>
+      </WorkOsCard>
 
       <WorkOsCard title="Status/procente vizibile pe site" subtitle="Readiness pe ariile majore ale aplicației.">
         <div className="grid gap-4 lg:grid-cols-2">
