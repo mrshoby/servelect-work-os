@@ -386,6 +386,15 @@ export function V64TaskuriFunctionalArea({ pageId }: { pageId: V64PageId }) {
   const [modal, setModal] = useState<ModalKind>(null);
   const [message, setMessage] = useState<string>("");
 
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const custom = event as CustomEvent<{ kind?: ModalKind }>;
+      setModal(custom.detail?.kind ?? "project");
+    };
+    window.addEventListener("v64-open-action-modal", handler);
+    return () => window.removeEventListener("v64-open-action-modal", handler);
+  }, []);
+
   const visibleTasks = useMemo(() => store.tasks.filter((task) => v64CanViewTask(store.currentUser, task)), [store.tasks, store.currentUser]);
   const filteredTasks = useMemo(() => filterTasks(visibleTasks, filters, store.currentUser), [visibleTasks, filters, store.currentUser]);
   const selectedTask = useMemo(() => store.tasks.find((task) => task.id === selectedTaskId) ?? null, [store.tasks, selectedTaskId]);
@@ -417,8 +426,9 @@ export function V64TaskuriFunctionalArea({ pageId }: { pageId: V64PageId }) {
       <div className="mx-auto max-w-[1880px] space-y-5 px-4 py-5 lg:px-7">
         <TaskuriTopbar meta={meta} currentUser={store.currentUser} unread={unread} onCreate={handleQuickCreate} onSearch={(query) => setFilters((state) => ({ ...state, query }))} onMarkAll={store.markAllNotificationsRead} onSwitchUser={store.setCurrentUserId} />
         <KpiStrip pageId={pageId} tasks={visibleTasks} tickets={store.tickets} projects={store.projects} approvals={store.approvals} />
-        <TaskuriSubnav pageId={pageId} />
-        <FiltersBar filters={filters} setFilters={setFilters} saveView={() => { store.saveView(`Vedere ${store.savedViews.length + 1}`, filters); toast("Vedere salvată în localStorage."); }} savedViews={store.savedViews} />
+        {pageId === "board" || pageId === "table" ? (
+          <FiltersBar filters={filters} setFilters={setFilters} saveView={() => { store.saveView(`Vedere ${store.savedViews.length + 1}`, filters); toast("Vedere salvată în localStorage."); }} savedViews={store.savedViews} />
+        ) : null}
         {message ? <div className="fixed right-6 top-6 z-50 rounded-2xl border border-emerald-100 bg-white px-4 py-3 text-sm font-black text-emerald-700 shadow-2xl">{message}</div> : null}
         {renderPage(pageId, { store, tasks: filteredTasks, visibleTasks, filters, setFilters, selectedRows, setSelectedRows, density, setDensity, openTask, setModal, toast })}
         <CompletionFooter />
@@ -652,7 +662,16 @@ function Select({ label, value, onChange, options }: { label: string; value: str
 }
 
 function Panel({ title, badge, children, action }: { title: string; badge?: string | number; children: ReactNode; action?: ReactNode }) {
-  return <section className="rounded-[1.35rem] border border-slate-200 bg-white shadow-sm"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4"><div className="flex items-center gap-2"><h2 className="text-base font-black text-slate-950">{title}</h2>{badge !== undefined ? <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-black text-emerald-700">{badge}</span> : null}</div>{action ?? <button className="text-xs font-black text-emerald-700">Vezi toate</button>}</div><div className="p-5">{children}</div></section>;
+  const defaultAction = (
+    <button
+      type="button"
+      onClick={() => window.dispatchEvent(new CustomEvent("v64-open-action-modal", { detail: { kind: "project" } }))}
+      className="text-xs font-black text-emerald-700 hover:text-emerald-900"
+    >
+      Vezi toate
+    </button>
+  );
+  return <section className="rounded-[1.35rem] border border-slate-200 bg-white shadow-sm"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4"><div className="flex items-center gap-2"><h2 className="text-base font-black text-slate-950">{title}</h2>{badge !== undefined ? <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-black text-emerald-700">{badge}</span> : null}</div>{action ?? defaultAction}</div><div className="p-5">{children}</div></section>;
 }
 
 function OverviewPage(ctx: PageContext) {
@@ -810,8 +829,20 @@ function QuickStats({ tasks }: { tasks: V64Task[] }) {
 }
 
 function CalendarGanttPage(ctx: PageContext) {
+  const [calendarMode, setCalendarMode] = useState<"Lună" | "Săptămână" | "Zi" | "Listă">("Lună");
+  const [monthOffset, setMonthOffset] = useState(0);
+  const monthLabel = monthOffset === 0 ? "Mai 2024" : monthOffset < 0 ? "Aprilie 2024" : "Iunie 2024";
+  const modeButton = (mode: "Lună" | "Săptămână" | "Zi" | "Listă") => (
+    <button
+      type="button"
+      onClick={() => { setCalendarMode(mode); ctx.toast(`Calendar: vedere ${mode}`); }}
+      className={calendarMode === mode ? "rounded-lg bg-blue-50 px-3 py-1 text-xs font-black text-blue-700" : "rounded-lg border px-3 py-1 text-xs font-black"}
+    >
+      {mode}
+    </button>
+  );
   return <div className="grid gap-5 xl:grid-cols-[1.1fr_1.2fr_300px]">
-    <Panel title="Mai 2024" action={<div className="flex gap-2"><button className="rounded-lg border px-2 py-1"><ChevronLeft className="h-4 w-4" /></button><button className="rounded-lg border px-2 py-1"><ChevronRight className="h-4 w-4" /></button><button className="rounded-lg border px-3 py-1 text-xs font-black">Astăzi</button></div>}><MonthCalendar tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
+    <Panel title={monthLabel} action={<div className="flex gap-2"><button type="button" onClick={() => setMonthOffset((value) => value - 1)} className="rounded-lg border px-2 py-1"><ChevronLeft className="h-4 w-4" /></button><button type="button" onClick={() => setMonthOffset((value) => value + 1)} className="rounded-lg border px-2 py-1"><ChevronRight className="h-4 w-4" /></button><button type="button" onClick={() => { setMonthOffset(0); ctx.toast("Calendar revenit la luna curentă."); }} className="rounded-lg border px-3 py-1 text-xs font-black">Astăzi</button>{modeButton("Lună")}{modeButton("Săptămână")}{modeButton("Zi")}{modeButton("Listă")}</div>}><MonthCalendar tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
     <Panel title="Gantt proiecte"><Gantt tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
     <div className="space-y-5"><Panel title="Agenda zilei"><Agenda tasks={ctx.tasks} onOpen={ctx.openTask} /></Panel><Panel title="Upcoming deadlines"><AlertList tasks={ctx.tasks.filter((task) => task.dueDate <= "2024-06-03")} onOpen={ctx.openTask} /></Panel><Panel title="Filtre calendar"><CalendarFilters /></Panel></div>
     <Panel title="Milestones"><MilestoneList /></Panel><Panel title="Evenimente"><EventsList /></Panel><Panel title="Dependency alerts"><DependencyList tasks={ctx.tasks} openTask={ctx.openTask} /></Panel><Panel title="Tickets due"><TicketsDue tickets={ctx.store.tickets} /></Panel><Panel title="Aprobări în așteptare"><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} /></Panel>
@@ -819,8 +850,18 @@ function CalendarGanttPage(ctx: PageContext) {
 }
 
 function WorkloadApprovalsPage(ctx: PageContext) {
+  const [workloadMode, setWorkloadMode] = useState<"Zi" | "Săptămână" | "Lună">("Săptămână");
+  const workloadButton = (mode: "Zi" | "Săptămână" | "Lună") => (
+    <button
+      type="button"
+      onClick={() => { setWorkloadMode(mode); ctx.toast(`Workload: vedere ${mode}`); }}
+      className={workloadMode === mode ? "rounded-lg bg-blue-50 px-3 py-1 text-xs font-black text-blue-700" : "rounded-lg border px-3 py-1 text-xs font-black"}
+    >
+      {mode}
+    </button>
+  );
   return <div className="grid gap-5 xl:grid-cols-[1fr_1fr_320px]">
-    <Panel title="Workload echipă" action={<div className="flex gap-2"><button className="rounded-lg border px-3 py-1 text-xs font-black">Zi</button><button className="rounded-lg bg-blue-50 px-3 py-1 text-xs font-black text-blue-700">Săptămână</button><button className="rounded-lg border px-3 py-1 text-xs font-black">Lună</button></div>}><WorkloadHeatmap tasks={ctx.visibleTasks} openTask={ctx.openTask} /></Panel>
+    <Panel title="Workload echipă" action={<div className="flex gap-2">{workloadButton("Zi")}{workloadButton("Săptămână")}{workloadButton("Lună")}</div>}><WorkloadHeatmap tasks={ctx.visibleTasks} openTask={ctx.openTask} /></Panel>
     <Panel title="Aprobări în așteptare" badge={ctx.store.approvals.filter((approval) => approval.status === "pending").length}><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} detailed /></Panel>
     <div className="space-y-5"><Panel title="Alerte manager"><ManagerAlerts tasks={ctx.visibleTasks} /></Panel><Panel title="Resurse subutilizate"><UnderusedResources /></Panel><Panel title="Escaladări & Blocaje"><DependencyList tasks={ctx.tasks} openTask={ctx.openTask} /></Panel></div>
     <Panel title="Taskuri echipă (după responsabil)"><TeamTasksSummary tasks={ctx.visibleTasks} /></Panel><Panel title="Certificări & Roluri"><Certifications /></Panel><Panel title="Activitate aprobări"><ApprovalActivity approvals={ctx.store.approvals} /></Panel>
@@ -1014,5 +1055,5 @@ function TaskDrawer({ task, currentUser, onClose, onUpdate, onAssign, onStatus, 
 function DrawerSelect({ label, value, options, onChange, labelFor }: { label: string; value: string; options: string[]; onChange: (value: string) => void; labelFor?: (value: string) => string }) { return <label className="text-xs font-black text-slate-500">{label}<select value={value} onChange={(event) => onChange(event.target.value)} className="mt-1 w-full rounded-xl border p-2 text-sm text-slate-700">{options.map((option) => <option key={option} value={option}>{labelFor ? labelFor(option) : option}</option>)}</select></label>; }
 
 function EmptyState({ label }: { label: string }) { return <div className="rounded-2xl border border-dashed border-slate-200 p-6 text-center text-sm font-bold text-slate-400">{label}</div>; }
-function ActionModal({ kind, onClose }: { kind: ModalKind; onClose: () => void }) { if (!kind) return null; return <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4"><div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl"><div className="flex items-center justify-between"><h3 className="text-xl font-black">Acțiune {kind}</h3><button onClick={onClose}><X className="h-5 w-5" /></button></div><p className="mt-3 text-sm font-semibold text-slate-500">Acțiune mock funcțională. În backend real, acest flux va apela adapterul API/Prisma/R2 corespunzător.</p><button onClick={onClose} className="mt-5 rounded-2xl bg-emerald-700 px-4 py-2 text-sm font-black text-white">Confirmă</button></div></div>; }
+function ActionModal({ kind, onClose }: { kind: ModalKind; onClose: () => void }) { if (!kind) return null; return <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4"><div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl"><div className="flex items-center justify-between"><h3 className="text-xl font-black">Acțiune {kind}</h3><button onClick={onClose}><X className="h-5 w-5" /></button></div><p className="mt-3 text-sm font-semibold text-slate-500">Acțiune deschisă din UI. În demo salvează/confirmă local; în backend real acest flux va apela adapterul API/Prisma/R2 corespunzător.</p><button onClick={onClose} className="mt-5 rounded-2xl bg-emerald-700 px-4 py-2 text-sm font-black text-white">Confirmă</button></div></div>; }
 function CompletionFooter() { return <footer className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-sm"><div className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Procentaj implementare v6.4</div><div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">{v64CompletionStatus.map((item) => <div key={item.label} className="rounded-2xl bg-slate-50 p-3"><div className="flex justify-between text-xs font-black"><span>{item.label}</span><span className="text-emerald-700">{item.percent}%</span></div><div className="mt-2 h-1.5 rounded-full bg-white"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${item.percent}%` }} /></div></div>)}</div></footer>; }
