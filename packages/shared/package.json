@@ -1,6 +1,6 @@
 {
   "name": "@servelect/shared",
-  "version": "6.4.3",
+  "version": "6.4.4",
   "private": true,
   "type": "module",
   "main": "./index.ts",

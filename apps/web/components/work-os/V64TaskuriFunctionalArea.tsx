@@ -727,7 +727,7 @@ function ActiveProjectsPage(ctx: PageContext) {
     <Panel title="Linii proiecte & inițiative active"><InitiativeLanes projects={active} tasks={ctx.visibleTasks} openTask={ctx.openTask} /></Panel>
     <Panel title="Chat proiecte"><ProjectChat /></Panel>
     <Panel title="Milestones active"><MilestoneList /></Panel>
-    <Panel title="Documente recente"><DocumentList /></Panel>
+    <Panel title="Documente recente"><DocumentList setModal={ctx.setModal} /></Panel>
   </div>;
 }
 
@@ -756,24 +756,39 @@ function CompletedProjectsPage(ctx: PageContext) {
 }
 
 function BoardPage(ctx: PageContext) {
+  const [activeBoard, setActiveBoard] = useState("pv");
+  const [savedView, setSavedView] = useState("default");
+  function handleBoardChange(value: string) {
+    setActiveBoard(value);
+    ctx.toast(value === "team" ? "Board echipă activat." : "Board PV Operations activat.");
+  }
+  function handleSavedView(value: string) {
+    setSavedView(value);
+    if (value === "blocked") ctx.setFilters((state) => ({ ...state, savedView: "blocked" }));
+    if (value === "urgent") ctx.setFilters((state) => ({ ...state, savedView: "high-priority" }));
+    if (value === "default") ctx.setFilters((state) => ({ ...state, savedView: "all" }));
+    ctx.toast(`Saved view aplicat: ${value}`);
+  }
   return <div className="grid gap-5 xl:grid-cols-[1fr_320px]">
-    <section className="rounded-[1.35rem] border border-slate-200 bg-white p-4 shadow-sm"><div className="mb-4 flex flex-wrap items-center justify-between gap-2"><div className="flex gap-2"><Select label="Active board" value="pv" onChange={() => undefined} options={[{ value: "pv", label: "PV Operations" }]} /><Select label="Saved view" value="default" onChange={() => undefined} options={[{ value: "default", label: "Default" }]} /></div><button onClick={() => { const id = ctx.store.createTask("Backlog"); ctx.openTask(id); }} className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-black text-emerald-700">+ Add task</button></div><div className="grid gap-3 xl:grid-cols-6">{statuses.map((status) => <BoardColumn key={status} status={status} tasks={ctx.tasks.filter((task) => task.status === status)} openTask={ctx.openTask} move={ctx.store.changeTaskStatus} create={() => { const id = ctx.store.createTask(status); ctx.openTask(id); }} />)}</div></section>
+    <section className="rounded-[1.35rem] border border-slate-200 bg-white p-4 shadow-sm"><div className="mb-4 flex flex-wrap items-center justify-between gap-2"><div className="flex gap-2"><Select label="Active board" value={activeBoard} onChange={handleBoardChange} options={[{ value: "pv", label: "PV Operations" }, { value: "team", label: "Team board" }]} /><Select label="Saved view" value={savedView} onChange={handleSavedView} options={[{ value: "default", label: "Default" }, { value: "blocked", label: "Blocate" }, { value: "urgent", label: "Urgente" }]} /></div><button onClick={() => { const id = ctx.store.createTask("Backlog"); ctx.openTask(id); }} className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-black text-emerald-700">+ Add task</button></div><div className="grid gap-3 xl:grid-cols-6">{statuses.map((status) => <BoardColumn key={status} status={status} tasks={ctx.tasks.filter((task) => task.status === status)} openTask={ctx.openTask} move={ctx.store.changeTaskStatus} create={() => { const id = ctx.store.createTask(status); ctx.openTask(id); }} />)}</div></section>
     <div className="space-y-5"><Panel title="Acțiuni necesare" badge="5"><AlertList tasks={ctx.tasks.filter((task) => task.priority === "Urgent" || task.status === "Blocat")} onOpen={ctx.openTask} /></Panel><Panel title="Taskuri întârziate" badge={ctx.tasks.filter(isOverdue).length}><AlertList tasks={ctx.tasks.filter(isOverdue)} onOpen={ctx.openTask} /></Panel><Panel title="Statistici rapide"><QuickStats tasks={ctx.tasks} /></Panel></div>
   </div>;
 }
 
 function TablePage(ctx: PageContext) {
+  const [grouping, setGrouping] = useState("none");
   const allSelected = ctx.tasks.length > 0 && ctx.tasks.every((task) => ctx.selectedRows.includes(task.id));
+  const tableTasks = useMemo(() => grouping === "status" ? [...ctx.tasks].sort((a, b) => a.status.localeCompare(b.status)) : ctx.tasks, [ctx.tasks, grouping]);
   function toggleAll() { ctx.setSelectedRows(allSelected ? [] : ctx.tasks.map((task) => task.id)); }
   function toggle(id: string) { ctx.setSelectedRows((rows) => rows.includes(id) ? rows.filter((row) => row !== id) : [...rows, id]); }
   return <div className="grid gap-5 xl:grid-cols-[1fr_300px]">
-    <section className="rounded-[1.35rem] border border-slate-200 bg-white shadow-sm"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4"><div className="text-base font-black">{ctx.tasks.length} taskuri · <span className="text-emerald-700">Selectate {ctx.selectedRows.length}</span></div><div className="flex gap-2"><Select label="Grupare" value="none" onChange={() => undefined} options={[{ value: "none", label: "Niciuna" }, { value: "status", label: "Status" }]} /><Select label="Densitate" value={ctx.density} onChange={(value) => ctx.setDensity(value as Density)} options={[{ value: "compact", label: "Compact" }, { value: "medium", label: "Mediu" }, { value: "relaxed", label: "Relaxat" }]} /></div></div><div className="overflow-x-auto"><table className="min-w-[1280px] w-full text-left text-sm"><thead className="bg-slate-50 text-[11px] uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3"><input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>{["ID", "Task", "Project", "Tip", "Status", "Prioritate", "Assignee", "Owner", "Deadline", "Progress", "Time tracked", "Dependencies", "Tags", "Custom field"].map((head) => <th key={head} className="px-4 py-3 font-black">{head}</th>)}</tr></thead><tbody>{ctx.tasks.map((task) => <TaskTableRow key={task.id} task={task} selected={ctx.selectedRows.includes(task.id)} toggle={toggle} openTask={ctx.openTask} changeStatus={ctx.store.changeTaskStatus} assign={ctx.store.assignTask} density={ctx.density} />)}</tbody></table></div></section>
+    <section className="rounded-[1.35rem] border border-slate-200 bg-white shadow-sm"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4"><div className="text-base font-black">{ctx.tasks.length} taskuri · <span className="text-emerald-700">Selectate {ctx.selectedRows.length}</span></div><div className="flex gap-2"><Select label="Grupare" value={grouping} onChange={(value) => { setGrouping(value); ctx.toast(value === "status" ? "Tabel grupat după status." : "Gruparea tabelului a fost resetată."); }} options={[{ value: "none", label: "Niciuna" }, { value: "status", label: "Status" }]} /><Select label="Densitate" value={ctx.density} onChange={(value) => ctx.setDensity(value as Density)} options={[{ value: "compact", label: "Compact" }, { value: "medium", label: "Mediu" }, { value: "relaxed", label: "Relaxat" }]} /></div></div><div className="overflow-x-auto"><table className="min-w-[1280px] w-full text-left text-sm"><thead className="bg-slate-50 text-[11px] uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3"><input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>{["ID", "Task", "Project", "Tip", "Status", "Prioritate", "Assignee", "Owner", "Deadline", "Progress", "Time tracked", "Dependencies", "Tags", "Custom field"].map((head) => <th key={head} className="px-4 py-3 font-black">{head}</th>)}</tr></thead><tbody>{tableTasks.map((task) => <TaskTableRow key={task.id} task={task} selected={ctx.selectedRows.includes(task.id)} toggle={toggle} openTask={ctx.openTask} changeStatus={ctx.store.changeTaskStatus} assign={ctx.store.assignTask} density={ctx.density} />)}</tbody></table></div></section>
     <div className="space-y-5"><Panel title="Acțiuni în masă" badge={`${ctx.selectedRows.length} selectate`}><BulkActions rows={ctx.selectedRows} users={v64Users} onStatus={(status) => ctx.store.bulkUpdate(ctx.selectedRows, { status })} onPriority={(priority) => ctx.store.bulkUpdate(ctx.selectedRows, { priority })} onAssignee={(assigneeId) => ctx.store.bulkUpdate(ctx.selectedRows, { assigneeId })} onDelete={() => { ctx.store.deleteTasks(ctx.selectedRows); ctx.setSelectedRows([]); }} /></Panel><Panel title="Filtre rapide"><QuickFilters setFilters={ctx.setFilters} /></Panel><Panel title="Setări vedere"><ViewSettings density={ctx.density} setDensity={ctx.setDensity} /></Panel></div>
     <Panel title="Rezumat selecție"><SelectionSummary rows={ctx.selectedRows} tasks={ctx.tasks} /></Panel><Panel title="Modificări recente"><ActivityRows tasks={ctx.visibleTasks} /></Panel><Panel title="Export & Integrări"><ExportIntegrations setModal={ctx.setModal} /></Panel>
   </div>;
 }
 
-function DocumentList() {
+function DocumentList({ setModal }: { setModal?: (kind: ModalKind) => void }) {
   const rows = [
     { title: "Plan de securitate – P-2024-0187.pdf", owner: "Mihai Ionescu", time: "acum 10m", tone: "text-emerald-700 bg-emerald-50" },
     { title: "Aviz de racordare – P-2024-0192.pdf", owner: "Cristian Radu", time: "acum 32m", tone: "text-red-700 bg-red-50" },
@@ -784,7 +799,7 @@ function DocumentList() {
   return (
     <div className="divide-y divide-slate-100">
       {rows.map((row) => (
-        <button key={row.title} onClick={() => undefined} className="grid w-full grid-cols-[32px_1fr_70px] items-center gap-3 py-3 text-left text-sm hover:bg-slate-50">
+        <button key={row.title} onClick={() => setModal?.("handover")} className="grid w-full grid-cols-[32px_1fr_70px] items-center gap-3 py-3 text-left text-sm hover:bg-slate-50">
           <span className={`flex h-8 w-8 items-center justify-center rounded-xl ${row.tone}`}>
             <FileText className="h-4 w-4" />
           </span>
@@ -844,7 +859,7 @@ function CalendarGanttPage(ctx: PageContext) {
   return <div className="grid gap-5 xl:grid-cols-[1.1fr_1.2fr_300px]">
     <Panel title={monthLabel} action={<div className="flex gap-2"><button type="button" onClick={() => setMonthOffset((value) => value - 1)} className="rounded-lg border px-2 py-1"><ChevronLeft className="h-4 w-4" /></button><button type="button" onClick={() => setMonthOffset((value) => value + 1)} className="rounded-lg border px-2 py-1"><ChevronRight className="h-4 w-4" /></button><button type="button" onClick={() => { setMonthOffset(0); ctx.toast("Calendar revenit la luna curentă."); }} className="rounded-lg border px-3 py-1 text-xs font-black">Astăzi</button>{modeButton("Lună")}{modeButton("Săptămână")}{modeButton("Zi")}{modeButton("Listă")}</div>}><MonthCalendar tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
     <Panel title="Gantt proiecte"><Gantt tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
-    <div className="space-y-5"><Panel title="Agenda zilei"><Agenda tasks={ctx.tasks} onOpen={ctx.openTask} /></Panel><Panel title="Upcoming deadlines"><AlertList tasks={ctx.tasks.filter((task) => task.dueDate <= "2024-06-03")} onOpen={ctx.openTask} /></Panel><Panel title="Filtre calendar"><CalendarFilters /></Panel></div>
+    <div className="space-y-5"><Panel title="Agenda zilei"><Agenda tasks={ctx.tasks} onOpen={ctx.openTask} /></Panel><Panel title="Upcoming deadlines"><AlertList tasks={ctx.tasks.filter((task) => task.dueDate <= "2024-06-03")} onOpen={ctx.openTask} /></Panel><Panel title="Filtre calendar"><CalendarFilters setFilters={ctx.setFilters} toast={ctx.toast} /></Panel></div>
     <Panel title="Milestones"><MilestoneList /></Panel><Panel title="Evenimente"><EventsList /></Panel><Panel title="Dependency alerts"><DependencyList tasks={ctx.tasks} openTask={ctx.openTask} /></Panel><Panel title="Tickets due"><TicketsDue tickets={ctx.store.tickets} /></Panel><Panel title="Aprobări în așteptare"><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} /></Panel>
   </div>;
 }
@@ -1025,7 +1040,11 @@ function Gantt({ tasks, openTask }: { tasks: V64Task[]; openTask: (taskId: strin
   return <div className="space-y-3">{tasks.slice(0, 8).map((task, index) => <button key={task.id} onClick={() => openTask(task.id)} className="grid w-full grid-cols-[180px_1fr_50px] items-center gap-3 text-left"><div><b>{task.projectCode}</b><div className="text-xs text-slate-500">{task.title}</div></div><div className="h-8 rounded-xl bg-slate-100 p-1"><div className={(task.status === "Blocat" ? "bg-red-500" : task.status === "Review" ? "bg-violet-500" : "bg-emerald-600") + " h-full rounded-lg text-right text-[10px] font-black text-white"} style={{ width: `${Math.max(15, task.progress)}%`, marginLeft: `${(index % 4) * 8}%` }}>{task.progress}%</div></div><span className="text-xs font-black">{task.dueDate.slice(5)}</span></button>)}</div>;
 }
 
-function CalendarFilters() { return <div className="grid grid-cols-2 gap-2"><Select label="Proiecte" value="all" onChange={() => undefined} options={[{ value: "all", label: "Toate" }]} /><Select label="Echipă" value="all" onChange={() => undefined} options={[{ value: "all", label: "Toți" }]} /><Select label="Tip" value="all" onChange={() => undefined} options={[{ value: "all", label: "Toate" }]} /><Select label="Status" value="all" onChange={() => undefined} options={[{ value: "all", label: "Toate" }]} /></div>; }
+function CalendarFilters({ setFilters, toast }: { setFilters: PageContext["setFilters"]; toast: (text: string) => void }) {
+  const [teamFilter, setTeamFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
+  return <div className="grid grid-cols-2 gap-2"><Select label="Proiecte" value="all" onChange={(value) => { setFilters((state) => ({ ...state, projectId: value })); toast("Filtru proiect calendar aplicat."); }} options={[{ value: "all", label: "Toate" }, ...v64Projects.map((project) => ({ value: project.id, label: project.code }))]} /><Select label="Echipă" value={teamFilter} onChange={(value) => { setTeamFilter(value); toast("Filtru echipă calendar aplicat."); }} options={[{ value: "all", label: "Toți" }, ...v64Departments.map((department) => ({ value: department.id, label: department.name }))]} /><Select label="Tip" value={typeFilter} onChange={(value) => { setTypeFilter(value); setFilters((state) => ({ ...state, type: value })); toast("Filtru tip task aplicat."); }} options={[{ value: "all", label: "Toate" }, { value: "Task", label: "Task" }, { value: "Milestone", label: "Milestone" }, { value: "Ticket", label: "Ticket" }]} /><Select label="Status" value="all" onChange={(value) => { setFilters((state) => ({ ...state, status: value })); toast("Filtru status calendar aplicat."); }} options={[{ value: "all", label: "Toate" }, ...statuses.map((status) => ({ value: status, label: status }))]} /></div>;
+}
 function MilestoneList() { return <SmallRows rows={["PIF – P-2024-0187 · 09 Mai", "Recepție – P-2024-0185 · 17 Mai", "Predare – P-2024-0179 · 30 Mai", "Recepție – P-2024-0203 · 25 Mai"]} tone="green" />; }
 function EventsList() { return <SmallRows rows={["Standup echipă · Zilnic 09:00", "Review săptămânal · Vin 11:00", "Comitet proiecte · Lun 10:00", "Demo client · One-time"]} />; }
 function TicketsDue({ tickets }: { tickets: V64Ticket[] }) { return <SmallRows rows={tickets.slice(0, 5).map((ticket) => `${ticket.subject} · ${minToSla(ticket.slaMinutes)}`)} tone="orange" />; }
