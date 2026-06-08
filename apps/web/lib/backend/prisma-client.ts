@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type PrismaClientLike = Record<string, any> & {
   $connect?: () => Promise<void>;
   $disconnect?: () => Promise<void>;

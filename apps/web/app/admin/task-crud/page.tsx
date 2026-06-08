@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Activity, CheckCircle2, Database, GitBranch, ListChecks, RefreshCcw, ServerCog, ShieldCheck } from "lucide-react";
 
 import { Badge } from "@/components/ui/Badge";
@@ -25,9 +26,9 @@ export default function TaskCrudAdminPage() {
         title="Task & Project CRUD"
         subtitle="v1.7.0 — API-backed Store pentru nucleul Work OS: taskuri, proiecte, update, delete, reset și contract API."
       >
-        <a href="/api/v1/tasks" className="btn-secondary">Tasks API</a>
-        <a href="/api/v1/projects" className="btn-secondary">Projects API</a>
-        <a href="/api/v1/enterprise/task-crud-health" className="btn-primary">Health</a>
+        <Link href="/api/v1/tasks" className="btn-secondary">Tasks API</Link>
+        <Link href="/api/v1/projects" className="btn-secondary">Projects API</Link>
+        <Link href="/api/v1/enterprise/task-crud-health" className="btn-primary">Health</Link>
       </PageHeader>
 
       <section className="mb-5 grid gap-4 xl:grid-cols-[1.3fr_0.7fr]">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ActivityLog, Project, Task, Priority, TaskStatus, ProjectPhase } from "@servelect/shared";
 
 export const taskStatusToDb: Record<TaskStatus, string> = {

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ShieldCheck, UserPlus } from "lucide-react";
 import { getAuthUsers, toPublicAuthUser } from "@/lib/auth/demo-users";
 import { UserManagementPanel } from "@/components/admin/UserManagementPanel";
@@ -12,12 +13,12 @@ export default function AdminUsersPage() {
         title="Utilizatori & RBAC"
         subtitle="Administrare roluri, permisiuni, sesiuni demo și pregătire pentru protected app / SSO."
       >
-        <a href="/api/v1/auth/users" className="btn-secondary">
+        <Link href="/api/v1/auth/users" className="btn-secondary">
           <ShieldCheck className="h-4 w-4" /> API users
-        </a>
-        <a href="/login" className="btn-primary">
+        </Link>
+        <Link href="/login" className="btn-primary">
           <UserPlus className="h-4 w-4" /> Login demo
-        </a>
+        </Link>
       </PageHeader>
 
       <UserManagementPanel initialUsers={users} />

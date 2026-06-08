@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ApprovalRequest, IoTAlert, MaintenanceTicket, Project, Task, TaskStatus } from "@servelect/shared";
 import type {
   BackendSnapshot,
