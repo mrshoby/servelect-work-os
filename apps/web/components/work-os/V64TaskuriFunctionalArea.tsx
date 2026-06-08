@@ -808,6 +808,7 @@ function QuickStats({ tasks }: { tasks: V64Task[] }) {
     </div>
   );
 }
+
 function CalendarGanttPage(ctx: PageContext) {
   return <div className="grid gap-5 xl:grid-cols-[1.1fr_1.2fr_300px]">
     <Panel title="Mai 2024" action={<div className="flex gap-2"><button className="rounded-lg border px-2 py-1"><ChevronLeft className="h-4 w-4" /></button><button className="rounded-lg border px-2 py-1"><ChevronRight className="h-4 w-4" /></button><button className="rounded-lg border px-3 py-1 text-xs font-black">Astăzi</button></div>}><MonthCalendar tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
@@ -1015,4 +1016,3 @@ function DrawerSelect({ label, value, options, onChange, labelFor }: { label: st
 function EmptyState({ label }: { label: string }) { return <div className="rounded-2xl border border-dashed border-slate-200 p-6 text-center text-sm font-bold text-slate-400">{label}</div>; }
 function ActionModal({ kind, onClose }: { kind: ModalKind; onClose: () => void }) { if (!kind) return null; return <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/40 p-4"><div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl"><div className="flex items-center justify-between"><h3 className="text-xl font-black">Acțiune {kind}</h3><button onClick={onClose}><X className="h-5 w-5" /></button></div><p className="mt-3 text-sm font-semibold text-slate-500">Acțiune mock funcțională. În backend real, acest flux va apela adapterul API/Prisma/R2 corespunzător.</p><button onClick={onClose} className="mt-5 rounded-2xl bg-emerald-700 px-4 py-2 text-sm font-black text-white">Confirmă</button></div></div>; }
 function CompletionFooter() { return <footer className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-sm"><div className="mb-3 text-xs font-black uppercase tracking-[0.18em] text-emerald-700">Procentaj implementare v6.4</div><div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">{v64CompletionStatus.map((item) => <div key={item.label} className="rounded-2xl bg-slate-50 p-3"><div className="flex justify-between text-xs font-black"><span>{item.label}</span><span className="text-emerald-700">{item.percent}%</span></div><div className="mt-2 h-1.5 rounded-full bg-white"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${item.percent}%` }} /></div></div>)}</div></footer>; }
-

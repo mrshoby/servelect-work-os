@@ -137,4 +137,3 @@ function Shortcut({ href, label, icon: Icon }: { href: string; label: string; ic
     </Link>
   );
 }
-
