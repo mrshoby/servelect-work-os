@@ -6,7 +6,6 @@ import {
   maintenanceTickets,
   projects,
   tasks,
-  timeEntries,
   users,
   type Task
 } from "@servelect/shared";
@@ -224,7 +223,8 @@ export function getV56InlineEditRecords(): V56InlineEditRecord[] {
 }
 
 export function getV56ActivityComments(): V56ActivityComment[] {
-  const base = tasks.flatMap((task) => [
+  const demoTimeEntryCount = tasks.filter((task) => task.trackedHours > 0).length;
+  const base: V56ActivityComment[] = tasks.flatMap((task) => [
     ...task.comments.map((comment) => ({
       id: `comment-${comment.id}`,
       recordId: task.id,
@@ -249,15 +249,15 @@ export function getV56ActivityComments(): V56ActivityComment[] {
       id: "v56-inline-1",
       recordId: "t10",
       author: "George Stan",
-      kind: "time",
-      body: `Pontaj pregătit pentru ${timeEntries.length} intrări demo legate de taskuri.`,
+      kind: "time" as const,
+      body: `Pontaj pregătit pentru ${demoTimeEntryCount} intrări demo legate de taskuri.`,
       createdAt: "2024-05-18T10:15:00"
     },
     {
       id: "v56-approval-1",
       recordId: "t9",
       author: "Alexandra Rusu",
-      kind: "approval",
+      kind: "approval" as const,
       body: "Comentariu de aprobare pregătit pentru ofertă și buget proiect.",
       createdAt: "2024-05-18T11:35:00"
     }
