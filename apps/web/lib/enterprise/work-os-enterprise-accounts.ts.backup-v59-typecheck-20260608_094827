@@ -363,49 +363,21 @@ export const v59Tasks: V59TaskView[] = tasks.map((task, index) => {
   };
 });
 
-function toV59ApprovalRequest(approval: ApprovalRequest, index: number): V59ApprovalRequest {
-  const entityId = approval.projectId ?? approval.id ?? `approval-${index + 1}`;
-
-  return {
+export const v59Approvals: V59ApprovalRequest[] = [
+  ...approvals.map((approval: ApprovalRequest, index) => ({
     id: `v59-${approval.id}`,
-    type: index === 0 ? "project phase approval" : "task approval",
-    entityType: index === 0 ? "project" : "task",
-    entityId,
+    type: index === 0 ? "project phase approval" as const : "task approval" as const,
+    entityType: index === 0 ? "project" as const : "task" as const,
+    entityId: approval.projectId,
     title: approval.title,
     requestedBy: approval.requesterId,
     approverId: approval.ownerId,
-    status: "pending",
+    status: "pending" as const,
     reason: `Aprobare necesară pentru ${approval.title}`,
     createdAt: "2026-06-08T08:15:00"
-  };
-}
-
-export const v59Approvals: V59ApprovalRequest[] = [
-  ...approvals.map(toV59ApprovalRequest),
-  {
-    id: "ap-proc-001",
-    type: "procurement approval",
-    entityType: "procurement",
-    entityId: "rfq-104",
-    title: "Achiziție panouri peste prag",
-    requestedBy: "u4",
-    approverId: "u1",
-    status: "pending",
-    reason: "Valoare estimată peste pragul de 15.000 EUR",
-    createdAt: "2026-06-08T08:20:00"
-  },
-  {
-    id: "ap-inv-001",
-    type: "invoice approval",
-    entityType: "invoice",
-    entityId: "inv-2026-044",
-    title: "Factură furnizor scadentă",
-    requestedBy: "u5",
-    approverId: "u1",
-    status: "pending",
-    reason: "Factură trebuie validată înainte de plată",
-    createdAt: "2026-06-08T08:23:00"
-  }
+  })),
+  { id: "ap-proc-001", type: "procurement approval", entityType: "procurement", entityId: "rfq-104", title: "Achiziție panouri peste prag", requestedBy: "u4", approverId: "u1", status: "pending", reason: "Valoare estimată peste pragul de 15.000 EUR", createdAt: "2026-06-08T08:20:00" },
+  { id: "ap-inv-001", type: "invoice approval", entityType: "invoice", entityId: "inv-2026-044", title: "Factură furnizor scadentă", requestedBy: "u5", approverId: "u1", status: "pending", reason: "Factură trebuie validată înainte de plată", createdAt: "2026-06-08T08:23:00" }
 ];
 
 export const v59Notifications: V59Notification[] = baseNotifications.map((notification, index) => ({

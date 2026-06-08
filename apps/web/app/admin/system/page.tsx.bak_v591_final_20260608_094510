@@ -1,0 +1,21 @@
+import Link from "next/link";
+import { Activity, Database, ShieldCheck } from "lucide-react";
+import { PageHeader } from "@/components/ui/Card";
+import { SystemStatusPanel } from "@/components/admin/SystemStatusPanel";
+
+export default function AdminSystemPage() {
+  return (
+    <>
+      <PageHeader
+        title="Sistem & Governance"
+        subtitle="v0.8 — status runtime, readiness checks, data provider, RBAC matrix și capability map."
+      >
+        <a href="/api/v1/system/status" className="btn-secondary"><Activity className="h-4 w-4" /> API status</a>
+        <a href="/api/v1/system/readiness" className="btn-secondary"><Database className="h-4 w-4" /> Readiness</a>
+        <a href="/admin/users" className="btn-primary"><ShieldCheck className="h-4 w-4" /> Utilizatori</a>
+      </PageHeader>
+      <SystemStatusPanel />
+    </>
+  );
+}
+
