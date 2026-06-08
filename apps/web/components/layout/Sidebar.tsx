@@ -13,6 +13,8 @@ const items = [
   { href: "/taskuri", label: "Taskuri", icon: ClipboardList, expandable: true },
   { href: "/workflows", label: "Workflow-uri", icon: GitBranch, expandable: true },
   { href: "/work-os/data-switchboard", label: "DB Switchboard", icon: Database, badge: "5.7" },
+  { href: "/work-os/prisma-cutover", label: "Prisma Cutover", icon: Database, badge: "5.8" },
+  { href: "/work-os/mutation-audit", label: "Mutation Audit", icon: ShieldCheck, badge: "Audit" },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
   { href: "/echipa", label: "Echipă / Workload", icon: Users },
   { href: "/crm", label: "CRM & Vânzări", icon: BriefcaseBusiness, expandable: true },
@@ -23,6 +25,7 @@ const items = [
   { href: "/documente", label: "Documente", icon: FileText },
   { href: "/rapoarte", label: "Rapoarte", icon: BarChart3 },
   { href: "/hr-admin", label: "Administrare", icon: Cog, expandable: true },
+  { href: "/admin/work-os-prisma-cutover", label: "Admin Prisma", icon: Database, badge: "5.8" },
   { href: "/admin/performance", label: "Performance", icon: Gauge },
   { href: "/admin/roadmap", label: "Roadmap", icon: GitBranch },
   { href: "/admin/quality", label: "Quality gates", icon: ShieldCheck }
@@ -35,7 +38,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
     <aside className={cn("fixed inset-y-0 left-0 z-40 hidden border-r border-white/10 bg-[#071826] text-white shadow-2xl transition-all lg:flex lg:flex-col", collapsed ? "w-[86px]" : "w-[292px]")}> 
       <div className="flex h-20 items-center gap-3 px-5">
         <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-servelect-500 to-emerald-700 shadow-lg"><Zap className="h-6 w-6 fill-white/20" /></div>
-        {!collapsed && <div><div className="text-xl font-extrabold tracking-tight">SERVELECT <span className="font-semibold text-slate-300">EMP</span></div><div className="text-xs text-slate-400">Work OS · v5.7</div></div>}
+        {!collapsed && <div><div className="text-xl font-extrabold tracking-tight">SERVELECT <span className="font-semibold text-slate-300">EMP</span></div><div className="text-xs text-slate-400">Work OS · v5.8</div></div>}
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-3 scrollbar-thin">
@@ -60,10 +63,10 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
           </div>
           <div className="mt-3 rounded-2xl border border-white/10 bg-white/5 p-4">
             <div className="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">Scurtături</div>
-            <Shortcut href="/enterprise" label="Enterprise" icon={Rocket} />
-            <Shortcut href="/admin/performance" label="Performance" icon={Gauge} />
-            <Shortcut href="/admin/roadmap" label="Roadmap" icon={GitBranch} />
+            <Shortcut href="/work-os/prisma-cutover" label="Prisma Cutover" icon={Database} />
+            <Shortcut href="/work-os/mutation-audit" label="Mutation Audit" icon={ShieldCheck} />
             <Shortcut href="/work-os/data-switchboard" label="DB Switchboard" icon={Database} />
+            <Shortcut href="/admin/work-os-prisma-cutover" label="Admin Prisma" icon={Gauge} />
             <Shortcut href="/documente" label="Documente" icon={FileText} />
           </div>
         </div>
@@ -73,7 +76,6 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
     </aside>
   );
 }
-
 
 function Shortcut({ href, label, icon: Icon }: { href: string; label: string; icon: typeof Rocket }) {
   return (
