@@ -2,11 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, Bell, BriefcaseBusiness, CalendarDays, ChevronRight, ClipboardList, Cog, Database, FileText, FolderKanban, Gauge, GitBranch, Home, Menu, PackageOpen, Rocket, ShieldCheck, Users, Wrench, Zap } from "lucide-react";
+import type { ComponentType } from "react";
+import { BarChart3, Bell, BriefcaseBusiness, CalendarDays, ChevronRight, ClipboardList, Cog, Database, FileText, FolderKanban, Gauge, GitBranch, Home, Menu, PackageOpen, Rocket, ShieldCheck, UserCog, Users, Wrench, Zap } from "lucide-react";
 import { cn } from "@servelect/shared";
 
 const items = [
   { href: "/", label: "Dashboard", icon: Home },
+  { href: "/my-work", label: "My Work 5.9", icon: UserCog, badge: "5.9" },
+  { href: "/account/profile", label: "Cont & Profil", icon: UserCog, expandable: true },
+  { href: "/team/workload", label: "Team Workload", icon: Users, badge: "RBAC" },
+  { href: "/team/tasks", label: "Team Tasks", icon: ClipboardList, expandable: true },
+  { href: "/work-os/goodday-compliance", label: "GoodDay Audit", icon: SparklesIcon, badge: "Audit" },
   { href: "/enterprise", label: "Enterprise v1.1", icon: Rocket, badge: "1.1" },
   { href: "/action-center", label: "Action Center", icon: Bell, badge: "Live" },
   { href: "/proiecte", label: "Proiecte", icon: FolderKanban, expandable: true },
@@ -25,6 +31,11 @@ const items = [
   { href: "/documente", label: "Documente", icon: FileText },
   { href: "/rapoarte", label: "Rapoarte", icon: BarChart3 },
   { href: "/hr-admin", label: "Administrare", icon: Cog, expandable: true },
+  { href: "/admin/users", label: "Admin Users", icon: Users, badge: "5.9" },
+  { href: "/admin/roles", label: "Admin Roles", icon: ShieldCheck, badge: "RBAC" },
+  { href: "/admin/permissions", label: "Permissions", icon: ShieldCheck },
+  { href: "/admin/teams", label: "Teams", icon: Users },
+  { href: "/admin/audit-log", label: "Audit Log", icon: Bell },
   { href: "/admin/work-os-prisma-cutover", label: "Admin Prisma", icon: Database, badge: "5.8" },
   { href: "/admin/performance", label: "Performance", icon: Gauge },
   { href: "/admin/roadmap", label: "Roadmap", icon: GitBranch },
@@ -33,55 +44,29 @@ const items = [
 
 export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const pathname = usePathname();
-
   return (
-    <aside className={cn("fixed inset-y-0 left-0 z-40 hidden border-r border-white/10 bg-[#071826] text-white shadow-2xl transition-all lg:flex lg:flex-col", collapsed ? "w-[86px]" : "w-[292px]")}> 
+    <aside className={cn("fixed inset-y-0 left-0 z-40 hidden border-r border-white/10 bg-[#071826] text-white shadow-2xl transition-all lg:flex lg:flex-col", collapsed ? "w-[86px]" : "w-[292px]")}>
       <div className="flex h-20 items-center gap-3 px-5">
         <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-servelect-500 to-emerald-700 shadow-lg"><Zap className="h-6 w-6 fill-white/20" /></div>
-        {!collapsed && <div><div className="text-xl font-extrabold tracking-tight">SERVELECT <span className="font-semibold text-slate-300">EMP</span></div><div className="text-xs text-slate-400">Work OS · v5.8</div></div>}
+        {!collapsed && <div><div className="text-xl font-extrabold tracking-tight">SERVELECT <span className="font-semibold text-slate-300">EMP</span></div><div className="text-xs text-slate-400">Work OS · v5.9 Accounts/RBAC</div></div>}
       </div>
-
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-3 scrollbar-thin">
         {items.map((item) => {
           const active = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
           const Icon = item.icon;
-          return (
-            <Link key={item.href} href={item.href} className={cn("sidebar-link group", active && "sidebar-link-active", collapsed && "justify-center px-2")} title={collapsed ? item.label : undefined}>
-              <Icon className="h-5 w-5 shrink-0" />
-              {!collapsed && <span className="flex-1 truncate">{item.label}</span>}
-              {!collapsed && item.badge && <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-black text-white">{item.badge}</span>}
-              {!collapsed && item.expandable && <ChevronRight className="h-4 w-4 text-slate-400" />}
-            </Link>
-          );
+          return <Link key={item.href} href={item.href} className={cn("sidebar-link group", active && "sidebar-link-active", collapsed && "justify-center px-2")} title={collapsed ? item.label : undefined}><Icon className="h-5 w-5 shrink-0" />{!collapsed && <span className="flex-1 truncate">{item.label}</span>}{!collapsed && item.badge && <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-[10px] font-black text-white">{item.badge}</span>}{!collapsed && item.expandable && <ChevronRight className="h-4 w-4 text-slate-400" />}</Link>;
         })}
       </nav>
-
-      {!collapsed && (
-        <div className="px-4 pb-4">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-sm font-bold">SRL</div><div className="min-w-0"><div className="truncate text-sm font-bold">SERVELECT SRL <span className="text-emerald-400">●</span></div><div className="text-xs text-slate-400">Rol: Administrator</div><div className="text-xs text-emerald-400">Plan: Enterprise</div></div></div>
-          </div>
-          <div className="mt-3 rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div className="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">Scurtături</div>
-            <Shortcut href="/work-os/prisma-cutover" label="Prisma Cutover" icon={Database} />
-            <Shortcut href="/work-os/mutation-audit" label="Mutation Audit" icon={ShieldCheck} />
-            <Shortcut href="/work-os/data-switchboard" label="DB Switchboard" icon={Database} />
-            <Shortcut href="/admin/work-os-prisma-cutover" label="Admin Prisma" icon={Gauge} />
-            <Shortcut href="/documente" label="Documente" icon={FileText} />
-          </div>
-        </div>
-      )}
-
+      {!collapsed && <div className="px-4 pb-4"><div className="rounded-2xl border border-white/10 bg-white/5 p-4"><div className="flex items-center gap-3"><div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-sm font-bold">AP</div><div className="min-w-0"><div className="truncate text-sm font-bold">Andrei Popescu <span className="text-emerald-400">●</span></div><div className="text-xs text-slate-400">Rol: Super Admin</div><div className="text-xs text-emerald-400">v5.9 RBAC ready</div></div></div></div><div className="mt-3 rounded-2xl border border-white/10 bg-white/5 p-4"><div className="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">Scurtături v5.9</div><Shortcut href="/my-work" label="My Work" icon={UserCog} /><Shortcut href="/team/workload" label="Team Workload" icon={Users} /><Shortcut href="/admin/roles" label="RBAC Matrix" icon={ShieldCheck} /><Shortcut href="/work-os/goodday-compliance" label="GoodDay Audit" icon={ShieldCheck} /></div></div>}
       <button onClick={onToggle} className="flex items-center gap-3 border-t border-white/10 px-5 py-4 text-sm font-semibold text-slate-300 hover:bg-white/5"><Menu className="h-5 w-5" />{!collapsed && <span>Restrânge meniul</span>}</button>
     </aside>
   );
 }
 
-function Shortcut({ href, label, icon: Icon }: { href: string; label: string; icon: typeof Rocket }) {
-  return (
-    <Link href={href} className="flex items-center gap-2 rounded-lg px-1 py-1.5 text-sm text-slate-300 hover:text-white">
-      <Icon className="h-4 w-4" />
-      <span>{label}</span>
-    </Link>
-  );
+function Shortcut({ href, label, icon: Icon }: { href: string; label: string; icon: ComponentType<{ className?: string }> }) {
+  return <Link href={href} className="flex items-center gap-2 rounded-lg px-1 py-1.5 text-sm text-slate-300 hover:text-white"><Icon className="h-4 w-4" /><span>{label}</span></Link>;
+}
+
+function SparklesIcon(props: { className?: string }) {
+  return <Rocket {...props} />;
 }
