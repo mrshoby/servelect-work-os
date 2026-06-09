@@ -560,7 +560,7 @@ function KpiStrip({ pageId, currentUser, tasks, tickets, projects, approvals }: 
       { label: "Milestones active", value: "54", sub: "din 96 totale", tone: "blue", icon: <Flag /> },
       { label: "Taskuri în lucru", value: String(tasks.filter((t) => t.status === "În desfășurare").length), sub: "execuție", tone: "orange", icon: <Clock /> },
       { label: "Taskuri blocate", value: String(tasks.filter((t) => t.status === "Blocat").length), sub: "critice", tone: "red", icon: <AlertCircle /> },
-      { label: "Riscuri deschise", value: String(activeProjects.reduce((sum, project) => sum + project.risks, 0)), sub: "critice: 3", tone: "purple", icon: <ShieldAlert /> },
+      { label: "Riscuri deschise", value: String(activeProjects.reduce((sum, project) => sum + tasks.filter((task) => task.projectId === project.id && (task.status === "Blocat" || task.priority === "Critic" || task.priority === "Urgent")).length, 0)), sub: "critice: 3", tone: "purple", icon: <ShieldAlert /> },
       { label: "Buget consumat", value: "32,4 mil. RON", sub: "din 101,7 mil.", tone: "green", icon: <Archive /> }
     ],
     "upcoming-projects": [
@@ -1113,3 +1113,4 @@ function TaskuriReferenceFooter() {
     </footer>
   );
 }
+
