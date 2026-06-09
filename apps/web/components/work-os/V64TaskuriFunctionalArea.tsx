@@ -425,7 +425,7 @@ export function V64TaskuriFunctionalArea({ pageId }: { pageId: V64PageId }) {
     <div className="min-h-screen bg-[#f8fafc] text-slate-900">
       <div className="mx-auto max-w-[1880px] space-y-5 px-4 py-5 lg:px-7">
         <TaskuriTopbar meta={meta} currentUser={store.currentUser} unread={unread} onCreate={handleQuickCreate} onSearch={(query) => setFilters((state) => ({ ...state, query }))} onMarkAll={store.markAllNotificationsRead} onSwitchUser={store.setCurrentUserId} />
-        <KpiStrip pageId={pageId} currentUser={store.currentUser} tasks={visibleTasks} tickets={store.tickets} projects={store.projects} approvals={store.approvals} />
+        {pageId !== "table" ? <KpiStrip pageId={pageId} currentUser={store.currentUser} tasks={visibleTasks} tickets={store.tickets} projects={store.projects} approvals={store.approvals} /> : null}
         {pageId === "board" || pageId === "table" ? (
           <FiltersBar filters={filters} setFilters={setFilters} saveView={() => { store.saveView(`Vedere ${store.savedViews.length + 1}`, filters); toast("Vedere salvată în localStorage."); }} savedViews={store.savedViews} />
         ) : null}
@@ -529,13 +529,15 @@ function KpiStrip({ pageId, currentUser, tasks, tickets, projects, approvals }: 
       { label: "În lucru", value: String(tasks.filter((t) => t.status === "În desfășurare").length), sub: "48% din total", tone: "blue", icon: <Clock /> },
       { label: "Finalizate", value: String(tasks.filter((t) => t.status === "Finalizat").length), sub: "+20% luna aceasta", tone: "purple", icon: <CheckCircle2 /> },
       { label: "Întârziate", value: String(tasks.filter(isOverdue).length), sub: "necesită acțiune", tone: "red", icon: <AlertCircle /> },
-      { label: "Ore planificate", value: `${Math.round(tasks.reduce((s, t) => s + t.estimateHours, 0))} h`, sub: "estimare totală", tone: "green", icon: <Timer /> }
+      { label: "Progres mediu proiecte", value: `${Math.round(projects.reduce((sum, project) => sum + project.progress, 0) / Math.max(projects.length, 1))}%`, sub: "față de luna trecută", tone: "green", icon: <Archive /> },
+      { label: "Ore planificate", value: `${Math.round(tasks.reduce((s, t) => s + t.estimateHours, 0))} h`, sub: "estimare totală", tone: "blue", icon: <Timer /> }
     ],
     "my-work": [
       { label: "Asignate mie", value: String(tasks.filter((t) => t.assigneeId === currentUser.id).length), sub: "din taskuri vizibile", tone: "green", icon: <CalendarDays /> },
       { label: "Create de mine", value: String(tasks.filter((t) => t.createdBy === currentUser.id).length), sub: "din total", tone: "blue", icon: <FileText /> },
       { label: "În review", value: String(tasks.filter((t) => t.status === "Review").length), sub: "în așteptare", tone: "purple", icon: <Settings2 /> },
       { label: "Întârziate", value: String(tasks.filter(isOverdue).length), sub: "azi", tone: "red", icon: <AlertCircle /> },
+      { label: "Finalizate săptămâna", value: String(tasks.filter((t) => t.status === "Finalizat").length), sub: "din vizibile", tone: "green", icon: <CheckCircle2 /> },
       { label: "Timp înregistrat", value: `${tasks.reduce((s, t) => s + t.trackedHours, 0).toFixed(1)}h`, sub: "din obiectiv", tone: "orange", icon: <Clock /> }
     ],
     inbox: [
@@ -550,13 +552,15 @@ function KpiStrip({ pageId, currentUser, tasks, tickets, projects, approvals }: 
       { label: "Critice", value: String(tickets.filter((t) => t.priority === "Critic").length), sub: "necesită escaladare", tone: "red", icon: <ShieldAlert /> },
       { label: "Necesită răspuns", value: String(tickets.filter((t) => t.status === "Necesită răspuns").length), sub: "client/furnizor", tone: "orange", icon: <MessageSquare /> },
       { label: "Notificări noi", value: String(tickets.filter((t) => t.unread).length), sub: "necitite", tone: "blue", icon: <Bell /> },
-      { label: "SLA în risc", value: String(tickets.filter((t) => t.slaMinutes < 480).length), sub: "sub 8h", tone: "red", icon: <Clock /> }
+      { label: "SLA în risc", value: String(tickets.filter((t) => t.slaMinutes < 480).length), sub: "sub 8h", tone: "red", icon: <Clock /> },
+      { label: "Rezolvate azi", value: String(tickets.filter((t) => t.status === "Rezolvat").length), sub: "față de ieri", tone: "green", icon: <CheckCircle2 /> }
     ],
     "active-projects": [
       { label: "Proiecte active", value: String(activeProjects.length), sub: "din proiecte", tone: "green", icon: <FolderKanban /> },
       { label: "Milestones active", value: "54", sub: "din 96 totale", tone: "blue", icon: <Flag /> },
       { label: "Taskuri în lucru", value: String(tasks.filter((t) => t.status === "În desfășurare").length), sub: "execuție", tone: "orange", icon: <Clock /> },
       { label: "Taskuri blocate", value: String(tasks.filter((t) => t.status === "Blocat").length), sub: "critice", tone: "red", icon: <AlertCircle /> },
+      { label: "Riscuri deschise", value: String(activeProjects.reduce((sum, project) => sum + project.risks, 0)), sub: "critice: 3", tone: "purple", icon: <ShieldAlert /> },
       { label: "Buget consumat", value: "32,4 mil. RON", sub: "din 101,7 mil.", tone: "green", icon: <Archive /> }
     ],
     "upcoming-projects": [
@@ -564,6 +568,7 @@ function KpiStrip({ pageId, currentUser, tasks, tickets, projects, approvals }: 
       { label: "În pregătire", value: "12", sub: "proiecte", tone: "orange", icon: <Clock /> },
       { label: "Kickoff săptămâna aceasta", value: "5", sub: "proiecte", tone: "blue", icon: <Users /> },
       { label: "Resurse rezervate", value: "18,6 MWp", sub: "capacitate planificată", tone: "purple", icon: <CalendarDays /> },
+      { label: "Oferte convertite", value: "8,42 mil. RON", sub: "valoare totală", tone: "green", icon: <Archive /> },
       { label: "Riscuri de pornire", value: "3", sub: "proiecte", tone: "red", icon: <ShieldAlert /> }
     ],
     "completed-projects": [
@@ -571,14 +576,17 @@ function KpiStrip({ pageId, currentUser, tasks, tickets, projects, approvals }: 
       { label: "Livrate luna aceasta", value: "12", sub: "proiecte", tone: "blue", icon: <CheckCircle2 /> },
       { label: "Documentații închise", value: "89", sub: "dosare", tone: "purple", icon: <FileText /> },
       { label: "Facturare finală", value: "9,45 mil. RON", sub: "de facturat", tone: "red", icon: <Archive /> },
-      { label: "Feedback clienți", value: "4.8 / 5", sub: "64 evaluări", tone: "green", icon: <Star /> }
+      { label: "Feedback clienți", value: "4.8 / 5", sub: "64 evaluări", tone: "green", icon: <Star /> },
+      { label: "Post-mortem completate", value: "62", sub: "rapoarte", tone: "blue", icon: <FileText /> }
     ],
     board: [
       { label: "Total taskuri", value: String(tasks.length), sub: "100% din total", tone: "purple", icon: <LayoutDashboard /> },
       { label: "De făcut", value: String(tasks.filter((t) => t.status === "De făcut").length), sub: "în backlog", tone: "slate", icon: <Circle /> },
       { label: "În lucru", value: String(tasks.filter((t) => t.status === "În desfășurare").length), sub: "active", tone: "blue", icon: <Clock /> },
       { label: "Review / QA", value: String(tasks.filter((t) => t.status === "Review").length), sub: "review", tone: "orange", icon: <Eye /> },
-      { label: "Finalizate", value: String(tasks.filter((t) => t.status === "Finalizat").length), sub: "done", tone: "green", icon: <CheckCircle2 /> }
+      { label: "Blocat", value: String(tasks.filter((t) => t.status === "Blocat").length), sub: "în risc", tone: "red", icon: <AlertCircle /> },
+      { label: "Finalizate", value: String(tasks.filter((t) => t.status === "Finalizat").length), sub: "done", tone: "green", icon: <CheckCircle2 /> },
+      { label: "Progres mediu", value: `${Math.round(tasks.reduce((sum, task) => sum + task.progress, 0) / Math.max(tasks.length, 1))}%`, sub: "față de luna trecută", tone: "green", icon: <Archive /> }
     ],
     table: [
       { label: "Toate taskurile", value: String(tasks.length), sub: "în tabel", tone: "green", icon: <Table2 /> },
@@ -599,10 +607,12 @@ function KpiStrip({ pageId, currentUser, tasks, tickets, projects, approvals }: 
       { label: "Supraîncărcați", value: "6", sub: "persoane", tone: "red", icon: <AlertCircle /> },
       { label: "Taskuri nealocate", value: String(tasks.filter((t) => !t.assigneeId).length), sub: "necesită owner", tone: "blue", icon: <Users /> },
       { label: "Aprobări în așteptare", value: String(approvals.filter((a) => a.status === "pending").length), sub: "solicitări", tone: "purple", icon: <ListChecks /> },
+      { label: "Timp estimat", value: `${Math.round(tasks.reduce((s, t) => s + t.estimateHours, 0))} h`, sub: "săptămâna aceasta", tone: "green", icon: <Timer /> },
       { label: "Timp înregistrat", value: `${Math.round(tasks.reduce((s, t) => s + t.trackedHours, 0))} h`, sub: "săptămâna aceasta", tone: "blue", icon: <Clock /> }
     ]
   };
-  return <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">{map[pageId].map((kpi) => <Kpi key={kpi.label} {...kpi} />)}</section>;
+  const gridClass = pageId === "board" ? "grid gap-4 sm:grid-cols-2 xl:grid-cols-7" : pageId === "calendar" ? "grid gap-4 sm:grid-cols-2 xl:grid-cols-5" : "grid gap-4 sm:grid-cols-2 xl:grid-cols-6";
+  return <section className={gridClass}>{map[pageId].map((kpi) => <Kpi key={kpi.label} {...kpi} />)}</section>;
 }
 
 function Kpi({ label, value, sub, tone, icon }: { label: string; value: string; sub: string; tone: string; icon: ReactNode }) {
@@ -1035,7 +1045,10 @@ function BulkActions({ rows, users, onStatus, onPriority, onAssignee, onDelete }
   return <div className="space-y-3"><button disabled={!rows.length} onClick={() => onStatus("În desfășurare")} className="w-full rounded-xl border border-slate-200 px-3 py-2 text-left text-sm font-black hover:bg-slate-50 disabled:opacity-40">Schimbă statusul</button><button disabled={!rows.length} onClick={() => onPriority("Urgent")} className="w-full rounded-xl border border-slate-200 px-3 py-2 text-left text-sm font-black hover:bg-slate-50 disabled:opacity-40">Schimbă prioritatea</button><select disabled={!rows.length} onChange={(event) => onAssignee(event.target.value)} className="w-full rounded-xl border px-3 py-2 text-sm font-bold"><option>Schimbă assignee</option>{users.map((user) => <option key={user.id} value={user.id}>{user.name}</option>)}</select><button disabled={!rows.length} onClick={onDelete} className="w-full rounded-xl border border-red-100 px-3 py-2 text-left text-sm font-black text-red-600 hover:bg-red-50 disabled:opacity-40">Șterge taskuri</button></div>;
 }
 
-function ViewSettings({ density, setDensity }: { density: Density; setDensity: (density: Density) => void }) { return <div className="space-y-3">{(["compact", "medium", "relaxed"] as Density[]).map((item) => <button key={item} onClick={() => setDensity(item)} className={density === item ? "w-full rounded-xl bg-emerald-50 px-3 py-2 text-sm font-black text-emerald-700" : "w-full rounded-xl border px-3 py-2 text-sm font-bold"}>{item}</button>)}<label className="flex items-center justify-between text-sm font-bold">Fixează coloane <input type="checkbox" /></label></div>; }
+function ViewSettings({ density, setDensity }: { density: Density; setDensity: (density: Density) => void }) {
+  const [pinnedColumns, setPinnedColumns] = useState(false);
+  return <div className="space-y-3">{(["compact", "medium", "relaxed"] as Density[]).map((item) => <button key={item} onClick={() => setDensity(item)} className={density === item ? "w-full rounded-xl bg-emerald-50 px-3 py-2 text-sm font-black text-emerald-700" : "w-full rounded-xl border px-3 py-2 text-sm font-bold"}>{item}</button>)}<label className="flex items-center justify-between text-sm font-bold">Fixează coloane <input type="checkbox" checked={pinnedColumns} onChange={(event) => setPinnedColumns(event.target.checked)} /></label>{pinnedColumns ? <div className="rounded-xl bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-700">Coloanele principale sunt fixate în această vedere.</div> : null}</div>;
+}
 function SelectionSummary({ rows, tasks }: { rows: string[]; tasks: V64Task[] }) { const selected = tasks.filter((task) => rows.includes(task.id)); return <div className="grid grid-cols-4 gap-4"><Summary label="Proiecte" value={new Set(selected.map((task) => task.projectId)).size} /><Summary label="Taskuri" value={selected.length} /><Summary label="Progress mediu" value={`${Math.round(selected.reduce((s, t) => s + t.progress, 0) / Math.max(selected.length, 1))}%`} /><Summary label="Timp urmărit" value={`${selected.reduce((s, t) => s + t.trackedHours, 0).toFixed(1)}h`} /></div>; }
 function Summary({ label, value }: { label: string; value: ReactNode }) { return <div><div className="text-xs font-bold text-slate-500">{label}</div><div className="mt-1 text-2xl font-black">{value}</div></div>; }
 function ExportIntegrations({ setModal }: { setModal: (kind: ModalKind) => void }) { return <div className="space-y-2">{["Exportă tabel (CSV)", "Exportă tabel (XLSX)", "Integrare Power BI", "Sincronizare Google Sheets", "Creează automatizare nouă"].map((row) => <button key={row} onClick={() => setModal("export")} className="w-full rounded-xl bg-slate-50 px-3 py-2 text-left text-sm font-bold hover:bg-emerald-50">{row}</button>)}</div>; }
@@ -1050,9 +1063,17 @@ function Gantt({ tasks, openTask }: { tasks: V64Task[]; openTask: (taskId: strin
 }
 
 function CalendarFilters({ setFilters, toast }: { setFilters: PageContext["setFilters"]; toast: (text: string) => void }) {
+  const [projectFilter, setProjectFilter] = useState("all");
   const [teamFilter, setTeamFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
-  return <div className="grid grid-cols-2 gap-2"><Select label="Proiecte" value="all" onChange={(value) => { setFilters((state) => ({ ...state, projectId: value })); toast("Filtru proiect calendar aplicat."); }} options={[{ value: "all", label: "Toate" }, ...v64Projects.map((project) => ({ value: project.id, label: project.code }))]} /><Select label="Echipă" value={teamFilter} onChange={(value) => { setTeamFilter(value); toast("Filtru echipă calendar aplicat."); }} options={[{ value: "all", label: "Toți" }, ...v64Departments.map((department) => ({ value: department.id, label: department.name }))]} /><Select label="Tip" value={typeFilter} onChange={(value) => { setTypeFilter(value); setFilters((state) => ({ ...state, type: value })); toast("Filtru tip task aplicat."); }} options={[{ value: "all", label: "Toate" }, { value: "Task", label: "Task" }, { value: "Milestone", label: "Milestone" }, { value: "Ticket", label: "Ticket" }]} /><Select label="Status" value="all" onChange={(value) => { setFilters((state) => ({ ...state, status: value })); toast("Filtru status calendar aplicat."); }} options={[{ value: "all", label: "Toate" }, ...statuses.map((status) => ({ value: status, label: status }))]} /></div>;
+  const [statusFilter, setStatusFilter] = useState("all");
+
+  return <div className="grid grid-cols-2 gap-2">
+    <Select label="Proiecte" value={projectFilter} onChange={(value) => { setProjectFilter(value); setFilters((state) => ({ ...state, projectId: value })); toast("Filtru proiect calendar aplicat."); }} options={[{ value: "all", label: "Toate" }, ...v64Projects.map((project) => ({ value: project.id, label: project.code }))]} />
+    <Select label="Echipă" value={teamFilter} onChange={(value) => { setTeamFilter(value); setFilters((state) => ({ ...state, departmentId: value })); toast("Filtru echipă/departament calendar aplicat."); }} options={[{ value: "all", label: "Toți" }, ...v64Departments.map((department) => ({ value: department.id, label: department.name }))]} />
+    <Select label="Tip" value={typeFilter} onChange={(value) => { setTypeFilter(value); setFilters((state) => ({ ...state, type: value })); toast("Filtru tip task aplicat."); }} options={[{ value: "all", label: "Toate" }, { value: "Task", label: "Task" }, { value: "Milestone", label: "Milestone" }, { value: "Ticket", label: "Ticket" }]} />
+    <Select label="Status" value={statusFilter} onChange={(value) => { setStatusFilter(value); setFilters((state) => ({ ...state, status: value })); toast("Filtru status calendar aplicat."); }} options={[{ value: "all", label: "Toate" }, ...statuses.map((status) => ({ value: status, label: status }))]} />
+  </div>;
 }
 function MilestoneList() { return <SmallRows rows={["PIF – P-2024-0187 · 09 Mai", "Recepție – P-2024-0185 · 17 Mai", "Predare – P-2024-0179 · 30 Mai", "Recepție – P-2024-0203 · 25 Mai"]} tone="green" />; }
 function EventsList() { return <SmallRows rows={["Standup echipă · Zilnic 09:00", "Review săptămânal · Vin 11:00", "Comitet proiecte · Lun 10:00", "Demo client · One-time"]} />; }
@@ -1088,7 +1109,7 @@ function TaskuriReferenceFooter() {
   return (
     <footer className="flex flex-wrap items-center justify-between gap-3 px-2 pb-1 text-xs font-semibold text-slate-400">
       <span>© 2024 SERVELECT SRL. Toate drepturile rezervate.</span>
-      <span className="flex items-center gap-3"><span>v6.4.5</span><span>·</span><span>Politica de confidențialitate</span><span>·</span><span>Termeni și condiții</span></span>
+      <span className="flex items-center gap-3"><span>v6.4.6</span><span>·</span><span>Politica de confidențialitate</span><span>·</span><span>Termeni și condiții</span></span>
     </footer>
   );
 }
