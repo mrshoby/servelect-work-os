@@ -66,7 +66,8 @@ type SavedViewId = "all" | "my-work" | "in-progress" | "blocked" | "today" | "we
 type Density = "compact" | "medium" | "relaxed";
 type ModalKind = "task" | "ticket" | "project" | "approval" | "export" | "handover" | "lesson" | null;
 
-const storageKey = "servelect-work-os-v64-taskuri-functional-state";
+const storageKey = "servelect-work-os-v64-taskuri-functional-state-v6416";
+const legacyStorageKey = "servelect-work-os-v64-taskuri-functional-state";
 
 const pageMeta: Record<V64PageId, { title: string; subtitle: string; action: string }> = {
   overview: { title: "Taskuri / Overview", subtitle: "Privire de ansamblu asupra activităților, proiectelor și sarcinilor.", action: "Task nou" },
@@ -145,29 +146,22 @@ function useV64TaskuriState() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    const raw = window.localStorage.getItem(storageKey);
-    if (raw) {
-      try {
-        const parsed = JSON.parse(raw) as {
-          currentUserId?: string;
-          tasks?: V64Task[];
-          tickets?: V64Ticket[];
-          projects?: V64Project[];
-          approvals?: V64Approval[];
-          notifications?: V64Notification[];
-          savedViews?: Array<{ id: string; label: string; filters: FilterState }>;
-        };
-        if (parsed.currentUserId) setCurrentUserId(parsed.currentUserId);
-        if (parsed.tasks) setTasks(parsed.tasks);
-        if (parsed.tickets) setTickets(parsed.tickets);
-        if (parsed.projects) setProjects(parsed.projects);
-        if (parsed.approvals) setApprovals(parsed.approvals);
-        if (parsed.notifications) setNotifications(parsed.notifications);
-        if (parsed.savedViews) setSavedViews(parsed.savedViews);
-      } catch {
-        window.localStorage.removeItem(storageKey);
-      }
+    const normalized = normalizeState(window.localStorage.getItem(storageKey)) ?? normalizeState(window.localStorage.getItem(legacyStorageKey));
+
+    if (normalized) {
+      setCurrentUserId(normalized.currentUserId ?? "u1");
+      setTasks(normalized.tasks);
+      setTickets(normalized.tickets);
+      setProjects(normalized.projects);
+      setApprovals(normalized.approvals);
+      setNotifications(normalized.notifications);
+      setSavedViews(normalized.savedViews);
+      window.localStorage.setItem(storageKey, JSON.stringify(normalized));
+      window.localStorage.removeItem(legacyStorageKey);
+    } else {
+      window.localStorage.removeItem(legacyStorageKey);
     }
+
     setLoaded(true);
   }, []);
 
@@ -188,14 +182,14 @@ function useV64TaskuriState() {
   function addActivity(taskId: string, action: string, detail: string, actorId = currentUser.id) {
     setTasks((items) => items.map((task) => task.id === taskId ? {
       ...task,
-      activityLog: [{ id: `act-${Date.now()}`, actorId, action, detail, createdAt: new Date().toISOString() }, ...task.activityLog]
+      activityLog: [{ id: `act-${Date.now()}`, actorId, action, detail, createdAt: new Date().toISOString() }, ...(task.activityLog ?? [])]
     } : task));
   }
 
   function updateTask(taskId: string, patch: Partial<V64Task>) {
     setTasks((items) => items.map((task) => {
       if (task.id !== taskId) return task;
-      return { ...task, ...patch, activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "update", detail: "Task actualizat din drawer / tabel / board", createdAt: new Date().toISOString() }, ...task.activityLog] };
+      return { ...task, ...patch, activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "update", detail: "Task actualizat din drawer / tabel / board", createdAt: new Date().toISOString() }, ...(task.activityLog ?? [])] };
     }));
   }
 
@@ -221,24 +215,24 @@ function useV64TaskuriState() {
     if (!body.trim()) return;
     setTasks((items) => items.map((task) => task.id === taskId ? {
       ...task,
-      comments: [{ id: `c-${Date.now()}`, authorId: currentUser.id, body, createdAt: new Date().toISOString() }, ...task.comments],
-      activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "comment", detail: "Comentariu adăugat", createdAt: new Date().toISOString() }, ...task.activityLog]
+      comments: [{ id: `c-${Date.now()}`, authorId: currentUser.id, body, createdAt: new Date().toISOString() }, ...(task.comments ?? [])],
+      activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "comment", detail: "Comentariu adăugat", createdAt: new Date().toISOString() }, ...(task.activityLog ?? [])]
     } : task));
   }
 
   function toggleChecklist(taskId: string, checklistId: string) {
     setTasks((items) => items.map((task) => task.id === taskId ? {
       ...task,
-      checklist: task.checklist.map((item) => item.id === checklistId ? { ...item, done: !item.done } : item),
-      activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "checklist", detail: "Checklist actualizat", createdAt: new Date().toISOString() }, ...task.activityLog]
+      checklist: (task.checklist ?? []).map((item) => item.id === checklistId ? { ...item, done: !item.done } : item),
+      activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "checklist", detail: "Checklist actualizat", createdAt: new Date().toISOString() }, ...(task.activityLog ?? [])]
     } : task));
   }
 
   function addAttachment(taskId: string) {
     setTasks((items) => items.map((task) => task.id === taskId ? {
       ...task,
-      attachments: [{ id: `att-${Date.now()}`, name: "document_mock.pdf", type: "pdf", size: "0.8 MB", uploadedBy: currentUser.id, createdAt: new Date().toISOString() }, ...task.attachments],
-      activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "attachment", detail: "Atașament mock adăugat", createdAt: new Date().toISOString() }, ...task.activityLog]
+      attachments: [{ id: `att-${Date.now()}`, name: "document_mock.pdf", type: "pdf", size: "0.8 MB", uploadedBy: currentUser.id, createdAt: new Date().toISOString() }, ...(task.attachments ?? [])],
+      activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "attachment", detail: "Atașament mock adăugat", createdAt: new Date().toISOString() }, ...(task.activityLog ?? [])]
     } : task));
   }
 
@@ -285,7 +279,7 @@ function useV64TaskuriState() {
   }
 
   function bulkUpdate(ids: string[], patch: Partial<V64Task>) {
-    setTasks((items) => items.map((task) => ids.includes(task.id) ? { ...task, ...patch, activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "bulk", detail: "Bulk action aplicată", createdAt: new Date().toISOString() }, ...task.activityLog] } : task));
+    setTasks((items) => items.map((task) => ids.includes(task.id) ? { ...task, ...patch, activityLog: [{ id: `act-${Date.now()}`, actorId: currentUser.id, action: "bulk", detail: "Bulk action aplicată", createdAt: new Date().toISOString() }, ...(task.activityLog ?? [])] } : task));
   }
 
   function updateTicket(ticketId: string, patch: Partial<V64Ticket>) {
@@ -377,6 +371,134 @@ const defaultFilters: FilterState = {
   savedView: "all"
 };
 
+function normalizeTask(raw: unknown, index: number): V64Task {
+  const fallback = v64Tasks[index % Math.max(v64Tasks.length, 1)] ?? v64Tasks[0];
+  const value = (raw && typeof raw === "object" ? raw : {}) as Partial<V64Task>;
+  const user = v64UserById(value.assigneeId ?? "") ?? v64UserById(fallback.assigneeId) ?? v64Users[0];
+  const project = v64Projects.find((item) => item.id === value.projectId) ?? v64Projects.find((item) => item.id === fallback.projectId) ?? v64Projects[0];
+
+  return {
+    ...fallback,
+    ...value,
+    id: value.id || fallback.id || `task-${index}`,
+    title: value.title || fallback.title || "Task Servelect",
+    description: value.description || fallback.description || "Task migrat automat în schema v6.4.16.",
+    projectId: project.id,
+    projectCode: value.projectCode || project.code,
+    projectName: value.projectName || project.name,
+    client: value.client || project.client,
+    type: value.type || fallback.type || "Task",
+    status: value.status || fallback.status || "De făcut",
+    priority: value.priority || fallback.priority || "Mediu",
+    assigneeId: value.assigneeId || user.id,
+    ownerId: value.ownerId || fallback.ownerId || "u1",
+    createdBy: value.createdBy || fallback.createdBy || "u1",
+    departmentId: value.departmentId || user.departmentId,
+    departmentName: value.departmentName || user.departmentName,
+    startDate: value.startDate || fallback.startDate || todayIso(),
+    dueDate: value.dueDate || fallback.dueDate || todayIso(),
+    estimateHours: Number.isFinite(Number(value.estimateHours)) ? Number(value.estimateHours) : fallback.estimateHours ?? 1,
+    trackedHours: Number.isFinite(Number(value.trackedHours)) ? Number(value.trackedHours) : fallback.trackedHours ?? 0,
+    progress: Number.isFinite(Number(value.progress)) ? Number(value.progress) : fallback.progress ?? 0,
+    tags: Array.isArray(value.tags) ? value.tags : [],
+    checklist: Array.isArray(value.checklist) ? value.checklist : [],
+    subtasks: Array.isArray(value.subtasks) ? value.subtasks : [],
+    comments: Array.isArray(value.comments) ? value.comments : [],
+    attachments: Array.isArray(value.attachments) ? value.attachments : [],
+    dependencies: Array.isArray(value.dependencies) ? value.dependencies : [],
+    watchers: Array.isArray(value.watchers) ? value.watchers : [],
+    approvalStatus: value.approvalStatus || fallback.approvalStatus || "pending",
+    customFields: value.customFields && typeof value.customFields === "object" ? value.customFields : {},
+    activityLog: Array.isArray(value.activityLog) ? value.activityLog : []
+  };
+}
+
+function normalizeProject(raw: unknown, index: number): V64Project {
+  const fallback = v64Projects[index % Math.max(v64Projects.length, 1)] ?? v64Projects[0];
+  const value = (raw && typeof raw === "object" ? raw : {}) as Partial<V64Project>;
+  return {
+    ...fallback,
+    ...value,
+    id: value.id || fallback.id,
+    code: value.code || fallback.code,
+    name: value.name || fallback.name,
+    client: value.client || fallback.client,
+    valueRon: Number.isFinite(Number(value.valueRon)) ? Number(value.valueRon) : fallback.valueRon,
+    managerId: value.managerId || fallback.managerId,
+    departmentId: value.departmentId || fallback.departmentId,
+    phase: value.phase || fallback.phase,
+    status: value.status || fallback.status,
+    progress: Number.isFinite(Number(value.progress)) ? Number(value.progress) : fallback.progress,
+    health: value.health || fallback.health,
+    startDate: value.startDate || fallback.startDate,
+    deadline: value.deadline || fallback.deadline,
+    budgetConsumedPercent: Number.isFinite(Number(value.budgetConsumedPercent)) ? Number(value.budgetConsumedPercent) : fallback.budgetConsumedPercent,
+    readyScore: Number.isFinite(Number(value.readyScore)) ? Number(value.readyScore) : fallback.readyScore,
+    missingDocuments: Array.isArray(value.missingDocuments) ? value.missingDocuments : [],
+    kickoffChecklist: Array.isArray(value.kickoffChecklist) ? value.kickoffChecklist : []
+  };
+}
+
+function normalizeTicket(raw: unknown, index: number): V64Ticket {
+  const fallback = v64Tickets[index % Math.max(v64Tickets.length, 1)] ?? v64Tickets[0];
+  const value = (raw && typeof raw === "object" ? raw : {}) as Partial<V64Ticket>;
+  return {
+    ...fallback,
+    ...value,
+    id: value.id || fallback.id || `ticket-${index}`,
+    subject: value.subject || fallback.subject || "Ticket Servelect",
+    projectId: value.projectId || fallback.projectId || "p1",
+    projectCode: value.projectCode || fallback.projectCode || "P-2024",
+    projectName: value.projectName || fallback.projectName || "Proiect Servelect",
+    ownerId: value.ownerId || fallback.ownerId || "u1",
+    departmentId: value.departmentId || fallback.departmentId || "productie",
+    priority: value.priority || fallback.priority || "Mediu",
+    slaMinutes: Number.isFinite(Number(value.slaMinutes)) ? Number(value.slaMinutes) : fallback.slaMinutes ?? 480,
+    status: value.status || fallback.status || "În deschidere",
+    unread: Boolean(value.unread),
+    escalated: Boolean(value.escalated),
+    createdAt: value.createdAt || fallback.createdAt || new Date().toISOString()
+  };
+}
+
+function normalizeSavedViews(raw: unknown): Array<{ id: string; label: string; filters: FilterState }> {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .filter((item): item is { id?: string; label?: string; filters?: Partial<FilterState> } => Boolean(item && typeof item === "object"))
+    .map((item, index) => ({
+      id: item.id || `view-${index}`,
+      label: item.label || `Vedere ${index + 1}`,
+      filters: { ...defaultFilters, ...(item.filters ?? {}) }
+    }));
+}
+
+function normalizeState(raw: string | null) {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as {
+      currentUserId?: string;
+      tasks?: unknown[];
+      tickets?: unknown[];
+      projects?: unknown[];
+      approvals?: V64Approval[];
+      notifications?: V64Notification[];
+      savedViews?: unknown;
+    };
+
+    return {
+      currentUserId: v64UserById(parsed.currentUserId ?? "") ? parsed.currentUserId : "u1",
+      tasks: Array.isArray(parsed.tasks) && parsed.tasks.length ? parsed.tasks.map(normalizeTask) : v64Tasks,
+      tickets: Array.isArray(parsed.tickets) && parsed.tickets.length ? parsed.tickets.map(normalizeTicket) : v64Tickets,
+      projects: Array.isArray(parsed.projects) && parsed.projects.length ? parsed.projects.map(normalizeProject) : v64Projects,
+      approvals: Array.isArray(parsed.approvals) ? parsed.approvals : v64Approvals,
+      notifications: Array.isArray(parsed.notifications) ? parsed.notifications : v64Notifications,
+      savedViews: normalizeSavedViews(parsed.savedViews)
+    };
+  } catch {
+    return null;
+  }
+}
+
 export function V64TaskuriFunctionalArea({ pageId }: { pageId: V64PageId }) {
   const store = useV64TaskuriState();
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
@@ -442,7 +564,7 @@ export function V64TaskuriFunctionalArea({ pageId }: { pageId: V64PageId }) {
 function filterTasks(tasks: V64Task[], filters: FilterState, currentUser: V64User): V64Task[] {
   return tasks.filter((task) => {
     const query = filters.query.trim().toLowerCase();
-    if (query && ![task.title, task.projectCode, task.projectName, task.client, task.departmentName, task.tags.join(" ")].join(" ").toLowerCase().includes(query)) return false;
+    if (query && ![task.title, task.projectCode, task.projectName, task.client, task.departmentName, (task.tags ?? []).join(" ")].join(" ").toLowerCase().includes(query)) return false;
     if (filters.projectId !== "all" && task.projectId !== filters.projectId) return false;
     if (filters.status !== "all" && task.status !== filters.status) return false;
     if (filters.priority !== "all" && task.priority !== filters.priority) return false;
@@ -987,7 +1109,7 @@ function WorkloadMini({ tasks }: { tasks: V64Task[] }) {
 }
 
 function ActivityRows({ tasks }: { tasks: V64Task[] }) {
-  const items = tasks.flatMap((task) => task.activityLog.map((activity) => ({ task, activity }))).slice(0, 7);
+  const items = tasks.flatMap((task) => (task.activityLog ?? []).map((activity) => ({ task, activity }))).slice(0, 7);
   return <div className="space-y-3">{items.map(({ task, activity }) => <div key={`${task.id}-${activity.id}`} className="flex items-start gap-3"><Avatar user={v64UserById(activity.actorId)} size="sm" /><div><div className="text-sm font-bold text-slate-700">{v64UserById(activity.actorId)?.name ?? "Sistem"} <span className="font-semibold text-slate-500">{activity.detail}</span></div><div className="text-xs font-semibold text-slate-400">{task.projectCode} · {task.title}</div></div></div>)}</div>;
 }
 
@@ -1049,7 +1171,7 @@ function ProjectChat() {
 }
 
 function DependencyList({ tasks, openTask }: { tasks: V64Task[]; openTask: (taskId: string) => void }) {
-  const items = tasks.filter((task) => task.dependencies.length || task.status === "Blocat");
+  const items = tasks.filter((task) => (task.dependencies ?? []).length || task.status === "Blocat");
   return <div className="space-y-2">{items.slice(0, 5).map((task) => <button key={task.id} onClick={() => openTask(task.id)} className="flex w-full items-center justify-between rounded-xl px-2 py-2 text-left hover:bg-slate-50"><span className="font-bold">{task.title}</span><Badge className={task.status === "Blocat" ? "bg-red-50 text-red-700 ring-red-100" : "bg-orange-50 text-orange-700 ring-orange-100"}>{task.status === "Blocat" ? "Blocat" : "Depinde"}</Badge></button>)}</div>;
 }
 
@@ -1078,12 +1200,12 @@ function SmallRows({ rows, tone = "slate" }: { rows: string[]; tone?: "red" | "o
 function SmallActionRows({ rows, onClick }: { rows: string[]; onClick: () => void }) { return <div className="space-y-2">{rows.map((row) => <button key={row} onClick={onClick} className="flex w-full justify-between rounded-xl bg-slate-50 px-3 py-2 text-left text-sm font-bold hover:bg-emerald-50"><span>{row}</span><ChevronRight className="h-4 w-4 text-emerald-700" /></button>)}</div>; }
 
 function BoardColumn({ status, tasks, openTask, move, create }: { status: V64TaskStatus; tasks: V64Task[]; openTask: (id: string) => void; move: (id: string, status: V64TaskStatus) => void; create: () => void }) {
-  return <div className="min-w-[176px] rounded-2xl bg-slate-50 p-2.5"><div className="mb-3 flex items-center justify-between"><h3 className="font-black">{status}</h3><span className="rounded-full bg-white px-2 py-1 text-xs font-black text-slate-500">{tasks.length}</span></div><div className="space-y-3">{tasks.map((task) => <div key={task.id} className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm"><button onClick={() => openTask(task.id)} className="text-left"><div className="font-black leading-snug">{task.title}</div><div className="mt-1 text-xs font-semibold text-slate-500">{task.projectCode} · {task.projectName}</div></button><div className="mt-3 flex items-center justify-between"><Avatar user={v64UserById(task.assigneeId)} size="sm" /><Badge className={priorityTone(task.priority)}>{task.priority}</Badge></div><div className="mt-3 h-1.5 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${task.progress}%` }} /></div><div className="mt-3 flex items-center justify-between text-xs font-bold text-slate-500"><span>{task.checklist.filter((item) => item.done).length}/{task.checklist.length}</span><span>{task.dueDate}</span><select value={task.status} onChange={(event) => move(task.id, event.target.value as V64TaskStatus)} className="rounded-lg border px-1 py-0.5 text-[10px]">{statuses.map((item) => <option key={item}>{item}</option>)}</select></div></div>)}<button onClick={create} className="w-full rounded-xl border border-dashed border-slate-300 py-2 text-sm font-black text-slate-500 hover:bg-white">+ Add task</button></div></div>;
+  return <div className="min-w-[176px] rounded-2xl bg-slate-50 p-2.5"><div className="mb-3 flex items-center justify-between"><h3 className="font-black">{status}</h3><span className="rounded-full bg-white px-2 py-1 text-xs font-black text-slate-500">{tasks.length}</span></div><div className="space-y-3">{tasks.map((task) => <div key={task.id} className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm"><button onClick={() => openTask(task.id)} className="text-left"><div className="font-black leading-snug">{task.title}</div><div className="mt-1 text-xs font-semibold text-slate-500">{task.projectCode} · {task.projectName}</div></button><div className="mt-3 flex items-center justify-between"><Avatar user={v64UserById(task.assigneeId)} size="sm" /><Badge className={priorityTone(task.priority)}>{task.priority}</Badge></div><div className="mt-3 h-1.5 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${task.progress}%` }} /></div><div className="mt-3 flex items-center justify-between text-xs font-bold text-slate-500"><span>{(task.checklist ?? []).filter((item) => item.done).length}/{(task.checklist ?? []).length}</span><span>{task.dueDate}</span><select value={task.status} onChange={(event) => move(task.id, event.target.value as V64TaskStatus)} className="rounded-lg border px-1 py-0.5 text-[10px]">{statuses.map((item) => <option key={item}>{item}</option>)}</select></div></div>)}<button onClick={create} className="w-full rounded-xl border border-dashed border-slate-300 py-2 text-sm font-black text-slate-500 hover:bg-white">+ Add task</button></div></div>;
 }
 
 function TaskTableRow({ task, selected, toggle, openTask, changeStatus, assign, density }: { task: V64Task; selected: boolean; toggle: (id: string) => void; openTask: (id: string) => void; changeStatus: (id: string, status: V64TaskStatus) => void; assign: (id: string, assigneeId: string) => boolean; density: Density }) {
   const pad = density === "compact" ? "py-2" : density === "relaxed" ? "py-5" : "py-3";
-  return <tr className="border-t border-slate-100 hover:bg-slate-50"><td className={`px-3 ${pad}`}><input type="checkbox" checked={selected} onChange={() => toggle(task.id)} /></td><td className="px-3 font-extrabold text-blue-700">{task.id}</td><td className="px-3"><button onClick={() => openTask(task.id)} className="text-left font-black hover:text-emerald-700">{task.title}</button></td><td className="px-3"><b>{task.projectCode}</b><div className="text-xs text-slate-500">{task.projectName}</div></td><td className="px-3">{task.type}</td><td className="px-3"><select value={task.status} onChange={(event) => changeStatus(task.id, event.target.value as V64TaskStatus)} className={`rounded-lg px-2 py-1 text-xs font-black ring-1 ${statusTone(task.status)}`}>{statuses.map((status) => <option key={status}>{status}</option>)}</select></td><td className="px-3"><Badge className={priorityTone(task.priority)}>{task.priority}</Badge></td><td className="px-3"><select value={task.assigneeId} onChange={(event) => assign(task.id, event.target.value)} className="rounded-lg border px-2 py-1 text-xs font-bold">{v64Users.map((user) => <option key={user.id} value={user.id}>{user.name}</option>)}</select></td><td className="px-3"><Avatar user={v64UserById(task.ownerId)} size="sm" /></td><td className="px-3"><span className={isOverdue(task) ? "font-black text-red-600" : "font-bold"}>{task.dueDate}</span></td><td className="px-3"><div className="flex items-center gap-2"><div className="h-1.5 w-14 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${task.progress}%` }} /></div><span className="text-xs font-black">{task.progress}%</span></div></td><td className="px-3">{task.trackedHours.toFixed(2)} / {task.estimateHours.toFixed(2)}</td><td className="px-3">{task.dependencies.length ? task.dependencies.join(", ") : "—"}</td><td className="px-3"><div className="flex gap-1">{task.tags.slice(0, 2).map((tag) => <Badge key={tag} className="bg-blue-50 text-blue-700 ring-blue-100">{tag}</Badge>)}</div></td><td className="px-4 text-xs">{Object.entries(task.customFields)[0]?.join(": ") ?? "—"}</td></tr>;
+  return <tr className="border-t border-slate-100 hover:bg-slate-50"><td className={`px-3 ${pad}`}><input type="checkbox" checked={selected} onChange={() => toggle(task.id)} /></td><td className="px-3 font-extrabold text-blue-700">{task.id}</td><td className="px-3"><button onClick={() => openTask(task.id)} className="text-left font-black hover:text-emerald-700">{task.title}</button></td><td className="px-3"><b>{task.projectCode}</b><div className="text-xs text-slate-500">{task.projectName}</div></td><td className="px-3">{task.type}</td><td className="px-3"><select value={task.status} onChange={(event) => changeStatus(task.id, event.target.value as V64TaskStatus)} className={`rounded-lg px-2 py-1 text-xs font-black ring-1 ${statusTone(task.status)}`}>{statuses.map((status) => <option key={status}>{status}</option>)}</select></td><td className="px-3"><Badge className={priorityTone(task.priority)}>{task.priority}</Badge></td><td className="px-3"><select value={task.assigneeId} onChange={(event) => assign(task.id, event.target.value)} className="rounded-lg border px-2 py-1 text-xs font-bold">{v64Users.map((user) => <option key={user.id} value={user.id}>{user.name}</option>)}</select></td><td className="px-3"><Avatar user={v64UserById(task.ownerId)} size="sm" /></td><td className="px-3"><span className={isOverdue(task) ? "font-black text-red-600" : "font-bold"}>{task.dueDate}</span></td><td className="px-3"><div className="flex items-center gap-2"><div className="h-1.5 w-14 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${task.progress}%` }} /></div><span className="text-xs font-black">{task.progress}%</span></div></td><td className="px-3">{task.trackedHours.toFixed(2)} / {task.estimateHours.toFixed(2)}</td><td className="px-3">{(task.dependencies ?? []).length ? task.dependencies.join(", ") : "—"}</td><td className="px-3"><div className="flex gap-1">{task.tags.slice(0, 2).map((tag) => <Badge key={tag} className="bg-blue-50 text-blue-700 ring-blue-100">{tag}</Badge>)}</div></td><td className="px-4 text-xs">{Object.entries(task.customFields)[0]?.join(": ") ?? "—"}</td></tr>;
 }
 
 function BulkActions({ rows, users, onStatus, onPriority, onAssignee, onDelete }: { rows: string[]; users: V64User[]; onStatus: (status: V64TaskStatus) => void; onPriority: (priority: V64Priority) => void; onAssignee: (assigneeId: string) => void; onDelete: () => void }) {
@@ -1223,7 +1345,7 @@ function TaskDrawer({ task, currentUser, onClose, onUpdate, onAssign, onStatus, 
   const [commentText, setCommentText] = useState("");
   useEffect(() => setCommentText(""), [task?.id]);
   if (!task) return null;
-  return <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-[560px] overflow-y-auto border-l border-slate-200 bg-white shadow-2xl"><div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white/95 p-5 backdrop-blur"><div><div className="text-xs font-black text-emerald-700">{task.projectCode} · {task.departmentName}</div><input value={task.title} onChange={(event) => onUpdate(task.id, { title: event.target.value })} className="mt-1 w-full text-xl font-black outline-none" /></div><button onClick={onClose} className="rounded-xl border p-2"><X className="h-4 w-4" /></button></div><div className="space-y-5 p-5"><textarea value={task.description} onChange={(event) => onUpdate(task.id, { description: event.target.value })} className="min-h-[90px] w-full rounded-2xl border border-slate-200 p-3 text-sm font-semibold outline-none" /><div className="grid grid-cols-2 gap-3"><DrawerSelect label="Status" value={task.status} onChange={(value) => onStatus(task.id, value as V64TaskStatus)} options={statuses} /><DrawerSelect label="Prioritate" value={task.priority} onChange={(value) => onUpdate(task.id, { priority: value as V64Priority })} options={priorities} /><DrawerSelect label="Assignee" value={task.assigneeId} onChange={(value) => onAssign(task.id, value)} options={v64Users.map((user) => user.id)} labelFor={(id) => v64UserById(id)?.name ?? id} /><DrawerSelect label="Owner" value={task.ownerId} onChange={(value) => onUpdate(task.id, { ownerId: value })} options={v64Users.map((user) => user.id)} labelFor={(id) => v64UserById(id)?.name ?? id} /><label className="text-xs font-black text-slate-500">Deadline<input type="date" value={task.dueDate} onChange={(event) => onUpdate(task.id, { dueDate: event.target.value })} className="mt-1 w-full rounded-xl border p-2 text-sm text-slate-700" /></label><label className="text-xs font-black text-slate-500">Estimare ore<input type="number" value={task.estimateHours} min={0} onChange={(event) => onUpdate(task.id, { estimateHours: Number(event.target.value) })} className="mt-1 w-full rounded-xl border p-2 text-sm text-slate-700" /></label></div><Panel title="Checklist / Subtaskuri"><div className="space-y-2">{task.checklist.length ? task.checklist.map((item) => <button key={item.id} onClick={() => onChecklist(task.id, item.id)} className="flex w-full items-center gap-2 rounded-xl p-2 text-left hover:bg-slate-50"><CheckCircle2 className={item.done ? "h-5 w-5 text-emerald-600" : "h-5 w-5 text-slate-300"} /><span className="font-bold">{item.label}</span></button>) : <EmptyState label="Nu există checklist pentru acest task." />}</div></Panel><Panel title="Comentarii"><div className="space-y-3">{task.comments.map((commentItem) => <div key={commentItem.id} className="flex gap-3"><Avatar user={v64UserById(commentItem.authorId)} size="sm" /><div className="rounded-xl bg-slate-50 p-3 text-sm font-semibold">{commentItem.body}</div></div>)}<div className="flex gap-2"><input value={commentText} onChange={(event) => setCommentText(event.target.value)} className="flex-1 rounded-xl border px-3 py-2 text-sm outline-none" placeholder="Adaugă comentariu..." /><button onClick={() => { onComment(task.id, commentText); setCommentText(""); }} className="rounded-xl bg-emerald-700 px-3 text-sm font-black text-white">Trimite</button></div></div></Panel><Panel title="Atașamente"><div className="space-y-2">{task.attachments.map((att) => <div key={att.id} className="flex items-center gap-2 rounded-xl bg-slate-50 p-2 text-sm font-bold"><Paperclip className="h-4 w-4" />{att.name}<span className="ml-auto text-xs text-slate-500">{att.size}</span></div>)}<button onClick={() => onAttachment(task.id)} className="rounded-xl border border-dashed px-3 py-2 text-sm font-black text-emerald-700">+ Atașează fișier mock</button></div></Panel><Panel title="Activity log"><ActivityRows tasks={[task]} /></Panel><div className="rounded-2xl bg-slate-50 p-3 text-xs font-semibold text-slate-500">Vizibil pentru {currentUser.role}. Modificările se salvează în localStorage și sunt pregătite pentru mock API / backend real.</div></div></aside>;
+  return <aside className="fixed inset-y-0 right-0 z-50 w-full max-w-[560px] overflow-y-auto border-l border-slate-200 bg-white shadow-2xl"><div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white/95 p-5 backdrop-blur"><div><div className="text-xs font-black text-emerald-700">{task.projectCode} · {task.departmentName}</div><input value={task.title} onChange={(event) => onUpdate(task.id, { title: event.target.value })} className="mt-1 w-full text-xl font-black outline-none" /></div><button onClick={onClose} className="rounded-xl border p-2"><X className="h-4 w-4" /></button></div><div className="space-y-5 p-5"><textarea value={task.description} onChange={(event) => onUpdate(task.id, { description: event.target.value })} className="min-h-[90px] w-full rounded-2xl border border-slate-200 p-3 text-sm font-semibold outline-none" /><div className="grid grid-cols-2 gap-3"><DrawerSelect label="Status" value={task.status} onChange={(value) => onStatus(task.id, value as V64TaskStatus)} options={statuses} /><DrawerSelect label="Prioritate" value={task.priority} onChange={(value) => onUpdate(task.id, { priority: value as V64Priority })} options={priorities} /><DrawerSelect label="Assignee" value={task.assigneeId} onChange={(value) => onAssign(task.id, value)} options={v64Users.map((user) => user.id)} labelFor={(id) => v64UserById(id)?.name ?? id} /><DrawerSelect label="Owner" value={task.ownerId} onChange={(value) => onUpdate(task.id, { ownerId: value })} options={v64Users.map((user) => user.id)} labelFor={(id) => v64UserById(id)?.name ?? id} /><label className="text-xs font-black text-slate-500">Deadline<input type="date" value={task.dueDate} onChange={(event) => onUpdate(task.id, { dueDate: event.target.value })} className="mt-1 w-full rounded-xl border p-2 text-sm text-slate-700" /></label><label className="text-xs font-black text-slate-500">Estimare ore<input type="number" value={task.estimateHours} min={0} onChange={(event) => onUpdate(task.id, { estimateHours: Number(event.target.value) })} className="mt-1 w-full rounded-xl border p-2 text-sm text-slate-700" /></label></div><Panel title="Checklist / Subtaskuri"><div className="space-y-2">{(task.checklist ?? []).length ? (task.checklist ?? []).map((item) => <button key={item.id} onClick={() => onChecklist(task.id, item.id)} className="flex w-full items-center gap-2 rounded-xl p-2 text-left hover:bg-slate-50"><CheckCircle2 className={item.done ? "h-5 w-5 text-emerald-600" : "h-5 w-5 text-slate-300"} /><span className="font-bold">{item.label}</span></button>) : <EmptyState label="Nu există checklist pentru acest task." />}</div></Panel><Panel title="Comentarii"><div className="space-y-3">{(task.comments ?? []).map((commentItem) => <div key={commentItem.id} className="flex gap-3"><Avatar user={v64UserById(commentItem.authorId)} size="sm" /><div className="rounded-xl bg-slate-50 p-3 text-sm font-semibold">{commentItem.body}</div></div>)}<div className="flex gap-2"><input value={commentText} onChange={(event) => setCommentText(event.target.value)} className="flex-1 rounded-xl border px-3 py-2 text-sm outline-none" placeholder="Adaugă comentariu..." /><button onClick={() => { onComment(task.id, commentText); setCommentText(""); }} className="rounded-xl bg-emerald-700 px-3 text-sm font-black text-white">Trimite</button></div></div></Panel><Panel title="Atașamente"><div className="space-y-2">{(task.attachments ?? []).map((att) => <div key={att.id} className="flex items-center gap-2 rounded-xl bg-slate-50 p-2 text-sm font-bold"><Paperclip className="h-4 w-4" />{att.name}<span className="ml-auto text-xs text-slate-500">{att.size}</span></div>)}<button onClick={() => onAttachment(task.id)} className="rounded-xl border border-dashed px-3 py-2 text-sm font-black text-emerald-700">+ Atașează fișier mock</button></div></Panel><Panel title="Activity log"><ActivityRows tasks={[task]} /></Panel><div className="rounded-2xl bg-slate-50 p-3 text-xs font-semibold text-slate-500">Vizibil pentru {currentUser.role}. Modificările se salvează în localStorage și sunt pregătite pentru mock API / backend real.</div></div></aside>;
 }
 
 function DrawerSelect({ label, value, options, onChange, labelFor }: { label: string; value: string; options: string[]; onChange: (value: string) => void; labelFor?: (value: string) => string }) { return <label className="text-xs font-black text-slate-500">{label}<select value={value} onChange={(event) => onChange(event.target.value)} className="mt-1 w-full rounded-xl border p-2 text-sm text-slate-700">{options.map((option) => <option key={option} value={option}>{labelFor ? labelFor(option) : option}</option>)}</select></label>; }
