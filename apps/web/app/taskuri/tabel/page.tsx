@@ -1,5 +1,5 @@
-import { V64TaskuriFunctionalArea } from "@/components/work-os/V64TaskuriFunctionalArea";
+import { TaskuriGoodDayIntegrationClient } from "@/components/work-os/TaskuriGoodDayIntegrationClient";
 
-export default function Page() {
-  return <V64TaskuriFunctionalArea pageId="table" />;
+export default function TaskuriRoutePage() {
+  return <TaskuriGoodDayIntegrationClient route="tabel" />;
 }

@@ -1,2 +1,5 @@
-import { V64TaskuriFunctionalArea } from "@/components/work-os/V64TaskuriFunctionalArea";
-export default function TaskuriCalendarGanttAliasPage() { return <V64TaskuriFunctionalArea pageId="calendar" />; }
+import { TaskuriGoodDayIntegrationClient } from "@/components/work-os/TaskuriGoodDayIntegrationClient";
+
+export default function TaskuriRoutePage() {
+  return <TaskuriGoodDayIntegrationClient route="calendar-gantt" />;
+}

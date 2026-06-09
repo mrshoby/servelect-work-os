@@ -1,5 +1,5 @@
-import { GoodDayParityCoreClient } from "@/components/work-os/GoodDayParityCoreClient";
+import { redirect } from "next/navigation";
 
-export default function Page() {
-  return <GoodDayParityCoreClient />;
+export default function DeprecatedGoodDayParityDemoPage() {
+  redirect("/taskuri/overview");
 }

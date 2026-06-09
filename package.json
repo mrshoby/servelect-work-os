@@ -1,7 +1,7 @@
 {
   "name": "servelect-work-os",
   "private": true,
-  "version": "6.5.1",
+  "version": "6.6.2",
   "description": "SERVELECT EMP / WORK OS - task-first enterprise platform for PV projects, operations, IoT, CRM, maintenance and HR.",
   "packageManager": "pnpm@11.5.1",
   "scripts": {
@@ -11,14 +11,17 @@
     "build": "pnpm --filter @servelect/web build",
     "lint": "pnpm --filter @servelect/web lint",
     "typecheck": "pnpm --filter @servelect/web typecheck",
-    "goodday:parity:test": "powershell -ExecutionPolicy Bypass -File scripts/work-os-goodday-parity-functional-test.ps1"
+    "goodday:parity:test": "powershell -ExecutionPolicy Bypass -File scripts/work-os-goodday-parity-functional-test.ps1",
+    "audit:taskuri:screenshots": "node scripts/audit-taskuri-screenshots.mjs",
+    "screenshot:audit": "node scripts/audit-taskuri-screenshots.mjs"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "devDependencies": {
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "playwright": "^1.49.0"
   }
 }
 

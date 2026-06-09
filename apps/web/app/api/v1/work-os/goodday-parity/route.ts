@@ -1,32 +1,38 @@
 import { NextResponse } from "next/server";
-import { buildGoodDayParitySeed, goodDayParityFeatureMatrix } from "@/lib/enterprise/work-os-goodday-parity-core";
+import { buildGoodDayParitySeed, calculateWorkload, goodDayParityFeatureMatrix } from "@/lib/enterprise/work-os-goodday-parity-core";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const seed = buildGoodDayParitySeed();
+  const state = buildGoodDayParitySeed();
   return NextResponse.json({
-    ok: true,
-    version: "6.5.0",
-    scope: "GoodDay-like functional core adapted for SERVELECT WORK OS",
-    features: goodDayParityFeatureMatrix(),
+    version: "6.6.0",
+    module: "Taskuri GoodDay core integrated into real routes",
+    routes: [
+      "/taskuri",
+      "/taskuri/overview",
+      "/taskuri/my-work",
+      "/taskuri/tickets-notificari",
+      "/taskuri/proiecte-active",
+      "/taskuri/proiecte-viitoare",
+      "/taskuri/proiecte-finalizate",
+      "/taskuri/board",
+      "/taskuri/tabel",
+      "/taskuri/calendar-gantt",
+      "/taskuri/workload-aprobari"
+    ],
     counts: {
-      users: seed.users.length,
-      clients: seed.clients.length,
-      projects: seed.projects.length,
-      tasks: seed.tasks.length,
-      tickets: seed.tickets.length,
-      notifications: seed.notifications.length,
-      approvals: seed.approvals.length,
-      timeEntries: seed.timeEntries.length,
-      savedViews: seed.savedViews.length,
-      automations: seed.automations.length
+      users: state.users.length,
+      projects: state.projects.length,
+      tasks: state.tasks.length,
+      tickets: state.tickets.length,
+      approvals: state.approvals.length,
+      notifications: state.notifications.length,
+      savedViews: state.savedViews.length,
+      automations: state.automations.length
     },
-    servelectExamples: [
-      "alerta invertor offline -> ticket + task tehnician",
-      "stoc sub minim -> procurement task",
-      "document PIF lipsa -> task documente",
-      "buget depasit -> approval",
-      "client follow-up -> CRM task",
-      "certificare ANRE expira -> HR task"
-    ]
+    workload: calculateWorkload(state.users, state.tasks, state.timeEntries),
+    featureMatrix: goodDayParityFeatureMatrix(),
+    persistence: "localStorage + mock API/service layer; backend DB adapter remains next phase"
   });
 }
