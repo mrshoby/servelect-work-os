@@ -1,6 +1,6 @@
 {
   "name": "@servelect/web",
-  "version": "6.7.2",
+  "version": "6.8.3",
   "private": true,
   "type": "module",
   "scripts": {
@@ -41,5 +41,6 @@
     "typescript": "^5.6.3"
   }
 }
+
 
 
