@@ -43,6 +43,7 @@ import {
   type GoodDayApproval,
   type GoodDayAutomationRule,
   type GoodDayDepartment,
+  type GoodDayEntityKind,
   type GoodDayFilters,
   type GoodDayNotification,
   type GoodDayParityState,
@@ -144,14 +145,14 @@ export function GoodDayParityCoreClient() {
     setState((previous) => mutator(structuredClone(previous)));
   }
 
-  function pushAudit(draft: GoodDayParityState, entityId: string, entityKind: "task" | "ticket" | "approval" | "notification" | "time" | "automation", action: string, detail?: string) {
+  function pushAudit(draft: GoodDayParityState, entityId: string, entityKind: GoodDayEntityKind, action: string, detail?: string) {
     const activity = buildActivity(entityId, entityKind, currentUser.id, action, detail);
     draft.auditLog.unshift(activity);
     const task = draft.tasks.find((item) => item.id === entityId);
     if (task) task.activity.unshift(activity);
   }
 
-  function addNotification(draft: GoodDayParityState, userId: string, title: string, body: string, entityKind: "task" | "ticket" | "approval" | "notification" | "time" | "automation", entityId: string, kind: GoodDayNotification["kind"]) {
+  function addNotification(draft: GoodDayParityState, userId: string, title: string, body: string, entityKind: GoodDayEntityKind, entityId: string, kind: GoodDayNotification["kind"]) {
     draft.notifications.unshift(buildNotification(userId, title, body, entityKind, entityId, kind));
   }
 
@@ -653,3 +654,4 @@ function PriorityBadge({ priority }: { priority: GoodDayPriority }) {
   const tone = priority === "Critical" ? "bg-rose-100 text-rose-700" : priority === "Urgent" ? "bg-amber-100 text-amber-700" : priority === "High" ? "bg-orange-100 text-orange-700" : "bg-slate-100 text-slate-600";
   return <span className={`rounded-full px-2 py-1 text-[11px] font-black uppercase tracking-wide ${tone}`}>{priority}</span>;
 }
+
