@@ -242,7 +242,7 @@ export const v64Projects: V64Project[] = [
 
 ];
 
-export const v64Tasks: V64Task[] = [
+const v64BaseTasks: V64Task[] = [
   { id: "P-2024-0187-T1", title: "Verificare amplasament și acces", description: "Verifică accesul echipei, zonele de montaj și condițiile de siguranță.", projectId: "p1", projectCode: "P-2024-0187", projectName: "Sistem FV 9.6 kWp", client: "Halo Retail SRL", type: "Task", status: "De făcut", priority: "Urgent", assigneeId: "u3", ownerId: "u6", reviewerId: "u1", createdBy: "u1", departmentId: "productie", departmentName: "Producție", startDate: "2024-05-17", dueDate: "2024-05-30", estimateHours: 4, trackedHours: 2.75, progress: 72, tags: ["teren", "verificare"], checklist: [{ id: "cl1", label: "Acces verificat", done: false }, { id: "cl2", label: "Poze încărcate", done: false }, { id: "cl3", label: "Client informat", done: true }], subtasks: [{ id: "s1", label: "Confirmare acces camion", status: "De făcut" }], comments: [comment("u6", "Am nevoie de confirmarea paznicului pentru acces lateral.", 1)], attachments: [{ id: "att1", name: "plan_situatie.pdf", type: "pdf", size: "1.2 MB", uploadedBy: "u2", createdAt: "2026-06-08T08:10:00" }], dependencies: [], watchers: ["u1", "u2"], approvalStatus: "pending", customFields: { Locație: "Cluj-Napoca", Echipă: "Montaj 2" }, activityLog: [activity("u1", "created", "Task creat din planul proiectului", 1)] },
   { id: "P-2024-0142-T2", title: "Montaj structură suport panouri", description: "Montează structura suport și verifică strângeri conform fișei tehnice.", projectId: "p2", projectCode: "P-2024-0192", projectName: "Fermă solară – Bistrița", client: "AgroTransilvania SRL", type: "Task", status: "În desfășurare", priority: "Urgent", assigneeId: "u3", ownerId: "u6", reviewerId: "u1", createdBy: "u2", departmentId: "productie", departmentName: "Producție", startDate: "2024-05-20", dueDate: "2024-05-31", estimateHours: 3, trackedHours: 1.5, progress: 48, tags: ["montaj", "structură"], checklist: [{ id: "cl1", label: "Structură poziționată", done: true }, { id: "cl2", label: "Șuruburi verificate", done: false }], subtasks: [], comments: [comment("u3", "Structura este montată 48%, avem nevoie de șuruburi suplimentare.", 2)], attachments: [], dependencies: ["P-2024-0187-T1"], watchers: ["u1", "u4"], approvalStatus: "pending", customFields: { Echipă: "Montaj 2", Suprafață: "1.200 m²" }, activityLog: [activity("u3", "status", "Status schimbat în În desfășurare", 2)] },
   { id: "P-2024-0103-T3", title: "Instalare panouri", description: "Instalează panourile pe șirul B și actualizează checklistul de calitate.", projectId: "p6", projectCode: "P-2024-0103", projectName: "GreenFactory SA", client: "GreenFactory SA", type: "Task", status: "Review", priority: "Ridicat", assigneeId: "u3", ownerId: "u6", reviewerId: "u2", createdBy: "u2", departmentId: "productie", departmentName: "Producție", startDate: "2024-05-15", dueDate: "2024-06-02", estimateHours: 7, trackedHours: 6.25, progress: 90, tags: ["panouri", "instalare"], checklist: [{ id: "cl1", label: "Șir B finalizat", done: true }, { id: "cl2", label: "QC verificat", done: true }], subtasks: [], comments: [], attachments: [], dependencies: ["P-2024-0142-T2"], watchers: ["u1"], approvalStatus: "pending", customFields: { Tip: "Comisionare" }, activityLog: [activity("u2", "review", "Trimis la review", 3)] },
@@ -260,13 +260,69 @@ export const v64Tasks: V64Task[] = [
 
 ];
 
-export const v64Tickets: V64Ticket[] = [
+const v64StatusTargets: Array<{ status: V64TaskStatus; count: number }> = [
+  { status: "De făcut", count: 42 },
+  { status: "În desfășurare", count: 31 },
+  { status: "Review", count: 18 },
+  { status: "Blocat", count: 7 },
+  { status: "Finalizat", count: 44 }
+];
+
+const v64ExistingStatusCounts = v64BaseTasks.reduce<Record<string, number>>((acc, task) => {
+  acc[task.status] = (acc[task.status] ?? 0) + 1;
+  return acc;
+}, {});
+
+const v64GeneratedTasks: V64Task[] = v64StatusTargets.flatMap(({ status, count }) => {
+  const already = v64ExistingStatusCounts[status] ?? 0;
+  const needed = Math.max(0, count - already);
+  return Array.from({ length: needed }, (_, index) => {
+    const base = v64BaseTasks[(index + status.length) % v64BaseTasks.length];
+    const suffix = `${status.replace(/[^A-Za-z0-9]/g, "").slice(0, 3).toUpperCase()}-${String(index + 1).padStart(3, "0")}`;
+    const progress = status === "Finalizat" ? 100 : status === "În desfășurare" ? 48 + (index % 4) * 8 : status === "Review" ? 72 : status === "Blocat" ? 15 : 0;
+    return {
+      ...base,
+      id: `${base.projectCode}-${suffix}`,
+      title: index % 3 === 0 ? base.title : `${base.title} · etapă ${index + 1}`,
+      status,
+      priority: status === "Blocat" ? "Urgent" : index % 5 === 0 ? "Ridicat" : base.priority,
+      progress,
+      dueDate: status === "Blocat" ? "2024-05-18" : status === "Finalizat" ? "2024-05-20" : base.dueDate,
+      trackedHours: status === "Finalizat" ? base.estimateHours : Math.min(base.trackedHours + (index % 3) * 0.25, base.estimateHours),
+      activityLog: [activity(base.assigneeId, "seed", `Task operațional generat pentru vedere 1:1 ${status}`, index % 9)]
+    };
+  });
+});
+
+export const v64Tasks: V64Task[] = [...v64BaseTasks, ...v64GeneratedTasks];
+
+
+const v64BaseTickets: V64Ticket[] = [
   { id: "T-2024-0192", type: "IoT Alert", subject: "Invertor offline - P-2024-0187 (Halo Depot - Cluj)", projectId: "p1", projectCode: "P-2024-0187", projectName: "Halo Depot - Cluj", ownerId: "u3", departmentId: "automatizari", priority: "Critic", slaMinutes: -80, status: "În deschidere", unread: true, escalated: false, createdAt: "2026-06-08T08:00:00", linkedTaskId: "P-2024-0098-T4" },
   { id: "T-2024-0191", type: "Documente", subject: "Documente PIF întârziate", projectId: "p3", projectCode: "P-2024-0179", projectName: "Parc fotovoltaic Arad", ownerId: "u2", departmentId: "administrativ", priority: "Ridicat", slaMinutes: 400, status: "Necesită răspuns", unread: true, escalated: false, createdAt: "2026-06-08T08:10:00", linkedTaskId: "P-2024-0183-T9" },
   { id: "T-2024-0190", type: "Aprobare", subject: "Cerere avize de racordare", projectId: "p2", projectCode: "P-2024-0185", projectName: "Farma solară – Bistrița", ownerId: "u6", departmentId: "comercial", priority: "Ridicat", slaMinutes: 495, status: "În așteptare", unread: false, escalated: false, createdAt: "2026-06-08T08:15:00", linkedTaskId: "P-2024-0192-T8" },
   { id: "T-2024-0189", type: "Procurement", subject: "Comandă furnizor blocată", projectId: "p7", projectCode: "P-2024-0172", projectName: "Stație EV - Timișoara", ownerId: "u4", departmentId: "administrativ", priority: "Mediu", slaMinutes: 1580, status: "În deschidere", unread: false, escalated: false, createdAt: "2026-06-08T08:20:00" },
   { id: "T-2024-0188", type: "Client", subject: "Client follow-up - clarificări contract", projectId: "p8", projectCode: "P-2024-0183", projectName: "Hotel Opera SRL", ownerId: "u8", departmentId: "comercial", priority: "Mediu", slaMinutes: 1800, status: "Necesită răspuns", unread: true, escalated: false, createdAt: "2026-06-08T08:30:00" }
 ];
+
+const v64GeneratedTickets: V64Ticket[] = Array.from({ length: 137 }, (_, index) => {
+  const base = v64BaseTickets[index % v64BaseTickets.length];
+  const priority: V64Priority = index < 17 ? "Critic" : index < 37 ? "Ridicat" : index % 5 === 0 ? "Urgent" : base.priority;
+  const status: V64TicketStatus = index < 35 ? "Necesită răspuns" : index % 9 === 0 ? "În așteptare" : index % 13 === 0 ? "Rezolvat" : base.status;
+  return {
+    ...base,
+    id: `T-2024-${String(2000 + index).padStart(4, "0")}`,
+    subject: `${base.subject} · follow-up ${index + 1}`,
+    priority,
+    status,
+    unread: index < 61,
+    slaMinutes: index < 14 ? 360 - index * 12 : base.slaMinutes,
+    escalated: index < 6
+  };
+});
+
+export const v64Tickets: V64Ticket[] = [...v64BaseTickets, ...v64GeneratedTickets];
+
 
 export const v64Approvals: V64Approval[] = [
   { id: "AP-001", type: "Budget", title: "Extindere buget P-2024-0187", entityType: "project", entityId: "p1", requestedBy: "u2", approverId: "u1", departmentId: "productie", status: "pending", reason: "Materiale suplimentare pentru structură", valueRon: 120000, createdAt: "2026-06-08T08:20:00" },

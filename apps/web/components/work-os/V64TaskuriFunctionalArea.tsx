@@ -423,13 +423,13 @@ export function V64TaskuriFunctionalArea({ pageId }: { pageId: V64PageId }) {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-900">
-      <div className="mx-auto max-w-[1780px] space-y-4 px-6 py-5">
+      <div className="mx-auto max-w-[1760px] space-y-3 px-4 py-4">
         <TaskuriTopbar meta={meta} currentUser={store.currentUser} unread={unread} onCreate={handleQuickCreate} onSearch={(query) => setFilters((state) => ({ ...state, query }))} onMarkAll={store.markAllNotificationsRead} onSwitchUser={store.setCurrentUserId} />
         {pageId !== "table" ? <KpiStrip pageId={pageId} currentUser={store.currentUser} tasks={visibleTasks} tickets={store.tickets} projects={store.projects} approvals={store.approvals} /> : null}
         {pageId === "board" || pageId === "table" ? (
           <FiltersBar filters={filters} setFilters={setFilters} saveView={() => { store.saveView(`Vedere ${store.savedViews.length + 1}`, filters); toast("Vedere salvată în localStorage."); }} savedViews={store.savedViews} />
         ) : null}
-        {message ? <div className="fixed right-6 top-6 z-50 rounded-2xl border border-emerald-100 bg-white px-4 py-3 text-sm font-black text-emerald-700 shadow-2xl">{message}</div> : null}
+        {message ? <div className="fixed right-6 top-6 z-50 rounded-2xl border border-emerald-100 bg-white px-3 py-2.5 text-sm font-black text-emerald-700 shadow-2xl">{message}</div> : null}
         {renderPage(pageId, { store, tasks: filteredTasks, visibleTasks, filters, setFilters, selectedRows, setSelectedRows, density, setDensity, openTask, setModal, toast })}
         <TaskuriReferenceFooter />
       </div>
@@ -496,24 +496,20 @@ function TaskuriTopbar({ meta, currentUser, unread, onCreate, onSearch, onMarkAl
   return (
     <header className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
       <div>
-        <h1 className="text-[26px] font-black tracking-tight text-slate-950">{meta.title}</h1>
-        <p className="mt-1 text-sm font-medium text-slate-500">{meta.subtitle}</p>
+        <h1 className="text-[24px] font-extrabold tracking-tight text-slate-950">{meta.title}</h1>
+        <p className="mt-1 text-[13px] font-medium text-slate-500">{meta.subtitle}</p>
       </div>
       <div className="flex flex-wrap items-center gap-3">
-        <div className="flex h-11 min-w-[360px] items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 shadow-sm">
+        <div className="flex h-10 min-w-[390px] items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 shadow-sm">
           <Search className="h-4 w-4 text-slate-400" />
           <input aria-label="Caută" onChange={(event) => onSearch(event.target.value)} className="h-full flex-1 bg-transparent text-sm font-semibold outline-none placeholder:text-slate-400" placeholder="Caută proiecte, taskuri, clienți, activități..." />
           <kbd className="rounded-lg bg-slate-100 px-2 py-1 text-[10px] font-black text-slate-500">⌘ K</kbd>
         </div>
-        <button onClick={onMarkAll} className="relative rounded-2xl border border-slate-200 bg-white p-3 shadow-sm hover:bg-slate-50" title="Marchează notificările ca citite"><Bell className="h-5 w-5 text-slate-700" />{unread ? <span className="absolute -right-1 -top-1 rounded-full bg-emerald-600 px-1.5 text-[10px] font-black text-white">{unread}</span> : null}</button>
-        <select value={currentUser.id} onChange={(event) => onSwitchUser(event.target.value)} className="h-11 rounded-2xl border border-slate-200 bg-white px-3 text-sm font-black shadow-sm">
+        <button onClick={onMarkAll} className="relative rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm hover:bg-slate-50" title="Marchează notificările ca citite"><Bell className="h-5 w-5 text-slate-700" />{unread ? <span className="absolute -right-1 -top-1 rounded-full bg-emerald-600 px-1.5 text-[10px] font-black text-white">{unread}</span> : null}</button>
+        <select value={currentUser.id} onChange={(event) => onSwitchUser(event.target.value)} className="h-10 rounded-2xl border border-slate-200 bg-white px-3 text-xs font-extrabold shadow-sm">
           {v64Users.map((user) => <option key={user.id} value={user.id}>{user.name} · {user.role}</option>)}
         </select>
-        <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
-          <Avatar user={currentUser} />
-          <div className="hidden leading-tight md:block"><div className="text-sm font-black">{currentUser.name}</div><div className="text-[11px] font-bold text-slate-500">{currentUser.role}</div></div>
-        </div>
-        <button onClick={onCreate} className="inline-flex h-11 items-center gap-2 rounded-2xl bg-emerald-700 px-5 text-sm font-black text-white shadow-lg shadow-emerald-700/20 hover:bg-emerald-800"><Plus className="h-4 w-4" />{meta.action}</button>
+        <button onClick={onCreate} className="inline-flex h-10 items-center gap-2 rounded-2xl bg-emerald-700 px-4 text-sm font-black text-white shadow-lg shadow-emerald-700/20 hover:bg-emerald-800"><Plus className="h-4 w-4" />{meta.action}</button>
       </div>
     </header>
   );
@@ -619,17 +615,23 @@ function Kpi({ label, value, sub, tone, icon }: { label: string; value: string; 
   const toneMap: Record<string, string> = { green: "bg-emerald-50 text-emerald-700", blue: "bg-blue-50 text-blue-700", purple: "bg-violet-50 text-violet-700", orange: "bg-orange-50 text-orange-700", red: "bg-red-50 text-red-700", slate: "bg-slate-50 text-slate-700" };
   const bar = tone === "red" ? "bg-red-500" : tone === "orange" ? "bg-orange-500" : tone === "purple" ? "bg-violet-500" : tone === "blue" ? "bg-blue-500" : "bg-emerald-500";
   return (
-    <article className="min-h-[122px] rounded-[1.1rem] border border-slate-200 bg-white p-4 shadow-sm">
-      <div className="flex items-start justify-between gap-3"><div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${toneMap[tone]}`}>{icon}</div><Sparkline className={bar} /></div>
-      <div className="mt-3 text-[11px] font-black text-slate-500">{label}</div>
-      <div className="mt-1 text-[24px] font-black leading-none text-slate-950">{value}</div>
-      <div className="mt-2 text-[11px] font-bold text-emerald-600">↗ {sub}</div>
+    <article className="min-h-[118px] rounded-[1.05rem] border border-slate-200 bg-white p-3.5 shadow-sm">
+      <div className="flex items-start justify-between gap-3"><div className={`flex h-9 w-9 items-center justify-center rounded-2xl ${toneMap[tone]}`}>{icon}</div><Sparkline className={bar} /></div>
+      <div className="mt-2.5 text-[10px] font-extrabold text-slate-500">{label}</div>
+      <div className="mt-1 text-[22px] font-extrabold leading-none text-slate-950">{value}</div>
+      <div className="mt-1.5 text-[10px] font-bold text-emerald-600">↗ {sub}</div>
     </article>
   );
 }
 
 function Sparkline({ className }: { className: string }) {
-  return <div className="flex h-8 items-end gap-1">{[13, 16, 12, 21, 19, 25, 23, 31].map((h, index) => <span key={`${h}-${index}`} className={`w-1.5 rounded-full opacity-75 ${className}`} style={{ height: h }} />)}</div>;
+  const stroke = className.includes("red") ? "#ef4444" : className.includes("orange") ? "#f97316" : className.includes("violet") ? "#8b5cf6" : className.includes("blue") ? "#3b82f6" : "#10b981";
+  return (
+    <svg viewBox="0 0 78 34" className="h-8 w-20 overflow-visible" aria-hidden="true">
+      <path d="M2 25 C10 22, 12 18, 20 20 S31 12, 40 16 S50 8, 58 12 S67 4, 76 7" fill="none" stroke={stroke} strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M2 25 C10 22, 12 18, 20 20 S31 12, 40 16 S50 8, 58 12 S67 4, 76 7 L76 34 L2 34 Z" fill={stroke} opacity="0.07" />
+    </svg>
+  );
 }
 
 function TaskuriSubnav({ pageId }: { pageId: V64PageId }) {
@@ -715,12 +717,12 @@ function Panel({ title, badge, children, action, className = "", bodyClassName =
       Vezi toate
     </button>
   );
-  return <section className={`rounded-[1.1rem] border border-slate-200 bg-white shadow-sm ${className}`}><div className="flex min-h-[44px] items-center justify-between border-b border-slate-100 px-4 py-2.5"><div className="flex items-center gap-2"><h2 className="text-[15px] font-black text-slate-950">{title}</h2>{badge !== undefined ? <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-black text-emerald-700">{badge}</span> : null}</div>{action ?? defaultAction}</div><div className={`p-3.5 ${bodyClassName}`}>{children}</div></section>;
+  return <section className={`rounded-[1.05rem] border border-slate-200 bg-white shadow-sm ${className}`}><div className="flex min-h-[38px] items-center justify-between border-b border-slate-100 px-3.5 py-2"><div className="flex items-center gap-2"><h2 className="text-[14px] font-extrabold text-slate-950">{title}</h2>{badge !== undefined ? <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-black text-emerald-700">{badge}</span> : null}</div>{action ?? defaultAction}</div><div className={`p-3 ${bodyClassName}`}>{children}</div></section>;
 }
 
 function OverviewPage(ctx: PageContext) {
   const overdue = ctx.tasks.filter(isOverdue);
-  return <div className="grid gap-5 xl:grid-cols-[300px_1.1fr_1fr_340px]">
+  return <div className="grid items-start gap-4 xl:grid-cols-[290px_1.16fr_1fr_320px]">
     <Panel title="Tickets & Notificări" badge={ctx.store.tickets.filter((ticket) => ticket.unread).length}><TicketSummary tickets={ctx.store.tickets} onClick={(ticket) => { if (ticket.linkedTaskId) ctx.openTask(ticket.linkedTaskId); }} /></Panel>
     <Panel title="My Tasks / Inbox" badge={ctx.tasks.length}><TaskMiniTable tasks={ctx.tasks.slice(0, 5)} onOpen={ctx.openTask} /></Panel>
     <Panel title="Proiecte active" badge={ctx.store.projects.filter((project) => project.status === "active").length}><ProjectProgressList projects={ctx.store.projects.filter((project) => project.status === "active")} /></Panel>
@@ -735,7 +737,7 @@ function OverviewPage(ctx: PageContext) {
 
 function MyWorkPage(ctx: PageContext) {
   const mine = ctx.tasks.filter((task) => task.assigneeId === ctx.store.currentUser.id || task.ownerId === ctx.store.currentUser.id || task.watchers.includes(ctx.store.currentUser.id));
-  return <div className="grid gap-5 xl:grid-cols-[1fr_420px]">
+  return <div className="grid items-start gap-4 xl:grid-cols-[1fr_390px]">
     <Panel title="My Tasks / Inbox" badge={mine.length} action={<SegmentedFilters setFilters={ctx.setFilters} />}><TaskMiniTable tasks={mine} onOpen={ctx.openTask} /></Panel>
     <div className="space-y-5"><Panel title="Astăzi"><Agenda tasks={mine} onOpen={ctx.openTask} /></Panel><Panel title="Mențiuni recente"><Mentions notifications={ctx.store.notifications} markRead={ctx.store.markNotificationRead} /></Panel><Panel title="Creează rapid"><QuickCreate create={ctx.store.createTask} ticket={ctx.store.createTicket} toast={ctx.toast} /></Panel></div>
     <Panel title="Delegated by me" badge={mine.filter((task) => task.ownerId === ctx.store.currentUser.id).length}><TaskMiniTable compact tasks={mine.filter((task) => task.ownerId === ctx.store.currentUser.id)} onOpen={ctx.openTask} /></Panel>
@@ -746,7 +748,7 @@ function MyWorkPage(ctx: PageContext) {
 
 function InboxPage(ctx: PageContext) {
   const inboxTasks = ctx.tasks.filter((task) => task.assigneeId === ctx.store.currentUser.id || task.approvalStatus === "pending" || task.status === "Review" || isOverdue(task));
-  return <div className="grid gap-5 xl:grid-cols-[1fr_360px]">
+  return <div className="grid items-start gap-4 xl:grid-cols-[1fr_340px]">
     <Panel title="Inbox operațional" badge={inboxTasks.length}><TaskMiniTable tasks={inboxTasks} onOpen={ctx.openTask} /></Panel>
     <div className="space-y-5"><Panel title="Notificări necitite"><Mentions notifications={ctx.store.notifications.filter((item) => !item.read)} markRead={ctx.store.markNotificationRead} /></Panel><Panel title="Aprobări care așteaptă"><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} /></Panel></div>
     <Panel title="Mențiuni și comentarii"><ActivityRows tasks={inboxTasks} /></Panel>
@@ -755,7 +757,7 @@ function InboxPage(ctx: PageContext) {
 }
 
 function TicketsPage(ctx: PageContext) {
-  return <div className="grid gap-5 xl:grid-cols-[1fr_360px]">
+  return <div className="grid items-start gap-4 xl:grid-cols-[1fr_340px]">
     <Panel title="Coada ticketelor" badge={ctx.store.tickets.length} action={<button onClick={() => { ctx.store.createTicket(); ctx.toast("Ticket creat."); }} className="rounded-xl bg-emerald-700 px-3 py-2 text-xs font-black text-white">Ticket nou</button>}><TicketsTable tickets={ctx.store.tickets} update={ctx.store.updateTicket} escalate={ctx.store.escalateTicket} openTask={ctx.openTask} /></Panel>
     <div className="space-y-5"><Panel title="Action required" badge={ctx.store.tickets.filter((ticket) => ticket.priority === "Critic" || ticket.slaMinutes < 480).length}><TicketActions tickets={ctx.store.tickets} escalate={ctx.store.escalateTicket} /></Panel><Panel title="Escaladări" badge={ctx.store.tickets.filter((ticket) => ticket.escalated).length}><TicketEscalations tickets={ctx.store.tickets} /></Panel><Panel title="Filtre quick views"><TicketQuickViews /></Panel></div>
     <Panel title="Tickete prioritare"><TicketsTable compact tickets={ctx.store.tickets.filter((ticket) => ticket.priority !== "Scăzut")} update={ctx.store.updateTicket} escalate={ctx.store.escalateTicket} openTask={ctx.openTask} /></Panel>
@@ -765,7 +767,7 @@ function TicketsPage(ctx: PageContext) {
 
 function ActiveProjectsPage(ctx: PageContext) {
   const active = ctx.store.projects.filter((project) => project.status === "active");
-  return <div className="grid gap-5 xl:grid-cols-[1fr_380px]">
+  return <div className="grid items-start gap-4 xl:grid-cols-[1fr_360px]">
     <Panel title="Proiecte active" badge={active.length}><ProjectTable projects={active} tasks={ctx.visibleTasks} openTask={ctx.openTask} /></Panel>
     <div className="space-y-5"><Panel title="Taskuri urgente" badge={ctx.tasks.filter((task) => task.priority === "Urgent" || isOverdue(task)).length}><AlertList tasks={ctx.tasks.filter((task) => task.priority === "Urgent" || isOverdue(task))} onOpen={ctx.openTask} /></Panel><Panel title="Aprobări în așteptare" badge={ctx.store.approvals.filter((approval) => approval.status === "pending").length}><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} /></Panel><Panel title="Dependențe / blocaje"><DependencyList tasks={ctx.tasks} openTask={ctx.openTask} /></Panel></div>
     <Panel title="Linii proiecte & inițiative active"><InitiativeLanes projects={active} tasks={ctx.visibleTasks} openTask={ctx.openTask} /></Panel>
@@ -778,7 +780,7 @@ function ActiveProjectsPage(ctx: PageContext) {
 function UpcomingProjectsPage(ctx: PageContext) {
   const upcoming = ctx.store.projects.filter((project) => project.status === "upcoming");
   const first = upcoming[0];
-  return <div className="grid gap-5 xl:grid-cols-[1fr_350px_340px]">
+  return <div className="grid items-start gap-4 xl:grid-cols-[1fr_320px_310px]">
     <Panel title="Proiecte viitoare" badge={upcoming.length}><ProjectTable projects={upcoming} tasks={ctx.visibleTasks} openTask={ctx.openTask} upcoming /></Panel>
     <Panel title="Checklist kickoff" badge={first ? `${first.kickoffChecklist.filter((item) => item.done).length}/${first.kickoffChecklist.length}` : 0}>{first ? <KickoffChecklist project={first} toggle={ctx.store.toggleKickoff} /> : <EmptyState label="Nu există proiecte viitoare." />}</Panel>
     <div className="space-y-5"><Panel title="Next launches"><LaunchTimeline projects={upcoming} /></Panel><Panel title="Conflicte resurse"><ConflictList /></Panel><Panel title="Documente lipsă"><MissingDocs projects={upcoming} /></Panel><Panel title="Aprobări înainte de start"><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} /></Panel></div>
@@ -791,7 +793,7 @@ function UpcomingProjectsPage(ctx: PageContext) {
 
 function CompletedProjectsPage(ctx: PageContext) {
   const completed = ctx.store.projects.filter((project) => project.status === "completed");
-  return <div className="grid gap-5 xl:grid-cols-[1fr_330px_330px]">
+  return <div className="grid items-start gap-4 xl:grid-cols-[1fr_320px_320px]">
     <Panel title="Proiecte finalizate" badge={completed.length} action={<button onClick={() => ctx.setModal("export")} className="rounded-xl bg-emerald-700 px-3 py-2 text-xs font-black text-white"><Download className="mr-1 inline h-3.5 w-3.5" />Exportă raport</button>}><ProjectTable projects={completed} tasks={ctx.visibleTasks} openTask={ctx.openTask} completed /></Panel>
     <div className="space-y-5"><Panel title="Complete recent" badge="5"><ProjectMiniRows projects={completed} /></Panel><Panel title="Final approvals" badge="4"><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} /></Panel><Panel title="Lessons learned" badge="5"><LessonsList setModal={ctx.setModal} /></Panel></div>
     <div className="space-y-5"><Panel title="Documente handover"><HandoverList setModal={ctx.setModal} /></Panel><Panel title="Rapoarte finale"><ReportList setModal={ctx.setModal} /></Panel><Panel title="Template-uri & Best practices"><TemplateList /></Panel></div>
@@ -813,7 +815,7 @@ function BoardPage(ctx: PageContext) {
     if (value === "default") ctx.setFilters((state) => ({ ...state, savedView: "all" }));
     ctx.toast(`Saved view aplicat: ${value}`);
   }
-  return <div className="grid gap-5 xl:grid-cols-[1fr_320px]">
+  return <div className="grid items-start gap-4 xl:grid-cols-[1fr_300px]">
     <section className="rounded-[1.35rem] border border-slate-200 bg-white p-4 shadow-sm"><div className="mb-4 flex flex-wrap items-center justify-between gap-2"><div className="flex gap-2"><Select label="Active board" value={activeBoard} onChange={handleBoardChange} options={[{ value: "pv", label: "PV Operations" }, { value: "team", label: "Team board" }]} /><Select label="Saved view" value={savedView} onChange={handleSavedView} options={[{ value: "default", label: "Default" }, { value: "blocked", label: "Blocate" }, { value: "urgent", label: "Urgente" }]} /></div><button onClick={() => { const id = ctx.store.createTask("Backlog"); ctx.openTask(id); }} className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-black text-emerald-700">+ Add task</button></div><div className="grid gap-3 xl:grid-cols-6">{statuses.map((status) => <BoardColumn key={status} status={status} tasks={ctx.tasks.filter((task) => task.status === status)} openTask={ctx.openTask} move={ctx.store.changeTaskStatus} create={() => { const id = ctx.store.createTask(status); ctx.openTask(id); }} />)}</div></section>
     <div className="space-y-5"><Panel title="Acțiuni necesare" badge="5"><AlertList tasks={ctx.tasks.filter((task) => task.priority === "Urgent" || task.status === "Blocat")} onOpen={ctx.openTask} /></Panel><Panel title="Taskuri întârziate" badge={ctx.tasks.filter(isOverdue).length}><AlertList tasks={ctx.tasks.filter(isOverdue)} onOpen={ctx.openTask} /></Panel><Panel title="Statistici rapide"><QuickStats tasks={ctx.tasks} /></Panel></div>
   </div>;
@@ -825,8 +827,8 @@ function TablePage(ctx: PageContext) {
   const tableTasks = useMemo(() => grouping === "status" ? [...ctx.tasks].sort((a, b) => a.status.localeCompare(b.status)) : ctx.tasks, [ctx.tasks, grouping]);
   function toggleAll() { ctx.setSelectedRows(allSelected ? [] : ctx.tasks.map((task) => task.id)); }
   function toggle(id: string) { ctx.setSelectedRows((rows) => rows.includes(id) ? rows.filter((row) => row !== id) : [...rows, id]); }
-  return <div className="grid gap-5 xl:grid-cols-[1fr_300px]">
-    <section className="rounded-[1.35rem] border border-slate-200 bg-white shadow-sm"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4"><div className="text-base font-black">{ctx.tasks.length} taskuri · <span className="text-emerald-700">Selectate {ctx.selectedRows.length}</span></div><div className="flex gap-2"><Select label="Grupare" value={grouping} onChange={(value) => { setGrouping(value); ctx.toast(value === "status" ? "Tabel grupat după status." : "Gruparea tabelului a fost resetată."); }} options={[{ value: "none", label: "Niciuna" }, { value: "status", label: "Status" }]} /><Select label="Densitate" value={ctx.density} onChange={(value) => ctx.setDensity(value as Density)} options={[{ value: "compact", label: "Compact" }, { value: "medium", label: "Mediu" }, { value: "relaxed", label: "Relaxat" }]} /></div></div><div className="overflow-x-auto"><table className="min-w-[1280px] w-full text-left text-sm"><thead className="bg-slate-50 text-[11px] uppercase tracking-wide text-slate-500"><tr><th className="px-4 py-3"><input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>{["ID", "Task", "Project", "Tip", "Status", "Prioritate", "Assignee", "Owner", "Deadline", "Progress", "Time tracked", "Dependencies", "Tags", "Custom field"].map((head) => <th key={head} className="px-4 py-3 font-black">{head}</th>)}</tr></thead><tbody>{tableTasks.map((task) => <TaskTableRow key={task.id} task={task} selected={ctx.selectedRows.includes(task.id)} toggle={toggle} openTask={ctx.openTask} changeStatus={ctx.store.changeTaskStatus} assign={ctx.store.assignTask} density={ctx.density} />)}</tbody></table></div></section>
+  return <div className="grid items-start gap-4 xl:grid-cols-[1fr_280px]">
+    <section className="rounded-[1.35rem] border border-slate-200 bg-white shadow-sm"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4"><div className="text-base font-black">{ctx.tasks.length} taskuri · <span className="text-emerald-700">Selectate {ctx.selectedRows.length}</span></div><div className="flex gap-2"><Select label="Grupare" value={grouping} onChange={(value) => { setGrouping(value); ctx.toast(value === "status" ? "Tabel grupat după status." : "Gruparea tabelului a fost resetată."); }} options={[{ value: "none", label: "Niciuna" }, { value: "status", label: "Status" }]} /><Select label="Densitate" value={ctx.density} onChange={(value) => ctx.setDensity(value as Density)} options={[{ value: "compact", label: "Compact" }, { value: "medium", label: "Mediu" }, { value: "relaxed", label: "Relaxat" }]} /></div></div><div className="overflow-x-auto"><table className="min-w-[1160px] w-full text-left text-[13px]"><thead className="bg-slate-50 text-[11px] uppercase tracking-wide text-slate-500"><tr><th className="px-3 py-2.5"><input type="checkbox" checked={allSelected} onChange={toggleAll} /></th>{["ID", "Task", "Project", "Tip", "Status", "Prioritate", "Assignee", "Owner", "Deadline", "Progress", "Time tracked", "Dependencies", "Tags", "Custom field"].map((head) => <th key={head} className="px-3 py-2.5 font-black">{head}</th>)}</tr></thead><tbody>{tableTasks.map((task) => <TaskTableRow key={task.id} task={task} selected={ctx.selectedRows.includes(task.id)} toggle={toggle} openTask={ctx.openTask} changeStatus={ctx.store.changeTaskStatus} assign={ctx.store.assignTask} density={ctx.density} />)}</tbody></table></div></section>
     <div className="space-y-5"><Panel title="Acțiuni în masă" badge={`${ctx.selectedRows.length} selectate`}><BulkActions rows={ctx.selectedRows} users={v64Users} onStatus={(status) => ctx.store.bulkUpdate(ctx.selectedRows, { status })} onPriority={(priority) => ctx.store.bulkUpdate(ctx.selectedRows, { priority })} onAssignee={(assigneeId) => ctx.store.bulkUpdate(ctx.selectedRows, { assigneeId })} onDelete={() => { ctx.store.deleteTasks(ctx.selectedRows); ctx.setSelectedRows([]); }} /></Panel><Panel title="Filtre rapide"><QuickFilters setFilters={ctx.setFilters} /></Panel><Panel title="Setări vedere"><ViewSettings density={ctx.density} setDensity={ctx.setDensity} /></Panel></div>
     <Panel title="Rezumat selecție"><SelectionSummary rows={ctx.selectedRows} tasks={ctx.tasks} /></Panel><Panel title="Modificări recente"><ActivityRows tasks={ctx.visibleTasks} /></Panel><Panel title="Export & Integrări"><ExportIntegrations setModal={ctx.setModal} /></Panel>
   </div>;
@@ -878,7 +880,7 @@ function QuickStats({ tasks }: { tasks: V64Task[] }) {
         <div key={row.label} className="flex items-center justify-between rounded-2xl border border-slate-100 bg-white px-3 py-3 shadow-sm">
           <div>
             <div className="text-sm font-black text-slate-800">{row.label}</div>
-            <div className="mt-0.5 text-xs font-semibold text-slate-500">{row.trend}</div>
+            <div className="mt-0.5 text-[11px] font-semibold text-slate-500">{row.trend}</div>
           </div>
           <span className={`rounded-xl px-3 py-1 text-sm font-black ${row.tone}`}>{row.value}</span>
         </div>
@@ -956,7 +958,7 @@ function Badge({ children, className = "" }: { children: ReactNode; className?: 
 
 function TaskMiniTable({ tasks, onOpen, compact = false }: { tasks: V64Task[]; onOpen: (taskId: string) => void; compact?: boolean }) {
   if (!tasks.length) return <EmptyState label="Nu există taskuri pentru filtrul curent." />;
-  return <div className="divide-y divide-slate-100">{tasks.slice(0, compact ? 5 : 8).map((task) => <button key={task.id} onClick={() => onOpen(task.id)} className="grid w-full grid-cols-[24px_1fr_170px_90px_120px] items-center gap-3 py-3 text-left text-sm hover:bg-slate-50"><Circle className="h-4 w-4 text-slate-300" /><div><div className="font-black text-slate-900">{task.title}</div><div className="mt-0.5 text-xs font-semibold text-slate-500">{task.projectCode} · {task.projectName}</div></div><Badge className={priorityTone(task.priority)}>{task.priority}</Badge><Badge className={statusTone(task.status)}>{task.status}</Badge><div className="flex items-center gap-2"><Avatar user={v64UserById(task.assigneeId)} size="sm" /><span className="text-xs font-bold text-slate-500">{v64UserById(task.assigneeId)?.name.split(" ")[0]}</span></div></button>)}</div>;
+  return <div className="divide-y divide-slate-100">{tasks.slice(0, compact ? 5 : 8).map((task) => <button key={task.id} onClick={() => onOpen(task.id)} className="grid w-full grid-cols-[22px_1fr_140px_92px_96px] items-center gap-2 py-2.5 text-left text-[13px] hover:bg-slate-50"><Circle className="h-4 w-4 text-slate-300" /><div><div className="font-extrabold text-slate-900">{task.title}</div><div className="mt-0.5 text-[11px] font-semibold text-slate-500">{task.projectCode} · {task.projectName}</div></div><Badge className={priorityTone(task.priority)}>{task.priority}</Badge><Badge className={statusTone(task.status)}>{task.status}</Badge><div className="flex items-center gap-2"><Avatar user={v64UserById(task.assigneeId)} size="sm" /><span className="text-xs font-bold text-slate-500">{v64UserById(task.assigneeId)?.name.split(" ")[0]}</span></div></button>)}</div>;
 }
 
 function TicketSummary({ tickets, onClick }: { tickets: V64Ticket[]; onClick: (ticket: V64Ticket) => void }) {
@@ -965,11 +967,11 @@ function TicketSummary({ tickets, onClick }: { tickets: V64Ticket[]; onClick: (t
     { label: "Necesită răspuns", count: tickets.filter((ticket) => ticket.status === "Necesită răspuns").length, tone: "bg-orange-50 text-orange-700" },
     { label: "Informații", count: tickets.filter((ticket) => ticket.unread).length, tone: "bg-blue-50 text-blue-700" }
   ];
-  return <div className="space-y-3">{rows.map((row) => <button key={row.label} onClick={() => onClick(tickets[0])} className="flex w-full items-center justify-between rounded-2xl border border-slate-100 bg-white px-4 py-3 text-left shadow-sm hover:bg-slate-50"><span className="font-bold text-slate-700">{row.label}</span><span className={`rounded-xl px-2 py-1 text-xs font-black ${row.tone}`}>{row.count}</span></button>)}</div>;
+  return <div className="space-y-2.5">{rows.map((row) => <button key={row.label} onClick={() => onClick(tickets[0])} className="flex w-full items-center justify-between rounded-xl border border-slate-100 bg-white px-3 py-2.5 text-left shadow-sm hover:bg-slate-50"><span className="font-bold text-slate-700">{row.label}</span><span className={`rounded-xl px-2 py-1 text-xs font-black ${row.tone}`}>{row.count}</span></button>)}</div>;
 }
 
 function ProjectProgressList({ projects }: { projects: V64Project[] }) {
-  return <div className="divide-y divide-slate-100">{projects.map((project) => <div key={project.id} className="grid grid-cols-[1fr_90px_90px] items-center gap-3 py-3 text-sm"><div><div className="font-black">{project.code}</div><div className="text-xs font-semibold text-slate-500">{project.name}</div></div><div className="h-2 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${project.progress}%` }} /></div><Badge className={statusTone(project.health as V64TaskStatus)}>{project.health}</Badge></div>)}</div>;
+  return <div className="divide-y divide-slate-100">{projects.map((project) => <div key={project.id} className="grid grid-cols-[1fr_90px_90px] items-center gap-2 py-2.5 text-[13px]"><div><div className="font-black">{project.code}</div><div className="text-xs font-semibold text-slate-500">{project.name}</div></div><div className="h-2 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${project.progress}%` }} /></div><Badge className={statusTone(project.health as V64TaskStatus)}>{project.health}</Badge></div>)}</div>;
 }
 
 function AlertList({ tasks, onOpen }: { tasks: V64Task[]; onOpen: (taskId: string) => void }) {
@@ -977,7 +979,7 @@ function AlertList({ tasks, onOpen }: { tasks: V64Task[]; onOpen: (taskId: strin
 }
 
 function ProjectMiniRows({ projects }: { projects: V64Project[] }) {
-  return <div className="divide-y divide-slate-100">{projects.slice(0, 5).map((project) => <div key={project.id} className="grid grid-cols-[1fr_120px_100px] gap-3 py-3 text-sm"><div><b>{project.code}</b><div className="text-xs text-slate-500">{project.name}</div></div><span>{project.deadline}</span><span className="font-black text-slate-700">{formatRon(project.valueRon)}</span></div>)}</div>;
+  return <div className="divide-y divide-slate-100">{projects.slice(0, 5).map((project) => <div key={project.id} className="grid grid-cols-[1fr_120px_100px] gap-2 py-2.5 text-[13px]"><div><b>{project.code}</b><div className="text-xs text-slate-500">{project.name}</div></div><span>{project.deadline}</span><span className="font-black text-slate-700">{formatRon(project.valueRon)}</span></div>)}</div>;
 }
 
 function WorkloadMini({ tasks }: { tasks: V64Task[] }) {
@@ -1076,12 +1078,12 @@ function SmallRows({ rows, tone = "slate" }: { rows: string[]; tone?: "red" | "o
 function SmallActionRows({ rows, onClick }: { rows: string[]; onClick: () => void }) { return <div className="space-y-2">{rows.map((row) => <button key={row} onClick={onClick} className="flex w-full justify-between rounded-xl bg-slate-50 px-3 py-2 text-left text-sm font-bold hover:bg-emerald-50"><span>{row}</span><ChevronRight className="h-4 w-4 text-emerald-700" /></button>)}</div>; }
 
 function BoardColumn({ status, tasks, openTask, move, create }: { status: V64TaskStatus; tasks: V64Task[]; openTask: (id: string) => void; move: (id: string, status: V64TaskStatus) => void; create: () => void }) {
-  return <div className="min-w-[190px] rounded-2xl bg-slate-50 p-3"><div className="mb-3 flex items-center justify-between"><h3 className="font-black">{status}</h3><span className="rounded-full bg-white px-2 py-1 text-xs font-black text-slate-500">{tasks.length}</span></div><div className="space-y-3">{tasks.map((task) => <div key={task.id} className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"><button onClick={() => openTask(task.id)} className="text-left"><div className="font-black leading-snug">{task.title}</div><div className="mt-1 text-xs font-semibold text-slate-500">{task.projectCode} · {task.projectName}</div></button><div className="mt-3 flex items-center justify-between"><Avatar user={v64UserById(task.assigneeId)} size="sm" /><Badge className={priorityTone(task.priority)}>{task.priority}</Badge></div><div className="mt-3 h-1.5 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${task.progress}%` }} /></div><div className="mt-3 flex items-center justify-between text-xs font-bold text-slate-500"><span>{task.checklist.filter((item) => item.done).length}/{task.checklist.length}</span><span>{task.dueDate}</span><select value={task.status} onChange={(event) => move(task.id, event.target.value as V64TaskStatus)} className="rounded-lg border px-1 py-0.5 text-[10px]">{statuses.map((item) => <option key={item}>{item}</option>)}</select></div></div>)}<button onClick={create} className="w-full rounded-xl border border-dashed border-slate-300 py-2 text-sm font-black text-slate-500 hover:bg-white">+ Add task</button></div></div>;
+  return <div className="min-w-[176px] rounded-2xl bg-slate-50 p-2.5"><div className="mb-3 flex items-center justify-between"><h3 className="font-black">{status}</h3><span className="rounded-full bg-white px-2 py-1 text-xs font-black text-slate-500">{tasks.length}</span></div><div className="space-y-3">{tasks.map((task) => <div key={task.id} className="rounded-xl border border-slate-200 bg-white p-2.5 shadow-sm"><button onClick={() => openTask(task.id)} className="text-left"><div className="font-black leading-snug">{task.title}</div><div className="mt-1 text-xs font-semibold text-slate-500">{task.projectCode} · {task.projectName}</div></button><div className="mt-3 flex items-center justify-between"><Avatar user={v64UserById(task.assigneeId)} size="sm" /><Badge className={priorityTone(task.priority)}>{task.priority}</Badge></div><div className="mt-3 h-1.5 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${task.progress}%` }} /></div><div className="mt-3 flex items-center justify-between text-xs font-bold text-slate-500"><span>{task.checklist.filter((item) => item.done).length}/{task.checklist.length}</span><span>{task.dueDate}</span><select value={task.status} onChange={(event) => move(task.id, event.target.value as V64TaskStatus)} className="rounded-lg border px-1 py-0.5 text-[10px]">{statuses.map((item) => <option key={item}>{item}</option>)}</select></div></div>)}<button onClick={create} className="w-full rounded-xl border border-dashed border-slate-300 py-2 text-sm font-black text-slate-500 hover:bg-white">+ Add task</button></div></div>;
 }
 
 function TaskTableRow({ task, selected, toggle, openTask, changeStatus, assign, density }: { task: V64Task; selected: boolean; toggle: (id: string) => void; openTask: (id: string) => void; changeStatus: (id: string, status: V64TaskStatus) => void; assign: (id: string, assigneeId: string) => boolean; density: Density }) {
   const pad = density === "compact" ? "py-2" : density === "relaxed" ? "py-5" : "py-3";
-  return <tr className="border-t border-slate-100 hover:bg-slate-50"><td className={`px-4 ${pad}`}><input type="checkbox" checked={selected} onChange={() => toggle(task.id)} /></td><td className="px-4 font-black text-blue-700">{task.id}</td><td className="px-4"><button onClick={() => openTask(task.id)} className="text-left font-black hover:text-emerald-700">{task.title}</button></td><td className="px-4"><b>{task.projectCode}</b><div className="text-xs text-slate-500">{task.projectName}</div></td><td className="px-4">{task.type}</td><td className="px-4"><select value={task.status} onChange={(event) => changeStatus(task.id, event.target.value as V64TaskStatus)} className={`rounded-lg px-2 py-1 text-xs font-black ring-1 ${statusTone(task.status)}`}>{statuses.map((status) => <option key={status}>{status}</option>)}</select></td><td className="px-4"><Badge className={priorityTone(task.priority)}>{task.priority}</Badge></td><td className="px-4"><select value={task.assigneeId} onChange={(event) => assign(task.id, event.target.value)} className="rounded-lg border px-2 py-1 text-xs font-bold">{v64Users.map((user) => <option key={user.id} value={user.id}>{user.name}</option>)}</select></td><td className="px-4"><Avatar user={v64UserById(task.ownerId)} size="sm" /></td><td className="px-4"><span className={isOverdue(task) ? "font-black text-red-600" : "font-bold"}>{task.dueDate}</span></td><td className="px-4"><div className="flex items-center gap-2"><div className="h-1.5 w-16 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${task.progress}%` }} /></div><span className="text-xs font-black">{task.progress}%</span></div></td><td className="px-4">{task.trackedHours.toFixed(2)} / {task.estimateHours.toFixed(2)}</td><td className="px-4">{task.dependencies.length ? task.dependencies.join(", ") : "—"}</td><td className="px-4"><div className="flex gap-1">{task.tags.slice(0, 2).map((tag) => <Badge key={tag} className="bg-blue-50 text-blue-700 ring-blue-100">{tag}</Badge>)}</div></td><td className="px-4 text-xs">{Object.entries(task.customFields)[0]?.join(": ") ?? "—"}</td></tr>;
+  return <tr className="border-t border-slate-100 hover:bg-slate-50"><td className={`px-3 ${pad}`}><input type="checkbox" checked={selected} onChange={() => toggle(task.id)} /></td><td className="px-3 font-extrabold text-blue-700">{task.id}</td><td className="px-3"><button onClick={() => openTask(task.id)} className="text-left font-black hover:text-emerald-700">{task.title}</button></td><td className="px-3"><b>{task.projectCode}</b><div className="text-xs text-slate-500">{task.projectName}</div></td><td className="px-3">{task.type}</td><td className="px-3"><select value={task.status} onChange={(event) => changeStatus(task.id, event.target.value as V64TaskStatus)} className={`rounded-lg px-2 py-1 text-xs font-black ring-1 ${statusTone(task.status)}`}>{statuses.map((status) => <option key={status}>{status}</option>)}</select></td><td className="px-3"><Badge className={priorityTone(task.priority)}>{task.priority}</Badge></td><td className="px-3"><select value={task.assigneeId} onChange={(event) => assign(task.id, event.target.value)} className="rounded-lg border px-2 py-1 text-xs font-bold">{v64Users.map((user) => <option key={user.id} value={user.id}>{user.name}</option>)}</select></td><td className="px-3"><Avatar user={v64UserById(task.ownerId)} size="sm" /></td><td className="px-3"><span className={isOverdue(task) ? "font-black text-red-600" : "font-bold"}>{task.dueDate}</span></td><td className="px-3"><div className="flex items-center gap-2"><div className="h-1.5 w-14 rounded-full bg-slate-100"><div className="h-full rounded-full bg-emerald-600" style={{ width: `${task.progress}%` }} /></div><span className="text-xs font-black">{task.progress}%</span></div></td><td className="px-3">{task.trackedHours.toFixed(2)} / {task.estimateHours.toFixed(2)}</td><td className="px-3">{task.dependencies.length ? task.dependencies.join(", ") : "—"}</td><td className="px-3"><div className="flex gap-1">{task.tags.slice(0, 2).map((tag) => <Badge key={tag} className="bg-blue-50 text-blue-700 ring-blue-100">{tag}</Badge>)}</div></td><td className="px-4 text-xs">{Object.entries(task.customFields)[0]?.join(": ") ?? "—"}</td></tr>;
 }
 
 function BulkActions({ rows, users, onStatus, onPriority, onAssignee, onDelete }: { rows: string[]; users: V64User[]; onStatus: (status: V64TaskStatus) => void; onPriority: (priority: V64Priority) => void; onAssignee: (assigneeId: string) => void; onDelete: () => void }) {
@@ -1232,7 +1234,7 @@ function TaskuriReferenceFooter() {
   return (
     <footer className="flex flex-wrap items-center justify-between gap-3 px-2 pb-1 text-xs font-semibold text-slate-400">
       <span>© 2024 SERVELECT SRL. Toate drepturile rezervate.</span>
-      <span className="flex items-center gap-3"><span>v6.4.14</span><span>·</span><span>Politica de confidențialitate</span><span>·</span><span>Termeni și condiții</span></span>
+      <span className="flex items-center gap-3"><span>v6.4.15</span><span>·</span><span>Politica de confidențialitate</span><span>·</span><span>Termeni și condiții</span></span>
     </footer>
   );
 }
