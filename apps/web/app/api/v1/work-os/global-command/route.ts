@@ -11,8 +11,8 @@ export async function GET() {
 
   return NextResponse.json({
     ok: true,
-    version: "6.7.1",
-    name: "SERVELECT WORK OS v6.7.1 Global Command Integration Typecheck Fix",
+    version: "6.7.2",
+    name: "SERVELECT WORK OS v6.7.2 Global Command Integration Typecheck Fix",
     scope: [
       "global notifications",
       "global approvals",
@@ -44,4 +44,3 @@ export async function GET() {
     goodDayParityMatrix: goodDayParityFeatureMatrix()
   });
 }
-

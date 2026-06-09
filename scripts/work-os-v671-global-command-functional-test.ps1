@@ -39,13 +39,13 @@ foreach ($Route in $Routes) {
   }
 }
 
-$CsvPath = Join-Path $FullOutputDir "v671-global-command-functional-routes.csv"
-$MdPath = Join-Path $FullOutputDir "v671-global-command-functional-routes.md"
+$CsvPath = Join-Path $FullOutputDir "v672-global-command-functional-routes.csv"
+$MdPath = Join-Path $FullOutputDir "v672-global-command-functional-routes.md"
 $Rows | Export-Csv -Path $CsvPath -NoTypeInformation -Encoding UTF8
 
 $Passed = ($Rows | Where-Object { $_.State -eq "PASS" }).Count
 $Report = @()
-$Report += "# SERVELECT WORK OS v6.7.1 Global Command Functional Route Test"
+$Report += "# SERVELECT WORK OS v6.7.2 Global Command Functional Route Test"
 $Report += ""
 $Report += "Generated: $(Get-Date -Format s)"
 $Report += "BaseUrl: $BaseUrl"
@@ -58,11 +58,11 @@ foreach ($Row in $Rows) {
 }
 $Report += ""
 $Report += "## Notes"
-$Report += "This smoke test validates global Work OS routes introduced in v6.7.1. It does not replace browser-level functional testing."
+$Report += "This smoke test validates global Work OS routes introduced in v6.7.2. It does not replace browser-level functional testing."
 Set-Content -Path $MdPath -Value ($Report -join "`n") -Encoding UTF8
 
 if ($Failed -gt 0) {
-  throw "v6.7.1 functional route smoke failed: $Failed route(s). See $MdPath"
+  throw "v6.7.2 functional route smoke failed: $Failed route(s). See $MdPath"
 }
 
-Write-Host "v6.7.1 global command routes PASS: $Passed / $($Routes.Count)" -ForegroundColor Green
+Write-Host "v6.7.2 global command routes PASS: $Passed / $($Routes.Count)" -ForegroundColor Green
