@@ -1,5 +1,7 @@
-import { V59EnterpriseAccountsRbacPack } from "@/components/work-os/V59EnterpriseAccountsRbacPack";
+import { V67GlobalCommandIntegrationClient } from "@/components/work-os/V67GlobalCommandIntegrationClient";
 
-export default function Page() {
-  return <V59EnterpriseAccountsRbacPack mode="approvals" />;
+export const metadata = { title: "SERVELECT Work OS · Approvals" };
+
+export default function WorkOsApprovalsPage() {
+  return <V67GlobalCommandIntegrationClient view="approvals" />;
 }

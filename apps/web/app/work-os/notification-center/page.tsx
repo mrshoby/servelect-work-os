@@ -1,5 +1,7 @@
-import { V60EnterpriseOperatingLayer } from "../../../components/work-os/V60EnterpriseOperatingLayer";
+import { V67GlobalCommandIntegrationClient } from "@/components/work-os/V67GlobalCommandIntegrationClient";
 
-export default function Page() {
-  return <V60EnterpriseOperatingLayer defaultView="notifications" />;
+export const metadata = { title: "SERVELECT Work OS · Notification Center" };
+
+export default function WorkOsNotificationCenterPage() {
+  return <V67GlobalCommandIntegrationClient view="notifications" />;
 }

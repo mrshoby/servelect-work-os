@@ -1,5 +1,7 @@
-import { V59EnterpriseAccountsRbacPack } from "@/components/work-os/V59EnterpriseAccountsRbacPack";
+import { V67GlobalCommandIntegrationClient } from "@/components/work-os/V67GlobalCommandIntegrationClient";
 
-export default function Page() {
-  return <V59EnterpriseAccountsRbacPack mode="notifications" />;
+export const metadata = { title: "SERVELECT Work OS · Notifications" };
+
+export default function NotificationsPage() {
+  return <V67GlobalCommandIntegrationClient view="notifications" />;
 }
