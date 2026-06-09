@@ -1,7 +1,7 @@
 {
   "name": "servelect-work-os",
   "private": true,
-  "version": "6.4.16",
+  "version": "6.5.0",
   "description": "SERVELECT EMP / WORK OS - task-first enterprise platform for PV projects, operations, IoT, CRM, maintenance and HR.",
   "packageManager": "pnpm@11.5.1",
   "scripts": {
@@ -10,7 +10,8 @@
     "dev:mobile": "pnpm --filter @servelect/mobile start",
     "build": "pnpm --filter @servelect/web build",
     "lint": "pnpm --filter @servelect/web lint",
-    "typecheck": "pnpm --filter @servelect/web typecheck"
+    "typecheck": "pnpm --filter @servelect/web typecheck",
+    "goodday:parity:test": "powershell -ExecutionPolicy Bypass -File scripts/work-os-goodday-parity-functional-test.ps1"
   },
   "workspaces": [
     "apps/*",
