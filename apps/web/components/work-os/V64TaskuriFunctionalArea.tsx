@@ -423,7 +423,7 @@ export function V64TaskuriFunctionalArea({ pageId }: { pageId: V64PageId }) {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-slate-900">
-      <div className="mx-auto max-w-[1880px] space-y-5 px-4 py-5 lg:px-7">
+      <div className="mx-auto max-w-[1780px] space-y-4 px-6 py-5">
         <TaskuriTopbar meta={meta} currentUser={store.currentUser} unread={unread} onCreate={handleQuickCreate} onSearch={(query) => setFilters((state) => ({ ...state, query }))} onMarkAll={store.markAllNotificationsRead} onSwitchUser={store.setCurrentUserId} />
         {pageId !== "table" ? <KpiStrip pageId={pageId} currentUser={store.currentUser} tasks={visibleTasks} tickets={store.tickets} projects={store.projects} approvals={store.approvals} /> : null}
         {pageId === "board" || pageId === "table" ? (
@@ -494,9 +494,9 @@ function renderPage(pageId: V64PageId, ctx: PageContext): ReactNode {
 
 function TaskuriTopbar({ meta, currentUser, unread, onCreate, onSearch, onMarkAll, onSwitchUser }: { meta: { title: string; subtitle: string; action: string }; currentUser: V64User; unread: number; onCreate: () => void; onSearch: (query: string) => void; onMarkAll: () => void; onSwitchUser: (id: string) => void }) {
   return (
-    <header className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
+    <header className="flex flex-col gap-3 xl:flex-row xl:items-start xl:justify-between">
       <div>
-        <h1 className="text-[28px] font-black tracking-tight text-slate-950">{meta.title}</h1>
+        <h1 className="text-[26px] font-black tracking-tight text-slate-950">{meta.title}</h1>
         <p className="mt-1 text-sm font-medium text-slate-500">{meta.subtitle}</p>
       </div>
       <div className="flex flex-wrap items-center gap-3">
@@ -619,17 +619,17 @@ function Kpi({ label, value, sub, tone, icon }: { label: string; value: string; 
   const toneMap: Record<string, string> = { green: "bg-emerald-50 text-emerald-700", blue: "bg-blue-50 text-blue-700", purple: "bg-violet-50 text-violet-700", orange: "bg-orange-50 text-orange-700", red: "bg-red-50 text-red-700", slate: "bg-slate-50 text-slate-700" };
   const bar = tone === "red" ? "bg-red-500" : tone === "orange" ? "bg-orange-500" : tone === "purple" ? "bg-violet-500" : tone === "blue" ? "bg-blue-500" : "bg-emerald-500";
   return (
-    <article className="rounded-[1.35rem] border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="flex items-start justify-between gap-3"><div className={`flex h-11 w-11 items-center justify-center rounded-2xl ${toneMap[tone]}`}>{icon}</div><Sparkline className={bar} /></div>
-      <div className="mt-4 text-xs font-black text-slate-500">{label}</div>
-      <div className="mt-1 text-2xl font-black text-slate-950">{value}</div>
-      <div className="mt-2 text-xs font-bold text-emerald-600">↗ {sub}</div>
+    <article className="min-h-[122px] rounded-[1.1rem] border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="flex items-start justify-between gap-3"><div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${toneMap[tone]}`}>{icon}</div><Sparkline className={bar} /></div>
+      <div className="mt-3 text-[11px] font-black text-slate-500">{label}</div>
+      <div className="mt-1 text-[24px] font-black leading-none text-slate-950">{value}</div>
+      <div className="mt-2 text-[11px] font-bold text-emerald-600">↗ {sub}</div>
     </article>
   );
 }
 
 function Sparkline({ className }: { className: string }) {
-  return <div className="flex h-9 items-end gap-1">{[13, 16, 12, 21, 19, 25, 23, 31].map((h, index) => <span key={`${h}-${index}`} className={`w-1.5 rounded-full opacity-75 ${className}`} style={{ height: h }} />)}</div>;
+  return <div className="flex h-8 items-end gap-1">{[13, 16, 12, 21, 19, 25, 23, 31].map((h, index) => <span key={`${h}-${index}`} className={`w-1.5 rounded-full opacity-75 ${className}`} style={{ height: h }} />)}</div>;
 }
 
 function TaskuriSubnav({ pageId }: { pageId: V64PageId }) {
@@ -659,18 +659,43 @@ function FiltersBar({ filters, setFilters, saveView, savedViews }: { filters: Fi
     setFilters((state) => ({ ...state, savedView: value as SavedViewId }));
   }
 
+  const builtInViews: Array<{ id: SavedViewId; label: string; count?: number }> = [
+    { id: "all", label: "Toate taskurile" },
+    { id: "my-work", label: "My Work" },
+    { id: "in-progress", label: "În desfășurare" },
+    { id: "blocked", label: "Blocate" },
+    { id: "today", label: "Azi" },
+    { id: "week", label: "Săptămâna curentă" },
+    { id: "no-deadline", label: "Fără deadline" },
+    { id: "high-priority", label: "High priority" }
+  ];
+
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+    <section className="space-y-3 rounded-[1.1rem] border border-slate-200 bg-white p-3 shadow-sm">
       <div className="flex flex-wrap items-center gap-2">
-        <Select label="Vederi salvate" value={filters.savedView} onChange={applySavedView} options={[...(["all", "my-work", "in-progress", "blocked", "today", "week", "no-deadline", "high-priority", "overdue", "waiting-approval"] as SavedViewId[]).map((value) => ({ value, label: value === "all" ? "Toate taskurile" : value })), ...savedViews.map((view) => ({ value: view.id, label: view.label }))]} />
+        <span className="rounded-xl border border-slate-200 px-3 py-2 text-xs font-black text-slate-600">Vederi salvate</span>
+        {builtInViews.map((view) => (
+          <button key={view.id} type="button" onClick={() => applySavedView(view.id)} className={filters.savedView === view.id ? "rounded-xl bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-700 ring-1 ring-emerald-100" : "rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-50"}>
+            {view.label}
+          </button>
+        ))}
+        {savedViews.map((view) => (
+          <button key={view.id} type="button" onClick={() => applySavedView(view.id)} className="rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-700">
+            {view.label}
+          </button>
+        ))}
+        <button onClick={saveView} className="ml-auto h-10 rounded-xl border border-slate-200 px-3 text-xs font-black text-emerald-700 hover:bg-emerald-50">+ Salvează vedere</button>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Select label="Filtru" value={filters.savedView} onChange={applySavedView} options={[...builtInViews.map((view) => ({ value: view.id, label: view.label })), ...savedViews.map((view) => ({ value: view.id, label: view.label }))]} />
         <Select label="Project" value={filters.projectId} onChange={(value) => setFilters((state) => ({ ...state, projectId: value }))} options={[{ value: "all", label: "Toate" }, ...v64Projects.map((project) => ({ value: project.id, label: project.code }))]} />
         <Select label="Status" value={filters.status} onChange={(value) => setFilters((state) => ({ ...state, status: value }))} options={[{ value: "all", label: "Toate" }, ...statuses.map((status) => ({ value: status, label: status }))]} />
-        <Select label="Prioritate" value={filters.priority} onChange={(value) => setFilters((state) => ({ ...state, priority: value }))} options={[{ value: "all", label: "Toate" }, ...priorities.map((priority) => ({ value: priority, label: priority }))]} />
+        <Select label="Tip" value={filters.type} onChange={(value) => setFilters((state) => ({ ...state, type: value }))} options={[{ value: "all", label: "Toate" }, { value: "Task", label: "Task" }, { value: "Milestone", label: "Milestone" }, { value: "Ticket", label: "Ticket" }]} />
         <Select label="Assignee" value={filters.assigneeId} onChange={(value) => setFilters((state) => ({ ...state, assigneeId: value }))} options={[{ value: "all", label: "Toți" }, ...v64Users.map((user) => ({ value: user.id, label: user.name }))]} />
+        <Select label="Owner" value={filters.ownerId} onChange={(value) => setFilters((state) => ({ ...state, ownerId: value }))} options={[{ value: "all", label: "Toți" }, ...v64Users.map((user) => ({ value: user.id, label: user.name }))]} />
+        <Select label="Prioritate" value={filters.priority} onChange={(value) => setFilters((state) => ({ ...state, priority: value }))} options={[{ value: "all", label: "Toate" }, ...priorities.map((priority) => ({ value: priority, label: priority }))]} />
         <Select label="Departament" value={filters.departmentId} onChange={(value) => setFilters((state) => ({ ...state, departmentId: value }))} options={[{ value: "all", label: "Toate" }, ...v64Departments.map((department) => ({ value: department.id, label: department.name }))]} />
         <button onClick={() => setFilters(defaultFilters)} className="h-10 rounded-xl border border-slate-200 px-3 text-xs font-black text-slate-500 hover:bg-slate-50"><X className="mr-1 inline h-3.5 w-3.5" />Șterge filtrele</button>
-        <button onClick={saveView} className="h-10 rounded-xl border border-slate-200 px-3 text-xs font-black text-emerald-700 hover:bg-emerald-50">+ Salvează vedere</button>
-        {savedViews.length ? <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">{savedViews.length} vederi salvate</span> : null}
       </div>
     </section>
   );
@@ -680,7 +705,7 @@ function Select({ label, value, onChange, options }: { label: string; value: str
   return <label className="flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-500"><span>{label}:</span><select value={value} onChange={(event) => onChange(event.target.value)} className="bg-transparent font-black text-slate-700 outline-none">{options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}</select></label>;
 }
 
-function Panel({ title, badge, children, action }: { title: string; badge?: string | number; children: ReactNode; action?: ReactNode }) {
+function Panel({ title, badge, children, action, className = "", bodyClassName = "" }: { title: string; badge?: string | number; children: ReactNode; action?: ReactNode; className?: string; bodyClassName?: string }) {
   const defaultAction = (
     <button
       type="button"
@@ -690,7 +715,7 @@ function Panel({ title, badge, children, action }: { title: string; badge?: stri
       Vezi toate
     </button>
   );
-  return <section className="rounded-[1.35rem] border border-slate-200 bg-white shadow-sm"><div className="flex items-center justify-between border-b border-slate-100 px-5 py-4"><div className="flex items-center gap-2"><h2 className="text-base font-black text-slate-950">{title}</h2>{badge !== undefined ? <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-black text-emerald-700">{badge}</span> : null}</div>{action ?? defaultAction}</div><div className="p-5">{children}</div></section>;
+  return <section className={`rounded-[1.1rem] border border-slate-200 bg-white shadow-sm ${className}`}><div className="flex min-h-[44px] items-center justify-between border-b border-slate-100 px-4 py-2.5"><div className="flex items-center gap-2"><h2 className="text-[15px] font-black text-slate-950">{title}</h2>{badge !== undefined ? <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-black text-emerald-700">{badge}</span> : null}</div>{action ?? defaultAction}</div><div className={`p-3.5 ${bodyClassName}`}>{children}</div></section>;
 }
 
 function OverviewPage(ctx: PageContext) {
@@ -870,17 +895,35 @@ function CalendarGanttPage(ctx: PageContext) {
     <button
       type="button"
       onClick={() => { setCalendarMode(mode); ctx.toast(`Calendar: vedere ${mode}`); }}
-      className={calendarMode === mode ? "rounded-lg bg-blue-50 px-3 py-1 text-xs font-black text-blue-700" : "rounded-lg border px-3 py-1 text-xs font-black"}
+      className={calendarMode === mode ? "rounded-lg bg-blue-50 px-3 py-1 text-xs font-black text-blue-700 ring-1 ring-blue-100" : "rounded-lg border border-slate-200 px-3 py-1 text-xs font-black text-slate-600 hover:bg-slate-50"}
     >
       {mode}
     </button>
   );
-  return <div className="grid gap-5 xl:grid-cols-[1.1fr_1.2fr_300px]">
-    <Panel title={monthLabel} action={<div className="flex gap-2"><button type="button" onClick={() => setMonthOffset((value) => value - 1)} className="rounded-lg border px-2 py-1"><ChevronLeft className="h-4 w-4" /></button><button type="button" onClick={() => setMonthOffset((value) => value + 1)} className="rounded-lg border px-2 py-1"><ChevronRight className="h-4 w-4" /></button><button type="button" onClick={() => { setMonthOffset(0); ctx.toast("Calendar revenit la luna curentă."); }} className="rounded-lg border px-3 py-1 text-xs font-black">Astăzi</button>{modeButton("Lună")}{modeButton("Săptămână")}{modeButton("Zi")}{modeButton("Listă")}</div>}><MonthCalendar tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
-    <Panel title="Gantt proiecte"><Gantt tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
-    <div className="space-y-5"><Panel title="Agenda zilei"><Agenda tasks={ctx.tasks} onOpen={ctx.openTask} /></Panel><Panel title="Upcoming deadlines"><AlertList tasks={ctx.tasks.filter((task) => task.dueDate <= "2024-06-03")} onOpen={ctx.openTask} /></Panel><Panel title="Filtre calendar"><CalendarFilters setFilters={ctx.setFilters} toast={ctx.toast} /></Panel></div>
-    <Panel title="Milestones"><MilestoneList /></Panel><Panel title="Evenimente"><EventsList /></Panel><Panel title="Dependency alerts"><DependencyList tasks={ctx.tasks} openTask={ctx.openTask} /></Panel><Panel title="Tickets due"><TicketsDue tickets={ctx.store.tickets} /></Panel><Panel title="Aprobări în așteptare"><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} /></Panel>
-  </div>;
+  return (
+    <div className="space-y-5">
+      <div className="grid gap-5 xl:grid-cols-[0.95fr_1.15fr_300px]">
+        <Panel className="min-h-[520px]" bodyClassName="p-3" title={monthLabel} action={<div className="flex items-center gap-2"><button type="button" onClick={() => setMonthOffset((value) => value - 1)} className="rounded-lg border border-slate-200 px-2 py-1"><ChevronLeft className="h-4 w-4" /></button><button type="button" onClick={() => setMonthOffset((value) => value + 1)} className="rounded-lg border border-slate-200 px-2 py-1"><ChevronRight className="h-4 w-4" /></button><button type="button" onClick={() => { setMonthOffset(0); ctx.toast("Calendar revenit la luna curentă."); }} className="rounded-lg border border-slate-200 px-3 py-1 text-xs font-black">Astăzi</button>{modeButton("Lună")}{modeButton("Săptămână")}{modeButton("Zi")}{modeButton("Listă")}</div>}>
+          <MonthCalendar tasks={ctx.tasks} openTask={ctx.openTask} />
+        </Panel>
+        <Panel className="min-h-[520px]" bodyClassName="p-3" title="Interval" action={<div className="flex items-center gap-2 text-xs font-black text-slate-500"><span>Lună</span><span>1 Mai - 31 Mai 2024</span><button className="rounded-lg border border-slate-200 px-2 py-1">−</button><button className="rounded-lg border border-slate-200 px-2 py-1">⌕</button><button className="rounded-lg border border-slate-200 px-2 py-1">⋯</button></div>}>
+          <ReferenceGantt tasks={ctx.tasks} openTask={ctx.openTask} />
+        </Panel>
+        <div className="space-y-5">
+          <Panel title="Agenda zilei"><Agenda tasks={ctx.tasks} onOpen={ctx.openTask} /></Panel>
+          <Panel title="Upcoming deadlines"><AlertList tasks={ctx.tasks.filter((task) => task.dueDate <= "2024-06-03")} onOpen={ctx.openTask} /></Panel>
+          <Panel title="Filtre calendar"><CalendarFilters setFilters={ctx.setFilters} toast={ctx.toast} /></Panel>
+        </div>
+      </div>
+      <div className="grid gap-5 xl:grid-cols-5">
+        <Panel title="Milestones"><MilestoneList /></Panel>
+        <Panel title="Evenimente"><EventsList /></Panel>
+        <Panel title="Dependency alerts"><DependencyList tasks={ctx.tasks} openTask={ctx.openTask} /></Panel>
+        <Panel title="Tickets due"><TicketsDue tickets={ctx.store.tickets} /></Panel>
+        <Panel title="Aprobări în așteptare"><ApprovalList approvals={ctx.store.approvals} decide={ctx.store.decideApproval} /></Panel>
+      </div>
+    </div>
+  );
 }
 
 function WorkloadApprovalsPage(ctx: PageContext) {
@@ -1054,12 +1097,92 @@ function Summary({ label, value }: { label: string; value: ReactNode }) { return
 function ExportIntegrations({ setModal }: { setModal: (kind: ModalKind) => void }) { return <div className="space-y-2">{["Exportă tabel (CSV)", "Exportă tabel (XLSX)", "Integrare Power BI", "Sincronizare Google Sheets", "Creează automatizare nouă"].map((row) => <button key={row} onClick={() => setModal("export")} className="w-full rounded-xl bg-slate-50 px-3 py-2 text-left text-sm font-bold hover:bg-emerald-50">{row}</button>)}</div>; }
 
 function MonthCalendar({ tasks, openTask }: { tasks: V64Task[]; openTask: (taskId: string) => void }) {
-  const days = Array.from({ length: 35 }, (_, index) => index + 1);
-  return <div className="grid grid-cols-7 overflow-hidden rounded-2xl border border-slate-200 text-sm">{["Lun", "Mar", "Mie", "Joi", "Vin", "Sâm", "Dum"].map((day) => <div key={day} className="bg-slate-50 p-2 text-center text-xs font-black text-slate-500">{day}</div>)}{days.map((day) => { const matches = tasks.filter((task) => Number(task.dueDate.slice(-2)) === day).slice(0, 2); return <div key={day} className="min-h-[92px] border-t border-slate-100 p-2"><div className="font-black text-slate-500">{day}</div><div className="mt-2 space-y-1">{matches.map((task) => <button key={task.id} onClick={() => openTask(task.id)} className="w-full truncate rounded bg-emerald-50 px-2 py-1 text-left text-[11px] font-black text-emerald-700">{task.title}</button>)}</div></div>; })}</div>;
+  const cells = [
+    { d: "29", muted: true }, { d: "30", muted: true }, { d: "1" }, { d: "2", today: true }, { d: "3" }, { d: "4" }, { d: "5" },
+    { d: "6" }, { d: "7" }, { d: "8" }, { d: "9" }, { d: "10" }, { d: "11" }, { d: "12" },
+    { d: "13" }, { d: "14" }, { d: "15" }, { d: "16" }, { d: "17" }, { d: "18" }, { d: "19" },
+    { d: "20" }, { d: "21" }, { d: "22" }, { d: "23", today: true }, { d: "24" }, { d: "25" }, { d: "26" },
+    { d: "27" }, { d: "28" }, { d: "29" }, { d: "30" }, { d: "31" }, { d: "1", muted: true }, { d: "2", muted: true }
+  ];
+  const placed: Record<string, Array<{ label: string; tone: string; task?: V64Task }>> = {
+    "2": [{ label: "Verificare amplasament", tone: "bg-emerald-100 text-emerald-700", task: tasks[0] }, { label: "Montaj structură", tone: "bg-emerald-100 text-emerald-700", task: tasks[1] }],
+    "6": [{ label: "Instalare panouri", tone: "bg-blue-100 text-blue-700", task: tasks[2] }],
+    "8": [{ label: "Testare & PIF", tone: "bg-violet-100 text-violet-700", task: tasks[3] }],
+    "10": [{ label: "Predare amplasament", tone: "bg-orange-100 text-orange-700", task: tasks[4] }],
+    "13": [{ label: "Revizie invertor", tone: "bg-orange-100 text-orange-700", task: tasks[5] }, { label: "Întocmire documente", tone: "bg-blue-50 text-blue-700", task: tasks[6] }],
+    "23": [{ label: "Recepție lucrări", tone: "bg-violet-100 text-violet-700", task: tasks[7] }],
+    "27": [{ label: "Training client", tone: "bg-blue-100 text-blue-700", task: tasks[8] }]
+  };
+  return (
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white text-sm">
+      <div className="grid grid-cols-7 bg-slate-50 text-center text-xs font-black text-slate-500">
+        {["Lun", "Mar", "Mie", "Joi", "Vin", "Sâm", "Dum"].map((day) => <div key={day} className="border-r border-slate-100 p-2 last:border-r-0">{day}</div>)}
+      </div>
+      <div className="grid grid-cols-7">
+        {cells.map((cell, index) => (
+          <div key={`${cell.d}-${index}`} className={cell.today ? "min-h-[86px] border-r border-t border-emerald-100 bg-emerald-50/40 p-2 last:border-r-0" : "min-h-[86px] border-r border-t border-slate-100 p-2 last:border-r-0"}>
+            <div className={cell.muted ? "text-xs font-black text-slate-300" : cell.today ? "inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-100 text-xs font-black text-emerald-700" : "text-xs font-black text-slate-500"}>{cell.d}</div>
+            <div className="mt-2 space-y-1">
+              {(placed[cell.d] ?? []).slice(0, 2).map((event) => (
+                <button key={event.label} onClick={() => event.task && openTask(event.task.id)} className={`w-full truncate rounded-md px-2 py-1 text-left text-[10px] font-black ${event.tone}`}>{event.label}</button>
+              ))}
+              {(placed[cell.d] ?? []).length > 2 ? <div className="text-right text-[10px] font-black text-slate-400">+{(placed[cell.d] ?? []).length - 2} mai multe</div> : null}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-wrap items-center gap-4 border-t border-slate-100 px-3 py-2 text-[11px] font-bold text-slate-500">
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-emerald-600" />În desfășurare</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-blue-500" />Planificat</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-red-500" />În întârziere</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-violet-500" />Milestone</span>
+        <span className="inline-flex items-center gap-1"><span className="h-2 w-2 rounded-sm bg-orange-500" />Eveniment</span>
+      </div>
+    </div>
+  );
 }
 
-function Gantt({ tasks, openTask }: { tasks: V64Task[]; openTask: (taskId: string) => void }) {
-  return <div className="space-y-3">{tasks.slice(0, 8).map((task, index) => <button key={task.id} onClick={() => openTask(task.id)} className="grid w-full grid-cols-[180px_1fr_50px] items-center gap-3 text-left"><div><b>{task.projectCode}</b><div className="text-xs text-slate-500">{task.title}</div></div><div className="h-8 rounded-xl bg-slate-100 p-1"><div className={(task.status === "Blocat" ? "bg-red-500" : task.status === "Review" ? "bg-violet-500" : "bg-emerald-600") + " h-full rounded-lg text-right text-[10px] font-black text-white"} style={{ width: `${Math.max(15, task.progress)}%`, marginLeft: `${(index % 4) * 8}%` }}>{task.progress}%</div></div><span className="text-xs font-black">{task.dueDate.slice(5)}</span></button>)}</div>;
+function ReferenceGantt({ tasks, openTask }: { tasks: V64Task[]; openTask: (taskId: string) => void }) {
+  const rows = [
+    { group: "Proiecte active", task: tasks[0], label: "Verificare amplasament", left: 5, width: 26, tone: "bg-emerald-600", progress: "72%" },
+    { group: "", task: tasks[1], label: "Montaj structură", left: 17, width: 30, tone: "bg-emerald-600", progress: "48%" },
+    { group: "", task: tasks[2], label: "Instalare panouri", left: 32, width: 33, tone: "bg-blue-500", progress: "90%" },
+    { group: "", task: tasks[3], label: "Testare & PIF", left: 54, width: 22, tone: "bg-violet-500", progress: "35%" },
+    { group: "Proiecte viitoare", task: tasks[4], label: "Montaj structură", left: 13, width: 38, tone: "bg-slate-300", progress: "" },
+    { group: "", task: tasks[5], label: "Instalare echipamente", left: 24, width: 38, tone: "bg-slate-300", progress: "" },
+    { group: "Milestones cheie", task: tasks[6], label: "PIF", left: 21, width: 0, tone: "bg-violet-500", progress: "09 Mai" },
+    { group: "", task: tasks[7], label: "Recepție", left: 61, width: 0, tone: "bg-violet-500", progress: "17 Mai" },
+    { group: "Dependențe critice", task: tasks[8], label: "Avize de racordare", left: 15, width: 25, tone: "bg-red-400", progress: "Întârziere 2 zile" },
+    { group: "", task: tasks[9], label: "Livrare echipamente", left: 31, width: 26, tone: "bg-red-400", progress: "" },
+    { group: "", task: tasks[10], label: "Testare și punere în funcțiune", left: 58, width: 28, tone: "bg-red-400", progress: "" }
+  ];
+  return (
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      <div className="grid grid-cols-[170px_1fr] border-b border-slate-100 bg-slate-50 text-[11px] font-black text-slate-500">
+        <div className="p-2">Nume task / proiect</div>
+        <div className="grid grid-cols-10 p-2 text-center"><span>29 Apr</span><span>Săpt.18</span><span>Mai 1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>Săpt.19</span><span>6</span><span>12</span></div>
+      </div>
+      <div className="relative">
+        <div className="absolute bottom-0 top-0 z-0 w-px bg-red-400" style={{ left: "68%" }} />
+        {rows.map((row, index) => (
+          <button key={`${row.label}-${index}`} onClick={() => row.task && openTask(row.task.id)} className="relative z-10 grid w-full grid-cols-[170px_1fr] items-center border-b border-slate-50 text-left last:border-b-0 hover:bg-slate-50/70">
+            <div className="min-h-[34px] px-2 py-1 text-[11px] font-bold text-slate-600">
+              {row.group ? <div className="font-black text-slate-800">{row.group}</div> : null}
+              <div className="truncate">{row.task?.projectCode ?? "P-2024"} · {row.label}</div>
+            </div>
+            <div className="relative h-[34px] bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px)] bg-[length:10%_100%]">
+              {row.width === 0 ? (
+                <div className="absolute top-2 h-4 w-4 rotate-45 rounded-sm bg-violet-500" style={{ left: `${row.left}%` }} />
+              ) : (
+                <div className={`absolute top-2 h-5 rounded-md px-2 text-right text-[10px] font-black text-white ${row.tone}`} style={{ left: `${row.left}%`, width: `${row.width}%` }}>{row.progress}</div>
+              )}
+            </div>
+          </button>
+        ))}
+      </div>
+      <div className="flex flex-wrap gap-4 border-t border-slate-100 px-3 py-2 text-[11px] font-bold text-slate-500"><span>■ În desfășurare</span><span>■ Planificat</span><span>■ În întârziere</span><span>◆ Milestone</span><span>— Dependență</span></div>
+    </div>
+  );
 }
 
 function CalendarFilters({ setFilters, toast }: { setFilters: PageContext["setFilters"]; toast: (text: string) => void }) {
@@ -1109,8 +1232,7 @@ function TaskuriReferenceFooter() {
   return (
     <footer className="flex flex-wrap items-center justify-between gap-3 px-2 pb-1 text-xs font-semibold text-slate-400">
       <span>© 2024 SERVELECT SRL. Toate drepturile rezervate.</span>
-      <span className="flex items-center gap-3"><span>v6.4.6</span><span>·</span><span>Politica de confidențialitate</span><span>·</span><span>Termeni și condiții</span></span>
+      <span className="flex items-center gap-3"><span>v6.4.14</span><span>·</span><span>Politica de confidențialitate</span><span>·</span><span>Termeni și condiții</span></span>
     </footer>
   );
 }
-
