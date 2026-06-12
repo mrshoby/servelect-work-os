@@ -342,3 +342,4 @@ export function v72CurrentReadiness() {
 export function calculateV72Workload(runtime: V72RuntimeState) {
   return calculateV70Workload(runtime.v70State);
 }
+
