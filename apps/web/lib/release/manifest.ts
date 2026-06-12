@@ -4,7 +4,7 @@ export type ReleaseGateStatus = "passed" | "warning" | "blocked" | "planned";
 export type ReleaseGate = { id: string; title: string; status: ReleaseGateStatus; owner: string; evidence: string; action: string };
 
 export const SERVELECT_RELEASE_VERSION = V77_RELEASE_VERSION;
-export const SERVELECT_RELEASE_CHANNEL = "v7.7.2 GoodDay-like UI Functional Parity, Provider Rehearsal & Observability";
+export const SERVELECT_RELEASE_CHANNEL = "v7.7.4 GoodDay-like UI Functional Parity, Provider Rehearsal & Observability";
 
 export const releaseGates: ReleaseGate[] = [
   { id: "typecheck", title: "TypeScript typecheck", status: "warning", owner: "Engineering", evidence: "Apply script runs pnpm typecheck locally.", action: "Fix any new error before push." },
@@ -37,5 +37,6 @@ export function getReleaseManifest() {
     nextRecommendedVersions: [{ version: "7.8.0", title: "Provider Telemetry, Mutation Canary & Server-Side Saved Views", focus: "Start controlled provider telemetry and API canary while moving saved views/notifications server-side." }]
   };
 }
+
 
 

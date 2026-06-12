@@ -1,4 +1,4 @@
-export const V77_RELEASE_VERSION = "7.7.2";
+export const V77_RELEASE_VERSION = "7.7.4";
 export const V77_STORAGE_KEY = "servelect.workos.v77.goodday.ui.functional.parity";
 
 export type V77TaskStatus = "Inbox" | "Planning" | "In lucru" | "Review" | "Blocat" | "Finalizat";
@@ -279,4 +279,5 @@ export function v77CurrentReadiness() {
     next: "v7.8.0 should connect provider telemetry and start controlled production mutation canary."
   };
 }
+
 

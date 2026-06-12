@@ -1,7 +1,7 @@
 # NEXT BUILD PLAN — SERVELECT WORK OS
 
 ## Current version
-v7.7.2 — GoodDay-like UI Functional Parity, Provider Rehearsal & Observability
+v7.7.4 — GoodDay-like UI Functional Parity, Provider Rehearsal & Observability
 
 ## What changed
 - Applied GoodDay-like compact Work OS layout discipline to real Taskuri routes.
@@ -41,7 +41,7 @@ v7.8.0 — Provider Telemetry, Mutation Canary & Server-Side Saved Views
 - No primary write enablement without rollback, backup and audit.
 
 ## QA status
-Pending local run for v7.7.2 package: pnpm typecheck, pnpm lint, pnpm build.
+Pending local run for v7.7.4 package: pnpm typecheck, pnpm lint, pnpm build.
 
 ## Vercel status
 Pending after user applies, commits and pushes.
@@ -50,7 +50,7 @@ Pending after user applies, commits and pushes.
 
 ---
 
-## v7.7.3 QA Script Fix — Vercel Protected Route Smoke
+## v7.7.4 QA Script Fix — Vercel Protected Route Smoke
 
 Applied: 2026-06-12 13:16:37
 
@@ -62,7 +62,7 @@ Next action: run v7.7 route smoke with a Vercel automation bypass secret or test
 
 ---
 
-## v7.7.3 QA Script Fix — Vercel Protected Route Smoke
+## v7.7.4 QA Script Fix — Vercel Protected Route Smoke
 
 Applied: 2026-06-12 13:27:53
 
@@ -71,3 +71,4 @@ Purpose: Fix route/screenshot audit scripts so protected Vercel deployments can 
 Status: App code unchanged. This fixes false FAIL results caused by Vercel returning HTTP 401 before Next.js routes render.
 
 Next action: run v7.7 route smoke with a Vercel automation bypass secret or test an unprotected production alias.
+
