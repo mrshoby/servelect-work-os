@@ -1,7 +1,7 @@
-import { V72PrismaShadowRecordsClient } from "@/components/work-os/V72PrismaShadowRecordsClient";
+import { V75ConflictAccessAttachmentsClient } from "@/components/work-os/V75ConflictAccessAttachmentsClient";
 
-export const metadata = { title: "SERVELECT Work OS v7.2 · Taskuri tickets v7.2" };
+export const metadata = { title: "SERVELECT Work OS v7.5 · Tickets" };
 
 export default function Page() {
-  return <V72PrismaShadowRecordsClient view="tickets" />;
+  return <V75ConflictAccessAttachmentsClient view="ticket" />;
 }
