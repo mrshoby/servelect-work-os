@@ -1,31 +1,31 @@
 import { v70ProgressScores, v70RouteList } from "@/lib/enterprise/work-os-v70-goodday-parity-hardening";
 import { v71GlobalScores, v71ProgressScores, v71RouteList } from "@/lib/enterprise/work-os-v71-backend-mutation-adapter";
 import { v72CurrentReadiness, v72GlobalScores, v72ProgressScores, v72RouteList } from "@/lib/enterprise/work-os-v72-prisma-shadow-records";
-import { V73_RELEASE_VERSION, v73CurrentReadiness, v73GlobalScores, v73ProgressScores, v73RouteList } from "@/lib/enterprise/work-os-v73-prisma-schema-migration";
+import { v73CurrentReadiness, v73GlobalScores, v73ProgressScores, v73RouteList } from "@/lib/enterprise/work-os-v73-prisma-schema-migration";
+import { V74_RELEASE_VERSION, v74CurrentReadiness, v74GlobalScores, v74ProgressScores, v74RouteList } from "@/lib/enterprise/work-os-v74-db-backed-shadow-writes";
 
 export type ReleaseGateStatus = "passed" | "warning" | "blocked" | "planned";
-
 export type ReleaseGate = { id: string; title: string; status: ReleaseGateStatus; owner: string; evidence: string; action: string };
 export type ReleaseMilestone = { id: string; title: string; version: string; date: string; summary: string; routes: string[] };
 
-export const SERVELECT_RELEASE_VERSION = V73_RELEASE_VERSION;
-export const SERVELECT_RELEASE_CHANNEL = "v7.3.1 Prisma Schema Migration, Shadow Table Writes & Notification Delivery Queue";
+export const SERVELECT_RELEASE_VERSION = V74_RELEASE_VERSION;
+export const SERVELECT_RELEASE_CHANNEL = "v7.4.0 DB-backed Shadow Writes, Notification Worker & Optimistic Locking";
 
 export const releaseMilestones: ReleaseMilestone[] = [
-  { id: "v70", title: "GoodDay Functional Parity Hardening", version: "7.0.2", date: "2026-06-12", summary: "Tickets, forms, workflows, custom fields, saved views, dependencies, time tracking, workload, reports and automations integrated into real Taskuri routes.", routes: v70RouteList() },
-  { id: "v71", title: "Backend Mutation Adapter, Server Notifications & Multi-User Records", version: "7.1.1", date: "2026-06-12", summary: "Mutation adapter for tasks, tickets, forms, notifications, approvals and saved views with API shadow, RBAC and audit.", routes: v71RouteList() },
-  { id: "v72", title: "Prisma Shadow Records, Rollback Evidence & Server Notification Store", version: "7.2.3", date: "2026-06-12", summary: "Shadow record ledger, rollback evidence and server notification store added before primary Prisma rollout.", routes: v72RouteList() },
-  { id: "v73", title: "Prisma Schema Migration, Shadow Table Writes & Notification Delivery Queue", version: V73_RELEASE_VERSION, date: "2026-06-12", summary: "Schema migration scaffold, shadow table write contracts, rollback checkpoints and notification delivery queue added while primary writes stay gated.", routes: v73RouteList() }
+  { id: "v70", title: "GoodDay Functional Parity Hardening", version: "7.0.2", date: "2026-06-12", summary: "Taskuri GoodDay-like functionality integrated into real routes.", routes: v70RouteList() },
+  { id: "v71", title: "Backend Mutation Adapter, Server Notifications & Multi-User Records", version: "7.1.1", date: "2026-06-12", summary: "Mutation adapter with API shadow, RBAC and audit readiness.", routes: v71RouteList() },
+  { id: "v72", title: "Prisma Shadow Records, Rollback Evidence & Server Notification Store", version: "7.2.3", date: "2026-06-12", summary: "Shadow record ledger, rollback evidence and server notification store.", routes: v72RouteList() },
+  { id: "v73", title: "Prisma Schema Migration, Shadow Table Writes & Notification Delivery Queue", version: "7.3.0", date: "2026-06-12", summary: "Schema migration scaffold and notification delivery queue.", routes: v73RouteList() },
+  { id: "v74", title: "DB-backed Shadow Writes, Notification Worker & Optimistic Locking", version: V74_RELEASE_VERSION, date: "2026-06-12", summary: "DB-shadow write contracts, optimistic locks, notification worker semantics and rollback replay evidence while primary writes remain gated.", routes: v74RouteList() }
 ];
 
 export const releaseGates: ReleaseGate[] = [
-  { id: "typecheck", title: "TypeScript typecheck", status: "warning", owner: "Engineering", evidence: "Apply script runs pnpm typecheck locally. Build is not accepted if this fails.", action: "Run apply script and fix any new errors before push." },
-  { id: "build", title: "Next.js production build", status: "warning", owner: "Engineering", evidence: "Apply script runs pnpm build locally before push.", action: "Run pnpm build and wait for Vercel build after push." },
-  { id: "v70-screenshots", title: "v7.0.2 screenshot baseline", status: "passed", owner: "QA", evidence: "V7 screenshot report confirmed 12/12 PNG on Vercel.", action: "Keep baseline and extend screenshots after backend builds." },
-  { id: "v71-screenshots", title: "v7.1.1 backend mutation screenshot baseline", status: "passed", owner: "QA", evidence: "V7.1 screenshot report confirmed 7/7 PNG on Vercel.", action: "Extend with v7.2 shadow record routes." },
-  { id: "v72-screenshots", title: "v7.2.3 Prisma shadow screenshot baseline", status: "passed", owner: "QA", evidence: "V7.2.3 screenshot report confirmed 9/9 PNG on Vercel.", action: "Extend with v7.3 schema migration routes." },
-  { id: "v73-schema", title: "Prisma shadow migration SQL", status: "warning", owner: "Backend", evidence: "v7.3.1 adds migration SQL scaffold but does not apply primary DB writes.", action: "Review/apply migration in controlled environment and keep primary gate closed." },
-  { id: "primary-db", title: "Primary DB writes", status: "blocked", owner: "Backend", evidence: "Prisma primary writes are intentionally gated.", action: "v7.4 must add DB-backed shadow writes, rollback verification and optimistic locking before primary enablement." }
+  { id: "typecheck", title: "TypeScript typecheck", status: "warning", owner: "Engineering", evidence: "Apply script runs pnpm typecheck locally.", action: "Fix any new typecheck error before push." },
+  { id: "build", title: "Next.js production build", status: "warning", owner: "Engineering", evidence: "Apply script runs pnpm build locally before push.", action: "Wait for Vercel build after push." },
+  { id: "v73-screenshots", title: "v7.3.0 screenshot baseline", status: "passed", owner: "QA", evidence: "V7.3.0 screenshot report confirmed 10/10 PNG on Vercel.", action: "Extend screenshot set with v7.4 routes." },
+  { id: "db-shadow-adapter", title: "DB-backed shadow write adapter", status: "warning", owner: "Backend", evidence: "v7.4.0 adds DB-shadow contracts and lock table scaffold but primary writes are not enabled.", action: "Verify DATABASE_URL and Prisma adapter in a controlled environment." },
+  { id: "notification-worker", title: "Notification worker", status: "warning", owner: "Platform", evidence: "v7.4.0 adds in-app queue processing semantics. Email/push/websocket providers are not enabled yet.", action: "Add provider switchboard before production notifications." },
+  { id: "primary-db", title: "Primary DB writes", status: "blocked", owner: "Backend", evidence: "Primary writes remain intentionally gated.", action: "Do not enable primary writes without backup, rollback replay and access audit." }
 ];
 
 export function getReleaseChecklist() {
@@ -36,26 +36,27 @@ export function getReleaseChecklist() {
 
 export function getReleaseManifest() {
   const checklist = getReleaseChecklist();
-  const routes = [...v70RouteList(), ...v71RouteList(), ...v72RouteList(), ...v73RouteList()];
-  const scores = v73ProgressScores();
-  const global = v73GlobalScores();
+  const routes = [...v70RouteList(), ...v71RouteList(), ...v72RouteList(), ...v73RouteList(), ...v74RouteList()];
+  const scores = v74ProgressScores();
+  const global = v74GlobalScores();
   return {
     ok: checklist.blockers.length === 0,
     generatedAt: new Date().toISOString(),
-    app: { name: "SERVELECT WORK OS / SERVELECT EMP", version: SERVELECT_RELEASE_VERSION, channel: SERVELECT_RELEASE_CHANNEL, releaseType: "prisma-schema-migration" },
+    app: { name: "SERVELECT WORK OS / SERVELECT EMP", version: SERVELECT_RELEASE_VERSION, channel: SERVELECT_RELEASE_CHANNEL, releaseType: "db-backed-shadow-writes" },
     summary: { productionScore: checklist.productionScore, routes: routes.length, scoreRows: scores.length, releaseGates: releaseGates.length, capabilities: routes.length, actionItems: checklist.warnings.length + checklist.blockers.length + checklist.planned.length, criticalActions: checklist.blockers.length, workflowExecutions: scores.length },
     milestones: releaseMilestones,
     checklist,
     progressScores: scores,
-    previousProgressScores: v72ProgressScores(),
+    previousProgressScores: v73ProgressScores(),
+    previousProgressScoresV72: v72ProgressScores(),
     baselineProgressScores: v70ProgressScores(),
     globalScores: global,
-    previousGlobalScores: v72GlobalScores(),
+    previousGlobalScores: v73GlobalScores(),
+    previousGlobalScoresV72: v72GlobalScores(),
     v71GlobalScores: v71GlobalScores(),
-    readiness: v73CurrentReadiness(),
-    previousReadiness: v72CurrentReadiness(),
-    nextRecommendedVersions: [{ version: "7.4.0", title: "DB-backed Shadow Writes, Notification Worker & Optimistic Locking", focus: "Connect shadow write contracts to real Prisma-backed adapter under gate, process notification delivery queue and add optimistic version checks." }]
+    readiness: v74CurrentReadiness(),
+    previousReadiness: v73CurrentReadiness(),
+    previousReadinessV72: v72CurrentReadiness(),
+    nextRecommendedVersions: [{ version: "7.5.0", title: "Conflict Resolution, Access Inheritance & Real Attachment Storage", focus: "Add merge/conflict UI, role inheritance and DB/R2-ready attachment evidence." }]
   };
 }
-
-
