@@ -1,20 +1,20 @@
-# v7.2.0 Prisma Shadow Functional Route Smoke
+# v7.2.3 Prisma Shadow Functional Route Smoke
 
 BaseUrl: https://servelect-work-os-web.vercel.app
 
 | Route | Result | HTTP | Bytes |
 |---|---:|---:|---:|
-| /work-os/prisma-shadow-records | FAIL: Response status code does not indicate success: 404 (Not Found). | 0 | 0 |
-| /admin/prisma-shadow-records | FAIL: Response status code does not indicate success: 404 (Not Found). | 0 | 0 |
-| /api/v1/work-os/v72-shadow-records | FAIL: Response status code does not indicate success: 404 (Not Found). | 0 | 0 |
-| /api/v1/work-os/v72-shadow-records/health | FAIL: Response status code does not indicate success: 404 (Not Found). | 0 | 0 |
-| /api/v1/work-os/v72-shadow-records/mutations | FAIL: Response status code does not indicate success: 404 (Not Found). | 0 | 0 |
-| /api/v1/work-os/v72-shadow-records/rollback | FAIL: Response status code does not indicate success: 404 (Not Found). | 0 | 0 |
-| /api/v1/work-os/v72-shadow-records/notifications | FAIL: Response status code does not indicate success: 404 (Not Found). | 0 | 0 |
-| /taskuri/overview | PASS | 200 | 36640 |
-| /taskuri/tickets-notificari | PASS | 200 | 35913 |
-| /taskuri/forms | PASS | 200 | 35667 |
-| /taskuri/timesheets | PASS | 200 | 35333 |
-| /taskuri/workload-aprobari | PASS | 200 | 37356 |
-| /taskuri/automations | PASS | 200 | 35873 |
-| /taskuri/reports | PASS | 200 | 35418 |
+| /work-os/prisma-shadow-records | PASS | 200 | 43809 |
+| /admin/prisma-shadow-records | PASS | 200 | 40887 |
+| /api/v1/work-os/v72-shadow-records | PASS | 200 | 21526 |
+| /api/v1/work-os/v72-shadow-records/health | PASS | 200 | 6774 |
+| /api/v1/work-os/v72-shadow-records/mutations | PASS | 200 | 15976 |
+| /api/v1/work-os/v72-shadow-records/rollback | PASS | 200 | 1338 |
+| /api/v1/work-os/v72-shadow-records/notifications | PASS | 200 | 950 |
+| /taskuri/overview | PASS | 200 | 37434 |
+| /taskuri/tickets-notificari | PASS | 200 | 36691 |
+| /taskuri/forms | PASS | 200 | 36465 |
+| /taskuri/timesheets | PASS | 200 | 36100 |
+| /taskuri/workload-aprobari | PASS | 200 | 38014 |
+| /taskuri/automations | PASS | 200 | 36663 |
+| /taskuri/reports | PASS | 200 | 36633 |
