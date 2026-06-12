@@ -1,7 +1,7 @@
-import { V75ConflictAccessAttachmentsClient } from "@/components/work-os/V75ConflictAccessAttachmentsClient";
+import { V76ProviderStorageClient } from "@/components/work-os/V76ProviderStorageClient";
 
-export const metadata = { title: "SERVELECT Work OS v7.5 · Workload" };
+export const metadata = { title: "SERVELECT Work OS v7.6 · Workload Aprobari" };
 
 export default function Page() {
-  return <V75ConflictAccessAttachmentsClient view="workload" />;
+  return <V76ProviderStorageClient view="workload" />;
 }
