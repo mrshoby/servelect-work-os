@@ -1,7 +1,7 @@
-import { V77GoodDayUiParityClient } from "@/components/work-os/V77GoodDayUiParityClient";
+import { V78ProviderTelemetrySavedViewsClient } from "@/components/work-os/V78ProviderTelemetrySavedViewsClient";
 
-export const metadata = { title: "SERVELECT Work OS v7.7 · primaryWriteDryRun" };
+export const metadata = { title: "SERVELECT Work OS v7.8 · primaryWriteDryRun" };
 
 export default function Page() {
-  return <V77GoodDayUiParityClient view="primaryWriteDryRun" />;
+  return <V78ProviderTelemetrySavedViewsClient view="primaryWriteDryRun" />;
 }

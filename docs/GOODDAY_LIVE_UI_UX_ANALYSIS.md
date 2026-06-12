@@ -1,22 +1,10 @@
-# GoodDay Live UI/UX Public Analysis — v7.7.0
+# GoodDay Live UI/UX Analysis — v7.8 continuation
 
-Scope: public pages only. No login bypass, no copied branding/assets/screenshots.
+This file remains the working public-analysis document for the GoodDay-like direction. The implementation must not copy GoodDay branding, logo, text, assets or screenshots. Servelect keeps its own brand and applies only the product discipline: compact Work OS shell, clear project/task hierarchy, My Work, list/table/board/calendar/workload views, reports, forms, notifications, custom fields, workflows and admin settings.
 
-## Public findings
-- GoodDay positions itself as an all-in-one work management platform for projects, processes and workflows.
-- Public modules emphasize Tasks & Projects, hierarchy/groups, reminders, project templates, to-do lists, dependencies, automations, documents, chats, meetings, time tracking, finance and reporting.
-- Public help pages expose concepts such as task types, project templates, custom fields, statuses/workflows, priorities, todo list templates, notes, organization management, My Time, task timer and reports.
-- Public project management pages highlight subtasks, todo lists, recurrence, dependencies, links, mentions, tags, custom task types, workflows, fields and templates.
+## v7.8 focus extracted from gap analysis
 
-## UI/UX patterns extracted
-- Dense left navigation with hierarchy-first mental model.
-- Topbar with search, quick actions and context state.
-- Main content uses compact tables/lists/boards, with view switching rather than separate disconnected dashboards.
-- Task detail is a persistent side context/drawer with comments, checklist, attachments and activity.
-- Workload/time tracking are first-class, not hidden reports.
-- Admin/settings expose workflows, custom fields and organization access.
-
-## Servelect adaptation
-- Keep Servelect green/navy identity.
-- Use GoodDay-like layout discipline and Work OS logic only.
-- Use Romanian/Servelect domain entities: proiecte PV, mentenanță, echipamente, IoT alerts, pontaj, ofertare, Audit energetic, Producție, Comercial.
+- Saved views must move from local-only UI toward server-side/shared view contracts.
+- Provider delivery must expose telemetry, retries and health before live email/push/websocket activation.
+- Primary writes must use a canary/dry-run layer before direct writes are enabled.
+- Taskuri routes must stay real and integrated, not demo pages.

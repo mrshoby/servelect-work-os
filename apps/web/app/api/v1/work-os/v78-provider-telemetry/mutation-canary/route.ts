@@ -1,0 +1,3 @@
+import { createV78RuntimeState, runV78MutationCanary, runV78ProviderProbe, saveV78ServerView, syncV78SavedViews, v78CurrentReadiness, v78GlobalScores, v78ProgressScores, v78RouteList } from "@/lib/enterprise/work-os-v78-provider-telemetry-saved-views";
+export async function GET() { const state = createV78RuntimeState(); return Response.json({ ok: true, version: state.version, canaries: state.canaries }); }
+export async function POST() { const state = runV78MutationCanary(createV78RuntimeState(), "task"); return Response.json({ ok: true, version: state.version, canaries: state.canaries, primaryWrite: "gated", rollbackRequired: true }); }

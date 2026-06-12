@@ -1,0 +1,2 @@
+import { createV78RuntimeState, runV78MutationCanary, runV78ProviderProbe, saveV78ServerView, syncV78SavedViews, v78CurrentReadiness, v78GlobalScores, v78ProgressScores, v78RouteList } from "@/lib/enterprise/work-os-v78-provider-telemetry-saved-views";
+export async function GET() { return Response.json({ ok: true, version: "7.8.0", health: "ready", readiness: v78CurrentReadiness(), scores: v78GlobalScores() }); }

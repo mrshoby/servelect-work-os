@@ -1,17 +1,17 @@
-import { V77_RELEASE_VERSION, v77CurrentReadiness, v77GlobalScores, v77ProgressScores, v77RouteList } from "@/lib/enterprise/work-os-v77-goodday-ui-parity";
+import { V78_RELEASE_VERSION, v78CurrentReadiness, v78GlobalScores, v78ProgressScores, v78RouteList } from "@/lib/enterprise/work-os-v78-provider-telemetry-saved-views";
 
 export type ReleaseGateStatus = "passed" | "warning" | "blocked" | "planned";
 export type ReleaseGate = { id: string; title: string; status: ReleaseGateStatus; owner: string; evidence: string; action: string };
 
-export const SERVELECT_RELEASE_VERSION = V77_RELEASE_VERSION;
-export const SERVELECT_RELEASE_CHANNEL = "v7.7.4 GoodDay-like UI Functional Parity, Provider Rehearsal & Observability";
+export const SERVELECT_RELEASE_VERSION = V78_RELEASE_VERSION;
+export const SERVELECT_RELEASE_CHANNEL = "v7.8.0 Provider Telemetry, Mutation Canary & Server-Side Saved Views";
 
 export const releaseGates: ReleaseGate[] = [
-  { id: "typecheck", title: "TypeScript typecheck", status: "warning", owner: "Engineering", evidence: "Apply script runs pnpm typecheck locally.", action: "Fix any new error before push." },
-  { id: "build", title: "Next.js build", status: "warning", owner: "Engineering", evidence: "Apply script runs pnpm build locally.", action: "Wait for Vercel check after push." },
-  { id: "v76-screenshots", title: "v7.6 screenshot baseline", status: "passed", owner: "QA", evidence: "V7.6 screenshot audit confirmed 12/12 PNG on Vercel.", action: "Extend audit to v7.7 Taskuri UX routes." },
-  { id: "goodday-ui", title: "GoodDay-like UI discipline", status: "passed", owner: "Product", evidence: "v7.7 applies a compact Work OS shell to real Taskuri routes.", action: "Continue refinement without copying GoodDay branding." },
-  { id: "primary-writes", title: "Primary Prisma writes", status: "blocked", owner: "Backend", evidence: "Primary writes remain gated; dry-run only.", action: "No primary writes without rollback replay and backup." }
+  { id: "v77-screenshots", title: "v7.7 screenshot baseline", status: "passed", owner: "QA", evidence: "v7.7.0/v7.7.3 screenshot audit captured 18/18 clean PNG on Vercel.", action: "Use as accepted UI baseline." },
+  { id: "provider-telemetry", title: "Provider telemetry", status: "passed", owner: "Platform", evidence: "v7.8 adds provider status, p95, success rate, delivery events and retry state.", action: "Connect live credentials only through environment variables." },
+  { id: "server-saved-views", title: "Server-side saved views", status: "passed", owner: "Product", evidence: "Saved views now include route, scope, columns, filters, server state and version.", action: "Persist to DB adapter in the next build." },
+  { id: "mutation-canary", title: "Mutation canary", status: "warning", owner: "Backend", evidence: "Canary records include lockVersion and rollback checkpoint but primary writes remain disabled.", action: "Do not enable primary writes until rollback drill passes." },
+  { id: "primary-writes", title: "Primary Prisma writes", status: "blocked", owner: "Engineering", evidence: "Primary writes remain gated by design.", action: "Prepare v7.9 provider canary activation and ACL enforcement first." }
 ];
 
 export function getReleaseChecklist() {
@@ -22,21 +22,18 @@ export function getReleaseChecklist() {
 
 export function getReleaseManifest() {
   const checklist = getReleaseChecklist();
-  const routes = v77RouteList();
-  const scores = v77ProgressScores();
+  const routes = v78RouteList();
+  const scores = v78ProgressScores();
   return {
     ok: checklist.blockers.length === 0,
     generatedAt: new Date().toISOString(),
-    app: { name: "SERVELECT WORK OS / SERVELECT EMP", version: SERVELECT_RELEASE_VERSION, channel: SERVELECT_RELEASE_CHANNEL, releaseType: "goodday-ui-functional-parity" },
+    app: { name: "SERVELECT WORK OS / SERVELECT EMP", version: SERVELECT_RELEASE_VERSION, channel: SERVELECT_RELEASE_CHANNEL, releaseType: "provider-telemetry-mutation-canary-saved-views" },
     summary: { productionScore: checklist.productionScore, routes: routes.length, scoreRows: scores.length, releaseGates: releaseGates.length, capabilities: routes.length, actionItems: checklist.warnings.length + checklist.blockers.length + checklist.planned.length, criticalActions: checklist.blockers.length, workflowExecutions: scores.length },
-    milestones: [{ id: "v77", title: "GoodDay-like UI Functional Parity, Provider Rehearsal & Observability", version: SERVELECT_RELEASE_VERSION, date: "2026-06-12", summary: "Taskuri real routes receive compact GoodDay-like Work OS shell, stronger interaction and provider rehearsal visibility.", routes }],
+    milestones: [{ id: "v78", title: "Provider Telemetry, Mutation Canary & Server-Side Saved Views", version: SERVELECT_RELEASE_VERSION, date: "2026-06-12", summary: "Adds provider telemetry, mutation canary and server-saved-view control layer to the real Taskuri GoodDay-like UI routes.", routes }],
     checklist,
     progressScores: scores,
-    globalScores: v77GlobalScores(),
-    readiness: v77CurrentReadiness(),
-    nextRecommendedVersions: [{ version: "7.8.0", title: "Provider Telemetry, Mutation Canary & Server-Side Saved Views", focus: "Start controlled provider telemetry and API canary while moving saved views/notifications server-side." }]
+    globalScores: v78GlobalScores(),
+    readiness: v78CurrentReadiness(),
+    nextRecommendedVersions: [{ version: "7.9.0", title: "Provider Canary Activation, Shared View ACL & Primary Write Pilot", focus: "Activate provider canary with secrets, enforce saved-view ACL and begin a narrow primary-write pilot with rollback." }]
   };
 }
-
-
-
