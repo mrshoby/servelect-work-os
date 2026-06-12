@@ -1,7 +1,7 @@
-import { V71BackendMutationAdapterClient } from "@/components/work-os/V71BackendMutationAdapterClient";
+import { V72PrismaShadowRecordsClient } from "@/components/work-os/V72PrismaShadowRecordsClient";
 
-export const metadata = { title: "SERVELECT Work OS v7.1 · tasks" };
+export const metadata = { title: "SERVELECT Work OS v7.2 · Taskuri overview v7.2" };
 
 export default function Page() {
-  return <V71BackendMutationAdapterClient view="tasks" />;
+  return <V72PrismaShadowRecordsClient view="tasks" />;
 }
