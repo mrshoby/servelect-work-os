@@ -1,7 +1,7 @@
 import { V70GoodDayParityHardeningClient } from "@/components/work-os/V70GoodDayParityHardeningClient";
 
-export const metadata = { title: "SERVELECT Work OS v7 · Table" };
+export const metadata = { title: "SERVELECT Work OS v7 · Automations" };
 
 export default function Page() {
-  return <V70GoodDayParityHardeningClient view="table" />;
+  return <V70GoodDayParityHardeningClient view="automations" />;
 }

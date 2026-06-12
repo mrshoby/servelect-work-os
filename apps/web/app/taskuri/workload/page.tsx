@@ -1,5 +1,7 @@
-import { V64TaskuriFunctionalArea } from "@/components/work-os/V64TaskuriFunctionalArea";
+import { V70GoodDayParityHardeningClient } from "@/components/work-os/V70GoodDayParityHardeningClient";
+
+export const metadata = { title: "SERVELECT Work OS v7 · Workload" };
 
 export default function Page() {
-  return <V64TaskuriFunctionalArea pageId="workload" />;
+  return <V70GoodDayParityHardeningClient view="workload" />;
 }

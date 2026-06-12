@@ -1,3 +1,3 @@
-export const SERVELECT_WORK_OS_VERSION = "5.5.0";
-export const SERVELECT_WORK_OS_RELEASE = "v5.5.0 — Interactive Task / Project Execution Upgrade";
-export const SERVELECT_WORK_OS_NEXT = "v5.6.0 — Real Persistent Records, Inline Editing & Activity Comments";
+export const SERVELECT_APP_VERSION = "7.0.2";
+export const SERVELECT_RELEASE_CHANNEL = "v7.0.2 GoodDay Functional Parity Hardening Typecheck Fix";
+export const SERVELECT_RELEASE_DATE = "2026-06-12";
