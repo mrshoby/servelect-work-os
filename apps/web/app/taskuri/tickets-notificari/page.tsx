@@ -1,7 +1,7 @@
-import { V76ProviderStorageClient } from "@/components/work-os/V76ProviderStorageClient";
+import { V77GoodDayUiParityClient } from "@/components/work-os/V77GoodDayUiParityClient";
 
-export const metadata = { title: "SERVELECT Work OS v7.6 · Tickets Notificari" };
+export const metadata = { title: "SERVELECT Work OS v7.7 · ticketsNotifications" };
 
 export default function Page() {
-  return <V76ProviderStorageClient view="ticket" />;
+  return <V77GoodDayUiParityClient view="ticketsNotifications" />;
 }

@@ -1,7 +1,7 @@
-import { V76ProviderStorageClient } from "@/components/work-os/V76ProviderStorageClient";
+import { V77GoodDayUiParityClient } from "@/components/work-os/V77GoodDayUiParityClient";
 
-export const metadata = { title: "SERVELECT Work OS v7.6 · Taskuri Overview" };
+export const metadata = { title: "SERVELECT Work OS v7.7 · overview" };
 
 export default function Page() {
-  return <V76ProviderStorageClient view="task" />;
+  return <V77GoodDayUiParityClient view="overview" />;
 }

@@ -1,7 +1,7 @@
-import { V70GoodDayParityHardeningClient } from "@/components/work-os/V70GoodDayParityHardeningClient";
+import { V77GoodDayUiParityClient } from "@/components/work-os/V77GoodDayUiParityClient";
 
-export const metadata = { title: "SERVELECT Work OS v7 · Access Rules Admin" };
+export const metadata = { title: "SERVELECT Work OS v7.7 · accessRulesAdmin" };
 
 export default function Page() {
-  return <V70GoodDayParityHardeningClient view="access-rules-admin" />;
+  return <V77GoodDayUiParityClient view="accessRulesAdmin" />;
 }

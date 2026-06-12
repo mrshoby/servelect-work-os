@@ -1,42 +1,49 @@
 # NEXT BUILD PLAN — SERVELECT WORK OS
 
 ## Current version
-v7.6.0 — Signed Attachment URLs, Provider Delivery & Access-Enforced Mutation API
+v7.7.2 — GoodDay-like UI Functional Parity, Provider Rehearsal & Observability
 
 ## What changed
-- Added signed upload/download URL contracts for R2/S3-ready attachment storage.
-- Added provider delivery switchboard for in-app/email/push/websocket readiness.
-- Added access-enforced mutation guards.
-- Added file versioning and delete/restore evidence.
-- Updated release manifest/version to v7.6.0.
+- Applied GoodDay-like compact Work OS layout discipline to real Taskuri routes.
+- Added shared shell for task list, board, tickets, workload, reports, admin workflows/custom fields/observability.
+- Added provider rehearsal and primary write dry-run controls.
+- Updated GoodDay live UI/UX analysis and Servelect design system docs.
 
 ## Scores
-- GoodDay parity: 88%
-- Real local functionality: 93%
-- Backend/API real: 86%
-- Production readiness: 85%
-- UX/design maturity: 86%
-- QA confidence: 88% after QA passes
-- Screenshot audit: pending until v7.6 audit is run
+- GoodDay visual similarity: 74%
+- GoodDay functional parity: 89%
+- Local real functionality: 93%
+- Backend/API parity: 87%
+- Production readiness: 87%
+- QA confidence: 90% after local QA passes
+- Screenshot audit coverage: 100% only after v7.7 screenshot audit passes
 
-## Remaining issues
-- Primary Prisma writes remain gated.
-- R2/S3 credentials and binary upload are not active.
-- Email/push/websocket live providers are not active.
-- Provider delivery observability is not complete.
+## Remaining problems
+- Primary Prisma writes are still gated.
+- Email/push/websocket delivery providers are still not live.
+- R2/S3 credentials and real binary attachment transfer are not active.
+- Shared saved views and notifications still need server-side records.
 
-## Next build
-v7.7.0 — Provider Rehearsal, Primary Write Dry Run & Observability
+## Next build recommended
+v7.8.0 — Provider Telemetry, Mutation Canary & Server-Side Saved Views
 
-## Scope
-1. Provider delivery rehearsal with mock/live toggle.
-2. Primary write dry-run without committing primary records.
-3. Observability dashboard for providers, signed URL failures and access denials.
-4. Backup/rollback verification before primary enablement.
-5. Screenshot audit and route smoke extension.
+## Scope for next build
+1. Provider telemetry table/API for delivery success/failure.
+2. Mutation canary mode for safe subset of task/ticket/notification writes.
+3. Server-side saved views and notification records.
+4. Access enforcement in all mutation endpoints.
+5. Screenshot audit covering v7.7 + provider telemetry routes.
 
-## Do not do
-- No redesign.
-- No demo separate page replacing real routes.
-- No unrelated modules.
-- Do not enable primary Prisma writes yet.
+## Do not do next
+- No redesign unless it fixes a verified UX gap.
+- No demo-only page.
+- No new unrelated modules.
+- No primary write enablement without rollback, backup and audit.
+
+## QA status
+Pending local run for v7.7.2 package: pnpm typecheck, pnpm lint, pnpm build.
+
+## Vercel status
+Pending after user applies, commits and pushes.
+
+

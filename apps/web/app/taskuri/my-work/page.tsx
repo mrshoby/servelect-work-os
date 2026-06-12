@@ -1,7 +1,7 @@
-import { V70GoodDayParityHardeningClient } from "@/components/work-os/V70GoodDayParityHardeningClient";
+import { V77GoodDayUiParityClient } from "@/components/work-os/V77GoodDayUiParityClient";
 
-export const metadata = { title: "SERVELECT Work OS v7 · My Work" };
+export const metadata = { title: "SERVELECT Work OS v7.7 · myWork" };
 
 export default function Page() {
-  return <V70GoodDayParityHardeningClient view="my-work" />;
+  return <V77GoodDayUiParityClient view="myWork" />;
 }
