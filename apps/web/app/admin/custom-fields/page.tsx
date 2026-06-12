@@ -1,7 +1,7 @@
-import { V70GoodDayParityHardeningClient } from "@/components/work-os/V70GoodDayParityHardeningClient";
+import { V71BackendMutationAdapterClient } from "@/components/work-os/V71BackendMutationAdapterClient";
 
-export const metadata = { title: "SERVELECT Work OS v7 · Custom Fields Admin" };
+export const metadata = { title: "SERVELECT Work OS v7.1 · custom-fields" };
 
 export default function Page() {
-  return <V70GoodDayParityHardeningClient view="custom-fields-admin" />;
+  return <V71BackendMutationAdapterClient view="custom-fields" />;
 }

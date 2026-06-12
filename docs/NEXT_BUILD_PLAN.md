@@ -1,80 +1,110 @@
-# NEXT_BUILD_PLAN
+# NEXT_BUILD_PLAN — SERVELECT WORK OS
 
-## Current version
+## Versiune curentă
 
-v7.0.0 — GoodDay Functional Parity Hardening, Real Work OS Integration & Production-Ready Task Platform
+v7.1.0 — Backend Mutation Adapter, Server Notifications & Multi-User Records
 
-## What was done in current build
+## Ce s-a făcut în buildul curent
 
-- Integrated GoodDay-like functional hardening into real `/taskuri/...` routes, not a separate demo.
-- Added tickets/request forms/SLA escalation/convert-to-task flows.
-- Added notification read/unread and generated notifications.
-- Added workflow definitions, transitions, validations and approval gates.
-- Added custom fields and task types admin.
-- Added saved views with local persistence.
-- Added dependencies, recurrence, reminders.
-- Added time tracking, time entries and timesheet submit/approve.
-- Added workload calculation from estimates, capacity and tracked time.
-- Added CSV reports and automation test rules.
-- Aligned package/release versioning to v7.0.0.
+- Adăugat strat `work-os-v71-backend-mutation-adapter.ts` pentru mutații controlate pe entitățile critice.
+- Adăugat mod de lucru pe 4 nivele: `local_persistent`, `api_shadow`, `prisma_shadow_ready`, `prisma_primary_gated`.
+- Adăugat audit event pentru fiecare mutație.
+- Adăugat RBAC/department guard pentru mutații task.
+- Adăugat mutații API pentru taskuri, tickete, notificări și health.
+- Adăugat UI de control în `/work-os/backend-mutations` și `/admin/backend-mutations`.
+- Integrat v7.1 în rute reale relevante: tickets, forms, timesheets, workload, workflows, custom fields.
+- Actualizat versiune/manifest la v7.1.0.
 
-## Scores after v7.0.0
+## Scoruri procentuale
 
-| Category | Percent |
-|---|---:|
-| GoodDay public feature parity | 81% |
-| Task management core | 90% |
-| Tickets / Requests / Forms | 74% |
-| Notifications | 78% |
-| Workflows / custom statuses / validations | 73% |
-| Custom fields / task types | 72% |
-| Saved views / filters / table views | 76% |
-| Workload / resource planning | 74% |
-| Time tracking / timesheets | 72% |
-| Reports / analytics | 66% |
-| Automations | 68% |
-| Backend / API / persistence | 48% |
-| Screenshot audit coverage | 45% |
-| Production readiness | 52% |
+| Categorie | Procent actual | Procent înainte | Progres făcut | Ce lipsește până la 100% | Următorul pas obligatoriu |
+|---|---:|---:|---|---|---|
+| GoodDay public feature parity | 83% | 81% | Mutation adapter + notification model | API/webhooks, enterprise inheritance | Prisma shadow records |
+| Task management core | 91% | 90% | Task mutation/audit/RBAC | DB concurrency | Persist through repository |
+| Project hierarchy / portfolios | 70% | 70% | Neschimbat | tree DB + permissions inheritance | v7.3 hierarchy hardening |
+| My Work / Inbox / Action Required | 82% | 81% | Notifications mutation support | server subscriptions | notification store |
+| Task detail / drawer / comments / activity | 88% | 87% | audit mutation stream | full comment backend | activity DB |
+| Tickets / Requests / Forms | 78% | 74% | Ticket/request mutations | portal client/storage | ticket queue |
+| Notifications | 83% | 78% | mark read/create API | email/push/websocket | server notification table |
+| Workflows / custom statuses / validations | 76% | 73% | workflow mutation shadow | full builder DB | workflow persistence |
+| Custom fields / task types | 75% | 72% | custom field API shadow | migrations/field permissions | schema persistence |
+| Saved views / filters / table views | 80% | 76% | saved view CRUD adapter | shared views server | saved view API |
+| Board / Kanban | 82% | 82% | Neschimbat | drag/drop persistence | board persistence |
+| Calendar / Gantt / Timeline | 72% | 72% | Neschimbat | scheduler/reschedule backend | timeline adapter |
+| Workload / resource planning | 76% | 74% | recalculation after mutations | absences/allocations | capacity API |
+| Time tracking / My Time / Timesheets | 76% | 72% | time/timesheet mutations | pontaj backend integration | timesheet API |
+| Approvals | 77% | 72% | approve/reject mutation | policy engine | approval policy DB |
+| Reports / dashboards / analytics | 68% | 66% | export tied to mutation snapshot | BI/PDF real | report store |
+| Automations | 71% | 68% | audit + notifications on rule run | queue/cron/retry | automation worker |
+| Documents / files / attachments | 45% | 45% | Neschimbat | R2/S3 storage | document adapter |
+| CRM / client portal integration | 50% | 50% | Neschimbat | portal/auth/forms | client portal forms |
+| HR / attendance / departments | 62% | 62% | Neschimbat | pontaj sync/leave | HR API |
+| RBAC / permissions / access rules | 77% | 72% | mutation guard | centralized policy middleware | API policy layer |
+| Backend / API / persistence | 58% | 48% | API shadow adapter | Prisma primary writes | Prisma shadow rollout |
+| Screenshot audit coverage | 100% | 100% | Baseline preserved | v7.1 screenshots after deploy | run screenshot audit |
+| QA/build stability | 74% | 72% | smoke script added | E2E click tests | browser mutation E2E |
+| Production readiness | 62% | 55% | deployment/runtime mutation gates | DB/auth/storage/observability | Prisma shadow + notification store |
 
-## Problems remaining
+## Probleme rămase
 
-- Backend/API real writes are still not primary source of truth.
-- Server-side notifications and push/email do not exist.
-- Automations are local interactive, not backend jobs.
-- Attachments are mock, not storage-backed.
-- Screenshot audit must be run and PNG output verified.
-- RBAC/access rules need server enforcement.
+- Primary DB writes nu sunt încă active.
+- Notificările nu sunt încă livrate prin websocket/email/push.
+- Attachments/files nu folosesc încă R2/S3.
+- Automations nu rulează încă pe worker/queue server-side.
+- Screenshot audit v7.1 trebuie rulat după deploy.
 
-## Next mandatory build
+## Ce trebuie făcut în următorul build
 
-v7.1.0 — Backend Mutation Adapter, Multi-User Records & Server Notifications
+v7.2.0 — Prisma Shadow Records, Rollback Evidence & Server Notification Store
 
-### Mandatory scope
+1. Prisma shadow tables sau adapter pregătit pentru task/ticket/notification/audit/saved view.
+2. Rollback evidence pentru mutațiile v7.1.
+3. Server-side notification store.
+4. API policy middleware comun.
+5. Functional tests create/update/read after API mutation.
 
-1. API/repository adapter for Task, Ticket, Request Form, Notification, Approval, Saved View, Workflow, Custom Field, Time Entry and Timesheet.
-2. Server-side mutation endpoints with write mode: local/mock, Prisma shadow, Prisma primary gated.
-3. RBAC enforcement in API mutations.
-4. Server notification store and generated notification events.
-5. Audit log entries for each mutation.
-6. Migration/readiness report and QA route smoke.
+## Ce NU trebuie atins
 
-## What NOT to do next
+- Nu redesign.
+- Nu pagini demo separate.
+- Nu module noi inutile.
+- Nu trecere la mobile redesign.
+- Nu activare Prisma primary fără gates/rollback.
 
-- Do not add random new modules.
-- Do not redesign without fixing backend/persistence gap.
-- Do not create separate demo pages.
-- Do not start mobile redesign before backend mutation adapter.
-- Do not claim production parity without DB/server notifications/screenshot audit.
+## Rute afectate
 
-## Routes affected
+- `/work-os/backend-mutations`
+- `/admin/backend-mutations`
+- `/api/v1/work-os/v71-mutations`
+- `/api/v1/work-os/v71-mutations/health`
+- `/api/v1/work-os/v71-mutations/tasks`
+- `/api/v1/work-os/v71-mutations/tickets`
+- `/api/v1/work-os/v71-mutations/notifications`
+- `/taskuri/overview`
+- `/taskuri/tickets-notificari`
+- `/taskuri/forms`
+- `/taskuri/timesheets`
+- `/taskuri/workload-aprobari`
 
-/taskuri, /taskuri/overview, /taskuri/my-work, /taskuri/inbox, /taskuri/tickets, /taskuri/tickets-notificari, /taskuri/board, /taskuri/tabel, /taskuri/calendar, /taskuri/calendar-gantt, /taskuri/workload, /taskuri/workload-aprobari, /taskuri/forms, /taskuri/timesheets, /taskuri/reports, /taskuri/automations, /admin/workflows, /admin/custom-fields, /admin/access-rules, /admin/goodday-parity, /api/v1/work-os/v7-parity.
+## Status QA
 
-## QA status
+De rulat local după aplicare:
 
-Apply script includes typecheck/lint/build. Route smoke and screenshot audit scripts are included but must be run locally/prod.
+```powershell
+pnpm typecheck
+pnpm lint
+pnpm build
+.\scripts\work-os-v710-functional-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
+```
 
-## GitHub/Vercel status
+## Status screenshot audit
 
-ChatGPT cannot push. User must run git add/commit/push; Vercel should deploy from GitHub if connected.
+v7.0.2 are screenshot audit real 12/12 pe Vercel. v7.1.0 adaugă rute noi și trebuie screenshot audit extins după deploy.
+
+## Status backend/persistence
+
+v7.1.0 ridică backend/API/persistence de la 48% la 58%, dar rămâne shadow/gated, nu primary production DB.
+
+## Status GitHub/Vercel
+
+ChatGPT livrează ZIP. Utilizatorul aplică local, rulează QA, face `git add/commit/push`. Dacă GitHub este legat de Vercel, deploy-ul pornește automat.
