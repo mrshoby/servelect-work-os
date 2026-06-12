@@ -1,17 +1,17 @@
-import { V78_RELEASE_VERSION, v78CurrentReadiness, v78GlobalScores, v78ProgressScores, v78RouteList } from "@/lib/enterprise/work-os-v78-provider-telemetry-saved-views";
+import { V79_RELEASE_VERSION, v79CurrentReadiness, v79GlobalScores, v79ProgressScores, v79RouteList } from "@/lib/enterprise/work-os-v79-primary-write-pilot";
 
 export type ReleaseGateStatus = "passed" | "warning" | "blocked" | "planned";
 export type ReleaseGate = { id: string; title: string; status: ReleaseGateStatus; owner: string; evidence: string; action: string };
 
-export const SERVELECT_RELEASE_VERSION = V78_RELEASE_VERSION;
-export const SERVELECT_RELEASE_CHANNEL = "v7.8.0 Provider Telemetry, Mutation Canary & Server-Side Saved Views";
+export const SERVELECT_RELEASE_VERSION = V79_RELEASE_VERSION;
+export const SERVELECT_RELEASE_CHANNEL = "v7.9.0 Provider Canary Activation, Shared View ACL & Primary Write Pilot";
 
 export const releaseGates: ReleaseGate[] = [
-  { id: "v77-screenshots", title: "v7.7 screenshot baseline", status: "passed", owner: "QA", evidence: "v7.7.0/v7.7.3 screenshot audit captured 18/18 clean PNG on Vercel.", action: "Use as accepted UI baseline." },
-  { id: "provider-telemetry", title: "Provider telemetry", status: "passed", owner: "Platform", evidence: "v7.8 adds provider status, p95, success rate, delivery events and retry state.", action: "Connect live credentials only through environment variables." },
-  { id: "server-saved-views", title: "Server-side saved views", status: "passed", owner: "Product", evidence: "Saved views now include route, scope, columns, filters, server state and version.", action: "Persist to DB adapter in the next build." },
-  { id: "mutation-canary", title: "Mutation canary", status: "warning", owner: "Backend", evidence: "Canary records include lockVersion and rollback checkpoint but primary writes remain disabled.", action: "Do not enable primary writes until rollback drill passes." },
-  { id: "primary-writes", title: "Primary Prisma writes", status: "blocked", owner: "Engineering", evidence: "Primary writes remain gated by design.", action: "Prepare v7.9 provider canary activation and ACL enforcement first." }
+  { id: "v78-screenshots", title: "v7.8 screenshot baseline", status: "passed", owner: "QA", evidence: "v7.8 screenshot audit captured 22/22 clean PNG on Vercel.", action: "Use as accepted baseline." },
+  { id: "provider-canary", title: "Provider canary activation", status: "passed", owner: "Platform", evidence: "in_app/email canary lanes prepared; push/websocket remain gated.", action: "Activate only providers with env-ready secrets." },
+  { id: "shared-view-acl", title: "Shared view ACL", status: "passed", owner: "Product", evidence: "Saved views now carry read/write/share/admin permissions and ACL state.", action: "Persist shared-view ACL to DB adapter next." },
+  { id: "primary-write-pilot", title: "Primary write pilot", status: "warning", owner: "Backend", evidence: "Pilot writes include dry-run SQL and rollback checkpoint, but global primary writes stay closed.", action: "Run rollback drill before enabling real writes." },
+  { id: "live-providers", title: "Live push/websocket providers", status: "blocked", owner: "Platform", evidence: "Push/websocket secrets/runtime missing.", action: "Configure secrets/runtime outside GitHub." }
 ];
 
 export function getReleaseChecklist() {
@@ -22,18 +22,18 @@ export function getReleaseChecklist() {
 
 export function getReleaseManifest() {
   const checklist = getReleaseChecklist();
-  const routes = v78RouteList();
-  const scores = v78ProgressScores();
+  const routes = v79RouteList();
+  const scores = v79ProgressScores();
   return {
     ok: checklist.blockers.length === 0,
     generatedAt: new Date().toISOString(),
-    app: { name: "SERVELECT WORK OS / SERVELECT EMP", version: SERVELECT_RELEASE_VERSION, channel: SERVELECT_RELEASE_CHANNEL, releaseType: "provider-telemetry-mutation-canary-saved-views" },
+    app: { name: "SERVELECT WORK OS / SERVELECT EMP", version: SERVELECT_RELEASE_VERSION, channel: SERVELECT_RELEASE_CHANNEL, releaseType: "provider-canary-shared-view-acl-primary-write-pilot" },
     summary: { productionScore: checklist.productionScore, routes: routes.length, scoreRows: scores.length, releaseGates: releaseGates.length, capabilities: routes.length, actionItems: checklist.warnings.length + checklist.blockers.length + checklist.planned.length, criticalActions: checklist.blockers.length, workflowExecutions: scores.length },
-    milestones: [{ id: "v78", title: "Provider Telemetry, Mutation Canary & Server-Side Saved Views", version: SERVELECT_RELEASE_VERSION, date: "2026-06-12", summary: "Adds provider telemetry, mutation canary and server-saved-view control layer to the real Taskuri GoodDay-like UI routes.", routes }],
+    milestones: [{ id: "v79", title: "Provider Canary Activation, Shared View ACL & Primary Write Pilot", version: SERVELECT_RELEASE_VERSION, date: "2026-06-12", summary: "Adds provider canary activation, shared view ACL and narrow primary-write pilot to the real Taskuri GoodDay-like platform routes.", routes }],
     checklist,
     progressScores: scores,
-    globalScores: v78GlobalScores(),
-    readiness: v78CurrentReadiness(),
-    nextRecommendedVersions: [{ version: "7.9.0", title: "Provider Canary Activation, Shared View ACL & Primary Write Pilot", focus: "Activate provider canary with secrets, enforce saved-view ACL and begin a narrow primary-write pilot with rollback." }]
+    globalScores: v79GlobalScores(),
+    readiness: v79CurrentReadiness(),
+    nextRecommendedVersions: [{ version: "8.0.0", title: "Production Pilot Readiness, Authenticated ACL Enforcement & Rollback Drill", focus: "Run the first controlled real DB write pilot with authenticated ACL and rollback drill; do not broaden primary writes." }]
   };
 }

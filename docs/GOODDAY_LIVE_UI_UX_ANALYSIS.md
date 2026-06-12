@@ -1,10 +1,11 @@
-# GoodDay Live UI/UX Analysis — v7.8 continuation
+# GoodDay Live UI/UX Analysis — Updated for v7.9.0
 
-This file remains the working public-analysis document for the GoodDay-like direction. The implementation must not copy GoodDay branding, logo, text, assets or screenshots. Servelect keeps its own brand and applies only the product discipline: compact Work OS shell, clear project/task hierarchy, My Work, list/table/board/calendar/workload views, reports, forms, notifications, custom fields, workflows and admin settings.
+Public GoodDay analysis remains bounded to public pages and public feature descriptions. No login bypass, no GoodDay branding, no proprietary assets copied.
 
-## v7.8 focus extracted from gap analysis
-
-- Saved views must move from local-only UI toward server-side/shared view contracts.
-- Provider delivery must expose telemetry, retries and health before live email/push/websocket activation.
-- Primary writes must use a canary/dry-run layer before direct writes are enabled.
-- Taskuri routes must stay real and integrated, not demo pages.
+## Translation into Servelect Work OS
+- Compact left navigation and Work OS hierarchy.
+- Dense task list and board/table/calendar/workload modes.
+- My Work / Inbox / action-required patterns.
+- Saved views with scope and permissions.
+- Provider/notification observability integrated into admin/work-os routes.
+- Server-side ACL and mutation canary introduced without enabling broad primary writes.

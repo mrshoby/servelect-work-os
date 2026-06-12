@@ -1,14 +1,12 @@
-# SERVELECT GoodDay-like Design System — v7.8
+# SERVELECT GoodDay-like Design System — v7.9.0
 
-## Principles
-- Dark enterprise sidebar with Servelect identity.
-- Light content surface with compact cards and dense data tables.
-- Route-aware views switcher and task drawer.
-- Subtle status badges and clear provider/canary/readiness states.
-- No GoodDay branding or copied assets.
+## Visual rules
+- Dark SaaS sidebar, light work area, compact white cards.
+- Task-first density: small badges, clear status chips, compact tables.
+- Route-consistent shell across Taskuri, Admin and Work OS platform routes.
 
-## v7.8 additions
-- Provider telemetry cards: provider, status, p95, success rate, queued/delivered/failed.
-- Server saved view cards: route, scope, department, filters, columns, sync state, version.
-- Mutation canary cards: entity, action, lock version, replica status, rollback checkpoint.
-- Audit trail visible in right context panel.
+## v7.9 additions
+- Provider canary cards: health, mode, secret source, p95, queue depth.
+- Shared view ACL cards: scope, permissions, state, sync version.
+- Primary write pilot cards: state, dry-run SQL, rollback checkpoint, lock version.
+- Global primary-write gate is visible and closed by default.

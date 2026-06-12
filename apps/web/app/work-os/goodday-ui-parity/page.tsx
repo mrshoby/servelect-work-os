@@ -1,7 +1,5 @@
-import { V78ProviderTelemetrySavedViewsClient } from "@/components/work-os/V78ProviderTelemetrySavedViewsClient";
-
-export const metadata = { title: "SERVELECT Work OS v7.8 · gooddayUiParity" };
+import { V79PrimaryWritePilotClient } from "@/components/work-os/V79PrimaryWritePilotClient";
 
 export default function Page() {
-  return <V78ProviderTelemetrySavedViewsClient view="gooddayUiParity" />;
+  return <V79PrimaryWritePilotClient view="gooddayUiParity" />;
 }
