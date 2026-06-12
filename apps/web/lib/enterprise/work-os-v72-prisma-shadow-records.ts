@@ -14,7 +14,7 @@ import {
 } from "@/lib/enterprise/work-os-v71-backend-mutation-adapter";
 import type { V70State } from "@/lib/enterprise/work-os-v70-goodday-parity-hardening";
 
-export const V72_RELEASE_VERSION = "7.2.1";
+export const V72_RELEASE_VERSION = "7.2.3";
 export const V72_STORAGE_KEY = "servelect-work-os-v72-prisma-shadow-records";
 
 export type V72ShadowStatus = "shadow_written" | "rollback_ready" | "rolled_back" | "blocked" | "failed";
@@ -342,4 +342,3 @@ export function v72CurrentReadiness() {
 export function calculateV72Workload(runtime: V72RuntimeState) {
   return calculateV70Workload(runtime.v70State);
 }
-

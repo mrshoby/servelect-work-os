@@ -1,6 +1,6 @@
-# v7.2.0 Build Report — Prisma Shadow Records, Rollback Evidence & Server Notification Store
+# v7.2.3 Build Report — Prisma Shadow Records, Rollback Evidence & Server Notification Store
 
-1. Versiune build: v7.2.0
+1. Versiune build: v7.2.3
 2. Build anterior: v7.1.1
 3. Obiectiv: trecerea de la API shadow simplu la Prisma shadow readiness cu rollback evidence.
 4. Implementat: shadow records, rollback evidence, server notifications, API routes, UI command center.

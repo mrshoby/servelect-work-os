@@ -23,7 +23,7 @@ export type ReleaseMilestone = {
 };
 
 export const SERVELECT_RELEASE_VERSION = V72_RELEASE_VERSION;
-export const SERVELECT_RELEASE_CHANNEL = "v7.2.2 Prisma Shadow Records, Rollback Evidence & Server Notification Store";
+export const SERVELECT_RELEASE_CHANNEL = "v7.2.3 Prisma Shadow Records, Rollback Evidence & Server Notification Store";
 
 export const releaseMilestones: ReleaseMilestone[] = [
   { id: "v70", title: "GoodDay Functional Parity Hardening", version: "7.0.2", date: "2026-06-12", summary: "Tickets, forms, workflows, custom fields, saved views, dependencies, time tracking, workload, reports and automations integrated into real Taskuri routes.", routes: v70RouteList() },
@@ -90,5 +90,4 @@ export function getReleaseManifest() {
     ]
   };
 }
-
 

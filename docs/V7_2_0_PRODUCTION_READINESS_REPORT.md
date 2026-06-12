@@ -1,6 +1,6 @@
-# v7.2.0 Production Readiness Report
+# v7.2.3 Production Readiness Report
 
-## Production readiness after v7.2.0
+## Production readiness after v7.2.3
 Estimated: 68%.
 
 ## Real improvements

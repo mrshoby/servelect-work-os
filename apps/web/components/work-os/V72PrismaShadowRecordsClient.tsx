@@ -124,7 +124,7 @@ export function V72PrismaShadowRecordsClient({ view = "overview" }: { view?: V72
         <div>
           <p className="mb-2 text-xs font-black uppercase tracking-[0.35em] text-emerald-600">SERVELECT WORK OS · v{V72_RELEASE_VERSION}</p>
           <h1 className="text-3xl font-black text-slate-950">Prisma Shadow Records, Rollback Evidence & Server Notification Store</h1>
-          <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-600">v7.2.2 continuă exact după v7.1.1: adaugă ledger de shadow records, rollback evidence și server notification store. Primary DB rămâne blocat până când există migration, backup și rollback confirmat.</p>
+          <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-600">v7.2.3 continuă exact după v7.1.1: adaugă ledger de shadow records, rollback evidence și server notification store. Primary DB rămâne blocat până când există migration, backup și rollback confirmat.</p>
         </div>
         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950">
           <p className="font-black">Runtime status</p>
@@ -201,11 +201,9 @@ export function V72PrismaShadowRecordsClient({ view = "overview" }: { view?: V72
 
       <aside className="space-y-6">
         <Panel title="Audit stream"><div className="space-y-3">{runtime.auditEvents.length === 0 && <p className="text-sm text-slate-500">Nu există mutații în această sesiune.</p>}{runtime.auditEvents.slice(0, 8).map((item) => <div key={item.id} className="rounded-2xl border border-slate-200 p-3"><p className="font-black">{item.entity} · {item.action}</p><p className="text-xs text-slate-500">{item.status} · {item.message}</p></div>)}</div></Panel>
-        <Panel title="Progress after v7.2.2"><ProgressRows /></Panel>
+        <Panel title="Progress after v7.2"><ProgressRows /></Panel>
       </aside>
     </section>
   </main>;
 }
-
-
 

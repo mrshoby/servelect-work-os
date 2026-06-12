@@ -1,4 +1,4 @@
-# v7.2.0 QA Report
+# v7.2.3 QA Report
 
 ## Required commands
 - pnpm typecheck

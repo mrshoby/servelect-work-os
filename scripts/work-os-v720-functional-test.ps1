@@ -26,7 +26,7 @@ $Routes = @(
 )
 
 $Lines = @()
-$Lines += "# v7.2.0 Prisma Shadow Functional Route Smoke"
+$Lines += "# v7.2.3 Prisma Shadow Functional Route Smoke"
 $Lines += ""
 $Lines += "BaseUrl: $BaseUrl"
 $Lines += ""
@@ -50,8 +50,8 @@ foreach ($Route in $Routes) {
 $Lines | Set-Content -Path $ReportPath -Encoding UTF8
 
 if ($Failed -gt 0) {
-  throw ("v7.2.0 functional route smoke failed: " + $Failed + " route(s). See " + $ReportPath)
+  throw ("v7.2.3 functional route smoke failed: " + $Failed + " route(s). See " + $ReportPath)
 }
 
-Write-Host "v7.2.0 functional route smoke passed: $($Routes.Count) / $($Routes.Count)" -ForegroundColor Green
+Write-Host "v7.2.3 functional route smoke passed: $($Routes.Count) / $($Routes.Count)" -ForegroundColor Green
 Write-Host "Report: $ReportPath" -ForegroundColor Green

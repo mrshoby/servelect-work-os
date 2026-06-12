@@ -43,7 +43,7 @@ await browser.close();
 
 const pass = rows.filter((row) => row.result === "PASS" && row.bytes > 0).length;
 const report = [
-  "# V7.2.0 Screenshot Audit Report",
+  "# V7.2.3 Screenshot Audit Report",
   "",
   `BaseUrl: ${baseUrl}`,
   `Captured clean: ${pass} / ${routes.length}`,
@@ -53,7 +53,7 @@ const report = [
   ...rows.map((row) => `| ${row.route} | ${row.result} | ${row.status} | ${row.png} | ${row.bytes} |`)
 ].join("\n");
 
-const reportPath = path.join(root, "audit-results", "V7_2_0_SCREENSHOT_AUDIT_REPORT.md");
+const reportPath = path.join(root, "audit-results", "V7_2_3_SCREENSHOT_AUDIT_REPORT.md");
 fs.writeFileSync(reportPath, report, "utf8");
 console.log(report);
 if (pass !== routes.length) process.exitCode = 1;

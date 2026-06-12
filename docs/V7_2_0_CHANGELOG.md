@@ -1,4 +1,4 @@
-# v7.2.0 Changelog — Prisma Shadow Records, Rollback Evidence & Server Notification Store
+# v7.2.3 Changelog — Prisma Shadow Records, Rollback Evidence & Server Notification Store
 
 ## Added
 - Prisma shadow record model and UI.
@@ -6,7 +6,7 @@
 - Server notification store.
 - API routes for v72 shadow records, health, mutations, rollback, notifications.
 - v7.2 route smoke and screenshot audit scripts.
-- Release manifest aligned to v7.2.0.
+- Release manifest aligned to v7.2.3.
 
 ## Fixed
 - Version text mismatch from v7.1.0/v7.1.1 in runtime/release channel.
