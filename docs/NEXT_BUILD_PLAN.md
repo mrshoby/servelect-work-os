@@ -47,3 +47,27 @@ Pending local run for v7.7.2 package: pnpm typecheck, pnpm lint, pnpm build.
 Pending after user applies, commits and pushes.
 
 
+
+---
+
+## v7.7.3 QA Script Fix — Vercel Protected Route Smoke
+
+Applied: 2026-06-12 13:16:37
+
+Purpose: Fix route/screenshot audit scripts so protected Vercel deployments can be tested with VERCEL_AUTOMATION_BYPASS_SECRET / -BypassSecret and the x-vercel-protection-bypass header.
+
+Status: App code unchanged. This fixes false FAIL results caused by Vercel returning HTTP 401 before Next.js routes render.
+
+Next action: run v7.7 route smoke with a Vercel automation bypass secret or test an unprotected production alias.
+
+---
+
+## v7.7.3 QA Script Fix — Vercel Protected Route Smoke
+
+Applied: 2026-06-12 13:27:53
+
+Purpose: Fix route/screenshot audit scripts so protected Vercel deployments can be tested with VERCEL_AUTOMATION_BYPASS_SECRET / -BypassSecret and the x-vercel-protection-bypass header.
+
+Status: App code unchanged. This fixes false FAIL results caused by Vercel returning HTTP 401 before Next.js routes render.
+
+Next action: run v7.7 route smoke with a Vercel automation bypass secret or test an unprotected production alias.
