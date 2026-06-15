@@ -1,11 +1,17 @@
-# SERVELECT GoodDay-like Design System — v8.7.0 update
+# SERVELECT GoodDay-like Design System — v8.8 update
 
-## Intent
-Professional SaaS enterprise UI: compact, dense, clear hierarchy, light content area, dark/green Servelect command accents, no copied GoodDay branding.
+v8.8 continues the Servelect identity with GoodDay-like discipline:
+- dark command sidebar + light work canvas;
+- dense cards with subtle borders;
+- compact tables and badges;
+- right evidence panels;
+- route lists for hierarchy and view switching;
+- status pills for readiness;
+- no decorative demo-only cards without evidence meaning.
 
-## v8.7 additions
-- Evidence cards: readiness, rollback, provider, replay.
-- Dense manager tables for mutation replay and provider status.
-- Status badges: ready, dry_run, blocked, allow, block, queued.
-- Command center layout: sidebar navigation + KPI strip + main evidence panels.
-- Screenshot gates: UI pages only; API endpoints validated by route/API smoke.
+New v8.8 patterns:
+- evidence center card grid;
+- provider readiness table;
+- mutation replay queue table;
+- CI/pixel-diff gate panel;
+- no-secret provider binding panel.
