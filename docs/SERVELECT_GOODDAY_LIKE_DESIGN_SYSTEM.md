@@ -1,22 +1,10 @@
-# SERVELECT GoodDay-like Design System — v8.5 update
+# SERVELECT GoodDay-like Design System — v8.6 update
 
-## Direction
+Do not copy GoodDay branding, logo, commercial text or assets.
 
-Keep Servelect identity. Do not copy GoodDay branding, logo, assets or text. Adopt Work OS discipline:
-
-- dark enterprise sidebar;
-- compact white content cards;
-- dense tables and lanes;
-- clear hierarchy and Work OS navigation;
-- status badges with low-noise colors;
-- right-side operational context;
-- scoped admin/control-plane pages;
-- visible policy/evidence blocks.
-
-## v8.5 additions
-
-- Enterprise Department Suite layout.
-- Sidebar sections for command center, session claims, RLS proof, bulk guardrails and provider runtime.
-- Scorecards for access, RLS, production readiness and GoodDay parity.
-- Bulk action cards with decision badges and rollback checkpoints.
-- Provider runtime cards with dead-letter counters.
+v8.6 adds:
+- dense command-center cards;
+- role/department scoped write cards;
+- provider runtime side panel;
+- compact pilot write tables;
+- visible dry-run/blocked/ready status.
