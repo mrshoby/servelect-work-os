@@ -258,3 +258,6 @@ export default releaseManifest;
 
 
 
+
+// v9.7.0: Portfolio Program Board, Cross-Module WorkGraph & Reporting Command Layer. Taskuri canonical; no parallel shell; production writes off-gated.
+
