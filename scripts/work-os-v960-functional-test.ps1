@@ -43,8 +43,10 @@ foreach ($route in $routes) {
 }
 $report += ""
 $report += "Passed: $passed / $($routes.Count)"
-$path = "audit-results960-live-inline-persistence-command-gantt-functional-routes.md"
+New-Item -ItemType Directory -Force -Path (Join-Path (Get-Location) "audit-results") | Out-Null
+$path = Join-Path (Join-Path (Get-Location) "audit-results") "v960-live-inline-persistence-command-gantt-functional-routes.md"
 $report | Set-Content -Path $path -Encoding UTF8
 Write-Host "v9.6.0 Live Inline Persistence Command Gantt smoke passed: $passed / $($routes.Count)"
 Write-Host "Report: $(Resolve-Path $path)"
 if ($passed -ne $routes.Count) { exit 1 }
+
