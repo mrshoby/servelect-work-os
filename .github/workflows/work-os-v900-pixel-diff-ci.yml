@@ -1,0 +1,38 @@
+name: Work OS v9.0 Pixel Diff and Route Gates
+
+on:
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  work-os-v900-quality-gates:
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ vars.SERVELECT_WORK_OS_BASE_URL || 'https://servelect-work-os-web.vercel.app' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Lint
+        run: pnpm lint
+      - name: Build
+        run: pnpm build
+      - name: Route smoke test
+        shell: pwsh
+        run: ./scripts/work-os-v900-functional-test.ps1 -BaseUrl "$env:BASE_URL"
+      - name: Screenshot audit
+        run: node scripts/audit-v900-screenshots.mjs
+      - name: Upload audit artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: work-os-v900-audit-results
+          path: audit-results/**

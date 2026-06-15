@@ -261,7 +261,7 @@ export function v78CurrentReadiness() {
     acceptedBaseline: "v7.7.0/v7.7.3 screenshot audit 18/18 PASS on servelect-work-os-web.vercel.app",
     focus: "Provider telemetry, mutation canary and server-side saved views on real Taskuri routes.",
     blockers: ["Primary Prisma writes still gated", "Live provider credentials not configured", "WebSocket runtime channel not provisioned"],
-    next: "v7.9.0 should activate provider canary with secrets and shared view ACL enforcement, not redesign."
+    next: "v9.0.1 should activate provider canary with secrets and shared view ACL enforcement, not redesign."
   };
 }
 
@@ -344,3 +344,4 @@ export function syncV78SavedViews(state: V78RuntimeState): V78RuntimeState {
   const savedViews: V78SavedView[] = state.savedViews.map((view) => view.serverState === "queued_for_server" ? { ...view, serverState: "server_synced" as const, version: view.version + 1, updatedAt: stamp() } : view);
   return appendV78Audit({ ...state, savedViews }, "saved_view", "Saved views synced", "queued_for_server -> server_synced");
 }
+

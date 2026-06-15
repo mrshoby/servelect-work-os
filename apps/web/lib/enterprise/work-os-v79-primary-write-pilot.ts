@@ -86,7 +86,7 @@ export function createV79RuntimeState(): V79RuntimeState {
       { id: "pw-790-003", entity: "notification", action: "provider_send", state: "blocked", writeState: "blocked", dryRunSql: "INSERT INTO work_os_notification_delivery_queue(provider, payload)", rollbackCheckpoint: "rb-provider-push", lockVersion: 1, owner: "Platform", evidence: "Push provider blocked until secrets are present.", createdAt: now }
     ],
     audit: [
-      { id: "au-790-001", type: "release", title: "v7.9.0 initialized", details: "Provider canary activation, shared view ACL and narrow primary write pilot added to real Taskuri routes.", createdAt: now },
+      { id: "au-790-001", type: "release", title: "v9.0.1 initialized", details: "Provider canary activation, shared view ACL and narrow primary write pilot added to real Taskuri routes.", createdAt: now },
       { id: "au-790-002", type: "baseline", title: "v7.8.0 accepted", details: "v7.8 screenshot audit captured 22/22 clean screenshots on servelect-work-os-web.vercel.app.", createdAt: now }
     ]
   };
@@ -205,3 +205,4 @@ export function transitionV79Task(state: V79RuntimeState, taskId: string, status
   const tasks: V79Task[] = state.tasks.map((task) => task.id === taskId ? { ...task, status, version: task.version + 1, updatedAt: stamp(), writeState: "canary_allowed" as const } : task);
   return runV79PrimaryWritePilot(appendV79Audit({ ...state, tasks }, "task", "Task status changed through canary", `${taskId}: ${status}`), "task");
 }
+

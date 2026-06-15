@@ -1,46 +1,46 @@
-# NEXT BUILD PLAN — SERVELECT WORK OS
+# NEXT BUILD PLAN — after v9.0.2
 
-## Current version
-v8.9.0 — Real Provider Delivery Worker, GitHub Pixel-Diff CI & Signed Webhook Intake
+## Current baseline
 
-## What v8.9.0 completed
-- Added provider delivery worker surfaces across Taskuri/Admin/Work OS.
-- Added signed webhook intake proof and replay recovery controls.
-- Added GitHub pixel-diff CI scaffold and route coverage gates.
-- Added manager approval evidence panels for provider/replay events.
-- Added additive Prisma migration scaffold.
-- Added functional and screenshot audit scripts.
+Current stabilization target: **v9.0.2 — Release Manifest Contract & Typecheck Stabilization**.
 
-## Current scores
-| Category | Score |
-|---|---:|
-| GoodDay visual/UX similarity | 90% |
-| GoodDay functional parity | 98% |
-| Local real functionality | 98% |
-| Backend/API parity | 98% |
-| Production readiness | 98% |
-| QA confidence | 98% after local/deploy QA |
-| Screenshot audit coverage | 100% target |
+v8.9.0 was validated with:
 
-## Remaining critical gaps
-- Live provider credentials are still ENV-gated and not production-enabled by default.
-- Pixel-diff CI needs stable preview deployment and baseline artifact retention.
-- Signed inbound webhook intake needs real provider payload tests.
-- Global production writes remain disabled.
-- Database-backed provider dispatch worker must be confirmed against a configured production database.
+- Functional/API: 66 / 66 PASS
+- Screenshot/UI: 50 / 50 PASS
 
-## Next recommended build
-v9.0.0 — Production Pilot Cutover Console, Live Provider Dispatch & Signed Webhook Intake Hardening
+v9.0.0 introduced production pilot cutover, but v9.0.1/v9.0.2 are required because:
 
-## Scope for v9.0.0
-1. Production pilot cutover console with explicit enable/disable gates.
-2. Provider dispatch worker with ENV credential readiness and dead-letter recovery proof.
-3. Signed webhook intake with replay protection and idempotency testing.
-4. GitHub/Vercel pixel-diff CI artifacts and route baselines.
-5. Manager approval workflow for pilot writes and provider replays.
-6. Keep global writes off unless all gates pass.
+1. two navigation shells were visible;
+2. stale visible label `v7.9.0 · Provider Canary / ACL / Primary Pilot` remained in the app;
+3. `apps/web/lib/release/manifest.ts` did not match `/admin/release` and `lib/system/status.ts` contracts.
 
-## Do not do next
-- Do not add unrelated modules.
-- Do not create a demo page outside real Taskuri/Admin/Work OS routes.
-- Do not claim 100% while provider live secrets and production DB writes remain gated.
+## Canonical navigation rule
+
+The app must use **one main navigation entry** for task execution:
+
+- canonical: Dashboard principal → Taskuri
+- compatible: `/work-os/*` routes remain for legacy/admin/deep links
+- forbidden: second visible shell that shows `SERVELECT / Work OS / v7.9.0`
+
+## Next major build
+
+### v9.1.0 — DB-Backed Provider Dispatch Worker, Real Webhook Intake Ledger & Task Mutation Pilot
+
+Scope:
+
+1. real provider dispatch ledger table/API;
+2. signed webhook intake ledger with replay protection;
+3. task mutation pilot with manager approval gates;
+4. Action Required queue connected to provider/webhook events;
+5. GoodDay-like task object model first runtime pass;
+6. keep global writes disabled until all production gates pass;
+7. extend screenshot/functional tests without creating demo routes.
+
+## Guardrails
+
+- No new demo-only pages.
+- No duplicate navigation shell.
+- No stale version labels.
+- No secrets in repo.
+- Version must be controlled from release manifest/version source of truth.
