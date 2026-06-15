@@ -37,7 +37,8 @@ export function getReleaseManifest() {
     progressScores: scores,
     globalScores: v80GlobalScores(),
     readiness: v80CurrentReadiness(),
-    nextRecommendedVersions: [{ version: '8.1.0', title: "Authenticated Session Binding, Staging DB Write Pilot & Rollback Evidence", focus: "Connect the v8 ACL evaluator to real authenticated sessions and run a narrow staging DB write/rollback drill." }]
+    nextRecommendedVersions: [{ version: '8.2.0', title: "Authenticated Session Binding, Staging DB Write Pilot & Rollback Evidence", focus: "Connect the v8 ACL evaluator to real authenticated sessions and run a narrow staging DB write/rollback drill." }]
   };
 }
+
 

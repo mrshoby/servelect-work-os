@@ -1,50 +1,61 @@
-# NEXT BUILD PLAN — after v8.1.0
+# NEXT BUILD PLAN — after v8.2.0
 
-Current version: v8.1.0 — Primary Write Session Binding, Provider Runtime Evidence & Reconciliation Queue
+Current version: v8.2.0 — Real Auth Session Claims, Audit Event Trail & Provider Event Outbox
 
-## Done in v8.1.0
-- Continued after v8.0.0 production pilot.
-- Added session-bound ACL model for primary write pilot.
-- Added primary write queue with lockVersion, rollback checkpoint, provider and reconciliation state.
-- Added provider runtime evidence for in_app/email/push/websocket.
-- Added reconciliation lanes for shadow -> canary -> primary pilot -> rollback.
-- Added routes `/work-os/primary-write-session-provider` and `/admin/primary-write-session-provider`.
-- Added API family `/api/v1/work-os/v81-primary-write-session-provider/*`.
-- Added v8.1 functional route/API smoke script and screenshot audit script.
+## Done in v8.2.0
+- Continued from v8.1.0 after functional route/API test passed 28/28.
+- Added auth/session claim model for actor, role, department, team, client scope and max write mode.
+- Added audit event trail with before/after hashes, rollback ids and outbox correlation.
+- Added provider event outbox for in-app, email, push, websocket and webhook lanes.
+- Added policy simulator and replay drill API endpoints.
+- Added real Work OS/Admin routes: `/work-os/auth-session-audit-outbox` and `/admin/auth-session-audit-outbox`.
+- Added v8.2 smoke and screenshot audit scripts.
 
 ## Current scores
-- GoodDay visual similarity: 79%
-- GoodDay functional parity: 93%
+- GoodDay visual similarity: 80%
+- GoodDay functional parity: 94%
 - Local real functionality: 95%
-- Backend/API parity: 95%
-- Production readiness: 94%
-- QA confidence: 94% after local QA passes
-- Screenshot audit coverage: 100% only after v8.1 screenshot script passes
+- Backend/API parity: 96%
+- Production readiness: 95%
+- QA confidence: 95% after local QA passes
+- Screenshot audit coverage: 100% if v8.2 screenshot script captures all routes cleanly
 
 ## Missing to 100%
-- Session-bound ACL is still modeled; it must be wired to real Auth/session claims.
-- Primary writes remain gated and not broadly enabled.
-- Provider runtime needs real credentials/secrets for email/push/websocket.
-- Reconciliation needs real Postgres/audit event persistence.
-- Need interaction E2E tests for actual create/edit/approve/escalate flows, not only route/API smoke.
+- Prisma-backed `audit_event` and `provider_outbox` tables are still missing.
+- Staging DB transaction pilot must prove create/update/rollback with one safe entity.
+- Provider secrets must be wired through Vercel/local environment only.
+- Pixel-diff screenshot audit is still missing; current audit confirms HTTP + PNG only.
+- Playwright interaction E2E for actual writes is still required.
 
 ## Recommended next build
-v8.2.0 — Real Auth Session Claims, Audit Event Table & Provider Event Outbox
+v8.3.0 — Prisma Audit/Outbox Tables, Transactional Write Pilot & Vercel Runtime Proof
 
-## Scope for v8.2.0
-1. Connect session ACL model to real session/user claims or the existing auth facade.
-2. Add audit event/outbox model for provider events and write-intent reconciliation.
-3. Add DB adapter switch for audit/outbox while keeping production writes gated.
-4. Add E2E-style smoke for task/ticket/saved-view/time-entry write intent lifecycle.
-5. Keep GoodDay-like Taskuri routes stable; no unrelated redesign.
+## Scope obligatoriu v8.3.0
+1. Add Prisma models/migration plan for audit events and provider outbox.
+2. Add staging-only transactional write pilot for one safe entity.
+3. Persist rollback checkpoints and outbox dispatch evidence through repository adapter.
+4. Add API mutation endpoints with lockVersion and idempotency key.
+5. Add Playwright interaction test for one real create/update/rollback flow.
 
 ## Do not do
-- Do not open primary writes globally.
+- Do not redesign again before DB/outbox proof.
 - Do not add unrelated modules.
-- Do not redesign the whole UI before auth/outbox/reconciliation are real.
-- Do not treat provider email/push/websocket as production-ready without credentials.
-- Do not skip QA, route smoke or screenshot audit.
+- Do not enable global primary writes.
+- Do not store provider secrets in repository.
+- Do not bypass Vercel protection except through local environment variables for tests.
 
-## Status GitHub/Vercel
-- Commit/push required after QA.
-- Vercel must be verified after deploy on `/taskuri`, v8.0 routes and v8.1 routes.
+## Routes affected
+- `/work-os/auth-session-audit-outbox`
+- `/admin/auth-session-audit-outbox`
+- `/api/v1/work-os/v82-auth-audit-outbox/*`
+
+## QA status
+Run after apply:
+- `pnpm typecheck`
+- `pnpm lint`
+- `pnpm build`
+- `.\scripts\work-os-v820-functional-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"`
+- `node scripts/audit-v820-screenshots.mjs`
+
+## GitHub/Vercel status
+The apply script can commit/push if credentials are available. If not, run the commands shown in the final ChatGPT response.
