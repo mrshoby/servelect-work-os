@@ -66,8 +66,8 @@ export type ReleaseChecklist = {
 };
 
 export const SERVELECT_WORK_OS_LATEST_RELEASE = {
-  version: "9.0.2",
-  name: "Release Manifest Contract & Typecheck Stabilization",
+  version: "9.0.3",
+  name: "API Subroute Completion & v90 Functional Smoke Fix",
   date: "2026-06-15",
 };
 
@@ -77,47 +77,57 @@ export const RELEASE_CHANNEL = "Unified Taskuri Navigation / Production Pilot Cu
 
 const gates: ReleaseGate[] = [
   {
-    id: "REL-902-01",
+    id: "REL-903-01",
     title: "Single canonical navigation",
     label: "Navigation truth",
     status: "passed",
     owner: "Platform / UX",
-    action: "Taskuri este meniul principal canonic; shell-ul intern Work OS nu mai trebuie să apară ca meniu paralel.",
-    evidence: "Rutele /taskuri, /admin și /work-os folosesc aceeași versiune vizibilă și aceeași logică de release truth.",
+    action: "Taskuri rămâne meniul principal canonic; /work-os este compatibilitate/execuție, nu shell paralel.",
+    evidence: "Hotfixurile v9.0.1-v9.0.3 păstrează rutele într-un singur flux vizual și curăță eticheta veche v7.9.0.",
     required: true,
   },
   {
-    id: "REL-902-02",
+    id: "REL-903-02",
     title: "Release manifest contract restored",
     label: "TypeScript release contract",
     status: "passed",
     owner: "Frontend / TypeScript",
-    action: "Manifestul exportă toate câmpurile folosite de /admin/release și /api/v1/release/*.",
+    action: "Manifestul exportă toate câmpurile folosite de /admin/release, /api/v1/release/* și /api/v1/system/status.",
     evidence: "getReleaseManifest, getReleaseChecklist, ReleaseGateStatus, productionScore, blockers, warnings, planned, app și summary sunt disponibile.",
     required: true,
   },
   {
-    id: "REL-902-03",
+    id: "REL-903-03",
+    title: "v90 API subroutes completed",
+    label: "Functional route truth",
+    status: "passed",
+    owner: "Backend / API",
+    action: "Adaugă route.ts explicit pentru cele 15 subrute v90 care răspundeau 404 pe Vercel.",
+    evidence: "Endpointurile /health, /live-provider-dispatch, /signed-webhook-hardening, /release-readiness etc. au rute fizice Next.js.",
+    required: true,
+  },
+  {
+    id: "REL-903-04",
     title: "No stale v7.9.0 release label",
     label: "Version truth",
     status: "passed",
     owner: "Release QA",
     action: "Auditul local și live verifică să nu mai apară v7.9.0 / Provider Canary în suprafețele principale.",
-    evidence: "Versiunea vizibilă este v9.0.2 · Unified Taskuri Navigation / Production Pilot Cutover.",
+    evidence: "Versiunea vizibilă este v9.0.3 · API Subroute Completion / Production Pilot Cutover.",
     required: true,
   },
   {
-    id: "REL-902-04",
+    id: "REL-903-05",
     title: "Production pilot remains gated",
     label: "Safe writes",
     status: "warning",
     owner: "Platform / Security",
     action: "Păstrează global production writes off până când provider dispatch, webhook intake și DB ledger sunt validate cu secrete reale.",
-    evidence: "v9.0.2 repară contractul și navigația, dar nu activează scrieri globale live.",
+    evidence: "v9.0.3 repară rutele/API smoke, dar nu activează scrieri globale live.",
     required: true,
   },
   {
-    id: "REL-902-05",
+    id: "REL-903-06",
     title: "DB-backed dispatch worker",
     label: "Next build",
     status: "planned",
@@ -131,23 +141,23 @@ const gates: ReleaseGate[] = [
 export function getReleaseManifest(): ReleaseManifest {
   return {
     product: "SERVELECT WORK OS",
-    latestVersion: "9.0.2",
-    releaseName: "Release Manifest Contract & Typecheck Stabilization",
+    latestVersion: "9.0.3",
+    releaseName: "API Subroute Completion & v90 Functional Smoke Fix",
     releaseDate: "2026-06-15",
-    visibleVersionLabel: "v9.0.2 · Unified Taskuri Navigation / Production Pilot Cutover",
+    visibleVersionLabel: "v9.0.3 · API Subroute Completion / Production Pilot Cutover",
     navigationPolicy: "single-canonical-taskuri-menu",
     globalWrites: "disabled",
     app: {
       name: "SERVELECT WORK OS",
       channel: "Unified Taskuri Navigation / Production Pilot Cutover",
-      version: "9.0.2",
-      build: "v9.0.2-release-manifest-contract-fix",
+      version: "9.0.3",
+      build: "v9.0.3-api-subroute-completion-fix",
     },
     summary: {
-      capabilities: 42,
+      capabilities: 44,
       actionItems: 18,
       criticalActions: 4,
-      workflowExecutions: 12,
+      workflowExecutions: 13,
     },
     canonicalNavigation: {
       primaryMenu: "Dashboard principal → Taskuri",
@@ -181,7 +191,7 @@ export function getReleaseManifest(): ReleaseManifest {
         date: "2026-06-15",
         summary: "Elimină shell-ul intern dublu, curăță etichetele v7.9.0 și aliniază meniul principal la Taskuri.",
         routes: ["/taskuri", "/taskuri/command-center-v90", "/admin/release", "/api/v1/release/manifest"],
-        status: "warning",
+        status: "passed",
       },
       {
         id: "v9-0-2-release-manifest-contract",
@@ -190,6 +200,15 @@ export function getReleaseManifest(): ReleaseManifest {
         date: "2026-06-15",
         summary: "Repară contractul TypeScript pentru release manifest, admin release și system status ca să treacă typecheck.",
         routes: ["/admin/release", "/api/v1/release/manifest", "/api/v1/release/checklist", "/api/v1/system/status"],
+        status: "passed",
+      },
+      {
+        id: "v9-0-3-api-subroute-completion",
+        version: "9.0.3",
+        title: "API Subroute Completion Fix",
+        date: "2026-06-15",
+        summary: "Completează cele 15 subrute API v90 care returnau 404 și permite testului v900 să ajungă la 91/91 după deploy.",
+        routes: ["/api/v1/work-os/v90-production-pilot-cutover/health", "/api/v1/work-os/v90-production-pilot-cutover/live-provider-dispatch", "/api/v1/work-os/v90-production-pilot-cutover/release-readiness"],
         status: "passed",
       },
     ],
@@ -217,7 +236,7 @@ export function getReleaseChecklist(): ReleaseChecklist {
   const productionScore = Math.round((passedRequired.length / Math.max(requiredGates.length, 1)) * 100);
 
   return {
-    version: "9.0.2",
+    version: "9.0.3",
     generatedAt: new Date().toISOString(),
     productionScore,
     gates,

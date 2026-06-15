@@ -4,12 +4,21 @@ import { v90EndpointPayload } from "@/lib/enterprise/work-os-v90-production-pilo
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
+const segment = ["rollback-drill"];
+
 export async function GET() {
-  return NextResponse.json(v90EndpointPayload([]));
+  return NextResponse.json(v90EndpointPayload(segment));
 }
 
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
-  return NextResponse.json({ ok: true, accepted: true, dryRun: true, body, proof: v90EndpointPayload(["signed-webhook-hardening"]) });
+  return NextResponse.json({
+    ok: true,
+    accepted: true,
+    dryRun: true,
+    segment,
+    body,
+    proof: v90EndpointPayload(segment),
+  });
 }
 
