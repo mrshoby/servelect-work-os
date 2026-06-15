@@ -68,6 +68,7 @@ $Report += ""
 $Report += "| Route | Result | HTTP | Bytes | Note |"
 $Report += "|---|---:|---:|---:|---|"
 $Report += $Rows
-$Report -join "`n" | Set-Content "audit-results820-auth-audit-outbox-functional-routes.md" -Encoding UTF8
+$Report -join "`n" | Set-Content "audit-results\v820-auth-audit-outbox-functional-routes.md" -Encoding UTF8
 Write-Host "v8.2.0 functional route/API smoke passed: $Passed / $($Routes.Count)" -ForegroundColor Cyan
 if ($Passed -ne $Routes.Count) { exit 1 }
+

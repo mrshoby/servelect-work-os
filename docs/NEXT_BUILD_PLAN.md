@@ -1,61 +1,76 @@
-# NEXT BUILD PLAN — after v8.2.0
+# NEXT BUILD PLAN — SERVELECT WORK OS
 
-Current version: v8.2.0 — Real Auth Session Claims, Audit Event Trail & Provider Event Outbox
-
-## Done in v8.2.0
-- Continued from v8.1.0 after functional route/API test passed 28/28.
-- Added auth/session claim model for actor, role, department, team, client scope and max write mode.
-- Added audit event trail with before/after hashes, rollback ids and outbox correlation.
-- Added provider event outbox for in-app, email, push, websocket and webhook lanes.
-- Added policy simulator and replay drill API endpoints.
-- Added real Work OS/Admin routes: `/work-os/auth-session-audit-outbox` and `/admin/auth-session-audit-outbox`.
-- Added v8.2 smoke and screenshot audit scripts.
-
-## Current scores
-- GoodDay visual similarity: 80%
-- GoodDay functional parity: 94%
-- Local real functionality: 95%
-- Backend/API parity: 96%
-- Production readiness: 95%
-- QA confidence: 95% after local QA passes
-- Screenshot audit coverage: 100% if v8.2 screenshot script captures all routes cleanly
-
-## Missing to 100%
-- Prisma-backed `audit_event` and `provider_outbox` tables are still missing.
-- Staging DB transaction pilot must prove create/update/rollback with one safe entity.
-- Provider secrets must be wired through Vercel/local environment only.
-- Pixel-diff screenshot audit is still missing; current audit confirms HTTP + PNG only.
-- Playwright interaction E2E for actual writes is still required.
-
-## Recommended next build
+## Current version
 v8.3.0 — Prisma Audit/Outbox Tables, Transactional Write Pilot & Vercel Runtime Proof
 
-## Scope obligatoriu v8.3.0
-1. Add Prisma models/migration plan for audit events and provider outbox.
-2. Add staging-only transactional write pilot for one safe entity.
-3. Persist rollback checkpoints and outbox dispatch evidence through repository adapter.
-4. Add API mutation endpoints with lockVersion and idempotency key.
-5. Add Playwright interaction test for one real create/update/rollback flow.
+## Previous validated baseline
+v8.2.0 — Auth Session Claims, Audit Event Trail & Provider Event Outbox
 
-## Do not do
-- Do not redesign again before DB/outbox proof.
+Validation provided by user:
+- Functional route/API smoke: 31 / 31 PASS on https://servelect-work-os-web.vercel.app
+- Screenshot package for v8.2.0 provided.
+
+## What v8.3.0 adds
+- Additive Prisma schema preparation for `WorkOsAuditEvent`, `WorkOsProviderOutboxEvent`, `WorkOsWriteTransactionPilot`, `WorkOsRuntimeProof`.
+- Migration SQL for audit/outbox transaction pilot.
+- Route `/work-os/prisma-audit-outbox-transaction-pilot`.
+- Route `/admin/prisma-audit-outbox-transaction-pilot`.
+- API namespace `/api/v1/work-os/v83-prisma-audit-outbox-transaction-pilot/*`.
+- Transactional write pilot lanes for ticket escalation, saved view server sync and task status write attempts.
+- Runtime proof checklist for Vercel smoke + screenshot audit.
+- Rollback replay model remains dry-run/gated.
+
+## Current scores after v8.3.0
+| Category | Current | Previous | Notes |
+|---|---:|---:|---|
+| GoodDay visual/UX similarity | 81% | 80% | control-plane pages more compact/enterprise |
+| GoodDay public feature parity | 94% | 94% | no new broad module, deeper production proof |
+| Task management core | 96% | 96% | protected by primary write pilot |
+| Tickets / Requests / Forms | 96% | 96% | escalation lane now transaction-pilot aware |
+| Notifications | 97% | 97% | provider outbox prepared for dispatch worker |
+| Workflows / custom statuses / validations | 95% | 95% | policy guard evidence preserved |
+| Saved views / filters / table views | 96% | 96% | server sync lane in transaction pilot |
+| Backend / API / persistence | 97% | 96% | Prisma schema and migration prepared |
+| Screenshot audit coverage | 100% target | 100% | must run v830 screenshot script |
+| QA/build stability | 96% target | 95% | pending local pnpm QA |
+| Production readiness | 96% | 95% | transactional write evidence layer added |
+
+## Problems remaining
+- Prisma migration must be applied only after DB target is confirmed.
+- Provider dispatch worker is not yet executing real email/push/websocket delivery.
+- Write transaction pilot is still gated; global production writes remain OFF.
+- Runtime proof depends on post-deploy smoke/screenshot evidence.
+
+## Next recommended build
+v8.4.0 — Database Adapter Transaction Execution & Provider Dispatch Worker
+
+## Scope for v8.4.0
+1. Implement database adapter switch for the new audit/outbox tables.
+2. Add transaction runner with dry-run, canary and primary-pilot modes.
+3. Add provider dispatch worker simulation with retry/backoff and dead-letter lane.
+4. Add admin controls for replaying failed outbox events.
+5. Add Vercel runtime proof report that stores last smoke and screenshot evidence.
+
+## Do NOT do next
 - Do not add unrelated modules.
-- Do not enable global primary writes.
-- Do not store provider secrets in repository.
-- Do not bypass Vercel protection except through local environment variables for tests.
+- Do not enable global production writes.
+- Do not redesign Taskuri just for visual changes.
+- Do not bypass auth/session claims.
+- Do not remove existing v8.0/v8.1/v8.2 APIs.
 
-## Routes affected
-- `/work-os/auth-session-audit-outbox`
-- `/admin/auth-session-audit-outbox`
-- `/api/v1/work-os/v82-auth-audit-outbox/*`
+## Affected routes
+- `/taskuri/*` remains regression-tested.
+- `/admin/prisma-audit-outbox-transaction-pilot`
+- `/work-os/prisma-audit-outbox-transaction-pilot`
+- `/api/v1/work-os/v83-prisma-audit-outbox-transaction-pilot/*`
 
 ## QA status
-Run after apply:
+Pending local apply:
 - `pnpm typecheck`
 - `pnpm lint`
 - `pnpm build`
-- `.\scripts\work-os-v820-functional-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"`
-- `node scripts/audit-v820-screenshots.mjs`
+- `scripts/work-os-v830-functional-test.ps1`
+- `scripts/audit-v830-screenshots.mjs`
 
 ## GitHub/Vercel status
-The apply script can commit/push if credentials are available. If not, run the commands shown in the final ChatGPT response.
+Apply locally, commit and push to `origin main`, then verify Vercel routes.

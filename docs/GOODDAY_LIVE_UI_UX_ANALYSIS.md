@@ -1,5 +1,12 @@
-# GoodDay Live UI/UX Analysis — v8.2 continuation
+# GOODDAY LIVE UI/UX ANALYSIS — v8.3 update
 
-Public GoodDay material continues to prioritize a Work OS structure: tasks/projects, My Work, hierarchy/portfolios, workflows/statuses, task types/custom fields, reminders, templates, views, workload, time tracking, requests/forms, reporting, automations, integrations, API/webhooks and enterprise access control.
+The public GoodDay website presents the product as an all-in-one work management system with task/project management, multiple views, workflow customization, time tracking, integrations/API/webhooks and enterprise access control.
 
-v8.2 applies this direction to Servelect by improving enterprise access-control proof, audit trail, provider notification outbox and rollback evidence. It does not copy GoodDay branding, text, logos or screenshots.
+v8.3.0 applies this direction to Servelect by improving reliability and operational evidence rather than copying GoodDay branding. The new control plane keeps Servelect identity and focuses on the production hardening required for real Work OS behavior.
+
+## v8.3 implementation alignment
+- Work OS logic: transaction lanes for task/ticket/saved-view operations.
+- Enterprise access: session claims remain required before write pilot.
+- Auditability: before/after hash and rollback checkpoint.
+- Provider readiness: outbox events for in-app/email/webhook states.
+- QA proof: Vercel functional smoke and screenshot audit scripts.
