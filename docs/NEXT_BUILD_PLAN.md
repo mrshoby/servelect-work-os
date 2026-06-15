@@ -1,3 +1,8 @@
+# Current checkpoint — v9.1.0 GoodDay-like Task Execution Parity Layer
+
+Applied after v9.0.4. Direction remains canonical Taskuri execution, no demo app and no parallel Work OS shell. Added workspace command, Action Required board, hierarchy map, task detail parity, workload planner, time tracking, updates stream, request intake, admin governance and v9.1 API.
+
+Next recommended build: v9.2.0 — Real Task Mutation Persistence, Saved View Policies & Keyboard/Drawer UX Hardening. Continue only after v9.1 functional/screenshot/source audits pass.
 # SERVELECT WORK OS — NEXT BUILD PLAN
 
 Current validated line: v9.0.3 — API Subroute Completion & Production Pilot Cutover Stabilization.
@@ -25,4 +30,5 @@ Scope:
 4. Replay/dead-letter recovery into real records.
 5. GoodDay-like task object model foundation: task type, custom fields, recurrence, dependencies and activity stream.
 6. Keep global production writes disabled until all gates pass.
+
 
