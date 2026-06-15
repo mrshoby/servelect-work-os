@@ -1,3 +1,5 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 const fs = require("fs");
 const path = require("path");
 
@@ -42,3 +44,4 @@ report.push("PASS");
 fs.mkdirSync(path.join(repo, "audit-results"), { recursive: true });
 fs.writeFileSync(path.join(repo, "audit-results", "v950-goodday-collaboration-sla-source-audit.md"), report.join("\n"), "utf8");
 console.log("PASS: v9.5.0 GoodDay Collaboration Files SLA source audit clean");
+

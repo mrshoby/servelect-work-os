@@ -1,3 +1,5 @@
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
 const fs = require("fs");
 const path = require("path");
 
@@ -62,3 +64,4 @@ run().catch((error) => {
   console.error(error);
   process.exit(1);
 });
+
