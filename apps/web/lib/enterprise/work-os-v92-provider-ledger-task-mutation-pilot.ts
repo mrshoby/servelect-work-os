@@ -324,7 +324,7 @@ export const v92ActivityStream = [
 ];
 
 export const v92Guardrails = [
-  "No separate demo app or secondary Work OS shell",
+  "No separate runtime app or secondary Work OS shell",
   "Taskuri remains the canonical execution entry",
   "Global production writes remain disabled",
   "Pilot writes require manager gate, rollback checkpoint and audit envelope",
@@ -376,3 +376,4 @@ export function getV92SurfacePayload(surface: V92Surface) {
                   : "Provider Ledger Governance"
   };
 }
+

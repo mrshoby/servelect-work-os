@@ -1,8 +1,3 @@
-export const SERVELECT_WORK_OS_VERSION = "9.2.0";
-export const SERVELECT_WORK_OS_RELEASE_NAME = "DB-Backed Provider Dispatch Ledger, Webhook Intake Ledger & Task Mutation Pilot";
-export const SERVELECT_WORK_OS_RELEASE_LABEL = "v9.2.0 · Provider Ledger / Webhook Intake / Task Mutation Pilot";
-export const SERVELECT_WORK_OS_CANONICAL_MENU = "Taskuri";
-
-
-
-
+export const SERVELECT_WORK_OS_VERSION = "9.3.0";
+export const SERVELECT_WORK_OS_RELEASE = "v9.3.0 — GoodDay-like Workspace UX Hardening, Saved View Policies & Keyboard Drawer Flow";
+export const SERVELECT_WORK_OS_RELEASE_DATE = "2026-06-15";
