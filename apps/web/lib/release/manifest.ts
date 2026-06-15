@@ -66,7 +66,7 @@ export type ReleaseChecklist = {
 };
 
 export const SERVELECT_WORK_OS_LATEST_RELEASE = {
-  version: "9.1.0",
+  version: "9.2.0",
   name: "API Subroute Completion & v90 Functional Smoke Fix",
   date: "2026-06-15",
 };
@@ -83,7 +83,7 @@ const gates: ReleaseGate[] = [
     status: "passed",
     owner: "Platform / UX",
     action: "Taskuri rămâne meniul principal canonic; /work-os este compatibilitate/execuție, nu shell paralel.",
-    evidence: "Hotfixurile v9.1.0-v9.1.0 păstrează rutele într-un singur flux vizual și curăță eticheta veche legacy v7_9 label.",
+    evidence: "Hotfixurile v9.2.0-v9.2.0 păstrează rutele într-un singur flux vizual și curăță eticheta veche legacy v7_9 label.",
     required: true,
   },
   {
@@ -113,7 +113,7 @@ const gates: ReleaseGate[] = [
     status: "passed",
     owner: "Release QA",
     action: "Auditul local și live verifică să nu mai apară legacy provider-pilot label în suprafețele principale.",
-    evidence: "Versiunea vizibilă este v9.1.0 · API Subroute Completion / Production Pilot Cutover.",
+    evidence: "Versiunea vizibilă este v9.2.0 · API Subroute Completion / Production Pilot Cutover.",
     required: true,
   },
   {
@@ -123,7 +123,7 @@ const gates: ReleaseGate[] = [
     status: "warning",
     owner: "Platform / Security",
     action: "Păstrează global production writes off până când provider dispatch, webhook intake și DB ledger sunt validate cu secrete reale.",
-    evidence: "v9.1.0 repară rutele/API smoke, dar nu activează scrieri globale live.",
+    evidence: "v9.2.0 repară rutele/API smoke, dar nu activează scrieri globale live.",
     required: true,
   },
   {
@@ -132,7 +132,7 @@ const gates: ReleaseGate[] = [
     label: "Next build",
     status: "planned",
     owner: "Backend / Work OS",
-    action: "v9.1.0 trebuie să introducă ledger real pentru provider dispatch și webhook intake, nu doar readiness panels.",
+    action: "v9.2.0 trebuie să introducă ledger real pentru provider dispatch și webhook intake, nu doar readiness panels.",
     evidence: "NEXT_BUILD_PLAN.md mută următorul pas spre DB-backed provider dispatch worker și task mutation pilot.",
     required: false,
   },
@@ -141,17 +141,17 @@ const gates: ReleaseGate[] = [
 export function getReleaseManifest(): ReleaseManifest {
   return {
     product: "SERVELECT WORK OS",
-    latestVersion: "9.1.0",
+    latestVersion: "9.2.0",
     releaseName: "API Subroute Completion & v90 Functional Smoke Fix",
     releaseDate: "2026-06-15",
-    visibleVersionLabel: "v9.1.0 · API Subroute Completion / Production Pilot Cutover",
+    visibleVersionLabel: "v9.2.0 · API Subroute Completion / Production Pilot Cutover",
     navigationPolicy: "single-canonical-taskuri-menu",
     globalWrites: "disabled",
     app: {
       name: "SERVELECT WORK OS",
       channel: "Unified Taskuri Navigation / Production Pilot Cutover",
-      version: "9.1.0",
-      build: "v9.1.0-api-subroute-completion-fix",
+      version: "9.2.0",
+      build: "v9.2.0-api-subroute-completion-fix",
     },
     summary: {
       capabilities: 44,
@@ -177,7 +177,7 @@ export function getReleaseManifest(): ReleaseManifest {
       },
       {
         id: "v9-0-production-pilot-cutover",
-        version: "9.1.0",
+        version: "9.2.0",
         title: "Production Pilot Cutover",
         date: "2026-06-15",
         summary: "Production pilot cutover console, live provider dispatch, signed webhook hardening și GoodDay-like command layer.",
@@ -186,7 +186,7 @@ export function getReleaseManifest(): ReleaseManifest {
       },
       {
         id: "v9-0-1-navigation-version-truth",
-        version: "9.1.0",
+        version: "9.2.0",
         title: "Navigation + Version Truth Fix",
         date: "2026-06-15",
         summary: "Elimină shell-ul intern dublu, curăță etichetele legacy v7_9 label și aliniază meniul principal la Taskuri.",
@@ -195,7 +195,7 @@ export function getReleaseManifest(): ReleaseManifest {
       },
       {
         id: "v9-0-2-release-manifest-contract",
-        version: "9.1.0",
+        version: "9.2.0",
         title: "Release Manifest Contract Fix",
         date: "2026-06-15",
         summary: "Repară contractul TypeScript pentru release manifest, admin release și system status ca să treacă typecheck.",
@@ -204,7 +204,7 @@ export function getReleaseManifest(): ReleaseManifest {
       },
       {
         id: "v9-0-3-api-subroute-completion",
-        version: "9.1.0",
+        version: "9.2.0",
         title: "API Subroute Completion Fix",
         date: "2026-06-15",
         summary: "Completează cele 15 subrute API v90 care returnau 404 și permite testului v900 să ajungă la 91/91 după deploy.",
@@ -214,7 +214,7 @@ export function getReleaseManifest(): ReleaseManifest {
     ],
     nextRecommendedVersions: [
       {
-        version: "9.1.0",
+        version: "9.2.0",
         title: "DB-Backed Provider Dispatch Worker",
         focus: "Provider dispatch ledger, real webhook intake ledger, task mutation pilot și manager approval workflow.",
       },
@@ -236,7 +236,7 @@ export function getReleaseChecklist(): ReleaseChecklist {
   const productionScore = Math.round((passedRequired.length / Math.max(requiredGates.length, 1)) * 100);
 
   return {
-    version: "9.1.0",
+    version: "9.2.0",
     generatedAt: new Date().toISOString(),
     productionScore,
     gates,
@@ -252,6 +252,7 @@ export const SERVELECT_WORK_OS_RELEASE_MANIFEST = releaseManifest;
 export const SERVELECT_WORK_OS_RELEASE_CHECKLIST = releaseChecklist;
 
 export default releaseManifest;
+
 
 
 

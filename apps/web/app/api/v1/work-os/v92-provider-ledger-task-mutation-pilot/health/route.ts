@@ -1,0 +1,9 @@
+import { NextResponse } from "next/server";
+import { getV92ProviderLedgerTaskMutationPilot } from "@/lib/enterprise/work-os-v92-provider-ledger-task-mutation-pilot";
+
+export const dynamic = "force-dynamic";
+
+export async function GET() {
+  const data = getV92ProviderLedgerTaskMutationPilot();
+  return NextResponse.json({ ok: true, version: data.release.version, canonicalMenu: data.release.canonicalMenu, productionWrites: data.release.productionWrites, readiness: data.summary.readiness });
+}
