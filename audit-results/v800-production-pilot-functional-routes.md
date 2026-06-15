@@ -1,4 +1,4 @@
-﻿# v8.0.0 Production Pilot Functional Route/API Test
+# v8.0.0 Production Pilot Functional Route/API Test
 
 BaseUrl: https://servelect-work-os-web.vercel.app
 Passed: 16 / 24
@@ -20,12 +20,12 @@ Passed: 16 / 24
 | /admin/workflows | PASS | 200 | 46023 | OK |
 | /admin/custom-fields | PASS | 200 | 46050 | OK |
 | /admin/primary-write-pilot | PASS | 200 | 46096 | OK |
-| /admin/production-pilot-readiness | FAIL | ERR | 0 | The remote server returned an error: (404) Not Found. |
+| /admin/production-pilot-readiness | FAIL | ERR | 0 | Response status code does not indicate success: 404 (Not Found). |
 | /work-os/primary-write-pilot | PASS | 200 | 46103 | OK |
-| /work-os/production-pilot-readiness | FAIL | ERR | 0 | The remote server returned an error: (404) Not Found. |
-| /api/v1/work-os/v80-production-pilot | FAIL | ERR | 0 | The remote server returned an error: (404) Not Found. |
-| /api/v1/work-os/v80-production-pilot/health | FAIL | ERR | 0 | The remote server returned an error: (404) Not Found. |
-| /api/v1/work-os/v80-production-pilot/acl-evaluation | FAIL | ERR | 0 | The remote server returned an error: (404) Not Found. |
-| /api/v1/work-os/v80-production-pilot/mutation-guard | FAIL | ERR | 0 | The remote server returned an error: (404) Not Found. |
-| /api/v1/work-os/v80-production-pilot/rollback-drill | FAIL | ERR | 0 | The remote server returned an error: (404) Not Found. |
-| /api/v1/work-os/v80-production-pilot/provider-readiness | FAIL | ERR | 0 | The remote server returned an error: (404) Not Found. |
+| /work-os/production-pilot-readiness | FAIL | ERR | 0 | Response status code does not indicate success: 404 (Not Found). |
+| /api/v1/work-os/v80-production-pilot | FAIL | ERR | 0 | Response status code does not indicate success: 404 (Not Found). |
+| /api/v1/work-os/v80-production-pilot/health | FAIL | ERR | 0 | Response status code does not indicate success: 404 (Not Found). |
+| /api/v1/work-os/v80-production-pilot/acl-evaluation | FAIL | ERR | 0 | Response status code does not indicate success: 404 (Not Found). |
+| /api/v1/work-os/v80-production-pilot/mutation-guard | FAIL | ERR | 0 | Response status code does not indicate success: 404 (Not Found). |
+| /api/v1/work-os/v80-production-pilot/rollback-drill | FAIL | ERR | 0 | Response status code does not indicate success: 404 (Not Found). |
+| /api/v1/work-os/v80-production-pilot/provider-readiness | FAIL | ERR | 0 | Response status code does not indicate success: 404 (Not Found). |
