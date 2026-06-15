@@ -1,7 +1,9 @@
-# GoodDay Live UI/UX Analysis — SERVELECT Continuity
+# GOODDAY LIVE UI/UX ANALYSIS — updated for v8.7.0
 
-Public GoodDay positioning continues to emphasize a mature Work OS: tasks/projects, hierarchy, custom workflows, task types, views, workload, time tracking, requests/forms, reports, automations, integrations, permissions and enterprise control.
+Public GoodDay pages emphasize a complete work management platform with My Work, Action Required, unlimited hierarchy, views, custom workflows, dependencies, request forms, permissions, custom work items, subtasks, attachments, custom fields, checklists, recurring tasks, task messages, time tracking and workload.
 
-v8.4.0 intentionally focuses on the production substrate behind those visible functions: reliable adapter execution, provider dispatch, retry/backoff and dead-letter recovery. This is required before treating notifications, automations, task writes and saved views as production-like rather than UI-only.
-
-No GoodDay branding, assets, text or identity are copied. Servelect identity remains unchanged.
+## Applied to Servelect v8.7.0
+- Keep Servelect branding; do not copy GoodDay logo, text or assets.
+- Use GoodDay-like density: left hierarchy, command panels, compact tables, action required, evidence lanes and view switchers.
+- Strengthen enterprise access and provider evidence because GoodDay exposes departments, custom access rules, API, webhooks and enterprise access control in public pricing/features.
+- Push Taskuri toward a real Work OS: manager evidence, replay queues, provider channels, rollback and audit trail.

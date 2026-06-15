@@ -56,3 +56,4 @@ export const v850EnterpriseDepartmentSuiteRelease = {
     "/api/v1/work-os/v85-enterprise-department-suite"
   ]
 };
+

@@ -1,7 +1,7 @@
 {
   "name": "servelect-work-os",
   "private": true,
-  "version": "8.6.0",
+  "version": "8.7.1",
   "description": "SERVELECT EMP / WORK OS - task-first enterprise platform for PV projects, operations, IoT, CRM, maintenance and HR.",
   "packageManager": "pnpm@11.5.1",
   "scripts": {
