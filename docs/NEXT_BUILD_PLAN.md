@@ -1,76 +1,74 @@
 # NEXT BUILD PLAN — SERVELECT WORK OS
 
-## Current version
-v8.3.0 — Prisma Audit/Outbox Tables, Transactional Write Pilot & Vercel Runtime Proof
+Current version: v8.4.0
+Current build: Database Adapter Transaction Execution & Provider Dispatch Worker
+Previous validated build: v8.3.0 — Prisma Audit/Outbox Tables, Transactional Write Pilot & Vercel Runtime Proof
 
-## Previous validated baseline
-v8.2.0 — Auth Session Claims, Audit Event Trail & Provider Event Outbox
+## What changed in v8.4.0
 
-Validation provided by user:
-- Functional route/API smoke: 31 / 31 PASS on https://servelect-work-os-web.vercel.app
-- Screenshot package for v8.2.0 provided.
+- Added database adapter execution control plane for Prisma audit/outbox and primary task/ticket write adapters.
+- Added provider dispatch worker model with lease TTL, retry/backoff and dead-letter queue.
+- Added API v8.4 endpoints for adapter execution, dispatch worker, dead-letter, rollback-worker and runtime proof.
+- Added Work OS/Admin pages for `/work-os/database-adapter-dispatch-worker` and `/admin/database-adapter-dispatch-worker`.
+- Added additive Prisma migration for adapter execution, dispatch lease and dead-letter tables.
+- Kept global production writes OFF. Only gated pilot/dry-run lanes are represented.
 
-## What v8.3.0 adds
-- Additive Prisma schema preparation for `WorkOsAuditEvent`, `WorkOsProviderOutboxEvent`, `WorkOsWriteTransactionPilot`, `WorkOsRuntimeProof`.
-- Migration SQL for audit/outbox transaction pilot.
-- Route `/work-os/prisma-audit-outbox-transaction-pilot`.
-- Route `/admin/prisma-audit-outbox-transaction-pilot`.
-- API namespace `/api/v1/work-os/v83-prisma-audit-outbox-transaction-pilot/*`.
-- Transactional write pilot lanes for ticket escalation, saved view server sync and task status write attempts.
-- Runtime proof checklist for Vercel smoke + screenshot audit.
-- Rollback replay model remains dry-run/gated.
+## Current percentage scores
 
-## Current scores after v8.3.0
-| Category | Current | Previous | Notes |
-|---|---:|---:|---|
-| GoodDay visual/UX similarity | 81% | 80% | control-plane pages more compact/enterprise |
-| GoodDay public feature parity | 94% | 94% | no new broad module, deeper production proof |
-| Task management core | 96% | 96% | protected by primary write pilot |
-| Tickets / Requests / Forms | 96% | 96% | escalation lane now transaction-pilot aware |
-| Notifications | 97% | 97% | provider outbox prepared for dispatch worker |
-| Workflows / custom statuses / validations | 95% | 95% | policy guard evidence preserved |
-| Saved views / filters / table views | 96% | 96% | server sync lane in transaction pilot |
-| Backend / API / persistence | 97% | 96% | Prisma schema and migration prepared |
-| Screenshot audit coverage | 100% target | 100% | must run v830 screenshot script |
-| QA/build stability | 96% target | 95% | pending local pnpm QA |
-| Production readiness | 96% | 95% | transactional write evidence layer added |
+| Category | Score |
+|---|---:|
+| GoodDay visual/UX similarity | 82% |
+| GoodDay functional parity | 95% |
+| Local real functionality | 95% |
+| Backend/API parity | 98% |
+| Production readiness | 97% |
+| QA confidence | 96% after local QA |
+| Screenshot audit coverage | 100% target after v8.4 screenshots |
 
-## Problems remaining
-- Prisma migration must be applied only after DB target is confirmed.
-- Provider dispatch worker is not yet executing real email/push/websocket delivery.
-- Write transaction pilot is still gated; global production writes remain OFF.
-- Runtime proof depends on post-deploy smoke/screenshot evidence.
+## Remaining critical gaps
 
-## Next recommended build
-v8.4.0 — Database Adapter Transaction Execution & Provider Dispatch Worker
+- Real user session adapter is still not bound to a production auth provider.
+- Database RLS/custom access proof is documented/modelled but not verified with live DB policies.
+- Provider dispatch worker still has dry-run/blocked channels until real provider secrets are configured.
+- Primary writes are still intentionally gated and not globally enabled.
 
-## Scope for v8.4.0
-1. Implement database adapter switch for the new audit/outbox tables.
-2. Add transaction runner with dry-run, canary and primary-pilot modes.
-3. Add provider dispatch worker simulation with retry/backoff and dead-letter lane.
-4. Add admin controls for replaying failed outbox events.
-5. Add Vercel runtime proof report that stores last smoke and screenshot evidence.
+## Recommended next build
 
-## Do NOT do next
+v8.5.0 — Real User Session Adapter, RLS Policy Proof & Department Write Scopes
+
+## Scope for v8.5.0
+
+1. Bind auth/session claims to a real adapter surface.
+2. Add department write-scope proof for Productie, Comercial, Audit, Audit energetic, Administrativ, Automatizari and Marketing.
+3. Add RLS policy proof reports and API evidence.
+4. Add seeded transaction proof with deny/allow/dry-run outcomes by role/department.
+5. Keep global production writes OFF until all policy proofs pass.
+
+## What not to do next
+
 - Do not add unrelated modules.
-- Do not enable global production writes.
-- Do not redesign Taskuri just for visual changes.
-- Do not bypass auth/session claims.
-- Do not remove existing v8.0/v8.1/v8.2 APIs.
-
-## Affected routes
-- `/taskuri/*` remains regression-tested.
-- `/admin/prisma-audit-outbox-transaction-pilot`
-- `/work-os/prisma-audit-outbox-transaction-pilot`
-- `/api/v1/work-os/v83-prisma-audit-outbox-transaction-pilot/*`
+- Do not redesign Taskuri globally while backend write-scope proof remains incomplete.
+- Do not enable production writes globally.
+- Do not skip screenshot/functional route audit.
 
 ## QA status
-Pending local apply:
-- `pnpm typecheck`
-- `pnpm lint`
-- `pnpm build`
-- `scripts/work-os-v830-functional-test.ps1`
-- `scripts/audit-v830-screenshots.mjs`
+
+Run locally after applying:
+
+```powershell
+pnpm typecheck
+pnpm lint
+pnpm build
+.\scripts\work-os-v840-functional-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
+node scripts/audit-v840-screenshots.mjs
+```
 
 ## GitHub/Vercel status
-Apply locally, commit and push to `origin main`, then verify Vercel routes.
+
+Push required after local QA:
+
+```powershell
+git add -A
+git commit -m "v8.4.0 - Database adapter transaction execution and provider dispatch worker"
+git push origin HEAD:main
+```
