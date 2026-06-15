@@ -1,5 +1,5 @@
-export const V97_RELEASE_VERSION = "9.7.0";
-export const V97_RELEASE_NAME = "Portfolio Program Board, WorkGraph & Reporting Command Layer";
+export const V97_RELEASE_VERSION = "9.7.1";
+export const V97_RELEASE_NAME = "Portfolio WorkGraph Visual Density & Taskuri Workspace Parity Correction";
 
 export type V97Status = "ready" | "review" | "blocked" | "gated" | "active";
 export type V97Tone = "emerald" | "blue" | "amber" | "rose" | "slate" | "violet";
@@ -146,7 +146,7 @@ export function getV97PortfolioWorkgraphReporting() {
     reportCommands,
     savedLayouts,
     readiness,
-    nextBuild: "v9.8.0 — Advanced portfolio permissions, report exports and real persisted layout preferences",
+    nextBuild: "v9.8.0 — Advanced task detail interactions, persisted layout preferences and exportable reporting packs",
   };
 }
 
