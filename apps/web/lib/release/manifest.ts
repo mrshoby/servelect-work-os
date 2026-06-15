@@ -66,7 +66,7 @@ export type ReleaseChecklist = {
 };
 
 export const SERVELECT_WORK_OS_LATEST_RELEASE = {
-  version: "9.0.3",
+  version: "9.0.4",
   name: "API Subroute Completion & v90 Functional Smoke Fix",
   date: "2026-06-15",
 };
@@ -83,7 +83,7 @@ const gates: ReleaseGate[] = [
     status: "passed",
     owner: "Platform / UX",
     action: "Taskuri rămâne meniul principal canonic; /work-os este compatibilitate/execuție, nu shell paralel.",
-    evidence: "Hotfixurile v9.0.1-v9.0.3 păstrează rutele într-un singur flux vizual și curăță eticheta veche v7.9.0.",
+    evidence: "Hotfixurile v9.0.4-v9.0.4 păstrează rutele într-un singur flux vizual și curăță eticheta veche v7.9.0.",
     required: true,
   },
   {
@@ -112,8 +112,8 @@ const gates: ReleaseGate[] = [
     label: "Version truth",
     status: "passed",
     owner: "Release QA",
-    action: "Auditul local și live verifică să nu mai apară v7.9.0 / Provider Canary în suprafețele principale.",
-    evidence: "Versiunea vizibilă este v9.0.3 · API Subroute Completion / Production Pilot Cutover.",
+    action: "Auditul local și live verifică să nu mai apară legacy provider-pilot label în suprafețele principale.",
+    evidence: "Versiunea vizibilă este v9.0.4 · API Subroute Completion / Production Pilot Cutover.",
     required: true,
   },
   {
@@ -123,7 +123,7 @@ const gates: ReleaseGate[] = [
     status: "warning",
     owner: "Platform / Security",
     action: "Păstrează global production writes off până când provider dispatch, webhook intake și DB ledger sunt validate cu secrete reale.",
-    evidence: "v9.0.3 repară rutele/API smoke, dar nu activează scrieri globale live.",
+    evidence: "v9.0.4 repară rutele/API smoke, dar nu activează scrieri globale live.",
     required: true,
   },
   {
@@ -141,17 +141,17 @@ const gates: ReleaseGate[] = [
 export function getReleaseManifest(): ReleaseManifest {
   return {
     product: "SERVELECT WORK OS",
-    latestVersion: "9.0.3",
+    latestVersion: "9.0.4",
     releaseName: "API Subroute Completion & v90 Functional Smoke Fix",
     releaseDate: "2026-06-15",
-    visibleVersionLabel: "v9.0.3 · API Subroute Completion / Production Pilot Cutover",
+    visibleVersionLabel: "v9.0.4 · API Subroute Completion / Production Pilot Cutover",
     navigationPolicy: "single-canonical-taskuri-menu",
     globalWrites: "disabled",
     app: {
       name: "SERVELECT WORK OS",
       channel: "Unified Taskuri Navigation / Production Pilot Cutover",
-      version: "9.0.3",
-      build: "v9.0.3-api-subroute-completion-fix",
+      version: "9.0.4",
+      build: "v9.0.4-api-subroute-completion-fix",
     },
     summary: {
       capabilities: 44,
@@ -177,7 +177,7 @@ export function getReleaseManifest(): ReleaseManifest {
       },
       {
         id: "v9-0-production-pilot-cutover",
-        version: "9.0.0",
+        version: "9.0.4",
         title: "Production Pilot Cutover",
         date: "2026-06-15",
         summary: "Production pilot cutover console, live provider dispatch, signed webhook hardening și GoodDay-like command layer.",
@@ -186,7 +186,7 @@ export function getReleaseManifest(): ReleaseManifest {
       },
       {
         id: "v9-0-1-navigation-version-truth",
-        version: "9.0.1",
+        version: "9.0.4",
         title: "Navigation + Version Truth Fix",
         date: "2026-06-15",
         summary: "Elimină shell-ul intern dublu, curăță etichetele v7.9.0 și aliniază meniul principal la Taskuri.",
@@ -195,7 +195,7 @@ export function getReleaseManifest(): ReleaseManifest {
       },
       {
         id: "v9-0-2-release-manifest-contract",
-        version: "9.0.2",
+        version: "9.0.4",
         title: "Release Manifest Contract Fix",
         date: "2026-06-15",
         summary: "Repară contractul TypeScript pentru release manifest, admin release și system status ca să treacă typecheck.",
@@ -204,7 +204,7 @@ export function getReleaseManifest(): ReleaseManifest {
       },
       {
         id: "v9-0-3-api-subroute-completion",
-        version: "9.0.3",
+        version: "9.0.4",
         title: "API Subroute Completion Fix",
         date: "2026-06-15",
         summary: "Completează cele 15 subrute API v90 care returnau 404 și permite testului v900 să ajungă la 91/91 după deploy.",
@@ -236,7 +236,7 @@ export function getReleaseChecklist(): ReleaseChecklist {
   const productionScore = Math.round((passedRequired.length / Math.max(requiredGates.length, 1)) * 100);
 
   return {
-    version: "9.0.3",
+    version: "9.0.4",
     generatedAt: new Date().toISOString(),
     productionScore,
     gates,
@@ -252,3 +252,5 @@ export const SERVELECT_WORK_OS_RELEASE_MANIFEST = releaseManifest;
 export const SERVELECT_WORK_OS_RELEASE_CHECKLIST = releaseChecklist;
 
 export default releaseManifest;
+
+
