@@ -1,5 +1,7 @@
-import { V79PrimaryWritePilotClient } from "@/components/work-os/V79PrimaryWritePilotClient";
+import { V80ProductionPilotReadiness } from "@/components/work-os/V80ProductionPilotReadiness";
 
-export default function Page() {
-  return <V79PrimaryWritePilotClient view="primaryWritePilot" />;
+export const metadata = { title: "Primary Write Pilot v8.0 | SERVELECT WORK OS" };
+
+export default function PrimaryWritePilotPage() {
+  return <V80ProductionPilotReadiness mode="work-os" />;
 }

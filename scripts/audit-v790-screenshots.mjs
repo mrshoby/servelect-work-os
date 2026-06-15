@@ -61,8 +61,8 @@ await browser.close();
 const clean = rows.filter((row) => row.result === "PASS" && row.bytes > 0).length;
 const protectedCount = rows.filter((row) => row.result === "PROTECTED_401" || row.result === "FAIL_PROTECTED_401").length;
 const report = ["# V7.9.0 Screenshot Audit Report", "", `BaseUrl: ${baseUrl}`, `Bypass secret used: ${Boolean(bypassSecret)}`, `Captured clean: ${clean} / ${rows.length}`, `Protected 401: ${protectedCount}`, "", "| Route | Result | HTTP | PNG | Bytes | Note |", "|---|---:|---:|---|---:|---|", ...rows.map((row) => `| ${row.route} | ${row.result} | ${row.http} | ${row.png} | ${row.bytes} | ${row.note} |`)];
-await fs.writeFile(path.join(process.cwd(), "audit-results", "V7_9_0_SCREENSHOT_AUDIT_REPORT.md"), report.join("
-"));
-console.log(report.join("
-"));
+await fs.writeFile(path.join(process.cwd(), "audit-results", "V7_9_0_SCREENSHOT_AUDIT_REPORT.md"), report.join("\n"));
+console.log(report.join("\n"));
 if (clean !== rows.length && !(allowProtected401 && protectedCount === rows.length)) process.exitCode = 1;
+
+
