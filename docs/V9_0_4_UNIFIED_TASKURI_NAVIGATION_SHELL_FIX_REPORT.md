@@ -7,7 +7,7 @@ Căutarea locală a arătat că `apps/web/components/work-os/V79PrimaryWritePilo
 - Elimină sidebar-ul intern/paralel din `V79PrimaryWritePilotClient.tsx`.
 - Păstrează `Taskuri` ca navigație canonică.
 - Actualizează release truth la v9.0.4.
-- Adaugă audit sursă care blochează `hidden w-72`, `v7.9.0 · Provider Canary / ACL / Primary Pilot` și `Provider Canary / ACL / Primary Pilot`.
+- Adaugă audit sursă care blochează `hidden w-72`, `legacy v7_9 label · legacy provider/ACL/primary-pilot label` și `legacy provider/ACL/primary-pilot label`.
 - Adaugă test live pentru rutele relevante.
 
 ## Criteriu acceptare
@@ -17,3 +17,4 @@ Căutarea locală a arătat că `apps/web/components/work-os/V79PrimaryWritePilo
 - `node scripts/audit-v904-unified-navigation-source.mjs` PASS
 - `./scripts/work-os-v904-navigation-shell-test.ps1 -BaseUrl https://servelect-work-os-web.vercel.app` PASS
 - Screenshoturile nu mai arată al doilea meniu întunecat Work OS în `/taskuri`.
+

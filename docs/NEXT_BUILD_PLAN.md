@@ -12,7 +12,7 @@ Current validated line: v9.0.3 — API Subroute Completion & Production Pilot Cu
 
 ## Canonical navigation rule
 
-Taskuri remains the single canonical Work OS entry from the main dashboard. `/work-os/*` remains as compatibility/execution routes, not as a second visible top-level app shell. Do not reintroduce `SERVELECT Work OS v7.9.0 · Provider Canary / ACL / Primary Pilot`.
+Taskuri remains the single canonical Work OS entry from the main dashboard. `/work-os/*` remains as compatibility/execution routes, not as a second visible top-level app shell. Do not reintroduce `SERVELECT Work OS legacy v7_9 label · legacy provider/ACL/primary-pilot label`.
 
 ## Next major build
 
@@ -25,3 +25,4 @@ Scope:
 4. Replay/dead-letter recovery into real records.
 5. GoodDay-like task object model foundation: task type, custom fields, recurrence, dependencies and activity stream.
 6. Keep global production writes disabled until all gates pass.
+

@@ -83,7 +83,7 @@ const gates: ReleaseGate[] = [
     status: "passed",
     owner: "Platform / UX",
     action: "Taskuri rămâne meniul principal canonic; /work-os este compatibilitate/execuție, nu shell paralel.",
-    evidence: "Hotfixurile v9.0.4-v9.0.4 păstrează rutele într-un singur flux vizual și curăță eticheta veche v7.9.0.",
+    evidence: "Hotfixurile v9.0.4-v9.0.4 păstrează rutele într-un singur flux vizual și curăță eticheta veche legacy v7_9 label.",
     required: true,
   },
   {
@@ -108,7 +108,7 @@ const gates: ReleaseGate[] = [
   },
   {
     id: "REL-903-04",
-    title: "No stale v7.9.0 release label",
+    title: "No stale legacy v7_9 label release label",
     label: "Version truth",
     status: "passed",
     owner: "Release QA",
@@ -189,7 +189,7 @@ export function getReleaseManifest(): ReleaseManifest {
         version: "9.0.4",
         title: "Navigation + Version Truth Fix",
         date: "2026-06-15",
-        summary: "Elimină shell-ul intern dublu, curăță etichetele v7.9.0 și aliniază meniul principal la Taskuri.",
+        summary: "Elimină shell-ul intern dublu, curăță etichetele legacy v7_9 label și aliniază meniul principal la Taskuri.",
         routes: ["/taskuri", "/taskuri/command-center-v90", "/admin/release", "/api/v1/release/manifest"],
         status: "passed",
       },
@@ -252,5 +252,6 @@ export const SERVELECT_WORK_OS_RELEASE_MANIFEST = releaseManifest;
 export const SERVELECT_WORK_OS_RELEASE_CHECKLIST = releaseChecklist;
 
 export default releaseManifest;
+
 
 

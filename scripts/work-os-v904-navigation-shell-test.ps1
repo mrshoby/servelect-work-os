@@ -11,8 +11,8 @@ $routes = @(
   "/api/v1/work-os/v90-production-pilot-cutover/health"
 )
 $badStrings = @(
-  "v7.9.0 · Provider Canary / ACL / Primary Pilot",
-  "Provider Canary / ACL / Primary Pilot",
+  "v7_9_legacy · legacy provider ACL primary pilot",
+  "legacy provider ACL primary pilot",
   "hidden w-72 shrink-0 flex-col"
 )
 $results = @()
@@ -40,3 +40,4 @@ $lines -join "`n" | Set-Content -Path $reportPath -Encoding UTF8
 Write-Host "v9.0.4 navigation shell live test passed: $passed / $($routes.Count)"
 Write-Host "Report: $reportPath"
 if ($passed -ne $routes.Count) { throw "v9.0.4 navigation shell live test failed: $passed / $($routes.Count)" }
+

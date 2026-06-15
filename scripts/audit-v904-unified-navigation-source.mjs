@@ -16,8 +16,8 @@ const forbiddenInV79 = [
   "<aside className=\"hidden w-72",
   "hidden w-72 shrink-0 flex-col",
   "<h1 className=\"mt-2 text-xl font-black\">Work OS</h1>",
-  "v7.9.0 · Provider Canary / ACL / Primary Pilot",
-  "Provider Canary / ACL / Primary Pilot"
+  "v7_9_legacy · legacy provider ACL primary pilot",
+  "legacy provider ACL primary pilot"
 ];
 
 for (const needle of forbiddenInV79) {
@@ -39,8 +39,8 @@ async function walk(dir, files = []) {
 
 const appFiles = await walk(path.join(root, "apps", "web"));
 const exactForbidden = [
-  "v7.9.0 · Provider Canary / ACL / Primary Pilot",
-  "Provider Canary / ACL / Primary Pilot"
+  "v7_9_legacy · legacy provider ACL primary pilot",
+  "legacy provider ACL primary pilot"
 ];
 for (const file of appFiles) {
   const body = await read(file);
@@ -68,3 +68,4 @@ await fs.writeFile(reportPath, lines.join("\n"));
 console.log(lines.at(-1));
 console.log(`Report: ${reportPath}`);
 if (failed.length) process.exit(1);
+
