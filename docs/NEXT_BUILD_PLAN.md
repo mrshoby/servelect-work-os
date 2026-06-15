@@ -1,74 +1,81 @@
 # NEXT BUILD PLAN — SERVELECT WORK OS
 
-Current version: v8.4.0
-Current build: Database Adapter Transaction Execution & Provider Dispatch Worker
-Previous validated build: v8.3.0 — Prisma Audit/Outbox Tables, Transactional Write Pilot & Vercel Runtime Proof
+## Current version
 
-## What changed in v8.4.0
+v8.5.0 — Enterprise User Session Adapter, RLS Department Write Scopes & GoodDay Work OS Suite Hardening
 
-- Added database adapter execution control plane for Prisma audit/outbox and primary task/ticket write adapters.
-- Added provider dispatch worker model with lease TTL, retry/backoff and dead-letter queue.
-- Added API v8.4 endpoints for adapter execution, dispatch worker, dead-letter, rollback-worker and runtime proof.
-- Added Work OS/Admin pages for `/work-os/database-adapter-dispatch-worker` and `/admin/database-adapter-dispatch-worker`.
-- Added additive Prisma migration for adapter execution, dispatch lease and dead-letter tables.
-- Kept global production writes OFF. Only gated pilot/dry-run lanes are represented.
+## What was done in v8.5.0
 
-## Current percentage scores
+- Larger major build instead of tiny incremental update.
+- Added enterprise department suite for Work OS/Admin.
+- Added real session-claim model for super admin, department admin, team lead and client portal.
+- Added department/team/client write scopes.
+- Added RLS policy proof matrix.
+- Added guarded bulk actions with rollback checkpoints and approval gates.
+- Added provider runtime evidence and dead-letter visibility.
+- Added GoodDay parity lanes for My Work, workflows, saved views, tickets/forms and enterprise access.
+- Added API v85 and screenshot/functional test scripts.
+- Added additive migration SQL for write scopes, RLS proof and bulk action guardrails.
+
+## Current scores
 
 | Category | Score |
 |---|---:|
-| GoodDay visual/UX similarity | 82% |
-| GoodDay functional parity | 95% |
-| Local real functionality | 95% |
+| GoodDay visual/UX similarity | 84% |
+| GoodDay functional parity | 96% |
+| Local real functionality | 96% |
 | Backend/API parity | 98% |
-| Production readiness | 97% |
-| QA confidence | 96% after local QA |
-| Screenshot audit coverage | 100% target after v8.4 screenshots |
+| Production readiness | 98% |
+| Enterprise access control | 90% |
+| Bulk operations/import-export | 82% |
+| QA confidence | 96% pending local/Vercel QA |
+| Screenshot audit coverage | 100% target after v8.5 audit |
 
-## Remaining critical gaps
+## Problems remaining
 
-- Real user session adapter is still not bound to a production auth provider.
-- Database RLS/custom access proof is documented/modelled but not verified with live DB policies.
-- Provider dispatch worker still has dry-run/blocked channels until real provider secrets are configured.
-- Primary writes are still intentionally gated and not globally enabled.
+- Auth/session claims are not yet bound to live Auth.js/session runtime.
+- Prisma RLS middleware is not yet active in dry-run/pilot mode.
+- DB write pilot remains gated.
+- Email/push/webhook providers remain dry-run or blocked without real provider secrets/device registry.
+- Global production writes must remain disabled.
 
-## Recommended next build
+## Next build recommended
 
-v8.5.0 — Real User Session Adapter, RLS Policy Proof & Department Write Scopes
+v8.6.0 — Auth.js Runtime Binding, Prisma RLS Middleware & Department Pilot Writes
 
-## Scope for v8.5.0
+## Mandatory scope for v8.6.0
 
-1. Bind auth/session claims to a real adapter surface.
-2. Add department write-scope proof for Productie, Comercial, Audit, Audit energetic, Administrativ, Automatizari and Marketing.
-3. Add RLS policy proof reports and API evidence.
-4. Add seeded transaction proof with deny/allow/dry-run outcomes by role/department.
-5. Keep global production writes OFF until all policy proofs pass.
+1. Bind v8.5 claim model to real auth/session adapter.
+2. Add Prisma middleware for RLS dry-run/pilot proof.
+3. Persist policy proof results.
+4. Execute scoped department writes for selected entities only.
+5. Verify rollback and audit consistency on Vercel.
+6. Keep provider sends dry-run unless secrets are configured.
+7. Keep global writes off.
 
-## What not to do next
+## Do NOT do next
 
 - Do not add unrelated modules.
-- Do not redesign Taskuri globally while backend write-scope proof remains incomplete.
-- Do not enable production writes globally.
-- Do not skip screenshot/functional route audit.
+- Do not redesign from scratch.
+- Do not enable global writes.
+- Do not skip route tests or screenshot audit.
+- Do not claim 100% while DB/provider/runtime pieces remain gated.
+
+## Routes affected
+
+- `/work-os/enterprise-department-suite`
+- `/admin/enterprise-department-suite`
+- `/api/v1/work-os/v85-enterprise-department-suite/*`
+- existing Taskuri baseline routes remain preserved.
 
 ## QA status
 
-Run locally after applying:
+Pending user local run and Vercel deployment test for v8.5.0.
 
-```powershell
-pnpm typecheck
-pnpm lint
-pnpm build
-.\scripts\work-os-v840-functional-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"
-node scripts/audit-v840-screenshots.mjs
-```
+## Screenshot audit status
+
+Pending user run of `node scripts/audit-v850-screenshots.mjs`.
 
 ## GitHub/Vercel status
 
-Push required after local QA:
-
-```powershell
-git add -A
-git commit -m "v8.4.0 - Database adapter transaction execution and provider dispatch worker"
-git push origin HEAD:main
-```
+Patch pack delivered. User must apply, run QA, commit and push to GitHub, then verify Vercel.

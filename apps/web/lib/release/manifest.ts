@@ -44,3 +44,15 @@ export function getReleaseManifest() {
 
 
 
+
+export const v850EnterpriseDepartmentSuiteRelease = {
+  version: "8.5.0",
+  name: "Enterprise User Session Adapter, RLS Department Write Scopes & GoodDay Work OS Suite Hardening",
+  date: "2026-06-15",
+  status: "pilot_ready_shadow_safe",
+  routes: [
+    "/work-os/enterprise-department-suite",
+    "/admin/enterprise-department-suite",
+    "/api/v1/work-os/v85-enterprise-department-suite"
+  ]
+};
