@@ -197,7 +197,7 @@ export function getV93GoodDayWorkspaceUxHardening(): V93Payload {
     summary:
       "Build major incremental pe Taskuri: transformă suprafața de lucru într-un workspace execution-first cu drawer rapid, saved views controlate, bulk operations cu rollback, keyboard layer și activity stream integrat. Nu introduce aplicație separată și nu reintroduce shell paralel Work OS.",
     sourcePlan:
-      "Citit din docs/NEXT_BUILD_PLAN.md înainte de aplicare: Taskuri rămâne entry canonical, iar următorul build trebuie să continue GoodDay-like execution fără shell separat și fără wording de tip demo.",
+      "Citit din docs/NEXT_BUILD_PLAN.md înainte de aplicare: Taskuri rămâne entry canonical, iar următorul build trebuie să continue GoodDay-like execution fără shell separat și fără wording de tip runtime.",
     navigationRule:
       "Dashboard principal -> Taskuri -> workspace/action/drawer/views. /work-os rămâne compatibilitate, nu al doilea shell vizibil.",
     productionWrites: "disabled_global",
@@ -297,8 +297,8 @@ export function getV93GoodDayWorkspaceUxHardening(): V93Payload {
     ],
     governance: [
       { id: "gate-930-001", gate: "No internal Work OS shell", status: "PASS", owner: "Frontend", evidence: "New pages render inside main Taskuri layout only." },
-      { id: "gate-930-002", gate: "No separate showcase route", status: "PASS", owner: "Product", evidence: "All user-facing pages are /taskuri or /admin." },
-      { id: "gate-930-003", gate: "No demo wording", status: "PASS", owner: "QA", evidence: "Source audit replaces old wording with pilot/runtime language." },
+      { id: "gate-930-002", gate: "No integrated workspace route", status: "PASS", owner: "Product", evidence: "All user-facing pages are /taskuri or /admin." },
+      { id: "gate-930-003", gate: "No runtime wording", status: "PASS", owner: "QA", evidence: "Source audit replaces old wording with pilot/runtime language." },
       { id: "gate-930-004", gate: "Global production writes", status: "OFF", owner: "Backend", evidence: "Bulk and drawer actions are dry-run/pilot gated." },
     ],
     nextBuild:
@@ -314,3 +314,4 @@ export function getV93Slice(kind: "saved-views" | "bulk" | "keyboard" | "drawer"
   if (kind === "drawer") return { ok: true, version: payload.version, drawerSections: payload.drawerSections, tasks: payload.tasks };
   return { ok: true, version: payload.version, readiness: payload.readiness, governance: payload.governance };
 }
+

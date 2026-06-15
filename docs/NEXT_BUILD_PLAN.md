@@ -1,13 +1,14 @@
 # SERVELECT WORK OS — NEXT BUILD PLAN
 
-Current validated line: v9.3.0 — GoodDay-like Workspace UX Hardening, Saved View Policies & Keyboard Drawer Flow.
+Current validated line: v9.4.0 — Timeline/Gantt Dependency Editor, Calendar Capacity Sync & Real Task Drawer Mutation Queue.
 
 ## Current status
 
 - v9.0.4 removed the legacy internal Work OS sidebar and kept Taskuri as the single canonical entry.
-- v9.1.0 added GoodDay-like task execution surfaces: action board, hierarchy, task detail, workload, time tracking, updates, request intake.
+- v9.1.0 added GoodDay-like task execution surfaces: action board, hierarchy, task detail, workload, time tracking, updates and request intake.
 - v9.2.0 added provider dispatch ledger, webhook intake ledger, task mutation pilot, dead-letter ledger, task object model and activity stream.
-- v9.3.0 hardens the real Taskuri workspace UX with drawer flow, saved view policies, keyboard commands, bulk operations preview and notification queue. It also cleans old wording that could imply a separate non-production surface.
+- v9.3.0 added workspace UX hardening: saved view policies, keyboard commands, bulk operations preview, drawer flow and notification queue.
+- v9.4.0 adds timeline/Gantt-ready dependencies, calendar capacity sync, drawer mutation queue, approval workflow builder, task templates and policy contracts.
 
 ## Canonical navigation rule
 
@@ -15,11 +16,11 @@ Taskuri remains the single canonical Work OS entry from the main dashboard. `/wo
 
 ## Next major build
 
-v9.4.0 — Timeline/Gantt Dependency Editor, Calendar Capacity Sync & Real Task Drawer Mutation Queue
+v9.5.0 — Live Inline Persistence Adapter, Command Palette Actions & Gantt Interaction Hardening
 
 Scope:
-1. Add dependency editor and timeline/Gantt-ready task relations inside Taskuri.
-2. Add calendar capacity sync view tied to workload and due dates.
-3. Connect task drawer staged updates to a mutation queue with audit/rollback envelope.
-4. Expand saved view policies into persistent policy contracts.
-5. Keep global production writes disabled until all gates pass.
+1. Connect drawer mutation queue to a persistence adapter behind explicit environment gates.
+2. Add command palette actions for assign, status, due date, dependency and watcher changes.
+3. Harden Gantt/timeline interaction contracts with conflict detection and rollback preview.
+4. Add notification routing for approval workflow decisions and policy contract changes.
+5. Keep global production writes disabled until manager, database, provider and rollback gates pass.
