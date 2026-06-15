@@ -1,46 +1,46 @@
-# NEXT BUILD PLAN — after v8.8.0
+# NEXT BUILD PLAN — SERVELECT WORK OS
 
-Current version: v8.8.0 — Pixel-Diff CI Gates, Real Provider Secret Adapter & Live Inbound Webhook Drill
-
-## Done in v8.8.0
-- Continued after validated v8.7.1 route completion hotfix.
-- Added a larger major build, not a one-route increment.
-- Added Taskuri visual evidence center, provider secret adapter, inbound webhook drill and dead-letter recovery routes.
-- Added Work OS/Admin equivalents for pixel-diff, webhook and recovery control planes.
-- Added v8.8 API family for pixel diff baseline, provider secret metadata, signed webhook drill, dead-letter recovery, replay queue, visual evidence and release readiness.
-- Added additive Prisma migration for pixel-diff baselines, provider secret binding metadata, inbound webhook drills and dead-letter recovery metadata.
-- Added functional and screenshot audit scripts with safe report paths and valid report.join("\\n").
-
-## Scores after v8.8.0
-- GoodDay visual similarity: 89%
-- GoodDay functional parity: 98%
-- Local real functionality: 97%
-- Backend/API parity: 98%
-- Production readiness: 98%
-- QA confidence: 97% after local QA + Vercel smoke
-- Screenshot audit coverage: 100% after clean capture
-
-## Missing
-- Real provider delivery workers with live credentials are still gated.
-- Pixel-diff is prepared but not yet enforced in GitHub Actions as a blocking CI job.
-- Webhook signature drill is modeled; live inbound provider callbacks need real secrets and environment bindings.
-- Global writes remain disabled.
-- Mobile token registry is not production-bound.
-
-## Recommended next build
+## Current version
 v8.9.0 — Real Provider Delivery Worker, GitHub Pixel-Diff CI & Signed Webhook Intake
 
-## Scope
-1. Add GitHub Actions pixel-diff CI gate for Taskuri/Admin/Work OS critical screenshots.
-2. Add provider delivery worker adapter with dry-run/live split.
-3. Add signed inbound webhook intake route with real signature validation using env-bound secrets.
-4. Add replay from dead-letter queue into scoped mutation queue.
-5. Add manager approval evidence panel in Taskuri.
-6. Keep global writes disabled.
+## What v8.9.0 completed
+- Added provider delivery worker surfaces across Taskuri/Admin/Work OS.
+- Added signed webhook intake proof and replay recovery controls.
+- Added GitHub pixel-diff CI scaffold and route coverage gates.
+- Added manager approval evidence panels for provider/replay events.
+- Added additive Prisma migration scaffold.
+- Added functional and screenshot audit scripts.
 
-## Do not do
-- Do not store secrets in repo.
-- Do not enable global writes.
+## Current scores
+| Category | Score |
+|---|---:|
+| GoodDay visual/UX similarity | 90% |
+| GoodDay functional parity | 98% |
+| Local real functionality | 98% |
+| Backend/API parity | 98% |
+| Production readiness | 98% |
+| QA confidence | 98% after local/deploy QA |
+| Screenshot audit coverage | 100% target |
+
+## Remaining critical gaps
+- Live provider credentials are still ENV-gated and not production-enabled by default.
+- Pixel-diff CI needs stable preview deployment and baseline artifact retention.
+- Signed inbound webhook intake needs real provider payload tests.
+- Global production writes remain disabled.
+- Database-backed provider dispatch worker must be confirmed against a configured production database.
+
+## Next recommended build
+v9.0.0 — Production Pilot Cutover Console, Live Provider Dispatch & Signed Webhook Intake Hardening
+
+## Scope for v9.0.0
+1. Production pilot cutover console with explicit enable/disable gates.
+2. Provider dispatch worker with ENV credential readiness and dead-letter recovery proof.
+3. Signed webhook intake with replay protection and idempotency testing.
+4. GitHub/Vercel pixel-diff CI artifacts and route baselines.
+5. Manager approval workflow for pilot writes and provider replays.
+6. Keep global writes off unless all gates pass.
+
+## Do not do next
 - Do not add unrelated modules.
-- Do not redesign from zero.
-- Do not move away from Taskuri / GoodDay parity.
+- Do not create a demo page outside real Taskuri/Admin/Work OS routes.
+- Do not claim 100% while provider live secrets and production DB writes remain gated.

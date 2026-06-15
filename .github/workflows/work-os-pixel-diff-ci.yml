@@ -1,0 +1,38 @@
+name: Work OS Pixel Diff CI
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  work-os-pixel-diff:
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ secrets.SERVELECT_WORK_OS_PREVIEW_URL }}
+      VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install
+        run: pnpm install --frozen-lockfile
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Build
+        run: pnpm build
+      - name: Pixel-diff screenshot audit
+        run: node scripts/audit-v890-screenshots.mjs
+      - name: Upload screenshot evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: work-os-v890-screenshots
+          path: audit-results/v890-screenshots

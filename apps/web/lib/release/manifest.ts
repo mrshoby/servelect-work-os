@@ -58,5 +58,6 @@ export const v850EnterpriseDepartmentSuiteRelease = {
 };
 
 
-// v8.8.0 — Pixel-Diff CI Gates, Real Provider Secret Adapter & Live Inbound Webhook Drill
+// v8.9.0 — Pixel-Diff CI Gates, Real Provider Secret Adapter & Live Inbound Webhook Drill
+
 
