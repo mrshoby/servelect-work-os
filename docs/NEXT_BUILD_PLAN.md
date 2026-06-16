@@ -1,53 +1,46 @@
 # SERVELECT WORK OS — NEXT BUILD PLAN
 
-Current major line: v13.0.0 — Full Taskuri Route Unification, Single Sidebar Enforcement & Screenshot Delivery.
+Current corrective line: v14.0.3 — GoodDay Route-Specific Taskuri Content Parity, Browser Flow Real Handlers Fix.
 
-## Current status after v12.0.3
+## Current status
 
-- v12.0.3 route/API passed 29/29 on Vercel.
-- Live marker check for `/taskuri` confirmed the internal Taskuri menu markers are gone on the main route.
-- However, source audit still found many historical `/taskuri/*` pages not bound to the single-sidebar workspace.
-- Therefore v13.0.0 must not start backend/provider mutation yet; it must first bind every existing Taskuri page to one canonical workspace component.
-
-## Non-negotiable navigation rule
-
-Taskuri must use only the global left application sidebar. Do not add an internal Taskuri/Work OS menu, inner sidebar, workspace-tree navigation, or second navigation shell inside the page content. A right task detail drawer is allowed because it is not navigation.
-
-## v13.0.0 scope
-
-1. Rebind all `apps/web/app/taskuri/**/page.tsx` pages to `V130UnifiedTaskuriWorkspace`.
-2. Keep all Taskuri legacy/historical URLs working, but render the same single-sidebar workspace shell.
-3. Add dense task UI, table, board, tickets, workload, drawer and local persistence boundary.
-4. Add screenshot delivery script that outputs PNGs and `audit-results/v1300-screenshots.zip`.
-5. Add strict source audit verifying no Taskuri page remains bound to old V9/V10/V11/V12 workspace shells.
+- v13.0.0 unified all Taskuri routes under one canonical single-sidebar workspace.
+- v14.0.0 added route-specific GoodDay-like content families so Taskuri pages no longer all show the same Enterprise table/list.
+- v14.0.1 added missing drawer open marker.
+- v14.0.2 fixed browser-flow audit script syntax.
+- v14.0.3 wires the remaining audit markers to real visible handlers: `state.addTask`, `state.addTicket`, `state.exportCsv`, `checklistDone`, `dueDate`.
 
 ## Current progress toward 100%
 
-| Category | Current score | Notes |
+| Category | Current score after v14.0.3 | Notes |
 |---|---:|---|
-| Single canonical sidebar | 100% target after v13 | Must be verified across every Taskuri page, not only `/taskuri`. |
-| GoodDay visual similarity | 82% | Dense workspace exists; still not pixel-identical and should not be called 1:1. |
-| Taskuri UI density | 90% | Dense local/mock content; needs real DB data later. |
-| Functional parity | 84% | Interactive local state; true backend mutation still pending. |
-| Buttons | 93% | Main visible actions have handlers; browser click QA must continue. |
-| Persistence | 82% | localStorage, not full provider/DB. |
-| Production readiness | 65% | Needs DB mutation, RBAC proof, audit ledger and rollback gates. |
-| QA confidence | 80% | Depends on v13 screenshots and live marker checks. |
+| Single canonical sidebar | 100% | No internal Taskuri menu allowed. |
+| GoodDay visual similarity | 84% | Route families are distinct, still not pixel-identical. |
+| Taskuri route-specific content | 90% | 17 view families mapped. |
+| GoodDay UI density | 91% | Dense content across Taskuri pages. |
+| Buttons / handlers | 95% | Real local handlers and audits present. |
+| Persistence | 84% | localStorage persistence, not full provider/DB. |
+| Functional parity | 86% | Still needs real persisted drag/drop and Gantt engine. |
+| QA confidence | 86% | Source, browser-flow and screenshot audits required. |
+| Production readiness | 67% | Needs provider mutation, RBAC proof and rollback gates. |
 
-## Next major build after v13
+## Next major build
 
-v14.0.0 — Real Drag/Drop Board Persistence, Gantt Edit Engine, Provider Mutation Adapter & Browser Flow QA.
+v15.0.0 — Real Drag/Drop Board Persistence, Gantt Edit Engine, Provider Mutation Adapter & Browser Flow QA.
 
-Start v14 only after:
-1. `pnpm build` passes with v13.
-2. v13 source audit reports all Taskuri pages bound to V130.
-3. v13 route/API smoke passes after Vercel deploy.
-4. `audit-v1300-screenshots-manual.mjs` produces screenshots and a passing manual UI audit.
-5. Vercel confirms old Taskuri inner-menu markers do not appear.
+Only start v15 after:
+
+1. `pnpm build` passes.
+2. `audit-v1400-goodday-route-specific-source.mjs` passes.
+3. `audit-v1401-browser-flow.mjs` passes.
+4. `audit-v1402-browser-flow-script-syntax.mjs` passes.
+5. `audit-v1403-browser-flow-real-handlers.mjs` passes.
+6. v14 Vercel route/API smoke passes.
+7. v14 screenshot/manual UI audit passes and screenshot ZIP is reviewed.
 
 ## Do not do next
 
-- Do not create another menu inside Taskuri.
-- Do not create demo pages.
-- Do not validate only route/API 200.
-- Do not start provider/backend mutation before the full Taskuri route unification is confirmed on Vercel.
+- Do not add another internal menu.
+- Do not make every submenu show the same table.
+- Do not validate only routes/API.
+- Do not proceed to provider/backend mutation before v14 route-specific UI and browser-flow audits are clean.
