@@ -1,26 +1,34 @@
 # SERVELECT WORK OS — NEXT BUILD PLAN
 
-Current technical line: v10.0.3 — Table/API Build Fix.
+Current technical line: v11.0.1 — Next.js 15 Route Context Build Fix for Major Taskuri Workspace Redesign.
 
 ## Current status
 
-- v10.0.0 attempted a major GoodDay UI/content/function parity correction.
-- v10.0.0 manual UI density audit remained unacceptable and must not be called final.
-- v10.0.1/v10.0.2 focused on route/API completion, but `/taskuri/table` still failed build because it imported a missing component.
-- v10.0.3 fixes the build by making `/taskuri/table` redirect to the existing `/taskuri/tabel` page and ensuring the v100 API endpoints exist.
+- v10.0.3 stabilized Taskuri route/API smoke at 27 / 27.
+- v11.0.0 introduced the major Taskuri workspace redesign but failed local `pnpm build` because the dynamic API route `[section]` used a synchronous params type that is not compatible with Next.js 15 generated route context.
+- v11.0.1 fixes that build blocker only.
+- Source and interactive source audits passed for v11.0.0, but route/API and screenshot/manual UI audits were invalid because the failed build prevented the new UI from reaching Vercel.
 
-## Rule
+## Canonical navigation rule
 
-Do not continue adding provider/status pages. Do not call route/API PASS a design pass. Do not claim GoodDay parity unless the manual UI density audit and browser-flow QA pass.
+Taskuri remains the single canonical Work OS entry. `/work-os/*` remains compatibility routing only and must not introduce a second visible shell.
 
-## Next major build
+## Quality rule
 
-v11.0.0 — Major GoodDay Taskuri Workspace Redesign, Browser Flow QA & Shared State Hardening.
+Do not accept a build based only on HTTP 200 or screenshot existence. Manual UI density and browser interaction flow remain mandatory.
 
-Required scope:
-1. Replace the remaining simple Taskuri pages with dense, route-specific Work OS views.
-2. Implement real browser-flow tests for task creation, drawer edits, board movement, table bulk actions, ticket workflow, saved views, workload recalculation, and refresh persistence.
-3. Add real drag/drop or equivalent persisted board movement.
-4. Add real Gantt/date editing and workload recalculation.
-5. Keep global production writes disabled until explicit backend/rollback gates pass.
-6. Manual UI density audit must fail pages that are only screenshots or simple cards.
+## Required next verification
+
+1. Run `pnpm typecheck`.
+2. Run `pnpm build`.
+3. Run `node scripts/audit-v1101-source.mjs`.
+4. Commit and push v11.0.1.
+5. Wait for Vercel deployment.
+6. Run `scripts/work-os-v1101-functional-test.ps1` against Vercel.
+7. Rerun v11 screenshot/manual UI density audit.
+
+## Next major build after v11 is technically deployed
+
+v12.0.0 — Real Drag/Drop Board Persistence, Gantt Edit Engine, Provider Mutation Adapter & Browser Flow QA.
+
+Do not start v12 until v11.0.1 builds and the v11 UI is visible on Vercel.
