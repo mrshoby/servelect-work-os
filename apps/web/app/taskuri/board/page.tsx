@@ -1,7 +1,9 @@
-import { V98GoodDayTaskuriParityWorkspace } from "@/components/tasks/V98GoodDayTaskuriParityWorkspace";
+import V110GoodDayTaskuriEnterpriseWorkspace from "@/components/tasks/V110GoodDayTaskuriEnterpriseWorkspace";
 
-export const metadata = { title: "Taskuri Dense Kanban Board | SERVELECT EMP" };
+export const metadata = {
+  title: "Taskuri Board | SERVELECT WORK OS v11.0.0",
+};
 
 export default function Page() {
-  return <V98GoodDayTaskuriParityWorkspace mode="board" />;
+  return <V110GoodDayTaskuriEnterpriseWorkspace route="/taskuri/board" />;
 }

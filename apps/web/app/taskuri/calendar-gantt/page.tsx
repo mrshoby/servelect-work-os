@@ -1,7 +1,9 @@
-import { V98GoodDayTaskuriParityWorkspace } from "@/components/tasks/V98GoodDayTaskuriParityWorkspace";
+import V110GoodDayTaskuriEnterpriseWorkspace from "@/components/tasks/V110GoodDayTaskuriEnterpriseWorkspace";
 
-export const metadata = { title: "Taskuri Calendar Gantt Planning | SERVELECT EMP" };
+export const metadata = {
+  title: "Taskuri Calendar Gantt | SERVELECT WORK OS v11.0.0",
+};
 
 export default function Page() {
-  return <V98GoodDayTaskuriParityWorkspace mode="calendar-gantt" />;
+  return <V110GoodDayTaskuriEnterpriseWorkspace route="/taskuri/calendar-gantt" />;
 }

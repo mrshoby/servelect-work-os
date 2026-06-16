@@ -1,9 +1,9 @@
-import { redirect } from "next/navigation";
+import V110GoodDayTaskuriEnterpriseWorkspace from "@/components/tasks/V110GoodDayTaskuriEnterpriseWorkspace";
 
 export const metadata = {
-  title: "Taskuri Table | SERVELECT WORK OS v10.0.3",
+  title: "Taskuri Table | SERVELECT WORK OS v11.0.0",
 };
 
-export default function TaskuriTableCompatibilityPage() {
-  redirect("/taskuri/tabel");
+export default function Page() {
+  return <V110GoodDayTaskuriEnterpriseWorkspace route="/taskuri/table" />;
 }

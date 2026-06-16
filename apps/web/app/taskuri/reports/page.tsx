@@ -1,5 +1,9 @@
-import { V79PrimaryWritePilotClient } from "@/components/work-os/V79PrimaryWritePilotClient";
+import V110GoodDayTaskuriEnterpriseWorkspace from "@/components/tasks/V110GoodDayTaskuriEnterpriseWorkspace";
+
+export const metadata = {
+  title: "Taskuri Reports | SERVELECT WORK OS v11.0.0",
+};
 
 export default function Page() {
-  return <V79PrimaryWritePilotClient view="reports" />;
+  return <V110GoodDayTaskuriEnterpriseWorkspace route="/taskuri/reports" />;
 }
