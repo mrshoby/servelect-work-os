@@ -1,9 +1,9 @@
-import V110GoodDayTaskuriEnterpriseWorkspace from "@/components/tasks/V110GoodDayTaskuriEnterpriseWorkspace";
+import V120SingleSidebarTaskuriWorkspace from "@/components/tasks/V120SingleSidebarTaskuriWorkspace";
 
 export const metadata = {
-  title: "Taskuri Reports | SERVELECT WORK OS v11.0.0",
+  title: "Taskuri Reports | SERVELECT WORK OS v12.0.3",
 };
 
 export default function Page() {
-  return <V110GoodDayTaskuriEnterpriseWorkspace route="/taskuri/reports" />;
+  return <V120SingleSidebarTaskuriWorkspace route="/taskuri/reports" />;
 }

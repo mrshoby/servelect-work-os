@@ -1,47 +1,16 @@
 import { NextResponse } from "next/server";
 
-const payload = {
+const responsePayload = {
   ok: true,
-  version: "12.0.2",
-  build: "Single Canonical Sidebar Taskuri",
+  version: "12.0.3",
+  build: "Single Canonical Sidebar Taskuri Route Binding Fix",
   canonicalNavigation: "GLOBAL_LEFT_SIDEBAR_ONLY",
   internalTaskuriMenuRemoved: true,
   noInternalSidebar: true,
-  message:
-    "Taskuri must use only the global left sidebar. Internal Taskuri workspace menu is removed.",
-  routes: [
-    "/taskuri",
-    "/taskuri/overview",
-    "/taskuri/my-work",
-    "/taskuri/inbox",
-    "/taskuri/tickets",
-    "/taskuri/tickets-notificari",
-    "/taskuri/board",
-    "/taskuri/tabel",
-    "/taskuri/table",
-    "/taskuri/calendar",
-    "/taskuri/calendar-gantt",
-    "/taskuri/workload",
-    "/taskuri/workload-aprobari",
-  ],
-  prohibitedMarkers: [
-    "Work OS · Taskuri",
-    "Workspace hierarchy",
-    "Canonical Work",
-    "SERVELECT EMP",
-    "hidden w-72",
-    "xl:flex",
-  ],
-  scores: {
-    singleSidebarCompliance: 100,
-    goodDayUiDensity: 88,
-    taskuriContentDensity: 93,
-    functionalParity: 81,
-    productionReadiness: 63,
-    qaConfidence: 76,
-  },
+  marker: "data-v120-single-canonical-sidebar",
+  message: "Taskuri uses only the global left sidebar. Internal workspace menu has been removed from Taskuri pages.",
 };
 
 export async function GET() {
-  return NextResponse.json(payload);
+  return NextResponse.json(responsePayload);
 }
