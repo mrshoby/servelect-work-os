@@ -1,30 +1,29 @@
 # SERVELECT WORK OS — NEXT BUILD PLAN
 
-Current validated line: v9.7.1 — Visual Density Taskuri Workspace Correction.
+Current corrective line: v9.8.0 — GoodDay UI Content Density and Functional Parity Correction.
 
 ## Current status
 
-- v9.0.4 removed the legacy internal Work OS sidebar and kept Taskuri as the single canonical entry.
-- v9.1.0 added GoodDay-like task execution surfaces.
-- v9.2.0 added provider dispatch ledger, webhook intake ledger, task mutation pilot, dead-letter ledger, task object model and activity stream.
-- v9.3.0 added workspace UX hardening.
-- v9.4.0 added timeline/Gantt dependencies, calendar capacity sync, drawer mutation queue, approval workflows, templates and policy contracts.
-- v9.5.0 added collaboration hub, checklists, files/evidence ledger, SLA escalation, workload forecast, decision register and request bridge.
-- v9.6.0 added live inline persistence adapter, command palette actions, Gantt conflict review, notification routing, saved view persistence and manager gate inbox.
-- v9.7.0 added portfolio WorkGraph/reporting routes but was visually too simple.
-- v9.7.1 corrects the v9.7 surface with a denser Taskuri workspace: workspace tree, view tabs, command toolbar, board/table, timeline lane, reporting panel, task drawer and saved layouts.
+- v9.7.0 passed route/API/source/screenshot checks but user live review confirmed the UI still looked too simple and not close enough to a mature Work OS.
+- v9.8.0 must correct direction: dense Taskuri workspace, realistic content, interactive drawer/table/board/tickets/workload and local persistence.
+- Route/API 200 is no longer sufficient as a design acceptance criterion.
 
 ## Canonical navigation rule
 
-Taskuri remains the single canonical Work OS entry from the main dashboard. `/work-os/*` remains compatibility/execution routing only, not a second visible app shell. Do not reintroduce legacy labels, a parallel internal Work OS sidebar, demo wording, or a separate non-production surface.
+Taskuri remains the single canonical Work OS entry from the main dashboard. `/work-os/*` remains compatibility routing only and must not introduce a second visible shell.
 
-## Next major build
+## Quality rule
 
-v9.8.0 — Advanced Task Detail Interactions, Persisted Layout Preferences & Exportable Reporting Packs
+Do not call a page GoodDay-like if it only has simple cards. A page must include dense data, shared state, interactive actions, local/mock/API persistence, filters, drawer/table/board/workload/tickets logic and manual UI audit.
+
+## Next major build after v9.8.0
+
+v9.9.0 — True Drag/Drop Board, Real Gantt Interaction & Backend Mutation Adapter Pilot
 
 Planned scope:
-1. Deeper task detail drawer interactions: comments, subtasks, checklist gates, attachments and approval actions in the drawer.
-2. Persisted layout preferences per role/team/department behind safe adapters.
-3. Exportable reporting packs for SLA, workload, evidence and executive summary.
-4. Denser board/table/timeline interactions with real filters, row grouping and swimlanes.
-5. Screenshot and source audit must verify Taskuri remains the single canonical navigation surface and the UI is dense enough for a real workspace.
+1. Real drag/drop Kanban with persisted column movement.
+2. Real Gantt dependency editing and timeline resizing.
+3. Server-backed mutation adapter pilot for selected fields behind explicit gates.
+4. File/evidence preview panel and upload adapter boundary.
+5. Role/RBAC enforcement proof for Manager/Technician/Viewer.
+6. Keep global production writes disabled until all rollback/provider/database gates pass.

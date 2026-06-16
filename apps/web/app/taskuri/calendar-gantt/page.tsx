@@ -1,5 +1,7 @@
-import { V79PrimaryWritePilotClient } from "@/components/work-os/V79PrimaryWritePilotClient";
+import { V98GoodDayTaskuriParityWorkspace } from "@/components/tasks/V98GoodDayTaskuriParityWorkspace";
+
+export const metadata = { title: "Taskuri Calendar Gantt Planning | SERVELECT EMP" };
 
 export default function Page() {
-  return <V79PrimaryWritePilotClient view="calendarGantt" />;
+  return <V98GoodDayTaskuriParityWorkspace mode="calendar-gantt" />;
 }
