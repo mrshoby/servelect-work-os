@@ -1,7 +1,9 @@
-import { V90ProductionPilotCommandSuite } from "@/components/work-os/V90ProductionPilotCommandSuite";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri Command Center v9.0 | SERVELECT WORK OS" };
+export const metadata = {
+  title: "command center v90 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V90ProductionPilotCommandSuite mode="taskuri-command" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/command-center-v90" />;
 }

@@ -1,11 +1,9 @@
-import { V89ProviderDeliveryCiWebhookSuite } from "@/components/work-os/V89ProviderDeliveryCiWebhookSuite";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
+
+export const metadata = {
+  title: "replay recovery control | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return (
-    <V89ProviderDeliveryCiWebhookSuite
-      title="Replay Recovery Control"
-      mode="taskuri-replay-recovery"
-      badge="Taskuri · Replay recovery"
-    />
-  );
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/replay-recovery-control" />;
 }

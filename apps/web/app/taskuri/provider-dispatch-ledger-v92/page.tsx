@@ -1,9 +1,9 @@
-import { V92ProviderLedgerTaskMutationPilot } from "@/components/tasks/V92ProviderLedgerTaskMutationPilot";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
 export const metadata = {
-  title: "Taskuri Dispatch Ledger v9.2 | SERVELECT EMP"
+  title: "provider dispatch ledger v92 | SERVELECT WORK OS v13.0.0",
 };
 
 export default function Page() {
-  return <V92ProviderLedgerTaskMutationPilot surface="dispatch-ledger" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/provider-dispatch-ledger-v92" />;
 }

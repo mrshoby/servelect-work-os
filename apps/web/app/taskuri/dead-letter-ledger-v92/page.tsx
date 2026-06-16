@@ -1,9 +1,9 @@
-import { V92ProviderLedgerTaskMutationPilot } from "@/components/tasks/V92ProviderLedgerTaskMutationPilot";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
 export const metadata = {
-  title: "Taskuri Dead Letter v9.2 | SERVELECT EMP"
+  title: "dead letter ledger v92 | SERVELECT WORK OS v13.0.0",
 };
 
 export default function Page() {
-  return <V92ProviderLedgerTaskMutationPilot surface="dead-letter" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/dead-letter-ledger-v92" />;
 }

@@ -1,7 +1,9 @@
-import V96LiveInlinePersistenceCommandGantt from "@/components/tasks/V96LiveInlinePersistenceCommandGantt";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.6 · Task Change Audit" };
+export const metadata = {
+  title: "task change audit v96 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V96LiveInlinePersistenceCommandGantt surface="task-change-audit" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/task-change-audit-v96" />;
 }

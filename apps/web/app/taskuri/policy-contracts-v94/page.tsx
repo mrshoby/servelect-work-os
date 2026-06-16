@@ -1,7 +1,9 @@
-import { V94GoodDayTimelineDrawerMutation } from "@/components/tasks/V94GoodDayTimelineDrawerMutation";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.4 Policy Contracts V94 | SERVELECT EMP" };
+export const metadata = {
+  title: "policy contracts v94 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V94GoodDayTimelineDrawerMutation mode="policies" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/policy-contracts-v94" />;
 }

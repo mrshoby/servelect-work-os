@@ -1,9 +1,9 @@
-import V120SingleSidebarTaskuriWorkspace from "@/components/tasks/V120SingleSidebarTaskuriWorkspace";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
 export const metadata = {
-  title: "Taskuri Proiecte Active | SERVELECT WORK OS v12.0.3",
+  title: "proiecte active | SERVELECT WORK OS v13.0.0",
 };
 
 export default function Page() {
-  return <V120SingleSidebarTaskuriWorkspace route="/taskuri/proiecte-active" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/proiecte-active" />;
 }

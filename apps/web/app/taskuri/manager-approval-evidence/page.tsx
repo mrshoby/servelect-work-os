@@ -1,11 +1,9 @@
-import { V89ProviderDeliveryCiWebhookSuite } from "@/components/work-os/V89ProviderDeliveryCiWebhookSuite";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
+
+export const metadata = {
+  title: "manager approval evidence | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return (
-    <V89ProviderDeliveryCiWebhookSuite
-      title="Manager Approval Evidence Panel"
-      mode="taskuri-manager-evidence"
-      badge="Taskuri · Action Required"
-    />
-  );
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/manager-approval-evidence" />;
 }

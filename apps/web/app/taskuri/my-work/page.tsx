@@ -1,9 +1,9 @@
-import V120SingleSidebarTaskuriWorkspace from "@/components/tasks/V120SingleSidebarTaskuriWorkspace";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
 export const metadata = {
-  title: "Taskuri My Work | SERVELECT WORK OS v12.0.3",
+  title: "my work | SERVELECT WORK OS v13.0.0",
 };
 
 export default function Page() {
-  return <V120SingleSidebarTaskuriWorkspace route="/taskuri/my-work" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/my-work" />;
 }

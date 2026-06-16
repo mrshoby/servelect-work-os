@@ -1,5 +1,9 @@
-import { V87RouteCompletionPage } from "../../../components/work-os/V87RouteCompletionPages";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
+
+export const metadata = {
+  title: "live provider command center | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V87RouteCompletionPage routeKey="taskuriLiveProviderCommandCenter" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/live-provider-command-center" />;
 }

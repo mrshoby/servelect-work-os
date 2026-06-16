@@ -1,7 +1,9 @@
-import V95GoodDayCollaborationSla from "@/components/tasks/V95GoodDayCollaborationSla";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.5 · Request Portal Bridge V95" };
+export const metadata = {
+  title: "request portal bridge v95 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V95GoodDayCollaborationSla surface="requests" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/request-portal-bridge-v95" />;
 }

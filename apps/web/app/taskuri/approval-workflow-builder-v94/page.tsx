@@ -1,7 +1,9 @@
-import { V94GoodDayTimelineDrawerMutation } from "@/components/tasks/V94GoodDayTimelineDrawerMutation";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.4 Approval Workflow Builder V94 | SERVELECT EMP" };
+export const metadata = {
+  title: "approval workflow builder v94 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V94GoodDayTimelineDrawerMutation mode="approvals" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/approval-workflow-builder-v94" />;
 }

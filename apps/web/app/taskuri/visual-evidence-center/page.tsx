@@ -1,7 +1,9 @@
-import { V88PixelDiffProviderWebhookSuite } from "@/components/work-os/V88PixelDiffProviderWebhookSuite";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri Visual Evidence Center | SERVELECT WORK OS" };
+export const metadata = {
+  title: "visual evidence center | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V88PixelDiffProviderWebhookSuite mode="visual-evidence" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/visual-evidence-center" />;
 }

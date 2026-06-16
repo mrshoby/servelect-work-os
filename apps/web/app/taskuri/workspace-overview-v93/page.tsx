@@ -1,7 +1,9 @@
-import { V93GoodDayWorkspaceUxHardening } from "@/components/tasks/V93GoodDayWorkspaceUxHardening";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.3 Workspace Overview V93 | SERVELECT EMP" };
+export const metadata = {
+  title: "workspace overview v93 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V93GoodDayWorkspaceUxHardening mode="overview" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/workspace-overview-v93" />;
 }

@@ -1,7 +1,9 @@
-import { V88PixelDiffProviderWebhookSuite } from "@/components/work-os/V88PixelDiffProviderWebhookSuite";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri Inbound Webhook Drill | SERVELECT WORK OS" };
+export const metadata = {
+  title: "inbound webhook drill | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V88PixelDiffProviderWebhookSuite mode="webhook-drill" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/inbound-webhook-drill" />;
 }

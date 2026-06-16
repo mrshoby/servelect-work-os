@@ -1,8 +1,9 @@
-import { V91GoodDayTaskExecutionParity } from "@/components/tasks/V91GoodDayTaskExecutionParity";
-import { getV91Workspace } from "@/lib/enterprise/work-os-v91-goodday-task-execution";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri Workload Planner v9.1 | SERVELECT EMP" };
+export const metadata = {
+  title: "workload planner v91 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V91GoodDayTaskExecutionParity initial={getV91Workspace()} view="workload" surface="taskuri" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/workload-planner-v91" />;
 }

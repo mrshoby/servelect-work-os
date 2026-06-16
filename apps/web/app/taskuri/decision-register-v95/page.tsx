@@ -1,7 +1,9 @@
-import V95GoodDayCollaborationSla from "@/components/tasks/V95GoodDayCollaborationSla";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.5 · Decision Register V95" };
+export const metadata = {
+  title: "decision register v95 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V95GoodDayCollaborationSla surface="decisions" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/decision-register-v95" />;
 }

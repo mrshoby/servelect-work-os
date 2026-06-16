@@ -1,7 +1,9 @@
-import V96LiveInlinePersistenceCommandGantt from "@/components/tasks/V96LiveInlinePersistenceCommandGantt";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.6 · Inline Persistence V96" };
+export const metadata = {
+  title: "inline persistence v96 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V96LiveInlinePersistenceCommandGantt surface="inline-persistence" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/inline-persistence-v96" />;
 }

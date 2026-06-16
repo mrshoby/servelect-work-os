@@ -1,7 +1,9 @@
-import { V94GoodDayTimelineDrawerMutation } from "@/components/tasks/V94GoodDayTimelineDrawerMutation";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.4 Drawer Mutation Queue V94 | SERVELECT EMP" };
+export const metadata = {
+  title: "drawer mutation queue v94 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V94GoodDayTimelineDrawerMutation mode="mutation-queue" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/drawer-mutation-queue-v94" />;
 }

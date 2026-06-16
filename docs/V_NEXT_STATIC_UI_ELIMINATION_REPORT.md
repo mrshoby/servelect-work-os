@@ -1,21 +1,12 @@
-# Non-interactive placeholder elimination report — v11.0.0
+# V_NEXT_STATIC_UI_ELIMINATION_REPORT
 
-Each visible component is classified as one of the accepted categories:
+All visible v13 Taskuri controls are classified as MOCK_INTERACTIVE or REAL_LOCAL_PERSISTENT. Backend/provider write mode remains gated.
 
-- REAL_LOCAL_PERSISTENT: localStorage-backed shared state.
-- MOCK_INTERACTIVE: action changes UI state and produces visible feedback.
-- REAL_BACKEND_READY: API route exists as a gated boundary, production writes disabled.
-
-| Component | Classification | Evidence |
+| Component | Classification | Notes |
 |---|---|---|
-| Task drawer | REAL_LOCAL_PERSISTENT | field edits update tasks and persist |
-| Board | REAL_LOCAL_PERSISTENT | drag/drop and status actions update table/calendar |
-| Table | REAL_LOCAL_PERSISTENT | checkbox, bulk status/priority/assign |
-| Inbox | REAL_LOCAL_PERSISTENT | read/unread/archive/convert |
-| Tickets | REAL_LOCAL_PERSISTENT | create/escalate/convert |
-| Calendar/Gantt | REAL_LOCAL_PERSISTENT | date edits update task due date |
-| Workload | REAL_LOCAL_PERSISTENT | estimates/tracked time recalculate allocation |
-| Automations | MOCK_INTERACTIVE | create/test actions produce persisted notification |
-| API boundary | REAL_BACKEND_READY | v110 route exposes scores/routes/buttons/flows/readiness |
-
-No accepted page should rely on a visible inert placeholder as the primary experience.
+| Enterprise table/list | REAL_LOCAL_PERSISTENT | localStorage state update for status, assignee, due date, estimate |
+| Board cards | MOCK_INTERACTIVE | clicking opens drawer and status can be changed |
+| Task detail drawer | REAL_LOCAL_PERSISTENT | field edits update local store |
+| Ticket queue | MOCK_INTERACTIVE | create/convert logic exists in component |
+| CSV export | MOCK_INTERACTIVE | browser download generated from current filtered rows |
+| Search/filter | REAL_LOCAL_PERSISTENT | query modifies visible rows |

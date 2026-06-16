@@ -1,9 +1,9 @@
-import { V92ProviderLedgerTaskMutationPilot } from "@/components/tasks/V92ProviderLedgerTaskMutationPilot";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
 export const metadata = {
-  title: "Taskuri Activity Stream v9.2 | SERVELECT EMP"
+  title: "activity stream v92 | SERVELECT WORK OS v13.0.0",
 };
 
 export default function Page() {
-  return <V92ProviderLedgerTaskMutationPilot surface="activity-stream" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/activity-stream-v92" />;
 }

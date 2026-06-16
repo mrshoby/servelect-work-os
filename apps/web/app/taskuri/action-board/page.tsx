@@ -1,8 +1,9 @@
-import { V91GoodDayTaskExecutionParity } from "@/components/tasks/V91GoodDayTaskExecutionParity";
-import { getV91Workspace } from "@/lib/enterprise/work-os-v91-goodday-task-execution";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri Action Required Board | SERVELECT EMP" };
+export const metadata = {
+  title: "action board | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V91GoodDayTaskExecutionParity initial={getV91Workspace()} view="action-board" surface="taskuri" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/action-board" />;
 }

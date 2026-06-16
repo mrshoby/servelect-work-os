@@ -1,7 +1,9 @@
-import { V97PortfolioWorkgraphReportingCommand } from "@/components/tasks/V97PortfolioWorkgraphReportingCommand";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri Resource Portfolio V97 v9.7 | SERVELECT EMP" };
+export const metadata = {
+  title: "resource portfolio v97 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V97PortfolioWorkgraphReportingCommand mode="resource-portfolio" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/resource-portfolio-v97" />;
 }

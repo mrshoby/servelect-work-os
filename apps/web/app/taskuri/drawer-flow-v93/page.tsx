@@ -1,7 +1,9 @@
-import { V93GoodDayWorkspaceUxHardening } from "@/components/tasks/V93GoodDayWorkspaceUxHardening";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.3 Drawer Flow V93 | SERVELECT EMP" };
+export const metadata = {
+  title: "drawer flow v93 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V93GoodDayWorkspaceUxHardening mode="drawer" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/drawer-flow-v93" />;
 }

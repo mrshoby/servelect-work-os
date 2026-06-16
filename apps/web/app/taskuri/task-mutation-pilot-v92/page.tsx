@@ -1,9 +1,9 @@
-import { V92ProviderLedgerTaskMutationPilot } from "@/components/tasks/V92ProviderLedgerTaskMutationPilot";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
 export const metadata = {
-  title: "Taskuri Mutation Pilot v9.2 | SERVELECT EMP"
+  title: "task mutation pilot v92 | SERVELECT WORK OS v13.0.0",
 };
 
 export default function Page() {
-  return <V92ProviderLedgerTaskMutationPilot surface="mutation-pilot" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/task-mutation-pilot-v92" />;
 }

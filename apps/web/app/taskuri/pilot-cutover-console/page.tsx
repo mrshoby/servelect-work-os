@@ -1,7 +1,9 @@
-import { V90ProductionPilotCommandSuite } from "@/components/work-os/V90ProductionPilotCommandSuite";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri Pilot Cutover Console | SERVELECT WORK OS" };
+export const metadata = {
+  title: "pilot cutover console | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V90ProductionPilotCommandSuite mode="taskuri-pilot" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/pilot-cutover-console" />;
 }

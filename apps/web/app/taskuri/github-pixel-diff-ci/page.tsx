@@ -1,11 +1,9 @@
-import { V89ProviderDeliveryCiWebhookSuite } from "@/components/work-os/V89ProviderDeliveryCiWebhookSuite";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
+
+export const metadata = {
+  title: "github pixel diff ci | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return (
-    <V89ProviderDeliveryCiWebhookSuite
-      title="GitHub Pixel-Diff CI Gates"
-      mode="taskuri-pixel-diff"
-      badge="Taskuri · Visual QA"
-    />
-  );
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/github-pixel-diff-ci" />;
 }

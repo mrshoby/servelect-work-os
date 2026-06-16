@@ -1,7 +1,9 @@
-import { V94GoodDayTimelineDrawerMutation } from "@/components/tasks/V94GoodDayTimelineDrawerMutation";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri v9.4 Calendar Capacity V94 | SERVELECT EMP" };
+export const metadata = {
+  title: "calendar capacity v94 | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V94GoodDayTimelineDrawerMutation mode="calendar" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/calendar-capacity-v94" />;
 }

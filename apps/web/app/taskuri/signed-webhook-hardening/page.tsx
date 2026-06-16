@@ -1,7 +1,9 @@
-import { V90ProductionPilotCommandSuite } from "@/components/work-os/V90ProductionPilotCommandSuite";
+import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
 
-export const metadata = { title: "Taskuri Signed Webhook Hardening | SERVELECT WORK OS" };
+export const metadata = {
+  title: "signed webhook hardening | SERVELECT WORK OS v13.0.0",
+};
 
 export default function Page() {
-  return <V90ProductionPilotCommandSuite mode="taskuri-webhook" />;
+  return <V130UnifiedTaskuriWorkspace route="/taskuri/signed-webhook-hardening" />;
 }
