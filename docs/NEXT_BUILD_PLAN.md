@@ -1,34 +1,49 @@
 # SERVELECT WORK OS — NEXT BUILD PLAN
 
-Current technical line: v11.0.1 — Next.js 15 Route Context Build Fix for Major Taskuri Workspace Redesign.
+Current technical line: v12.0.1 — Single Canonical Sidebar Taskuri Route Export Build Fix.
 
 ## Current status
 
-- v10.0.3 stabilized Taskuri route/API smoke at 27 / 27.
-- v11.0.0 introduced the major Taskuri workspace redesign but failed local `pnpm build` because the dynamic API route `[section]` used a synchronous params type that is not compatible with Next.js 15 generated route context.
-- v11.0.1 fixes that build blocker only.
-- Source and interactive source audits passed for v11.0.0, but route/API and screenshot/manual UI audits were invalid because the failed build prevented the new UI from reaching Vercel.
+- v10.0.3 stabilized Taskuri/v100 routes and API at 27/27.
+- v11.0.1 stabilized v110 routes and API at 29/29.
+- v12.0.0 targeted the real UI problem: duplicate internal Taskuri/Work OS menu. It must keep only the global left sidebar.
+- v12.0.0 source audits passed, but `pnpm build` failed because the v120 route file exported an arbitrary `payload` helper.
+- v12.0.1 fixes the Next.js route export contract by keeping helper functions internal and exporting only `GET`.
 
-## Canonical navigation rule
+## Non-negotiable navigation rule
 
-Taskuri remains the single canonical Work OS entry. `/work-os/*` remains compatibility routing only and must not introduce a second visible shell.
+Taskuri must use only the global left application sidebar. Do not add an internal Taskuri/Work OS menu, inner sidebar, workspace tree nav, or second navigation shell inside the page content. A right drawer for task details is allowed because it is not navigation.
 
-## Quality rule
+## Quality status
 
-Do not accept a build based only on HTTP 200 or screenshot existence. Manual UI density and browser interaction flow remain mandatory.
+- Route/API 200 is not enough.
+- Screenshot captured is not enough.
+- UI acceptance requires visual review that no duplicate menu exists and Taskuri remains dense, functional and usable.
 
-## Required next verification
+## Current progress toward 100%
 
-1. Run `pnpm typecheck`.
-2. Run `pnpm build`.
-3. Run `node scripts/audit-v1101-source.mjs`.
-4. Commit and push v11.0.1.
-5. Wait for Vercel deployment.
-6. Run `scripts/work-os-v1101-functional-test.ps1` against Vercel.
-7. Rerun v11 screenshot/manual UI density audit.
+| Category | Current score | Notes |
+|---|---:|---|
+| Single canonical sidebar | 90% | Code aims to remove second menu; Vercel visual confirmation still required. |
+| GoodDay visual similarity | 78% | Better density, still needs final visual polish. |
+| Taskuri UI density | 88% | Dense panels and data exist; must be confirmed live. |
+| Functional parity | 81% | Local interactive logic exists; true backend mutation still pending. |
+| Buttons | 91% | Interactive local/mock handlers exist; browser click QA still needed. |
+| Persistence | 80% | localStorage, not full DB/provider. |
+| Production readiness | 63% | Needs DB mutation, RBAC proof, audit ledger and rollback gates. |
 
-## Next major build after v11 is technically deployed
+## Next major build
 
-v12.0.0 — Real Drag/Drop Board Persistence, Gantt Edit Engine, Provider Mutation Adapter & Browser Flow QA.
+v13.0.0 — Real Drag/Drop Board Persistence, Gantt Edit Engine, Provider Mutation Adapter & Browser Flow QA.
 
-Do not start v12 until v11.0.1 builds and the v11 UI is visible on Vercel.
+Only start v13 after:
+1. `pnpm build` passes with v12.0.1.
+2. v12 route/API smoke passes after Vercel deploy.
+3. visual check confirms the duplicate inner Taskuri/Work OS menu is gone.
+
+## Do not do next
+
+- Do not create another menu inside Taskuri.
+- Do not create demo pages.
+- Do not validate only API routes.
+- Do not continue to provider/backend mutation before single-sidebar UI is confirmed on Vercel.
