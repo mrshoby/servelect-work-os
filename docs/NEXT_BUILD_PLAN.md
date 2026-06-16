@@ -1,49 +1,26 @@
 # SERVELECT WORK OS — NEXT BUILD PLAN
 
-Current technical line: v10.0.2 — Route/API + Table Import Build Fix.
+Current technical line: v10.0.3 — Table/API Build Fix.
 
 ## Current status
 
 - v10.0.0 attempted a major GoodDay UI/content/function parity correction.
-- The source audit was cleaned and passed.
-- The route/API test initially failed 19 / 27 because `/taskuri/table` and the v100 parity API endpoints were missing on live Vercel.
-- v10.0.1 added the missing route/API endpoints but introduced a build-breaking import in `/taskuri/table` by importing a named component as default.
-- v10.0.2 fixes the import and keeps the v100 route/API completion.
-- Manual UI density audit remains failed: v10.0.0 screenshot/manual audit reported 0 / 19 pages as GoodDay-density acceptable.
+- v10.0.0 manual UI density audit remained unacceptable and must not be called final.
+- v10.0.1/v10.0.2 focused on route/API completion, but `/taskuri/table` still failed build because it imported a missing component.
+- v10.0.3 fixes the build by making `/taskuri/table` redirect to the existing `/taskuri/tabel` page and ensuring the v100 API endpoints exist.
 
-## Canonical navigation rule
+## Rule
 
-Taskuri remains the single canonical Work OS entry from the main dashboard. `/work-os/*` remains compatibility routing only and must not introduce a second visible shell.
-
-## Quality rule
-
-Do not call a page GoodDay-like if it only has simple cards. Route/API PASS and screenshot captured are necessary but not sufficient.
-
-## Required verification after v10.0.2
-
-1. `pnpm typecheck`
-2. `pnpm build`
-3. `node scripts/audit-v1002-source.mjs`
-4. `./scripts/work-os-v1002-functional-test.ps1 -BaseUrl "https://servelect-work-os-web.vercel.app"` after deploy
-
-Expected technical target: `27 / 27` route/API smoke.
+Do not continue adding provider/status pages. Do not call route/API PASS a design pass. Do not claim GoodDay parity unless the manual UI density audit and browser-flow QA pass.
 
 ## Next major build
 
 v11.0.0 — Major GoodDay Taskuri Workspace Redesign, Browser Flow QA & Shared State Hardening.
 
-Planned scope:
-1. Replace simple Taskuri pages with page-specific dense layouts, not one generic template everywhere.
-2. Add a browser-tested interactive task drawer with edit/save/comment/checklist/dependency/timer flows.
-3. Add true shared state across My Work, Board, Table, Calendar/Gantt and Workload.
-4. Add drag/drop board or an equivalent tested move control that persists and updates counts.
-5. Add real tickets/request center workflows with escalation, conversion to task and notifications.
-6. Add browser flow QA that tests the user flows, not only HTTP 200.
-7. Re-run manual screenshot UI density acceptance and fail pages that still look simple.
-
-## What must not be done
-
-- Do not create a parallel Work OS shell.
-- Do not create a separate non-production surface.
-- Do not rely only on route/API smoke.
-- Do not mark UI parity as passed until the manual UI audit passes.
+Required scope:
+1. Replace the remaining simple Taskuri pages with dense, route-specific Work OS views.
+2. Implement real browser-flow tests for task creation, drawer edits, board movement, table bulk actions, ticket workflow, saved views, workload recalculation, and refresh persistence.
+3. Add real drag/drop or equivalent persisted board movement.
+4. Add real Gantt/date editing and workload recalculation.
+5. Keep global production writes disabled until explicit backend/rollback gates pass.
+6. Manual UI density audit must fail pages that are only screenshots or simple cards.
