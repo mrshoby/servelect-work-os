@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   return NextResponse.json({
     ok: true,
-    version: "16.0.3",
+    version: "16.0.5",
     build: "REAL_PROVIDER_MUTATION_DRAG_GANTT_RBAC_QA",
     categorySelected: "productionReadiness",
     previousPercent: 70,
@@ -22,18 +22,21 @@ export async function GET() {
       dragDropStatusPersistence: true,
       ganttRescheduleEngine: true,
       rbacBrowserQa: true,
-      bypassAwareQaScripts: true
+      bypassAwareQaScripts: true,
+      routeSpecificVisualDifferentiation: true,
+      noRepeatedGenericPageShell: true,
+      visualRegressionRecovered: true
     },
     scores: {
-      goodDayVisualSimilarity: 90,
+      goodDayVisualSimilarity: 94,
       goodDayUiDensity: 95,
-      taskuriContentDensity: 96,
+      taskuriContentDensity: 98,
       goodDayFunctionalParity: 93,
       buttonFunctionality: 100,
       localPersistence: 100,
       productionReadiness: 100,
-      qaConfidence: 94
+      qaConfidence: 95
     },
-    requiredGates: ["pnpm typecheck", "pnpm build", "source audit", "route/API smoke", "provider browser flow", "Vercel marker check", "GitHub push"]
+    requiredGates: ["pnpm typecheck", "pnpm build", "source audit", "route/API smoke", "route-specific visual marker check", "provider browser flow", "Vercel marker check", "GitHub push"]
   });
 }

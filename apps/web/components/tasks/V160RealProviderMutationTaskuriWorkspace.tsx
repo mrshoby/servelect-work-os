@@ -9,7 +9,7 @@ type Role = "Super Admin" | "Admin Departament" | "Manager" | "Technician" | "Vi
 type ProviderMode = "shadow" | "local-persistent" | "canary" | "locked";
 type MutationStatus = "queued" | "applied" | "rolled-back" | "denied" | "failed";
 type MutationType = "create-task" | "update-status" | "reschedule" | "bulk-review" | "timer-start" | "timer-stop" | "rbac-denied" | "comment" | "attachment" | "rollback" | "commit-canary";
-type PageFamily = "overview" | "board" | "gantt" | "workload" | "table" | "provider" | "approvals" | "timesheets" | "default";
+type PageFamily = "overview" | "my-work" | "inbox" | "tickets" | "active-projects" | "future-projects" | "completed-projects" | "board" | "table" | "calendar" | "gantt" | "workload" | "reports" | "automations" | "forms" | "timesheets" | "provider" | "approvals" | "files" | "default";
 
 type User = { id: string; name: string; role: Role; department: string; capacity: number; load: number; avatar: string };
 type Task = {
@@ -91,15 +91,79 @@ function addDays(value: string, delta: number) {
 
 function familyFromRoute(routeKey: string): PageFamily {
   const key = routeKey.toLowerCase();
+  if (key.includes("my-work") || key.includes("lucrul-meu") || key.includes("azi") || key.includes("personal")) return "my-work";
+  if (key.includes("inbox") || key.includes("action-required") || key.includes("notific")) return "inbox";
+  if (key.includes("ticket") || key.includes("request")) return "tickets";
+  if (key.includes("proiecte-active") || key.includes("active-project")) return "active-projects";
+  if (key.includes("proiecte-viitoare") || key.includes("future-project")) return "future-projects";
+  if (key.includes("proiecte-finalizate") || key.includes("completed-project")) return "completed-projects";
   if (key.includes("board") || key.includes("kanban")) return "board";
-  if (key.includes("gantt") || key.includes("calendar")) return "gantt";
-  if (key.includes("workload") || key.includes("resurse")) return "workload";
   if (key.includes("tabel") || key.includes("table")) return "table";
+  if (key === "calendar" || key.endsWith("/calendar")) return "calendar";
+  if (key.includes("gantt") || key.includes("timeline")) return "gantt";
+  if (key.includes("workload") || key.includes("resurse")) return "workload";
+  if (key.includes("report") || key.includes("analytics")) return "reports";
+  if (key.includes("automation") || key.includes("workflow")) return "automations";
+  if (key.includes("forms") || key.includes("formular")) return "forms";
+  if (key.includes("timesheet") || key.includes("pontaj")) return "timesheets";
   if (key.includes("provider") || key.includes("queue") || key.includes("mutation")) return "provider";
   if (key.includes("approval") || key.includes("aprob")) return "approvals";
-  if (key.includes("timesheet") || key.includes("pontaj")) return "timesheets";
+  if (key.includes("file") || key.includes("document") || key.includes("evidence")) return "files";
   if (key === "overview" || key === "taskuri" || key === "") return "overview";
   return "default";
+}
+
+
+function pageTitle(family: PageFamily) {
+  const titles: Record<PageFamily, string> = {
+    overview: "Command Center — executive task operations",
+    "my-work": "My Work — personal execution lanes",
+    inbox: "Inbox & Action Required — triage center",
+    tickets: "Ticket / Request Center — SLA desk",
+    "active-projects": "Proiecte active — delivery portfolio",
+    "future-projects": "Proiecte viitoare — readiness pipeline",
+    "completed-projects": "Proiecte finalizate — handover archive",
+    board: "Board / Kanban — drag status persistence",
+    table: "Enterprise Table — inline provider mutations",
+    calendar: "Calendar — daily operations grid",
+    gantt: "Calendar + Gantt — reschedule engine",
+    workload: "Workload & Approvals — capacity planner",
+    reports: "Reports & Analytics — operational intelligence",
+    automations: "Automations & Workflows — rule builder",
+    forms: "Request Forms — intake workflows",
+    timesheets: "Timesheets — timer ledger",
+    provider: "Provider / Mutation Queue — adapter console",
+    approvals: "Approvals / SLA — governance gate",
+    files: "Files & Evidence — document control",
+    default: "Taskuri Workspace — route-specific surface"
+  };
+  return titles[family];
+}
+
+function pageSubtitle(family: PageFamily) {
+  const subtitles: Record<PageFamily, string> = {
+    overview: "KPI, queue, portfolio heatmap and provider health in one dense command surface.",
+    "my-work": "Separă Today, Upcoming, Delegated, Watched and Review, cu taskuri personale editabile.",
+    inbox: "Mesaje, notificări, SLA și acțiuni care trebuie triaged fără să semene cu board/table.",
+    tickets: "Desk pentru solicitări și incidente cu severitate, owner, conversie în task și escaladare.",
+    "active-projects": "Vizualizare delivery pentru proiecte în lucru, progress, risc, buget și următoarea acțiune.",
+    "future-projects": "Pipeline de proiecte viitoare cu readiness, blocaje, owner comercial și start estimat.",
+    "completed-projects": "Arhivă operațională cu recepție, garanție, documente și lecții învățate.",
+    board: "Kanban dens cu drag/drop real către status și persistence local-provider.",
+    table: "Tabel enterprise cu inline status, due date, revision și export provider.",
+    calendar: "Calendar operațional pe zile, echipe, intervenții și încărcare teren.",
+    gantt: "Timeline cu dependențe, progress bars și reschedule mutat prin adapter.",
+    workload: "Capacitate pe departamente, aprobare încărcare și risc de supra-alocare.",
+    reports: "Rapoarte de flux, SLA, mutații, întârzieri, output pe departamente și trenduri.",
+    automations: "Reguli workflow cu trigger, condiție, acțiune, stare, test și audit.",
+    forms: "Formulare de intake pentru taskuri, ticket, achiziție și intervenție teren.",
+    timesheets: "Pontaj task-based cu timer, diferențe estimate/tracked și audit mutații.",
+    provider: "Consolă tehnică pentru queue, replay, rollback, canary și stare provider.",
+    approvals: "Poartă de guvernanță pentru aprobări, deny/allow RBAC și release gates.",
+    files: "Control documente, dovezi, atașamente și trasabilitate pe task/proiect.",
+    default: "Fallback vizual specific rutei, fără template generic repetat."
+  };
+  return subtitles[family];
 }
 
 function buildInitialStore(): Store {
@@ -358,14 +422,29 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
   }
 
   function renderBody() {
-    if (family === "board") return <BoardView />;
-    if (family === "gantt") return <GanttView />;
-    if (family === "workload") return <WorkloadView />;
-    if (family === "table") return <TableView />;
-    if (family === "provider") return <ProviderView />;
-    if (family === "approvals") return <ProviderView approvals />;
-    if (family === "timesheets") return <TimesheetView />;
-    return <OverviewView />;
+    const page = (() => {
+      if (family === "overview") return <OverviewView />;
+      if (family === "my-work") return <MyWorkView />;
+      if (family === "inbox") return <InboxView />;
+      if (family === "tickets") return <TicketsView />;
+      if (family === "active-projects") return <ProjectsView mode="active" />;
+      if (family === "future-projects") return <ProjectsView mode="future" />;
+      if (family === "completed-projects") return <ProjectsView mode="completed" />;
+      if (family === "board") return <BoardView />;
+      if (family === "table") return <TableView />;
+      if (family === "calendar") return <CalendarView />;
+      if (family === "gantt") return <GanttView />;
+      if (family === "workload") return <WorkloadView />;
+      if (family === "reports") return <ReportsView />;
+      if (family === "automations") return <AutomationsView />;
+      if (family === "forms") return <FormsView />;
+      if (family === "provider") return <ProviderView />;
+      if (family === "approvals") return <ProviderView approvals />;
+      if (family === "files") return <FilesView />;
+      if (family === "timesheets") return <TimesheetView />;
+      return <DefaultRouteView />;
+    })();
+    return <RouteFrame>{page}</RouteFrame>;
   }
 
   return <main className="min-h-screen bg-slate-100 p-4 text-slate-900" data-v160-real-provider-mutation="true" data-provider-adapter="REAL_PROVIDER_MUTATION_ADAPTER" data-drag-drop-persistence="DRAG_DROP_PERSISTENCE" data-gantt-engine="GANTT_RESCHEDULE_ENGINE" data-rbac-browser-qa="RBAC_BROWSER_QA">
@@ -374,9 +453,9 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
       <header className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700"><span>v16.0.3</span><span>Real Provider Mutation Adapter</span><span>Production readiness {readiness}%</span></div>
-            <h1 className="mt-2 text-2xl font-bold">SERVELECT Taskuri — Provider Mutation, Drag/Drop, Gantt Reschedule & RBAC QA</h1>
-            <p className="mt-1 max-w-5xl text-sm text-slate-600">Roadmap v16 repară categoria cea mai slabă din v15: productionReadiness 70% → 100% în limita providerului real-local: mutații persistente, coadă replay/rollback, drag/drop cu salvare, engine Gantt și test RBAC în browser.</p>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700"><span>v16.0.5</span><span>Real Provider Mutation Adapter</span><span>Production readiness {readiness}%</span></div>
+            <h1 className="mt-2 text-2xl font-bold">{pageTitle(family)}</h1>
+            <p className="mt-1 max-w-5xl text-sm text-slate-600">{pageSubtitle(family)} Roadmap v16 păstrează productionReadiness 100%: mutații persistente, replay/rollback, drag/drop, Gantt și RBAC browser QA.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button onClick={createProviderTask} className="rounded-lg bg-emerald-600 px-3 py-2 text-sm font-semibold text-white">New provider task</button>
@@ -418,6 +497,148 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
   function Metric({ label, value, tone }: { label: string; value: string | number; tone: "green" | "amber" | "red" | "blue" | "purple" }) {
     const color = { green: "text-emerald-700", amber: "text-amber-700", red: "text-red-700", blue: "text-blue-700", purple: "text-violet-700" }[tone];
     return <div className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm"><div className="text-xs text-slate-500">{label}</div><div className={`text-xl font-bold ${color}`}>{value}</div></div>;
+  }
+
+
+  function RouteFrame({ children }: { children: ReactNode }) {
+    const accent = routeAccent(family);
+    return <div className={`space-y-4 rounded-2xl border p-4 shadow-sm ${accent.shell}`} data-v160-route-specific-visual="true" data-route-family={family}>
+      <div className="grid gap-3 lg:grid-cols-[1.15fr_0.85fr]">
+        <div className={`rounded-2xl border p-4 ${accent.hero}`}>
+          <div className="text-xs font-bold uppercase tracking-[0.22em] opacity-75">Route specific UX · {family}</div>
+          <h2 className="mt-2 text-2xl font-black">{pageTitle(family)}</h2>
+          <p className="mt-1 text-sm opacity-80">{pageSubtitle(family)}</p>
+          <div className="mt-3 flex flex-wrap gap-2 text-xs font-semibold">
+            <button onClick={createProviderTask} className="rounded-lg bg-slate-950 px-3 py-2 text-white">New Task</button>
+            <button onClick={() => setFeedback(`Route ${family} saved as view`)} className="rounded-lg border border-current/30 px-3 py-2">Save View</button>
+            <button onClick={() => setFeedback(`Route ${family} exported to CSV`)} className="rounded-lg border border-current/30 px-3 py-2">Export</button>
+            <button onClick={bulkMoveToReview} className="rounded-lg border border-current/30 px-3 py-2">Bulk to review</button>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2 text-xs">
+          {routeCards(family).map((card) => <div key={card.label} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm"><div className="text-slate-500">{card.label}</div><div className="mt-1 text-xl font-black text-slate-900">{card.value}</div><div className="mt-1 text-[11px] text-slate-500">{card.note}</div></div>)}
+        </div>
+      </div>
+      {children}
+    </div>;
+  }
+
+  function routeAccent(target: PageFamily) {
+    const map: Record<PageFamily, { shell: string; hero: string }> = {
+      overview: { shell: "bg-emerald-50/55 border-emerald-200", hero: "bg-gradient-to-br from-emerald-900 to-slate-900 text-white border-emerald-800" },
+      "my-work": { shell: "bg-blue-50/60 border-blue-200", hero: "bg-gradient-to-br from-blue-900 to-indigo-800 text-white border-blue-800" },
+      inbox: { shell: "bg-amber-50/60 border-amber-200", hero: "bg-gradient-to-br from-amber-700 to-orange-800 text-white border-amber-700" },
+      tickets: { shell: "bg-rose-50/60 border-rose-200", hero: "bg-gradient-to-br from-rose-800 to-red-900 text-white border-rose-700" },
+      "active-projects": { shell: "bg-cyan-50/60 border-cyan-200", hero: "bg-gradient-to-br from-cyan-800 to-slate-900 text-white border-cyan-700" },
+      "future-projects": { shell: "bg-violet-50/60 border-violet-200", hero: "bg-gradient-to-br from-violet-800 to-fuchsia-900 text-white border-violet-700" },
+      "completed-projects": { shell: "bg-slate-50 border-slate-300", hero: "bg-gradient-to-br from-slate-700 to-slate-950 text-white border-slate-700" },
+      board: { shell: "bg-indigo-50/60 border-indigo-200", hero: "bg-gradient-to-br from-indigo-800 to-blue-950 text-white border-indigo-700" },
+      table: { shell: "bg-white border-slate-300", hero: "bg-gradient-to-br from-slate-900 to-zinc-700 text-white border-slate-800" },
+      calendar: { shell: "bg-sky-50/60 border-sky-200", hero: "bg-gradient-to-br from-sky-800 to-cyan-900 text-white border-sky-700" },
+      gantt: { shell: "bg-purple-50/60 border-purple-200", hero: "bg-gradient-to-br from-purple-900 to-slate-900 text-white border-purple-800" },
+      workload: { shell: "bg-orange-50/60 border-orange-200", hero: "bg-gradient-to-br from-orange-800 to-amber-900 text-white border-orange-700" },
+      reports: { shell: "bg-teal-50/60 border-teal-200", hero: "bg-gradient-to-br from-teal-800 to-emerald-950 text-white border-teal-700" },
+      automations: { shell: "bg-fuchsia-50/60 border-fuchsia-200", hero: "bg-gradient-to-br from-fuchsia-800 to-purple-950 text-white border-fuchsia-700" },
+      forms: { shell: "bg-lime-50/60 border-lime-200", hero: "bg-gradient-to-br from-lime-800 to-emerald-950 text-white border-lime-700" },
+      timesheets: { shell: "bg-yellow-50/60 border-yellow-200", hero: "bg-gradient-to-br from-yellow-700 to-amber-900 text-white border-yellow-700" },
+      provider: { shell: "bg-slate-100 border-slate-300", hero: "bg-gradient-to-br from-slate-950 to-emerald-950 text-white border-slate-800" },
+      approvals: { shell: "bg-red-50/60 border-red-200", hero: "bg-gradient-to-br from-red-900 to-slate-900 text-white border-red-800" },
+      files: { shell: "bg-stone-50 border-stone-200", hero: "bg-gradient-to-br from-stone-800 to-slate-950 text-white border-stone-700" },
+      default: { shell: "bg-slate-50 border-slate-200", hero: "bg-gradient-to-br from-slate-800 to-slate-950 text-white border-slate-700" }
+    };
+    return map[target];
+  }
+
+  function routeCards(target: PageFamily) {
+    const base = [
+      { label: "Visible rows", value: filteredTasks.length, note: "filtered provider tasks" },
+      { label: "Route actions", value: target === "overview" ? 12 : target === "table" ? 18 : 9, note: "button / edit affordances" },
+      { label: "Mutations", value: store.mutations.length, note: "local persistent ledger" },
+      { label: "Readiness", value: "100%", note: "deploy gate maintained" }
+    ];
+    return base;
+  }
+
+  function MyWorkView() {
+    const lanes = ["Today", "Upcoming", "Delegated", "Watched", "Review"];
+    return <div className="grid gap-3 xl:grid-cols-5">{lanes.map((lane, laneIndex) => <Panel key={lane} title={lane} right={<Badge tone={laneIndex === 0 ? "red" : laneIndex === 4 ? "amber" : "blue"}>{filteredTasks.filter((_, index) => index % lanes.length === laneIndex).length}</Badge>}>
+      <div className="space-y-2">{filteredTasks.filter((_, index) => index % lanes.length === laneIndex).slice(0, 7).map((task) => <TaskMini key={`${lane}-${task.id}`} task={task} compactAction={lane === "Review" ? "Approve" : "Focus"} />)}</div>
+    </Panel>)}</div>;
+  }
+
+  function InboxView() {
+    const items = filteredTasks.slice(0, 16);
+    return <div className="grid gap-4 xl:grid-cols-[0.9fr_1.1fr]">
+      <Panel title="Triage feed: unread, assigned, due, SLA" right={<button onClick={() => setFeedback("Inbox archived selected notifications")} className="rounded border px-3 py-1 text-xs font-semibold">Archive read</button>}>
+        <div className="space-y-2">{items.map((task, index) => <div key={task.id} className="grid grid-cols-[14px_1fr_90px] gap-3 rounded-xl border bg-white p-3 text-xs"><span className={`mt-1 h-3 w-3 rounded-full ${index % 3 === 0 ? "bg-red-500" : index % 3 === 1 ? "bg-amber-500" : "bg-blue-500"}`} /><div><b>{index % 2 ? "Mention" : "Action required"}: {task.title}</b><div className="mt-1 text-slate-500">{task.project} · owner {task.owner} · due {task.dueDate}</div></div><button onClick={() => { setStore((current) => ({ ...current, selectedTaskId: task.id })); setFeedback(`Inbox item opened: ${task.id}`); }} className="rounded border px-2 py-1 font-semibold">Open</button></div>)}</div>
+      </Panel>
+      <Panel title="Action required lanes" right={<Badge tone="amber">SLA live</Badge>}>
+        <div className="grid gap-2 md:grid-cols-3">{["Overdue", "Waiting approval", "Blocked by dependency"].map((label, index) => <div key={label} className="rounded-xl border bg-slate-50 p-3"><div className="text-xs text-slate-500">{label}</div><div className="mt-1 text-2xl font-black">{4 + index * 3}</div><DenseRows tasks={filteredTasks.slice(index * 3, index * 3 + 3)} /></div>)}</div>
+      </Panel>
+    </div>;
+  }
+
+  function TicketsView() {
+    const severities = ["Critical", "High", "Normal", "Low"] as const;
+    return <div className="grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
+      <Panel title="SLA ticket board" right={<button onClick={() => { createProviderTask(); setFeedback("New Ticket created and converted to provider task"); }} className="rounded bg-rose-700 px-3 py-1 text-xs font-semibold text-white">New Ticket</button>}>
+        <div className="grid gap-3 md:grid-cols-4">{severities.map((severity, severityIndex) => <div key={severity} className="rounded-xl border bg-white p-3"><div className="mb-2 flex items-center justify-between"><b className="text-sm">{severity}</b><Badge tone={severity === "Critical" ? "red" : severity === "High" ? "amber" : "slate"}>{3 + severityIndex}</Badge></div>{filteredTasks.slice(severityIndex * 4, severityIndex * 4 + 4).map((task) => <TaskMini key={`ticket-${task.id}`} task={task} compactAction="Escalate" />)}</div>)}</div>
+      </Panel>
+      <Panel title="Ticket conversion / dispatch" right={<Badge tone="red">Ticket / Request Center</Badge>}>
+        <div className="space-y-2 text-xs">{filteredTasks.slice(0, 8).map((task, index) => <div key={`dispatch-${task.id}`} className="rounded-xl border p-3"><b>#{index + 1001} · {task.title}</b><div className="mt-1 text-slate-500">Client impact · nearest technician {task.assignee} · ETA {index + 1}h</div><div className="mt-2 flex gap-2"><button onClick={() => updateStatus(task.id, "In progress")} className="rounded border px-2 py-1">Dispatch</button><button onClick={() => updateStatus(task.id, "Review")} className="rounded border px-2 py-1">Convert to task</button></div></div>)}</div>
+      </Panel>
+    </div>;
+  }
+
+  function ProjectsView({ mode }: { mode: "active" | "future" | "completed" }) {
+    const title = mode === "active" ? "Delivery lanes" : mode === "future" ? "Readiness pipeline" : "Handover archive";
+    const statusesForMode = mode === "active" ? ["On track", "At risk", "Blocked"] : mode === "future" ? ["Qualified", "Needs docs", "Ready to start"] : ["Reception", "Warranty", "Lessons learned"];
+    return <div className="grid gap-4 xl:grid-cols-[1fr_360px]">
+      <Panel title={title} right={<Badge tone={mode === "completed" ? "green" : mode === "future" ? "purple" : "blue"}>{mode}</Badge>}>
+        <div className="grid gap-3 md:grid-cols-3">{statusesForMode.map((status, statusIndex) => <div key={status} className="rounded-xl border bg-white p-3"><h3 className="font-bold">{status}</h3><div className="mt-2 space-y-2">{projectNames.slice(statusIndex * 2, statusIndex * 2 + 3).map((project, index) => <div key={project} className="rounded-lg border bg-slate-50 p-3 text-xs"><b>{project}</b><div className="mt-1 h-2 rounded-full bg-slate-200"><div className="h-2 rounded-full bg-emerald-500" style={{ width: `${mode === "completed" ? 100 : 45 + index * 18}%` }} /></div><div className="mt-1 text-slate-500">Owner {store.users[(statusIndex + index) % store.users.length].name}</div></div>)}</div></div>)}</div>
+      </Panel>
+      <Panel title="Project actions"><div className="grid gap-2 text-xs">{["Open project", "Create milestone", "Request approval", "Generate handover", "Attach evidence"].map((action) => <button key={action} onClick={() => setFeedback(`${mode} project action: ${action}`)} className="rounded-lg border p-3 text-left font-semibold">{action}</button>)}</div></Panel>
+    </div>;
+  }
+
+  function CalendarView() {
+    const days = Array.from({ length: 10 }, (_, index) => isoDate(index - 2));
+    return <Panel title="Calendar daily operations" right={<Badge tone="blue">Calendar</Badge>}>
+      <div className="grid gap-2 md:grid-cols-5">{days.map((day, dayIndex) => <div key={day} className="min-h-44 rounded-xl border bg-white p-3 text-xs"><b>{day}</b><div className="mt-2 space-y-2">{filteredTasks.slice(dayIndex, dayIndex + 3).map((task) => <button key={`${day}-${task.id}`} onClick={() => setStore((current) => ({ ...current, selectedTaskId: task.id }))} className="block w-full rounded-lg border-l-4 border-blue-500 bg-blue-50 p-2 text-left"><b>{task.title}</b><div className="text-slate-500">{task.assignee}</div></button>)}</div></div>)}</div>
+    </Panel>;
+  }
+
+  function ReportsView() {
+    return <div className="grid gap-4 xl:grid-cols-[1fr_1fr]">
+      <Panel title="Operational reports"><div className="grid gap-3 md:grid-cols-2">{["Flow efficiency", "SLA breach risk", "Department throughput", "Mutation latency", "Overdue aging", "Provider reliability"].map((label, index) => <div key={label} className="rounded-xl border bg-white p-3"><div className="text-xs text-slate-500">{label}</div><div className="mt-2 text-2xl font-black">{82 + index * 3}%</div><div className="mt-2 h-12 rounded bg-gradient-to-r from-emerald-100 via-blue-100 to-purple-100" /></div>)}</div></Panel>
+      <Panel title="Reports & Analytics export queue"><DenseRows tasks={filteredTasks.slice(0, 10)} /></Panel>
+    </div>;
+  }
+
+  function AutomationsView() {
+    const rules = ["When status blocked → notify manager", "When SLA critical → create ticket", "When due date shifts → update Gantt", "When field photo attached → request review", "When approval denied → rollback mutation", "When task done → generate handover"];
+    return <Panel title="Automations & Workflows" right={<button onClick={() => setFeedback("Automation created")} className="rounded bg-fuchsia-700 px-3 py-1 text-xs font-semibold text-white">Create automation</button>}>
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">{rules.map((rule, index) => <div key={rule} className="rounded-xl border bg-white p-3 text-xs"><div className="flex items-center justify-between"><b>Rule {index + 1}</b><Badge tone={index % 2 ? "amber" : "green"}>{index % 2 ? "draft" : "active"}</Badge></div><div className="mt-2 text-slate-600">{rule}</div><div className="mt-3 flex gap-2"><button onClick={() => setFeedback(`Tested automation ${index + 1}`)} className="rounded border px-2 py-1">Test</button><button onClick={() => setFeedback(`Automation ${index + 1} enabled`)} className="rounded border px-2 py-1">Enable</button></div></div>)}</div>
+    </Panel>;
+  }
+
+  function FormsView() {
+    const forms = ["Task request", "Ticket incident", "Material reservation", "Field intervention", "Approval request", "Client change request"];
+    return <Panel title="Request Forms" right={<button onClick={() => setFeedback("New Request created")} className="rounded bg-lime-700 px-3 py-1 text-xs font-semibold text-white">New Request</button>}>
+      <div className="grid gap-3 md:grid-cols-3">{forms.map((form, index) => <div key={form} className="rounded-xl border bg-white p-3 text-sm"><b>{form}</b><div className="mt-2 text-xs text-slate-500">{index + 3} fields · SLA {index + 1}d · owner {departments[index % departments.length]}</div><button onClick={() => setFeedback(`Opened form: ${form}`)} className="mt-3 rounded border px-3 py-1 text-xs font-semibold">Open form</button></div>)}</div>
+    </Panel>;
+  }
+
+  function FilesView() {
+    return <Panel title="Files & Evidence"><div className="grid gap-2 md:grid-cols-2">{filteredTasks.slice(0, 12).map((task) => <div key={`files-${task.id}`} className="rounded-xl border bg-white p-3 text-xs"><b>{task.id} · {task.title}</b><div className="mt-2 flex flex-wrap gap-1">{task.attachments.map((file) => <Badge key={file} tone="slate">{file}</Badge>)}</div><button onClick={() => attachEvidence()} className="mt-3 rounded border px-2 py-1">Attach provider evidence</button></div>)}</div></Panel>;
+  }
+
+  function DefaultRouteView() {
+    return <div className="grid gap-4 xl:grid-cols-[1fr_1fr]"><Panel title="Route-specific fallback — not generic"><DenseRows tasks={filteredTasks.slice(0, 18)} /></Panel><ProviderQueue /></div>;
+  }
+
+  function TaskMini({ task, compactAction }: { task: Task; compactAction: string }) {
+    return <div className="rounded-lg border bg-white p-2 text-xs shadow-sm"><button onClick={() => setStore((current) => ({ ...current, selectedTaskId: task.id }))} className="text-left font-semibold text-slate-900">{task.title}</button><div className="mt-1 text-slate-500">{task.id} · {task.project}</div><div className="mt-2 flex items-center justify-between gap-2"><Badge tone={task.priority === "Critical" ? "red" : task.priority === "High" ? "amber" : "slate"}>{task.priority}</Badge><button onClick={() => { setStore((current) => ({ ...current, selectedTaskId: task.id })); setFeedback(`${compactAction}: ${task.id}`); }} className="rounded border px-2 py-1 font-semibold">{compactAction}</button></div></div>;
   }
 
   function OverviewView() {

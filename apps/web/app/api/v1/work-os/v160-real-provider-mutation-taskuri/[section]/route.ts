@@ -9,12 +9,13 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ se
     board: ["drag", "drop", "persisted-status", "mutation-ledger"],
     gantt: ["date-input", "plus-minus-day", "dependency-aware", "audit-ledger"],
     rbac: ["role-switch", "allow-deny", "denied-mutation", "browser-qa"],
-    readiness: ["70-to-100", "qa-gates", "production-checklist", "vercel-check"]
+    readiness: ["70-to-100", "qa-gates", "production-checklist", "vercel-check"],
+    visual: ["route-specific-hero", "distinct-accent-shell", "different-content-models", "no-generic-repeat"]
   };
 
   return NextResponse.json({
     ok: true,
-    version: "16.0.3",
+    version: "16.0.5",
     build: "REAL_PROVIDER_MUTATION_DRAG_GANTT_RBAC_QA",
     section,
     categorySelected: "productionReadiness",
