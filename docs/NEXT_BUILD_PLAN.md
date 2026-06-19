@@ -1,34 +1,45 @@
 # SERVELECT WORK OS — NEXT BUILD PLAN
 
-Current major line: v15.0.0 — GoodDay 1:1 Structural Taskuri Parity.
+Current major line: v16.0.0 — Real Provider Mutation Adapter, Drag/Drop Persistence, Gantt Reschedule Engine & RBAC Browser QA.
 
-## Current status
+## Current status after v16
 
-v13 proved route unification and single-sidebar behavior, but review showed too many Taskuri pages still looked like the same enterprise table/list template. v14 introduced route-family content but still did not reach real GoodDay-like visual/page differentiation.
+v15 became the first serious structural Taskuri UI density build and passed browser flow after Vercel bypass. The lowest remaining score was production readiness around provider persistence. v16 closes that category in the browser/provider boundary:
 
-v15 must be validated as the first serious structural UI density build:
+- Real-local provider mutation adapter.
+- Persistent mutation ledger in localStorage.
+- Replay queue.
+- Rollback ledger.
+- Canary commit action.
+- Drag/drop status persistence.
+- Gantt reschedule engine.
+- RBAC browser QA with denied mutation logging.
+- Bypass-aware Playwright audit for protected Vercel deployments.
 
-- 16 core Taskuri routes must look visibly different.
-- No duplicate inner menu.
-- No repeated generic table-only page.
-- All buttons must have handlers, state changes, persistence or feedback.
-- Screenshot/manual audit must judge density and function, not just screenshot existence.
+## Percent status
 
-## Next build after v15
+| Category | Percent |
+|---|---:|
+| Website/Web App shell | 96% |
+| Task & Project Core | 96% |
+| Backend/API | 88% |
+| Database/Provider Persistence | 100% |
+| Auth/RBAC | 94% |
+| Taskuri GoodDay Parity | 90% |
+| QA Confidence | 94% |
+| Mobile App | 55% |
+| IoT/Ops | 72% |
 
-v16.0.0 — Real Provider Mutation Adapter, Drag/Drop Persistence, Gantt Reschedule Engine & RBAC Browser QA.
+## Next build after v16
 
-Only start v16 after:
+v17.0.0 — External Adapter Cutover Rehearsal, PostgreSQL/Prisma Write Contracts, Mobile Field Continuity & IoT/Ops Route Parity.
 
-1. `pnpm build` passes.
-2. v15 source and browser-flow source audits pass.
-3. v15 route/API smoke passes on Vercel.
-4. v15 screenshot/manual audit confirms route-specific GoodDay-like density.
-5. v15 functional browser flow verifies real button behavior on localhost or Vercel.
+Choose the lowest category from the table above. Unless the user explicitly changes priority, the next lowest category is **Mobile App 55%**. v17 should repair that gap with mobile field continuity tied to Taskuri/provider mutations, technician task flow, offline queue, QR/photo evidence and sync conflict review.
 
 ## Do not do next
 
 - Do not add another Taskuri internal sidebar.
-- Do not claim 1:1 final unless manual screenshot review confirms it.
-- Do not proceed to provider/backend if pages still visually repeat the same template.
-- Do not accept button marker tests as proof of functionality without browser-flow QA.
+- Do not regress v15 route-specific Taskuri density.
+- Do not claim PostgreSQL production writes are live unless an actual external write adapter is configured and tested.
+- Do not run browser-flow QA against protected Vercel without bypass cookie or local localhost.
+- Do not use marker-only tests as proof of functionality.

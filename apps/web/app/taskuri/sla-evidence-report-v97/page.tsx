@@ -1,5 +1,5 @@
-import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
+import V160RealProviderMutationTaskuriWorkspace from "@/components/tasks/V160RealProviderMutationTaskuriWorkspace";
 
 export default function TaskuriPage() {
-  return <V150GoodDayStructuralTaskuriWorkspace routeKey="sla-evidence-report-v97" />;
+  return <V160RealProviderMutationTaskuriWorkspace routeKey="sla-evidence-report-v97" />;
 }

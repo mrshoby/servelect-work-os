@@ -1,5 +1,5 @@
-import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
+import V160RealProviderMutationTaskuriWorkspace from "@/components/tasks/V160RealProviderMutationTaskuriWorkspace";
 
 export default function TaskuriPage() {
-  return <V150GoodDayStructuralTaskuriWorkspace routeKey="signed-webhook-intake" />;
+  return <V160RealProviderMutationTaskuriWorkspace routeKey="signed-webhook-intake" />;
 }

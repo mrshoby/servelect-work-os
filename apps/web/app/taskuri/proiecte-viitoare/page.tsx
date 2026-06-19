@@ -1,5 +1,5 @@
-import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
+import V160RealProviderMutationTaskuriWorkspace from "@/components/tasks/V160RealProviderMutationTaskuriWorkspace";
 
 export default function TaskuriPage() {
-  return <V150GoodDayStructuralTaskuriWorkspace routeKey="proiecte-viitoare" />;
+  return <V160RealProviderMutationTaskuriWorkspace routeKey="proiecte-viitoare" />;
 }
