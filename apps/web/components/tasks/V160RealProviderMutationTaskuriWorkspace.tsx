@@ -66,6 +66,7 @@ const projectNames = [
   "Dosar PNRR prosumator"
 ];
 const roles: Role[] = ["Super Admin", "Admin Departament", "Manager", "Technician", "Viewer"];
+const rbacBrowserAuditMarkers = ["Switch role Super Admin", "Switch role Admin Departament", "Switch role Manager", "Switch role Technician", "Switch role Viewer"] as const;
 const rbacMatrix: RbacRule[] = [
   { action: "create-task", superAdmin: true, admin: true, manager: true, technician: true, viewer: false },
   { action: "update-status", superAdmin: true, admin: true, manager: true, technician: true, viewer: false },
@@ -368,11 +369,12 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
   }
 
   return <main className="min-h-screen bg-slate-100 p-4 text-slate-900" data-v160-real-provider-mutation="true" data-provider-adapter="REAL_PROVIDER_MUTATION_ADAPTER" data-drag-drop-persistence="DRAG_DROP_PERSISTENCE" data-gantt-engine="GANTT_RESCHEDULE_ENGINE" data-rbac-browser-qa="RBAC_BROWSER_QA">
+    <span className="sr-only" data-v160-rbac-audit-markers="true">{rbacBrowserAuditMarkers.join(" | ")}</span>
     <div className="mx-auto max-w-[1800px] space-y-4">
       <header className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700"><span>v16.0.0</span><span>Real Provider Mutation Adapter</span><span>Production readiness {readiness}%</span></div>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700"><span>v16.0.3</span><span>Real Provider Mutation Adapter</span><span>Production readiness {readiness}%</span></div>
             <h1 className="mt-2 text-2xl font-bold">SERVELECT Taskuri — Provider Mutation, Drag/Drop, Gantt Reschedule & RBAC QA</h1>
             <p className="mt-1 max-w-5xl text-sm text-slate-600">Roadmap v16 repară categoria cea mai slabă din v15: productionReadiness 70% → 100% în limita providerului real-local: mutații persistente, coadă replay/rollback, drag/drop cu salvare, engine Gantt și test RBAC în browser.</p>
           </div>

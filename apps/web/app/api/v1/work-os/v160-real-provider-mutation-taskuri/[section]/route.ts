@@ -14,7 +14,7 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ se
 
   return NextResponse.json({
     ok: true,
-    version: "16.0.0",
+    version: "16.0.3",
     build: "REAL_PROVIDER_MUTATION_DRAG_GANTT_RBAC_QA",
     section,
     categorySelected: "productionReadiness",

@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   return NextResponse.json({
     ok: true,
-    version: "16.0.0",
+    version: "16.0.3",
     build: "REAL_PROVIDER_MUTATION_DRAG_GANTT_RBAC_QA",
     categorySelected: "productionReadiness",
     previousPercent: 70,
