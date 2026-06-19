@@ -1,5 +1,5 @@
-import V160RealProviderMutationTaskuriWorkspace from "@/components/tasks/V160RealProviderMutationTaskuriWorkspace";
+import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
 
 export default function TaskuriPage() {
-  return <V160RealProviderMutationTaskuriWorkspace routeKey="decision-register-v95" />;
+  return <V150GoodDayStructuralTaskuriWorkspace routeKey="decision-register-v95" />;
 }

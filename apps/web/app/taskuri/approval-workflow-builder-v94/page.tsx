@@ -1,5 +1,5 @@
-import V160RealProviderMutationTaskuriWorkspace from "@/components/tasks/V160RealProviderMutationTaskuriWorkspace";
+import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
 
 export default function TaskuriPage() {
-  return <V160RealProviderMutationTaskuriWorkspace routeKey="approval-workflow-builder-v94" />;
+  return <V150GoodDayStructuralTaskuriWorkspace routeKey="approval-workflow-builder-v94" />;
 }
