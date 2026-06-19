@@ -1,45 +1,41 @@
-# SERVELECT WORK OS — NEXT BUILD PLAN
+# NEXT_BUILD_PLAN.md
 
-Current major line: v16.0.0 — Real Provider Mutation Adapter, Drag/Drop Persistence, Gantt Reschedule Engine & RBAC Browser QA.
+## Current safe UI baseline
 
-## Current status after v16
+`taskuri-ui-v15-goodday-baseline-restored` / `91c4036`.
 
-v15 became the first serious structural Taskuri UI density build and passed browser flow after Vercel bypass. The lowest remaining score was production readiness around provider persistence. v16 closes that category in the browser/provider boundary:
+Do not rebuild Taskuri UI on `V160RealProviderMutationTaskuriWorkspace`.
 
-- Real-local provider mutation adapter.
-- Persistent mutation ledger in localStorage.
-- Replay queue.
-- Rollback ledger.
-- Canary commit action.
-- Drag/drop status persistence.
-- Gantt reschedule engine.
-- RBAC browser QA with denied mutation logging.
-- Bypass-aware Playwright audit for protected Vercel deployments.
+## Current build
 
-## Percent status
+`v17.0.0 — GoodDay Functional Parity Layer on V15 UI Baseline`
 
-| Category | Percent |
-|---|---:|
-| Website/Web App shell | 96% |
-| Task & Project Core | 96% |
-| Backend/API | 88% |
-| Database/Provider Persistence | 100% |
-| Auth/RBAC | 94% |
-| Taskuri GoodDay Parity | 90% |
-| QA Confidence | 94% |
-| Mobile App | 55% |
-| IoT/Ops | 72% |
+Goal: keep v15 visual structure and add real connected functionality.
 
-## Next build after v16
+## Next major build recommendation
 
-v17.0.0 — External Adapter Cutover Rehearsal, PostgreSQL/Prisma Write Contracts, Mobile Field Continuity & IoT/Ops Route Parity.
+`v18.0.0 — Costuri, Achiziții & Bugetare Full Procurement Flow`
 
-Choose the lowest category from the table above. Unless the user explicitly changes priority, the next lowest category is **Mobile App 55%**. v17 should repair that gap with mobile field continuity tied to Taskuri/provider mutations, technician task flow, offline queue, QR/photo evidence and sync conflict review.
+Why: lowest categories after v17 are Costuri & Aprovizionare, Achiziții, Bugetare.
 
-## Do not do next
+Scope:
 
-- Do not add another Taskuri internal sidebar.
-- Do not regress v15 route-specific Taskuri density.
-- Do not claim PostgreSQL production writes are live unless an actual external write adapter is configured and tested.
-- Do not run browser-flow QA against protected Vercel without bypass cookie or local localhost.
-- Do not use marker-only tests as proof of functionality.
+1. Procurement store with supply requests, materials, RFQ, suppliers, offers, purchase orders, delivery terms, delays, invoices and warranty certificates.
+2. Real UI pages for `/costuri`, `/achizitii`, `/bugetare`, plus links from project/task drawer.
+3. Full flow audit:
+   - create supply request
+   - add materials
+   - convert to RFQ
+   - choose suppliers
+   - add offers
+   - compare price vs delivery term
+   - choose recommended offer
+   - generate PO
+   - set delivery date
+   - mark delay
+   - receive alert
+   - add invoice
+   - attach warranty certificate
+   - link to project
+4. Dead buttons zero tolerance for procurement module.
+5. Honest percentage scorecard, no false 100%.

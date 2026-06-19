@@ -1,5 +1,5 @@
-import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
+import V170GoodDayFunctionalParityWorkspace from "@/components/tasks/V170GoodDayFunctionalParityWorkspace";
 
 export default function TaskuriPage() {
-  return <V150GoodDayStructuralTaskuriWorkspace routeKey="calendar" />;
+  return <V170GoodDayFunctionalParityWorkspace routeKey="calendar" />;
 }
