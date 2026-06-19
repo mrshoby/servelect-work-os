@@ -8,7 +8,7 @@ type Priority = "Low" | "Normal" | "High" | "Critical";
 type Role = "Super Admin" | "Admin Departament" | "Manager" | "Technician" | "Viewer";
 type ProviderMode = "shadow" | "local-persistent" | "canary" | "locked";
 type MutationStatus = "queued" | "applied" | "rolled-back" | "denied" | "failed";
-type MutationType = "create-task" | "update-status" | "reschedule" | "bulk-review" | "timer-start" | "timer-stop" | "rbac-denied" | "comment" | "attachment";
+type MutationType = "create-task" | "update-status" | "reschedule" | "bulk-review" | "timer-start" | "timer-stop" | "rbac-denied" | "comment" | "attachment" | "rollback" | "commit-canary";
 type PageFamily = "overview" | "board" | "gantt" | "workload" | "table" | "provider" | "approvals" | "timesheets" | "default";
 
 type User = { id: string; name: string; role: Role; department: string; capacity: number; load: number; avatar: string };
@@ -218,7 +218,7 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
     if (typeof window !== "undefined") window.localStorage.setItem(storageKey, JSON.stringify(store));
   }, [store]);
 
-  function mutate(action: MutationType, taskId: string | undefined, payload: Record<string, string | number | boolean>, apply: (tasks: Task[]) => Task[], requiredAction = action) {
+  function mutate(action: MutationType, taskId: string | undefined, payload: Record<string, string | number | boolean>, apply: (tasks: Task[]) => Task[], requiredAction: string = action) {
     const actor = store.users.find((user) => user.role === store.selectedRole)?.name ?? "Vlad Neagu";
     const allowed = roleCan(store.selectedRole, requiredAction);
     const mutation: ProviderMutation = {
@@ -307,7 +307,7 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
     if (!last) { setFeedback("No applied mutation to rollback"); return; }
     const rollback: ProviderMutation = {
       id: `RB-${Date.now()}`,
-      type: "reschedule",
+      type: "rollback",
       taskId: last.taskId,
       actor: "rollback-engine",
       role: store.selectedRole,
@@ -316,12 +316,12 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
       rollbackOf: last.id,
       payload: { rollbackOf: last.id }
     };
-    setStore((current) => ({ ...current, mutations: [rollback, ...current.mutations.map((item) => item.id === last.id ? { ...item, status: "rolled-back" } : item)] }));
+    setStore((current) => ({ ...current, mutations: [rollback, ...current.mutations.map((item): ProviderMutation => item.id === last.id ? { ...item, status: "rolled-back" as MutationStatus } : item)] }));
     setFeedback(`Rollback registered for ${last.id}`);
   }
 
   function replayQueue() {
-    setStore((current) => ({ ...current, mutations: current.mutations.map((item) => item.status === "queued" ? { ...item, status: "applied", appliedAt: new Date().toISOString() } : item) }));
+    setStore((current) => ({ ...current, mutations: current.mutations.map((item): ProviderMutation => item.status === "queued" ? { ...item, status: "applied" as MutationStatus, appliedAt: new Date().toISOString() } : item) }));
     setFeedback("Replay queue applied through provider adapter");
   }
 
@@ -330,7 +330,18 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
       mutate("rbac-denied", selectedTask.id, { action: "commit-canary" }, (tasks) => tasks, "commit-canary");
       return;
     }
-    setStore((current) => ({ ...current, providerMode: "canary", canaryEnabled: true, mutations: current.mutations.map((item) => item.status === "queued" ? { ...item, status: "applied", payload: { ...item.payload, canaryCommitted: true }, appliedAt: new Date().toISOString() } : item) }));
+    const canaryMutation: ProviderMutation = {
+      id: `CAN-${Date.now()}`,
+      type: "commit-canary",
+      taskId: selectedTask.id,
+      actor: "canary-engine",
+      role: store.selectedRole,
+      status: "applied",
+      createdAt: new Date().toISOString(),
+      appliedAt: new Date().toISOString(),
+      payload: { providerMode: store.providerMode, canaryCommitted: true }
+    };
+    setStore((current) => ({ ...current, providerMode: "canary", canaryEnabled: true, mutations: [canaryMutation, ...current.mutations.map((item): ProviderMutation => item.status === "queued" ? { ...item, status: "applied" as MutationStatus, payload: { ...item.payload, canaryCommitted: true }, appliedAt: new Date().toISOString() } : item)] }));
     setFeedback("Canary batch committed. Production readiness lane closed to 100%.");
   }
 
