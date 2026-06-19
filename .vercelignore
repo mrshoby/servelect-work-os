@@ -1,0 +1,62 @@
+# --- v16.0.4 Vercel payload limit fix ---
+# SERVELECT WORK OS - keep local audit/deploy artifacts out of Vercel upload payload
+# v16.0.4: fixes Vercel CLI "File size limit exceeded (100 MB)" caused by local artifacts.
+
+# Local QA / screenshots / reports
+audit-results/**
+**/audit-results/**
+playwright-report/**
+**/playwright-report/**
+test-results/**
+**/test-results/**
+coverage/**
+**/coverage/**
+
+# Local backups and generated packages
+_backups/**
+**/_backups/**
+*_EXTRACTED/**
+**/*_EXTRACTED/**
+*.zip
+**/*.zip
+*.7z
+**/*.7z
+*.rar
+**/*.rar
+*.tar
+**/*.tar
+*.tar.gz
+**/*.tar.gz
+*.tgz
+**/*.tgz
+
+# Build/cache files that should not be uploaded from local CLI deploy
+.next/cache/**
+**/.next/cache/**
+apps/web/.next/cache/**
+.turbo/**
+**/.turbo/**
+.cache/**
+**/.cache/**
+*.tsbuildinfo
+**/*.tsbuildinfo
+
+# Local logs/temp/editor files
+*.log
+**/*.log
+*.tmp
+**/*.tmp
+*.bak
+**/*.bak
+.DS_Store
+**/.DS_Store
+Thumbs.db
+**/Thumbs.db
+.vscode/**
+.idea/**
+
+# Local env files should not be uploaded as source artifacts
+.env.local
+.env.*.local
+**/.env.local
+**/.env.*.local
