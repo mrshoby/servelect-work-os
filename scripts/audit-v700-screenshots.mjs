@@ -58,3 +58,4 @@ console.log(report);
 if (clean !== routes.length) {
   process.exitCode = 1;
 }
+

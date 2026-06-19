@@ -80,3 +80,4 @@ await fs.writeFile(reportPath, report.join("\n"), "utf8");
 await fs.writeFile(path.join(process.cwd(), "docs", "V8_1_0_SCREENSHOT_AUDIT_REPORT.md"), report.join("\n"), "utf8");
 
 if (clean !== routes.length) process.exit(1);
+

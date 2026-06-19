@@ -125,3 +125,5 @@ report.push(`Captured clean: ${passed} / ${routes.length}`);
 await fs.writeFile(path.join(process.cwd(), "audit-results", "V9_0_0_SCREENSHOT_AUDIT_REPORT.md"), report.join("\n"), "utf8");
 console.log(`v9.0.0 screenshot audit captured clean: ${passed} / ${routes.length}`);
 if (passed !== routes.length) process.exit(1);
+
+

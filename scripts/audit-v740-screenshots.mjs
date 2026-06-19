@@ -51,3 +51,4 @@ const reportPath = path.join(process.cwd(), "audit-results", "V7_4_0_SCREENSHOT_
 await fs.writeFile(reportPath, lines.join("\n"), "utf8");
 console.log(lines.join("\n"));
 if (clean !== routes.length) process.exitCode = 1;
+

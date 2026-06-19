@@ -86,3 +86,4 @@ report[4] = `Captured clean: ${captured} / ${routes.length}`;
 report[5] = `Protected 401: ${protected401}`;
 await fs.writeFile(path.join(process.cwd(), "audit-results", "V8_3_0_SCREENSHOT_AUDIT_REPORT.md"), report.join("\n"), "utf8");
 if (captured !== routes.length) process.exit(1);
+

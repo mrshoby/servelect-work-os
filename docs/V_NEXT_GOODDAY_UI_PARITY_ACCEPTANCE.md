@@ -1,9 +1,3 @@
-# V_NEXT_GOODDAY_UI_PARITY_ACCEPTANCE
+# V_NEXT GoodDay UI Parity Acceptance
 
-| Page family | Current problem | v13 fix applied | UI density score | Functional score | PASS/FAIL |
-|---|---|---|---:|---:|---:|
-| Core Taskuri | old route variants not unified | all pages re-bound to V130 | 90 | 84 | PASS after source audit |
-| Historical v9/v10/v11/v12 pages | could show old shell | render same V130 workspace | 88 | 82 | PASS after Vercel |
-| Board/table | inconsistent old implementations | single dense table + board layer | 90 | 84 | PASS |
-| Drawer | allowed right-side panel only | drawer retained as content, not nav | 88 | 83 | PASS |
-| Screenshot proof | user did not receive screenshots | script creates PNG + zip | 85 | 80 | PASS after run |
+GoodDay-like parity requires multiple route-specific work views, not the same table on every page. v14 adds distinct view families for the Taskuri submenu set while preserving the single global sidebar.

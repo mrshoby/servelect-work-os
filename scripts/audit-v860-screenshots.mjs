@@ -102,3 +102,4 @@ console.log(`v8.6.0 screenshot audit captured clean: ${passed} / ${routes.length
 if (passed !== routes.length) {
   process.exit(1);
 }
+

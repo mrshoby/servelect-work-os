@@ -54,3 +54,4 @@ const report = path.join(process.cwd(), "audit-results", "V7_6_0_SCREENSHOT_AUDI
 fs.writeFileSync(report, lines.join("\n"), "utf8");
 console.log(lines.join("\n"));
 if (clean !== routes.length) process.exitCode = 1;
+

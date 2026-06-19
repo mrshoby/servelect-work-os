@@ -83,3 +83,4 @@ await fs.writeFile(path.join(process.cwd(), "audit-results", "V7_8_0_SCREENSHOT_
 console.log(report.join("\n"));
 
 if (clean !== rows.length && !(allowProtected401 && protectedCount === rows.length)) process.exitCode = 1;
+

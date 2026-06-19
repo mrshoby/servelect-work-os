@@ -103,3 +103,4 @@ console.log(report.join("\n"));
 if (clean !== rows.length && !(allowProtected401 && protectedCount === rows.length)) {
   process.exitCode = 1;
 }
+

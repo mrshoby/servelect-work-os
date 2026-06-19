@@ -81,3 +81,4 @@ const report = [
 await fs.writeFile(reportPath, report.join("\n"), "utf8");
 console.log(`Screenshot audit report: ${reportPath}`);
 if (passed !== results.length) process.exit(1);
+

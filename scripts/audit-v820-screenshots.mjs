@@ -66,3 +66,4 @@ const report = [
 await fs.writeFile(path.join(process.cwd(), "audit-results", "V8_2_0_SCREENSHOT_AUDIT_REPORT.md"), report.join("\n"), "utf8");
 if (passed !== routes.length) process.exit(1);
 
+

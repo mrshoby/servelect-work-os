@@ -55,3 +55,4 @@ report.push(`Captured clean: ${clean} / ${routes.length}`);
 await fs.writeFile(path.join(process.cwd(), "audit-results", "V8_7_1_ROUTE_HOTFIX_SCREENSHOT_AUDIT_REPORT.md"), report.join("\n"), "utf8");
 console.log(`v8.7.1 route hotfix screenshot audit captured clean: ${clean} / ${routes.length}`);
 if (clean !== routes.length) process.exit(1);
+

@@ -48,7 +48,7 @@ if (![string]::IsNullOrWhiteSpace($BypassSecret)) { $Headers["x-vercel-protectio
 $OutDir = Join-Path (Get-Location) "audit-results"
 New-Item -ItemType Directory -Path $OutDir -Force | Out-Null
 $Report = Join-Path $OutDir "v790-provider-canary-functional-routes.md"
-$Lines = @("# v7.9.0 Provider Canary Functional Route Smoke", "", "BaseUrl: $BaseUrl", "Bypass secret used: $([bool](![string]::IsNullOrWhiteSpace($BypassSecret)))", "AllowDeploymentProtection401: $([bool]$AllowDeploymentProtection401)", "", "| Route | Result | HTTP | Bytes | Note |", "|---|---:|---:|---:|---|")
+$Lines = @("# v9.0.1 Provider Canary Functional Route Smoke", "", "BaseUrl: $BaseUrl", "Bypass secret used: $([bool](![string]::IsNullOrWhiteSpace($BypassSecret)))", "AllowDeploymentProtection401: $([bool]$AllowDeploymentProtection401)", "", "| Route | Result | HTTP | Bytes | Note |", "|---|---:|---:|---:|---|")
 $Failed = 0
 $Protected = 0
 foreach ($Route in $Routes) {
@@ -74,6 +74,7 @@ foreach ($Route in $Routes) {
   }
 }
 $Lines | Set-Content -Path $Report -Encoding UTF8
-if ($Failed -gt 0) { throw ("v7.9.0 functional route smoke failed: " + $Failed + " route(s). Protected 401 routes: " + $Protected + ". See " + $Report) }
-Write-Host "v7.9.0 functional route smoke passed: $($Routes.Count) / $($Routes.Count)" -ForegroundColor Green
+if ($Failed -gt 0) { throw ("v9.0.1 functional route smoke failed: " + $Failed + " route(s). Protected 401 routes: " + $Protected + ". See " + $Report) }
+Write-Host "v9.0.1 functional route smoke passed: $($Routes.Count) / $($Routes.Count)" -ForegroundColor Green
 Write-Host "Report: $Report"
+

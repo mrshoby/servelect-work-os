@@ -97,3 +97,4 @@ await fs.writeFile(path.join(process.cwd(), "audit-results", "V8_7_0_SCREENSHOT_
 console.log(`v8.7.0 screenshot audit captured clean: ${passed} / ${routes.length}`);
 if (passed !== routes.length) process.exit(1);
 
+

@@ -1,4 +1,4 @@
-# v7.9.0 — Provider Canary Activation, Shared View ACL & Primary Write Pilot
+# v9.0.1 — Provider Canary Activation, Shared View ACL & Primary Write Pilot
 
 Baseline accepted: v7.8.0 screenshot audit 22/22 PASS on Vercel.
 
@@ -13,3 +13,4 @@ Baseline accepted: v7.8.0 screenshot audit 22/22 PASS on Vercel.
 - Primary writes remain globally disabled.
 - Provider canary does not send broad live notifications.
 - Push/websocket remain blocked until secrets/runtime are configured.
+

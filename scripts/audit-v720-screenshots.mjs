@@ -57,3 +57,4 @@ const reportPath = path.join(root, "audit-results", "V7_2_3_SCREENSHOT_AUDIT_REP
 fs.writeFileSync(reportPath, report, "utf8");
 console.log(report);
 if (pass !== routes.length) process.exitCode = 1;
+

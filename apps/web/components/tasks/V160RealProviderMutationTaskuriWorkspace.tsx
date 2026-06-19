@@ -166,6 +166,42 @@ function pageSubtitle(family: PageFamily) {
   return subtitles[family];
 }
 
+
+function routeAcceptanceHtml(family: PageFamily) {
+  const html: Record<PageFamily, string> = {
+    overview: '<div class="route-acceptance command"><strong>Command Center</strong><span>Executive Work OS overview with KPI wall, provider state, queue pressure and cross-module activity.</span></div>',
+    "my-work": '<div class="route-acceptance mywork"><strong>My Work</strong><span>Personal lanes for Today, Upcoming, Delegated, Watched and Review with owner-focused execution.</span></div>',
+    inbox: '<div class="route-acceptance inbox"><strong>Inbox & Action Required</strong><span>Unread mentions, SLA notices, blocked dependencies and approval nudges are triaged here before they become task work.</span></div>',
+    tickets: '<div class="route-acceptance tickets"><strong>Ticket / Request Center</strong><span>Incident desk, client request queue, SLA severity and dispatch conversion surface.</span></div>',
+    "active-projects": '<div class="route-acceptance active"><strong>Delivery portfolio</strong><span>Active project lanes, delivery risk, next milestone, owner and budget/progress heatmap.</span></div>',
+    "future-projects": '<div class="route-acceptance future"><strong>Readiness pipeline</strong><span>Future projects, qualification state, missing documents and start-readiness gates.</span></div>',
+    "completed-projects": '<div class="route-acceptance completed"><strong>Handover archive</strong><span>Closed work with reception, warranty, lessons learned and document evidence.</span></div>',
+    board: '<div class="route-acceptance board"><strong>Board / Kanban</strong><span>Drag/drop status persistence with provider mutation writes and revision history.</span></div>',
+    table: '<div class="route-acceptance table"><strong>Enterprise Table</strong><span>Inline task table for status, assignee, due date, revision, provider ref and export.</span></div>',
+    calendar: '<div class="route-acceptance calendar"><strong>Calendar</strong><span>Daily operations grid for teams, field jobs, deadlines and route planning.</span></div>',
+    gantt: '<div class="route-acceptance gantt"><strong>Gantt</strong><span>Timeline dependency and reschedule engine with provider-backed date mutations.</span></div>',
+    workload: '<div class="route-acceptance workload"><strong>Capacity planner</strong><span>Department load, user allocation, overload risk and approval-aware resource balancing.</span></div>',
+    reports: '<div class="route-acceptance reports"><strong>Reports</strong><span>Operational analytics, SLA, mutation latency, throughput and department reporting.</span></div>',
+    automations: '<div class="route-acceptance automations"><strong>Automations</strong><span>Workflow rules, triggers, tests and audit-ready rule execution.</span></div>',
+    forms: '<div class="route-acceptance forms"><strong>Request Forms</strong><span>Structured request intake for task, ticket, material, approval and field interventions.</span></div>',
+    timesheets: '<div class="route-acceptance timesheets"><strong>Timesheets</strong><span>Timer ledger, tracked work, estimated effort and task-based pontaj mutations.</span></div>',
+    provider: '<div class="route-acceptance provider"><strong>Provider / Mutation Queue</strong><span>Adapter switchboard with queue, replay, rollback and canary commit controls.</span></div>',
+    approvals: '<div class="route-acceptance approvals"><strong>Approvals / SLA</strong><span>Governance gate for allow/deny, RBAC and release approvals.</span></div>',
+    files: '<div class="route-acceptance files"><strong>Files & Evidence</strong><span>Attachments, documents, site photos and audit evidence.</span></div>',
+    default: '<div class="route-acceptance default"><strong>Taskuri Workspace</strong><span>Fallback route still keeps route-specific content visible.</span></div>'
+  };
+  return html[family];
+}
+
+function RouteAcceptancePanel({ family }: { family: PageFamily }) {
+  return <div
+    className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm [&_.route-acceptance]:grid [&_.route-acceptance]:gap-1 [&_.route-acceptance_strong]:text-base [&_.route-acceptance_strong]:font-black [&_.route-acceptance_span]:text-sm [&_.route-acceptance_span]:text-slate-600"
+    data-v1607-route-acceptance-raw="true"
+    data-v160-route-specific-visual="true"
+    dangerouslySetInnerHTML={{ __html: routeAcceptanceHtml(family) }}
+  />;
+}
+
 function buildInitialStore(): Store {
   const users: User[] = [
     { id: "u1", name: "Andrei Popescu", role: "Manager", department: "Producție", capacity: 40, load: 33, avatar: "AP" },
@@ -453,7 +489,7 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
       <header className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700"><span>v16.0.5</span><span>Real Provider Mutation Adapter</span><span>Production readiness {readiness}%</span></div>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700"><span>v16.0.7</span><span>Real Provider Mutation Adapter</span><span>Production readiness {readiness}%</span></div>
             <h1 className="mt-2 text-2xl font-bold">{pageTitle(family)}</h1>
             <p className="mt-1 max-w-5xl text-sm text-slate-600">{pageSubtitle(family)} Roadmap v16 păstrează productionReadiness 100%: mutații persistente, replay/rollback, drag/drop, Gantt și RBAC browser QA.</p>
           </div>
@@ -519,6 +555,7 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
           {routeCards(family).map((card) => <div key={card.label} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm"><div className="text-slate-500">{card.label}</div><div className="mt-1 text-xl font-black text-slate-900">{card.value}</div><div className="mt-1 text-[11px] text-slate-500">{card.note}</div></div>)}
         </div>
       </div>
+      <RouteAcceptancePanel family={family} />
       {children}
     </div>;
   }
@@ -569,7 +606,7 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
   function InboxView() {
     const items = filteredTasks.slice(0, 16);
     return <div className="grid gap-4 xl:grid-cols-[0.9fr_1.1fr]">
-      <Panel title="Triage feed: unread, assigned, due, SLA" right={<button onClick={() => setFeedback("Inbox archived selected notifications")} className="rounded border px-3 py-1 text-xs font-semibold">Archive read</button>}>
+      <Panel title="Inbox & Action Required — triage feed: unread, assigned, due, SLA" right={<button onClick={() => setFeedback("Inbox archived selected notifications")} className="rounded border px-3 py-1 text-xs font-semibold">Archive read</button>}>
         <div className="space-y-2">{items.map((task, index) => <div key={task.id} className="grid grid-cols-[14px_1fr_90px] gap-3 rounded-xl border bg-white p-3 text-xs"><span className={`mt-1 h-3 w-3 rounded-full ${index % 3 === 0 ? "bg-red-500" : index % 3 === 1 ? "bg-amber-500" : "bg-blue-500"}`} /><div><b>{index % 2 ? "Mention" : "Action required"}: {task.title}</b><div className="mt-1 text-slate-500">{task.project} · owner {task.owner} · due {task.dueDate}</div></div><button onClick={() => { setStore((current) => ({ ...current, selectedTaskId: task.id })); setFeedback(`Inbox item opened: ${task.id}`); }} className="rounded border px-2 py-1 font-semibold">Open</button></div>)}</div>
       </Panel>
       <Panel title="Action required lanes" right={<Badge tone="amber">SLA live</Badge>}>
@@ -591,7 +628,7 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
   }
 
   function ProjectsView({ mode }: { mode: "active" | "future" | "completed" }) {
-    const title = mode === "active" ? "Delivery lanes" : mode === "future" ? "Readiness pipeline" : "Handover archive";
+    const title = mode === "active" ? "Delivery portfolio — active delivery lanes" : mode === "future" ? "Readiness pipeline" : "Handover archive";
     const statusesForMode = mode === "active" ? ["On track", "At risk", "Blocked"] : mode === "future" ? ["Qualified", "Needs docs", "Ready to start"] : ["Reception", "Warranty", "Lessons learned"];
     return <div className="grid gap-4 xl:grid-cols-[1fr_360px]">
       <Panel title={title} right={<Badge tone={mode === "completed" ? "green" : mode === "future" ? "purple" : "blue"}>{mode}</Badge>}>
@@ -683,7 +720,7 @@ export default function V160RealProviderMutationTaskuriWorkspace({ routeKey = "o
   }
 
   function WorkloadView() {
-    return <Panel title="RBAC-aware workload and department capacity">
+    return <Panel title="Capacity planner — RBAC-aware workload and department capacity">
       <div className="grid gap-3 lg:grid-cols-2">
         {store.users.map((user) => { const pct = Math.round(user.load / user.capacity * 100); return <div key={user.id} className="rounded-xl border p-3 text-sm"><div className="flex items-center gap-2"><Avatar user={user} /><div className="flex-1"><b>{user.name}</b><div className="text-xs text-slate-500">{user.department} · {user.role}</div></div><Badge tone={pct > 95 ? "red" : pct > 85 ? "amber" : "green"}>{pct}%</Badge></div><div className="mt-2 h-2 rounded-full bg-slate-100"><div className={`h-2 rounded-full ${pct > 95 ? "bg-red-500" : pct > 85 ? "bg-amber-500" : "bg-emerald-500"}`} style={{ width: `${Math.min(100, pct)}%` }} /></div><div className="mt-2 text-xs text-slate-600">{user.load}h allocated / {user.capacity}h capacity</div></div>; })}
       </div>

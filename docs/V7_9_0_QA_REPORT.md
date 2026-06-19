@@ -1,4 +1,4 @@
-# v7.9.0 QA Report
+# v9.0.1 QA Report
 
 Expected local checks after applying:
 
@@ -11,3 +11,4 @@ Expected local checks after applying:
 | `node scripts/audit-v790-screenshots.mjs` | PASS, no NO_PNG |
 
 Known gates: primary writes globally disabled, push/websocket not live.
+

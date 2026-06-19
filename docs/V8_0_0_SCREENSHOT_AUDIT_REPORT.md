@@ -4,7 +4,7 @@ This report is generated/updated by `node scripts/audit-v800-screenshots.mjs`.
 
 ## Baseline
 
-v7.9.0 had clean screenshot audit with 29/29 captures on Vercel.
+v9.0.1 had clean screenshot audit with 29/29 captures on Vercel.
 
 ## v8.0.0 routes to capture
 
@@ -30,3 +30,4 @@ v7.9.0 had clean screenshot audit with 29/29 captures on Vercel.
 ## Status
 
 To be generated after applying patch.
+
