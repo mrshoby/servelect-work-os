@@ -1,9 +1,5 @@
-import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
+import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
 
-export const metadata = {
-  title: "replay recovery control | SERVELECT WORK OS v13.0.0",
-};
-
-export default function Page() {
-  return <V130UnifiedTaskuriWorkspace route="/taskuri/replay-recovery-control" />;
+export default function TaskuriPage() {
+  return <V150GoodDayStructuralTaskuriWorkspace routeKey="replay-recovery-control" />;
 }

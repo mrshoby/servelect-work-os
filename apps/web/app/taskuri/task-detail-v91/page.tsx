@@ -1,9 +1,5 @@
-import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
+import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
 
-export const metadata = {
-  title: "task detail v91 | SERVELECT WORK OS v13.0.0",
-};
-
-export default function Page() {
-  return <V130UnifiedTaskuriWorkspace route="/taskuri/task-detail-v91" />;
+export default function TaskuriPage() {
+  return <V150GoodDayStructuralTaskuriWorkspace routeKey="task-detail-v91" />;
 }

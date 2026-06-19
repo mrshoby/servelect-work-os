@@ -1,9 +1,5 @@
-import { V130UnifiedTaskuriWorkspace } from "@/components/tasks/V130UnifiedTaskuriWorkspace";
+import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
 
-export const metadata = {
-  title: "pilot mutation replay | SERVELECT WORK OS v13.0.0",
-};
-
-export default function Page() {
-  return <V130UnifiedTaskuriWorkspace route="/taskuri/pilot-mutation-replay" />;
+export default function TaskuriPage() {
+  return <V150GoodDayStructuralTaskuriWorkspace routeKey="pilot-mutation-replay" />;
 }
