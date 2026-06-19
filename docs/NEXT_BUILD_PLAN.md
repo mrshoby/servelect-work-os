@@ -1,41 +1,25 @@
-# NEXT_BUILD_PLAN.md
+# NEXT_BUILD_PLAN
 
-## Current safe UI baseline
+## Next major build
+v17.1.0 — GoodDay Functional Parity Inside V15 Layout
 
-`taskuri-ui-v15-goodday-baseline-restored` / `91c4036`.
+## Non-negotiable baseline
+- Use V150GoodDayStructuralTaskuriWorkspace as the visual shell.
+- Do not introduce a second left/middle hierarchy panel.
+- Do not route Taskuri pages through V170GoodDayFunctionalParityWorkspace or any shell that changes the accepted v15 layout.
 
-Do not rebuild Taskuri UI on `V160RealProviderMutationTaskuriWorkspace`.
+## Goal
+Add real interaction and persistence inside the accepted v15 layout:
+- New Task / New Ticket real handlers.
+- Filters / saved views with persistence.
+- Board/Table/My Work data connection.
+- Drawer save, comments, checklist, dependencies, timer.
+- Notifications, approvals, activity log.
+- Dead-button audit and browser flow audit.
 
-## Current build
-
-`v17.0.0 — GoodDay Functional Parity Layer on V15 UI Baseline`
-
-Goal: keep v15 visual structure and add real connected functionality.
-
-## Next major build recommendation
-
-`v18.0.0 — Costuri, Achiziții & Bugetare Full Procurement Flow`
-
-Why: lowest categories after v17 are Costuri & Aprovizionare, Achiziții, Bugetare.
-
-Scope:
-
-1. Procurement store with supply requests, materials, RFQ, suppliers, offers, purchase orders, delivery terms, delays, invoices and warranty certificates.
-2. Real UI pages for `/costuri`, `/achizitii`, `/bugetare`, plus links from project/task drawer.
-3. Full flow audit:
-   - create supply request
-   - add materials
-   - convert to RFQ
-   - choose suppliers
-   - add offers
-   - compare price vs delivery term
-   - choose recommended offer
-   - generate PO
-   - set delivery date
-   - mark delay
-   - receive alert
-   - add invoice
-   - attach warranty certificate
-   - link to project
-4. Dead buttons zero tolerance for procurement module.
-5. Honest percentage scorecard, no false 100%.
+## Acceptance
+Production must keep:
+- data-v150-goodday-structural-parity = true
+- no data-v170-goodday-functional-parity
+- no visible Taskuri Workspace card
+- no visible WORKSPACE HIERARCHY middle panel
