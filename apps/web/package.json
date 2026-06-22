@@ -1,6 +1,6 @@
 {
   "name": "@servelect/web",
-  "version": "20.0.6",
+  "version": "21.0.1",
   "private": true,
   "type": "module",
   "scripts": {
