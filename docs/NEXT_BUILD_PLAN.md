@@ -1,25 +1,30 @@
-# NEXT_BUILD_PLAN
+# NEXT_BUILD_PLAN — after v18.0.0
 
-## Next major build
-v17.1.0 — GoodDay Functional Parity Inside V15 Layout
+## Următorul build major recomandat
 
-## Non-negotiable baseline
-- Use V150GoodDayStructuralTaskuriWorkspace as the visual shell.
-- Do not introduce a second left/middle hierarchy panel.
-- Do not route Taskuri pages through V170GoodDayFunctionalParityWorkspace or any shell that changes the accepted v15 layout.
+v19.0.0 — Real Backend Procurement Adapter, Inventory Reservation Link & Invoice File Storage
 
-## Goal
-Add real interaction and persistence inside the accepted v15 layout:
-- New Task / New Ticket real handlers.
-- Filters / saved views with persistence.
-- Board/Table/My Work data connection.
-- Drawer save, comments, checklist, dependencies, timer.
-- Notifications, approvals, activity log.
-- Dead-button audit and browser flow audit.
+## Categoria cu procentul cel mai slab rămas
 
-## Acceptance
-Production must keep:
-- data-v150-goodday-structural-parity = true
-- no data-v170-goodday-functional-parity
-- no visible Taskuri Workspace card
-- no visible WORKSPACE HIERARCHY middle panel
+Backend/API: 52%
+Bugetare: 68%
+Costuri & Aprovizionare: 78%
+Achiziții: 76%
+
+## Scope obligatoriu v19
+
+- mutați procurement flow din localStorage către adapter backend real unde este disponibil;
+- păstrați V15 shell vizual, fără shell nou;
+- legați solicitarea de aprovizionare de stoc/rezervări reale;
+- upload fișiere reale pentru factură și certificat garanție;
+- audit trail server-side;
+- conflict/retry/rollback;
+- import XLSX/CSV cu mapare reală;
+- bugete proiect reale + diferență buget vs ofertă vs comandă;
+- QA complet: typecheck, build, source audit, dead buttons, browser flow, screenshot manual UI audit, Vercel route/API.
+
+## Reguli anti-regresie
+
+- Nu se folosește V160/V170 ca shell vizual principal.
+- Nu se introduce panou permanent nou în stânga.
+- Nu se declară 100% dacă importul/backendul/storage-ul nu sunt reale.
