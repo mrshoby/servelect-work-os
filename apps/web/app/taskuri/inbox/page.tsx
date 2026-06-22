@@ -2,10 +2,10 @@ import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDa
 import V200GoodDayCompleteInteractionLayer from "@/components/tasks/V200GoodDayCompleteInteractionLayer";
 
 export default function TaskuriPage() {
-  return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="inbox" />
-</>);
+  return (
+    <>
+      <V150GoodDayStructuralTaskuriWorkspace routeKey="inbox" />
+      <V200GoodDayCompleteInteractionLayer routeKey="inbox" />
+    </>
+  );
 }
-
-
-
-
