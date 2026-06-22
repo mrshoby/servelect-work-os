@@ -1,8 +1,11 @@
 import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
-import V190GoodDayInPlaceInteractionCore from "@/components/tasks/V190GoodDayInPlaceInteractionCore";
+import V200GoodDayCompleteInteractionLayer from "@/components/tasks/V200GoodDayCompleteInteractionLayer";
 
 export default function TaskuriPage() {
-  return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="command-center-v90" /><V190GoodDayInPlaceInteractionCore routeKey="command-center-v90" /></>);
+  return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="command-center-v90" />
+</>);
 }
+
+
 
 

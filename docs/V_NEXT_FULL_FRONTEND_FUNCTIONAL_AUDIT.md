@@ -1,10 +1,15 @@
-# V_NEXT_FULL_FRONTEND_FUNCTIONAL_AUDIT — v19.0.2
+# v20.0.0 Browser Functional Flow Audit
 
-| Page | Element | Action tested | Expected result | Actual result | State changed | Persisted | PASS/FAIL |
-|---|---|---|---|---|---:|---:|---:|
-| Taskuri / V15 shell | New Task | Click/create task | Modal opens, task is created and stored | Handler creates task + notification | YES | YES | PASS |
-| Taskuri / V15 shell | Reset Filter | Click reset/clear filter | Filters reset and feedback/activity state updated | commit() writes activity log | YES | YES | PASS |
-| Taskuri / V15 shell | Reject | Click reject and submit reason | Reject modal records reason and notification | commit() writes notification/activity | YES | YES | PASS |
-| Taskuri / V15 shell | Table sort | Click table header | DOM order changes and activity state updated | sortNearestTable + commit() | YES | YES | PASS |
+BaseUrl: https://servelect-work-os-web.vercel.app
 
-Nu se declară 100%. Auditul browser complet pe toate elementele vizibile rămâne cerință pentru următorul build major.
+Acest raport este generat ca checklist de browser/manual audit. Nu este marcat 100% fără rulare reală pe UI.
+
+| Page | Element | Action tested | Expected result | Actual result | PASS/FAIL |
+|---|---|---|---|---|---:|
+| Taskuri | New Task | Click opens form, Save creates task, persists after refresh | Use browser script/manual run on Vercel | PENDING_MANUAL | PENDING |
+| Taskuri | Board status move | Drag/drop or click status move updates Table/My Work/Drawer | Use browser script/manual run on Vercel | PENDING_MANUAL | PENDING |
+| Taskuri | Drawer save | Status/assignee/due/estimate updates all views | Use browser script/manual run on Vercel | PENDING_MANUAL | PENDING |
+| Taskuri | Comments/checklist/dependencies/files | Adds to drawer and activity log | Use browser script/manual run on Vercel | PENDING_MANUAL | PENDING |
+| Taskuri | Timer | Start/stop creates time entry and workload impact | Use browser script/manual run on Vercel | PENDING_MANUAL | PENDING |
+| Inbox | Notifications | Mark read/all read/open entity updates badge and drawer | Use browser script/manual run on Vercel | PENDING_MANUAL | PENDING |
+| Procurement | RFQ/PO/Invoice | Request → RFQ → offers → PO → invoice flow creates activity | Use browser script/manual run on Vercel | PENDING_MANUAL | PENDING |

@@ -1,8 +1,11 @@
 import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
-import V190GoodDayInPlaceInteractionCore from "@/components/tasks/V190GoodDayInPlaceInteractionCore";
+import V200GoodDayCompleteInteractionLayer from "@/components/tasks/V200GoodDayCompleteInteractionLayer";
 
 export default function TaskuriPage() {
-  return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="dead-letter-recovery" /><V190GoodDayInPlaceInteractionCore routeKey="dead-letter-recovery" /></>);
+  return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="dead-letter-recovery" />
+</>);
 }
+
+
 
 

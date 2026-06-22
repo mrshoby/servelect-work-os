@@ -1,6 +1,6 @@
-# v19.0.2 Dead Buttons Zero Tolerance Audit
+# v20.0.0 Dead Buttons Zero Tolerance Audit
 
-Passed: 19 / 19
+Passed: 36 / 36
 
 | Button | Page | Exists visually | Has handler | Changes state | Gives feedback | Persists | PASS/FAIL |
 |---|---|---:|---:|---:|---:|---:|---:|
@@ -23,3 +23,20 @@ Passed: 19 / 19
 | Reject | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
 | Bulk action | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
 | Table sort | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Board status move | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Drawer save | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Workflow transition | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Workload rebalance | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Gantt reschedule | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Calendar schedule | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Saved view restore | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Search | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Role switch | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Escalate ticket | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Convert ticket to task | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Procurement request | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| RFQ conversion | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Supplier comparison | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Purchase order | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Invoice attach | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
+| Report refresh | Taskuri real pages / V15 shell | YES | YES | YES | YES | YES | PASS |
