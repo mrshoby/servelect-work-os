@@ -3,8 +3,12 @@ import V200GoodDayCompleteInteractionLayer from "@/components/tasks/V200GoodDayC
 
 export default function TaskuriPage() {
   return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="field-team-dispatch" />
-</>);
+      <V200GoodDayCompleteInteractionLayer routeKey="field-team-dispatch" />
+    </>);
 }
+
+
+
 
 
 

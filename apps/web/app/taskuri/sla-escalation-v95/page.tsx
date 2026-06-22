@@ -3,8 +3,12 @@ import V200GoodDayCompleteInteractionLayer from "@/components/tasks/V200GoodDayC
 
 export default function TaskuriPage() {
   return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="sla-escalation-v95" />
-</>);
+      <V200GoodDayCompleteInteractionLayer routeKey="sla-escalation-v95" />
+    </>);
 }
+
+
+
 
 
 

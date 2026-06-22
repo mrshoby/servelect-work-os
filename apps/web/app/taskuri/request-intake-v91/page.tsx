@@ -3,8 +3,12 @@ import V200GoodDayCompleteInteractionLayer from "@/components/tasks/V200GoodDayC
 
 export default function TaskuriPage() {
   return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="request-intake-v91" />
-</>);
+      <V200GoodDayCompleteInteractionLayer routeKey="request-intake-v91" />
+    </>);
 }
+
+
+
 
 
 

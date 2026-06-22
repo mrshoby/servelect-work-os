@@ -1,6 +1,6 @@
 # v20.0.0 Browser Functional Flow Audit
 
-BaseUrl: https://servelect-work-os-web.vercel.app
+BaseUrl: C:\Users\Vlad Taran\Downloads\SERVELECT_WORK_OS_v20.0.6_V200_REAL_HANDLERS_AUDIT_FIX_UPDATE_PACK.zip
 
 Acest raport este generat ca checklist de browser/manual audit. Nu este marcat 100% fără rulare reală pe UI.
 

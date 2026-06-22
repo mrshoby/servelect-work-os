@@ -3,8 +3,12 @@ import V200GoodDayCompleteInteractionLayer from "@/components/tasks/V200GoodDayC
 
 export default function TaskuriPage() {
   return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="signed-webhook-intake" />
-</>);
+      <V200GoodDayCompleteInteractionLayer routeKey="signed-webhook-intake" />
+    </>);
 }
+
+
+
 
 
 
