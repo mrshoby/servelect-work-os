@@ -1,5 +1,8 @@
 import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
+import V190GoodDayInPlaceInteractionCore from "@/components/tasks/V190GoodDayInPlaceInteractionCore";
 
 export default function TaskuriPage() {
-  return <V150GoodDayStructuralTaskuriWorkspace routeKey="manager-gate-inbox-v96" />;
+  return (<><V150GoodDayStructuralTaskuriWorkspace routeKey="manager-gate-inbox-v96" /><V190GoodDayInPlaceInteractionCore routeKey="manager-gate-inbox-v96" /></>);
 }
+
+
