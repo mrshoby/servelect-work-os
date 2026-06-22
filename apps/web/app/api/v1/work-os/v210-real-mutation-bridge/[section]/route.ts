@@ -4,8 +4,8 @@ type RouteContext = {
   params: Promise<{ section: string }>;
 };
 
-const VERSION = "21.0.1";
-const BUILD = "GOODDAY_REAL_MUTATION_BRIDGE_ON_V15_V200_SHELL_NEXT15_CONTEXT_FIX";
+const VERSION = "21.0.2";
+const BUILD = "GOODDAY_REAL_MUTATION_BRIDGE_ON_V15_V200_SHELL";
 const MODE = "API_SHADOW_MUTATION_BRIDGE";
 const PERSISTENCE = "REAL_LOCAL_PERSISTENT";
 

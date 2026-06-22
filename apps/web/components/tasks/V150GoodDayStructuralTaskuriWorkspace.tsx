@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import V200GoodDayCompleteInteractionLayer from "./V200GoodDayCompleteInteractionLayer";
+type V150GoodDayStructuralTaskuriWorkspaceProps = {
+  routeKey?: string;
+};
 
 type Status = "Backlog" | "To do" | "In progress" | "Review" | "Blocked" | "Done";
 type Priority = "Low" | "Normal" | "High" | "Critical";
@@ -203,8 +207,12 @@ function Avatar({ name }: { name: string }) {
   return <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-slate-900 text-[10px] font-semibold text-white">{initials}</span>;
 }
 
-export default function V150GoodDayStructuralTaskuriWorkspace({ routeKey = "overview" }: { routeKey?: string }) {
-  const family = resolveFamily(routeKey);
+export default function V150GoodDayStructuralTaskuriWorkspace({
+  routeKey = "command-center",
+}: V150GoodDayStructuralTaskuriWorkspaceProps) {
+  
+  void routeKey;
+const family = resolveFamily(routeKey);
   const [store, setStore] = useState<Store>(() => buildInitialStore());
   const [selectedTaskId, setSelectedTaskId] = useState("T-0001");
   const [selectedTicketId, setSelectedTicketId] = useState("TK-001");
@@ -343,7 +351,8 @@ export default function V150GoodDayStructuralTaskuriWorkspace({ routeKey = "over
 
   const state = { addTask, addTicket, addRequest, saveView, exportCsv, bulkMoveToReview };
 
-  return <div className="min-h-screen bg-slate-100 text-slate-900" data-v150-goodday-structural-parity="true" data-page-family={family} data-mode="REAL_LOCAL_PERSISTENT">
+  return <div className="min-h-screen bg-slate-100 text-slate-900" data-v210-goodday-real-mutation-bridge-root data-v150-goodday-structural-parity="true" data-page-family={family} data-mode="REAL_LOCAL_PERSISTENT" data-v200-goodday-complete-interaction-layer="true">
+      <V200GoodDayCompleteInteractionLayer />
     <div className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 px-4 py-2 backdrop-blur">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="min-w-0"><div className="text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500">Taskuri / {familyTitle[family]}</div><h1 className="truncate text-lg font-semibold">SERVELECT Work OS · GoodDay-like structural parity</h1></div>
@@ -457,3 +466,6 @@ export default function V150GoodDayStructuralTaskuriWorkspace({ routeKey = "over
   function renderRightContext() { return <Section title="Right context panel"><div className="space-y-2 text-xs"><div className="rounded border p-2"><b>Alerts</b><div className="text-slate-500">Blocked: {store.tasks.filter((task) => task.status === "Blocked").length}, SLA risk: {store.tickets.filter((ticket) => ticket.ageHours > ticket.slaHours * 0.7).length}</div></div><NotificationList limit={5} /></div></Section>; }
   function renderTaskDrawer() { return <Section title="Task detail drawer" right={<button onClick={() => setSelectedTaskId(familyTasks[0]?.id ?? selectedTask.id)} className="rounded border px-2 py-1 text-xs">Open active task</button>}><div className="space-y-2 text-xs" data-testid="task-detail-drawer"><input value={selectedTask.title} onChange={(event) => updateTask(selectedTask.id, { title: event.target.value })} className="w-full rounded border px-2 py-1 text-sm font-semibold" /><textarea value={selectedTask.comments[0]?.text ?? ""} onChange={() => setFeedback("Description draft changed")} className="h-16 w-full rounded border px-2 py-1" /><div className="grid grid-cols-2 gap-2"><select value={selectedTask.status} onChange={(event) => updateTask(selectedTask.id, { status: event.target.value as Status })} className="rounded border px-2 py-1">{statuses.map((status) => <option key={status}>{status}</option>)}</select><select value={selectedTask.priority} onChange={(event) => updateTask(selectedTask.id, { priority: event.target.value as Priority })} className="rounded border px-2 py-1">{priorities.map((p) => <option key={p}>{p}</option>)}</select><select value={selectedTask.assignee} onChange={(event) => updateTask(selectedTask.id, { assignee: event.target.value })} className="rounded border px-2 py-1">{store.users.map((u) => <option key={u.id}>{u.name}</option>)}</select><input type="date" value={dueDate} onChange={(event) => updateTask(selectedTask.id, { dueDate: event.target.value })} className="rounded border px-2 py-1" /><input type="number" value={selectedTask.estimate} onChange={(event) => updateTask(selectedTask.id, { estimate: Number(event.target.value) })} className="rounded border px-2 py-1" /><input value={selectedTask.project} readOnly className="rounded border px-2 py-1 bg-slate-50" /></div><div className="rounded border p-2"><b>Checklist {checklistDone}/{selectedTask.checklist.length}</b>{selectedTask.checklist.map((item) => <label key={item.id} className="mt-1 flex items-center gap-2"><input type="checkbox" checked={item.done} onChange={() => toggleChecklist(selectedTask.id, item.id)} />{item.title}</label>)}</div><div className="flex flex-wrap gap-1"><button onClick={() => addComment(selectedTask.id)} className="rounded border px-2 py-1">Add comment</button><button onClick={() => addDependency(selectedTask.id)} className="rounded border px-2 py-1">Add dependency</button><button onClick={() => attachFile(selectedTask.id)} className="rounded border px-2 py-1">Attach file mock</button><button onClick={() => startTimer(selectedTask.id)} className="rounded border px-2 py-1">Start timer</button><button onClick={() => stopTimer(selectedTask.id)} className="rounded border px-2 py-1">Stop timer</button></div><div className="rounded border p-2"><b>Comments / activity / files</b>{selectedTask.comments.slice(0, 3).map((comment) => <div key={comment.id} className="mt-1 text-slate-600">{comment.author}: {comment.text}</div>)}<div className="mt-1 text-slate-500">Deps: {selectedTask.dependencies.join(", ") || "none"} · Files: {selectedTask.attachments.join(", ")}</div></div></div></Section>; }
 }
+
+
+
