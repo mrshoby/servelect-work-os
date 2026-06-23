@@ -1,0 +1,11 @@
+# v22.0.0 retention cleanup
+Rule: keep current v22 + previous v21 writings/reports; remove v20 and older generated writings where matched.
+Repo: D:\01_digitalizare_automatizare\servelect-work-os-main
+Deleted count: 6
+
+D:\01_digitalizare_automatizare\servelect-work-os-main\docs\V20_0_0_PROGRESS_SCORECARD.md
+D:\01_digitalizare_automatizare\servelect-work-os-main\docs\V20_0_0_RELEASE_REPORT.md
+D:\01_digitalizare_automatizare\servelect-work-os-main\docs\V20_0_1_TASKURI_BINDING_FIX_REPORT.md
+D:\01_digitalizare_automatizare\servelect-work-os-main\docs\V20_0_2_V15_ROOT_BINDING_FIX_REPORT.md
+D:\01_digitalizare_automatizare\servelect-work-os-main\docs\V20_0_4_ROUTEKEY_GUARD_FIX_REPORT.md
+D:\01_digitalizare_automatizare\servelect-work-os-main\docs\V20_0_5_ROUTEKEY_PROPS_FIX_REPORT.md

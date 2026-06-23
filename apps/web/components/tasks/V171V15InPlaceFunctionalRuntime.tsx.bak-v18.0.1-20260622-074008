@@ -1,0 +1,834 @@
+"use client";
+
+import { useEffect } from "react";
+
+type V171Status = "Backlog" | "Planificat" | "In lucru" | "Review" | "Finalizat" | "Blocat";
+type V171Priority = "Low" | "Medium" | "High" | "Critical";
+type V171Severity = "Low" | "Medium" | "High" | "Critical";
+type V171Role = "Viewer" | "Member" | "Manager" | "Super Admin";
+
+type V171Task = {
+  id: string;
+  title: string;
+  project: string;
+  department: string;
+  assignee: string;
+  status: V171Status;
+  priority: V171Priority;
+  dueDate: string;
+  estimateHours: number;
+  trackedHours: number;
+  comments: number;
+  checklist: string[];
+  dependencies: string[];
+  attachments: string[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+type V171Ticket = {
+  id: string;
+  title: string;
+  severity: V171Severity;
+  assignee: string;
+  status: V171Status;
+  comments: number;
+  attachments: string[];
+  convertedTaskId?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type V171Notification = {
+  id: string;
+  title: string;
+  entityType: "task" | "ticket" | "approval" | "view" | "import";
+  entityId: string;
+  read: boolean;
+  createdAt: string;
+};
+
+type V171SavedView = {
+  id: string;
+  title: string;
+  path: string;
+  query: string;
+  density: string;
+  statusFilter: string;
+  assigneeFilter: string;
+  createdAt: string;
+};
+
+type V171Approval = {
+  id: string;
+  title: string;
+  entityId: string;
+  status: "Pending" | "Approved" | "Rejected";
+  reason?: string;
+  updatedAt: string;
+};
+
+type V171TimeEntry = {
+  id: string;
+  taskId: string;
+  startedAt: string;
+  stoppedAt?: string;
+  hours?: number;
+};
+
+type V171Activity = {
+  id: string;
+  message: string;
+  createdAt: string;
+};
+
+type V171State = {
+  version: "17.1.0";
+  role: V171Role;
+  tasks: V171Task[];
+  tickets: V171Ticket[];
+  notifications: V171Notification[];
+  savedViews: V171SavedView[];
+  approvals: V171Approval[];
+  timeEntries: V171TimeEntry[];
+  activityLog: V171Activity[];
+  activeTimerTaskId?: string;
+};
+
+const STORAGE_KEY = "servelect.workos.v171.v15.functional.runtime";
+const TOAST_ID = "v171-v15-functional-toast-root";
+const SUMMARY_ID = "v171-v15-functional-summary";
+const MODAL_ID = "v171-v15-functional-modal";
+
+function nowIso(): string {
+  return new Date().toISOString();
+}
+
+function makeId(prefix: string): string {
+  return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
+}
+
+function seedState(): V171State {
+  const t1: V171Task = {
+    id: "svt-task-ibd-bess",
+    title: "Calcul consum și IBD pentru ofertare BESS",
+    project: "P-2026-0187 / Sistem FV + BESS Cluj",
+    department: "Audit energetic / BESS",
+    assignee: "Vlad Neagu",
+    status: "Review",
+    priority: "High",
+    dueDate: "2026-06-21",
+    estimateHours: 10,
+    trackedHours: 7,
+    comments: 7,
+    checklist: ["Verificare profil consum", "Comparare scenarii BESS"],
+    dependencies: ["svt-task-load-profile"],
+    attachments: ["ibd-bess-v1.xlsx", "curba-sarcina.csv"],
+    createdAt: nowIso(),
+    updatedAt: nowIso(),
+  };
+  const t2: V171Task = {
+    id: "svt-task-avize-grid",
+    title: "Pregătire documentație avize racordare",
+    project: "P-2026-0142 / Stație încărcare EV Timișoara",
+    department: "Administrativ",
+    assignee: "Ioana Marinescu",
+    status: "In lucru",
+    priority: "Medium",
+    dueDate: "2026-06-24",
+    estimateHours: 6,
+    trackedHours: 2.5,
+    comments: 3,
+    checklist: ["Cerere operator", "Plan situație"],
+    dependencies: [],
+    attachments: ["aviz-checklist.pdf"],
+    createdAt: nowIso(),
+    updatedAt: nowIso(),
+  };
+  return {
+    version: "17.1.0",
+    role: "Manager",
+    tasks: [t1, t2],
+    tickets: [
+      {
+        id: "svt-ticket-invertor",
+        title: "Ticket escaladat: invertor offline",
+        severity: "High",
+        assignee: "Mihai Ionescu",
+        status: "In lucru",
+        comments: 2,
+        attachments: ["screenshot-monitorizare.png"],
+        createdAt: nowIso(),
+        updatedAt: nowIso(),
+      },
+    ],
+    notifications: [
+      { id: "n1", title: "Action Required: BESS review azi", entityType: "task", entityId: t1.id, read: false, createdAt: nowIso() },
+      { id: "n2", title: "Ticket escaladat: invertor offline", entityType: "ticket", entityId: "svt-ticket-invertor", read: false, createdAt: nowIso() },
+    ],
+    savedViews: [
+      { id: "view-prod", title: "Producție / Montaj - Urgent", path: "/taskuri", query: "", density: "Dense", statusFilter: "All", assigneeFilter: "All", createdAt: nowIso() },
+    ],
+    approvals: [
+      { id: "ap-1", title: "Aprobă ofertă BESS scenariul 2", entityId: t1.id, status: "Pending", updatedAt: nowIso() },
+    ],
+    timeEntries: [],
+    activityLog: [
+      { id: "act-seed", message: "REAL_LOCAL_PERSISTENT runtime inițializat peste layoutul V15, fără shell vizual nou.", createdAt: nowIso() },
+    ],
+  };
+}
+
+function loadState(): V171State {
+  if (typeof window === "undefined") return seedState();
+  const raw = window.localStorage.getItem(STORAGE_KEY);
+  if (!raw) {
+    const seeded = seedState();
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded));
+    return seeded;
+  }
+  try {
+    const parsed = JSON.parse(raw) as V171State;
+    return parsed.version === "17.1.0" ? parsed : seedState();
+  } catch {
+    const seeded = seedState();
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded));
+    return seeded;
+  }
+}
+
+function saveState(state: V171State): void {
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  window.dispatchEvent(new CustomEvent("servelect:v171-state", { detail: state }));
+}
+
+function mutateState(mutator: (state: V171State) => void): V171State {
+  const state = loadState();
+  mutator(state);
+  saveState(state);
+  renderSummary(state);
+  return state;
+}
+
+function addActivity(state: V171State, message: string): void {
+  state.activityLog.unshift({ id: makeId("act"), message, createdAt: nowIso() });
+  state.activityLog = state.activityLog.slice(0, 80);
+}
+
+function notify(state: V171State, title: string, entityType: V171Notification["entityType"], entityId: string): void {
+  state.notifications.unshift({ id: makeId("note"), title, entityType, entityId, read: false, createdAt: nowIso() });
+}
+
+function getToastRoot(): HTMLElement {
+  let root = document.getElementById(TOAST_ID);
+  if (!root) {
+    root = document.createElement("div");
+    root.id = TOAST_ID;
+    root.setAttribute("data-v171-toast-root", "true");
+    root.style.position = "fixed";
+    root.style.right = "18px";
+    root.style.bottom = "18px";
+    root.style.zIndex = "99999";
+    root.style.display = "grid";
+    root.style.gap = "8px";
+    root.style.maxWidth = "360px";
+    document.body.appendChild(root);
+  }
+  return root;
+}
+
+function toast(message: string, tone: "success" | "error" | "info" = "success"): void {
+  const root = getToastRoot();
+  const item = document.createElement("div");
+  item.setAttribute("data-v171-feedback", tone);
+  item.textContent = message;
+  item.style.padding = "10px 12px";
+  item.style.borderRadius = "12px";
+  item.style.border = tone === "error" ? "1px solid #fecaca" : "1px solid #bbf7d0";
+  item.style.background = tone === "error" ? "#fef2f2" : "#ecfdf5";
+  item.style.color = tone === "error" ? "#991b1b" : "#065f46";
+  item.style.boxShadow = "0 18px 42px rgba(15, 23, 42, 0.14)";
+  item.style.font = "13px Inter, system-ui, sans-serif";
+  root.appendChild(item);
+  window.setTimeout(() => item.remove(), 4200);
+}
+
+function clearModal(): void {
+  document.getElementById(MODAL_ID)?.remove();
+}
+
+function createModal(title: string): HTMLDivElement {
+  clearModal();
+  const backdrop = document.createElement("div");
+  backdrop.id = MODAL_ID;
+  backdrop.setAttribute("data-v171-modal", "true");
+  backdrop.style.position = "fixed";
+  backdrop.style.inset = "0";
+  backdrop.style.zIndex = "99998";
+  backdrop.style.background = "rgba(15, 23, 42, 0.28)";
+  backdrop.style.display = "grid";
+  backdrop.style.placeItems = "center";
+  const panel = document.createElement("div");
+  panel.style.width = "min(680px, calc(100vw - 32px))";
+  panel.style.background = "#ffffff";
+  panel.style.border = "1px solid #dbe4ef";
+  panel.style.borderRadius = "18px";
+  panel.style.boxShadow = "0 28px 80px rgba(15,23,42,.28)";
+  panel.style.padding = "18px";
+  panel.style.font = "14px Inter, system-ui, sans-serif";
+  const header = document.createElement("div");
+  header.style.display = "flex";
+  header.style.justifyContent = "space-between";
+  header.style.alignItems = "center";
+  header.style.marginBottom = "14px";
+  const h = document.createElement("strong");
+  h.textContent = title;
+  h.style.fontSize = "18px";
+  const x = document.createElement("button");
+  x.type = "button";
+  x.textContent = "Cancel";
+  x.addEventListener("click", clearModal);
+  x.style.border = "1px solid #dbe4ef";
+  x.style.borderRadius = "10px";
+  x.style.background = "#fff";
+  x.style.padding = "8px 12px";
+  header.append(h, x);
+  panel.appendChild(header);
+  backdrop.appendChild(panel);
+  document.body.appendChild(backdrop);
+  return panel;
+}
+
+function field(label: string, value = "", type = "text"): HTMLInputElement {
+  const wrap = document.createElement("label");
+  wrap.style.display = "grid";
+  wrap.style.gap = "6px";
+  wrap.style.color = "#475569";
+  wrap.textContent = label;
+  const input = document.createElement("input");
+  input.type = type;
+  input.value = value;
+  input.style.border = "1px solid #dbe4ef";
+  input.style.borderRadius = "10px";
+  input.style.padding = "10px";
+  input.style.color = "#0f172a";
+  wrap.appendChild(input);
+  return input;
+}
+
+function getRoute(): string {
+  return window.location.pathname.replace(/\/$/, "") || "/taskuri";
+}
+
+function routeSection(): string {
+  const route = getRoute();
+  return route.split("/").filter(Boolean).pop() ?? "taskuri";
+}
+
+function renderSummary(state = loadState()): void {
+  const root = document.querySelector("[data-v150-goodday-structural-parity]") as HTMLElement | null;
+  if (!root) return;
+  let summary = document.getElementById(SUMMARY_ID) as HTMLElement | null;
+  if (!summary) {
+    summary = document.createElement("div");
+    summary.id = SUMMARY_ID;
+    summary.setAttribute("data-v171-v15-in-place-summary", "true");
+    summary.style.position = "fixed";
+    summary.style.left = "calc(50% - 220px)";
+    summary.style.bottom = "14px";
+    summary.style.zIndex = "9999";
+    summary.style.display = "flex";
+    summary.style.gap = "10px";
+    summary.style.alignItems = "center";
+    summary.style.padding = "8px 12px";
+    summary.style.border = "1px solid #bbf7d0";
+    summary.style.background = "rgba(236, 253, 245, .96)";
+    summary.style.borderRadius = "999px";
+    summary.style.boxShadow = "0 14px 36px rgba(15, 23, 42, .12)";
+    summary.style.font = "12px Inter, system-ui, sans-serif";
+    summary.style.color = "#065f46";
+    document.body.appendChild(summary);
+  }
+  const unread = state.notifications.filter((note) => !note.read).length;
+  const running = state.activeTimerTaskId ? "timer pornit" : "timer oprit";
+  summary.innerHTML = `<strong>V15 functional layer</strong><span>${state.tasks.length} taskuri</span><span>${state.tickets.length} tickets</span><span>${unread} unread</span><span>${state.savedViews.length} saved views</span><span>${running}</span>`;
+}
+
+function showTaskModal(): void {
+  const panel = createModal("New Task — REAL_LOCAL_PERSISTENT");
+  const title = field("Task title", "Task nou Servelect");
+  const project = field("Project", "P-2026-0187 / Sistem FV + BESS Cluj");
+  const assignee = field("Assignee", "Vlad Neagu");
+  const due = field("Due date", new Date(Date.now() + 86400000 * 3).toISOString().slice(0, 10), "date");
+  const estimate = field("Estimate hours", "4", "number");
+  const grid = document.createElement("div");
+  grid.style.display = "grid";
+  grid.style.gridTemplateColumns = "1fr 1fr";
+  grid.style.gap = "12px";
+  grid.append(title.parentElement as HTMLElement, project.parentElement as HTMLElement, assignee.parentElement as HTMLElement, due.parentElement as HTMLElement, estimate.parentElement as HTMLElement);
+  const save = document.createElement("button");
+  save.type = "button";
+  save.textContent = "Create task";
+  save.setAttribute("data-v171-handler", "create-task");
+  save.style.marginTop = "14px";
+  save.style.padding = "10px 14px";
+  save.style.borderRadius = "10px";
+  save.style.background = "#00843D";
+  save.style.color = "#fff";
+  save.style.border = "0";
+  save.addEventListener("click", () => {
+    if (!title.value.trim()) {
+      toast("Taskul are nevoie de titlu.", "error");
+      return;
+    }
+    const state = mutateState((draft) => {
+      const task: V171Task = {
+        id: makeId("task"),
+        title: title.value.trim(),
+        project: project.value.trim() || "Servelect / Operațiuni",
+        department: "Producție / Montaj",
+        assignee: assignee.value.trim() || "Nealocat",
+        status: "Planificat",
+        priority: "Medium",
+        dueDate: due.value,
+        estimateHours: Number(estimate.value || "0"),
+        trackedHours: 0,
+        comments: 0,
+        checklist: [],
+        dependencies: [],
+        attachments: [],
+        createdAt: nowIso(),
+        updatedAt: nowIso(),
+      };
+      draft.tasks.unshift(task);
+      notify(draft, `Task creat: ${task.title}`, "task", task.id);
+      addActivity(draft, `New Task creat și persistat: ${task.title}`);
+    });
+    clearModal();
+    toast(`Task creat. Total taskuri: ${state.tasks.length}. Persistă după refresh.`);
+  });
+  panel.append(grid, save);
+}
+
+function showTicketModal(): void {
+  const panel = createModal("New Ticket — REAL_LOCAL_PERSISTENT");
+  const title = field("Ticket title", "Intervenție nouă teren");
+  const assignee = field("Assignee", "Mihai Ionescu");
+  const severity = field("Severity", "High");
+  const save = document.createElement("button");
+  save.type = "button";
+  save.textContent = "Create ticket";
+  save.setAttribute("data-v171-handler", "create-ticket");
+  save.style.marginTop = "14px";
+  save.style.padding = "10px 14px";
+  save.style.borderRadius = "10px";
+  save.style.background = "#00843D";
+  save.style.color = "#fff";
+  save.style.border = "0";
+  save.addEventListener("click", () => {
+    if (!title.value.trim()) {
+      toast("Ticketul are nevoie de titlu.", "error");
+      return;
+    }
+    const state = mutateState((draft) => {
+      const ticket: V171Ticket = {
+        id: makeId("ticket"),
+        title: title.value.trim(),
+        severity: severity.value.trim() === "Critical" ? "Critical" : severity.value.trim() === "Low" ? "Low" : severity.value.trim() === "Medium" ? "Medium" : "High",
+        assignee: assignee.value.trim() || "Nealocat",
+        status: "In lucru",
+        comments: 0,
+        attachments: [],
+        createdAt: nowIso(),
+        updatedAt: nowIso(),
+      };
+      draft.tickets.unshift(ticket);
+      notify(draft, `Ticket creat: ${ticket.title}`, "ticket", ticket.id);
+      addActivity(draft, `New Ticket creat și persistat: ${ticket.title}`);
+    });
+    clearModal();
+    toast(`Ticket creat. Total tickets: ${state.tickets.length}. Persistă după refresh.`);
+  });
+  panel.append(title.parentElement as HTMLElement, assignee.parentElement as HTMLElement, severity.parentElement as HTMLElement, save);
+}
+
+function showImportModal(): void {
+  const panel = createModal("Import — mock interactiv cu preview și validare");
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".csv,.txt,.xlsx";
+  const preview = document.createElement("pre");
+  preview.style.minHeight = "90px";
+  preview.style.background = "#f8fafc";
+  preview.style.border = "1px solid #e2e8f0";
+  preview.style.borderRadius = "10px";
+  preview.style.padding = "10px";
+  preview.textContent = "Alege fișier CSV/TXT. Pentru XLSX se înregistrează mock import și se cere backend parser în v18.";
+  input.addEventListener("change", () => {
+    const file = input.files?.[0];
+    if (!file) return;
+    if (file.name.endsWith(".xlsx")) {
+      preview.textContent = `Fișier detectat: ${file.name}\nTip: XLSX\nStatus: mock mapping, parser real în v18.`;
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = String(reader.result ?? "");
+      const firstLines = text.split(/\r?\n/).slice(0, 5).join("\n");
+      preview.textContent = `Fișier detectat: ${file.name}\nColoane/preview:\n${firstLines}`;
+    };
+    reader.readAsText(file);
+  });
+  const runImport = document.createElement("button");
+  runImport.type = "button";
+  runImport.textContent = "Import preview data";
+  runImport.style.marginTop = "12px";
+  runImport.style.padding = "10px 14px";
+  runImport.style.borderRadius = "10px";
+  runImport.style.background = "#00843D";
+  runImport.style.color = "#fff";
+  runImport.style.border = "0";
+  runImport.addEventListener("click", () => {
+    const state = mutateState((draft) => {
+      const task: V171Task = {
+        id: makeId("import-task"),
+        title: "Task importat din fișier / mapping mock",
+        project: "Import / Operațiuni",
+        department: "Administrativ",
+        assignee: "Ioana Marinescu",
+        status: "Planificat",
+        priority: "Medium",
+        dueDate: new Date(Date.now() + 86400000 * 7).toISOString().slice(0, 10),
+        estimateHours: 2,
+        trackedHours: 0,
+        comments: 0,
+        checklist: ["Validare coloane", "Mapping câmpuri"],
+        dependencies: [],
+        attachments: input.files?.[0]?.name ? [input.files[0].name] : [],
+        createdAt: nowIso(),
+        updatedAt: nowIso(),
+      };
+      draft.tasks.unshift(task);
+      notify(draft, "Import finalizat: 1 task creat", "import", task.id);
+      addActivity(draft, "Import mock-interactive: preview + 1 task creat/persistat.");
+    });
+    clearModal();
+    toast(`Import rulat. Total taskuri: ${state.tasks.length}.`);
+  });
+  panel.append(input, preview, runImport);
+}
+
+function exportCsv(): void {
+  const state = loadState();
+  const rows = [["id", "title", "project", "assignee", "status", "priority", "dueDate", "estimateHours", "trackedHours"], ...state.tasks.map((task) => [task.id, task.title, task.project, task.assignee, task.status, task.priority, task.dueDate, String(task.estimateHours), String(task.trackedHours)])];
+  const csv = rows.map((row) => row.map((cell) => `"${cell.replace(/"/g, '""')}"`).join(",")).join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "servelect-work-os-taskuri-v171-export.csv";
+  link.click();
+  URL.revokeObjectURL(url);
+  mutateState((draft) => addActivity(draft, "Export CSV generat pentru taskuri."));
+  toast("Export CSV generat.");
+}
+
+function saveView(): void {
+  const inputs = Array.from(document.querySelectorAll("input, select")) as Array<HTMLInputElement | HTMLSelectElement>;
+  const query = inputs.map((input) => `${input.getAttribute("aria-label") ?? input.name ?? input.placeholder ?? "field"}:${input.value}`).join(" | ");
+  const state = mutateState((draft) => {
+    const view: V171SavedView = {
+      id: makeId("view"),
+      title: `Saved view ${routeSection()} ${draft.savedViews.length + 1}`,
+      path: getRoute(),
+      query,
+      density: "Dense",
+      statusFilter: query.includes("Review") ? "Review" : "All",
+      assigneeFilter: query.includes("Vlad") ? "Vlad" : "All",
+      createdAt: nowIso(),
+    };
+    draft.savedViews.unshift(view);
+    notify(draft, `Saved view creat: ${view.title}`, "view", view.id);
+    addActivity(draft, `Saved View persistat: ${view.title}`);
+  });
+  toast(`Saved View persistat. Total: ${state.savedViews.length}.`);
+}
+
+function resetFilters(): void {
+  const inputs = Array.from(document.querySelectorAll("input, select")) as Array<HTMLInputElement | HTMLSelectElement>;
+  inputs.forEach((input) => {
+    if (input instanceof HTMLInputElement && input.type !== "file") input.value = "";
+    if (input instanceof HTMLSelectElement) input.selectedIndex = 0;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+  mutateState((draft) => addActivity(draft, `Filtre resetate pe ${getRoute()}.`));
+  toast("Filtre resetate cu feedback și activity log.");
+}
+
+function addComment(): void {
+  const textareas = Array.from(document.querySelectorAll("textarea")) as HTMLTextAreaElement[];
+  const text = textareas.find((area) => area.value.trim())?.value.trim() || "Comentariu adăugat din drawer.";
+  mutateState((draft) => {
+    const task = draft.tasks[0];
+    if (task) {
+      task.comments += 1;
+      task.updatedAt = nowIso();
+      addActivity(draft, `Comentariu pe ${task.title}: ${text}`);
+      notify(draft, `Comentariu nou: ${task.title}`, "task", task.id);
+    }
+  });
+  toast("Comentariu salvat, count actualizat și activity log generat.");
+}
+
+function addChecklist(): void {
+  mutateState((draft) => {
+    const task = draft.tasks[0];
+    if (task) {
+      task.checklist.push(`Checklist item ${task.checklist.length + 1}`);
+      task.updatedAt = nowIso();
+      addActivity(draft, `Checklist adăugat pe ${task.title}.`);
+    }
+  });
+  toast("Checklist adăugat și persistat.");
+}
+
+function addDependency(): void {
+  mutateState((draft) => {
+    const task = draft.tasks[0];
+    const dependency = draft.tasks[1]?.id ?? "manual-dependency";
+    if (task && !task.dependencies.includes(dependency)) {
+      task.dependencies.push(dependency);
+      task.updatedAt = nowIso();
+      addActivity(draft, `Dependency adăugat pe ${task.title}.`);
+    }
+  });
+  toast("Dependency adăugat și persistat.");
+}
+
+function attachFile(): void {
+  mutateState((draft) => {
+    const task = draft.tasks[0];
+    if (task) {
+      task.attachments.push(`mock-file-${task.attachments.length + 1}.pdf`);
+      task.updatedAt = nowIso();
+      addActivity(draft, `Mock attachment adăugat pe ${task.title}.`);
+    }
+  });
+  toast("Fișier mock atașat și persistat.");
+}
+
+function startTimer(): void {
+  const state = mutateState((draft) => {
+    const task = draft.tasks[0];
+    if (!task) return;
+    if (draft.activeTimerTaskId) return;
+    draft.activeTimerTaskId = task.id;
+    draft.timeEntries.unshift({ id: makeId("time"), taskId: task.id, startedAt: nowIso() });
+    addActivity(draft, `Timer pornit pentru ${task.title}.`);
+  });
+  toast(state.activeTimerTaskId ? "Timer pornit." : "Timer deja pornit.", state.activeTimerTaskId ? "success" : "info");
+}
+
+function stopTimer(): void {
+  mutateState((draft) => {
+    const activeId = draft.activeTimerTaskId;
+    if (!activeId) return;
+    const entry = draft.timeEntries.find((item) => item.taskId === activeId && !item.stoppedAt);
+    const task = draft.tasks.find((item) => item.id === activeId);
+    if (entry && task) {
+      entry.stoppedAt = nowIso();
+      entry.hours = 0.25;
+      task.trackedHours = Number((task.trackedHours + 0.25).toFixed(2));
+      task.updatedAt = nowIso();
+      addActivity(draft, `Timer oprit pentru ${task.title}; +0.25h tracked.`);
+    }
+    draft.activeTimerTaskId = undefined;
+  });
+  toast("Timer oprit, time entry creat și workload actualizat.");
+}
+
+function markRead(all: boolean): void {
+  const state = mutateState((draft) => {
+    if (all) {
+      draft.notifications.forEach((note) => { note.read = true; });
+      addActivity(draft, "Toate notificările au fost marcate ca citite.");
+    } else {
+      const note = draft.notifications.find((item) => !item.read);
+      if (note) note.read = true;
+      addActivity(draft, "Notificare marcată ca citită.");
+    }
+  });
+  const unread = state.notifications.filter((note) => !note.read).length;
+  toast(`Notificări actualizate. Unread: ${unread}.`);
+}
+
+function openRelatedEntity(): void {
+  const state = loadState();
+  const note = state.notifications.find((item) => !item.read) ?? state.notifications[0];
+  if (!note) {
+    toast("Nu există notificări de deschis.", "info");
+    return;
+  }
+  window.localStorage.setItem("servelect.workos.v171.activeEntity", JSON.stringify(note));
+  toast(`Entitate deschisă: ${note.title}`);
+  renderSummary(state);
+}
+
+function approveReject(approved: boolean): void {
+  if (!approved) {
+    const reason = window.prompt("Motiv reject obligatoriu:");
+    if (!reason?.trim()) {
+      toast("Reject anulat: motiv obligatoriu.", "error");
+      return;
+    }
+    mutateState((draft) => {
+      const approval = draft.approvals.find((item) => item.status === "Pending");
+      if (approval) {
+        approval.status = "Rejected";
+        approval.reason = reason.trim();
+        approval.updatedAt = nowIso();
+        addActivity(draft, `Approval respins: ${approval.title}. Motiv: ${reason.trim()}`);
+      }
+    });
+    toast("Approval respins cu motiv și activity log.");
+    return;
+  }
+  mutateState((draft) => {
+    const approval = draft.approvals.find((item) => item.status === "Pending");
+    if (approval) {
+      approval.status = "Approved";
+      approval.updatedAt = nowIso();
+      addActivity(draft, `Approval acceptat: ${approval.title}.`);
+    }
+  });
+  toast("Approval acceptat și activity log generat.");
+}
+
+function bulkAction(): void {
+  mutateState((draft) => {
+    draft.tasks.slice(0, 2).forEach((task) => {
+      task.status = "Review";
+      task.updatedAt = nowIso();
+    });
+    addActivity(draft, "Bulk action: primele 2 taskuri mutate în Review.");
+  });
+  toast("Bulk action aplicat și persistat.");
+}
+
+function cycleRole(): void {
+  const order: V171Role[] = ["Viewer", "Member", "Manager", "Super Admin"];
+  const state = mutateState((draft) => {
+    const nextIndex = (order.indexOf(draft.role) + 1) % order.length;
+    draft.role = order[nextIndex];
+    addActivity(draft, `Role switcher: ${draft.role}.`);
+  });
+  toast(`Rol activ: ${state.role}. RBAC local actualizat.`);
+}
+
+function normalizeLabel(text: string): string {
+  return text.replace(/\s+/g, " ").trim().toLowerCase();
+}
+
+function targetButton(node: EventTarget | null): HTMLButtonElement | HTMLAnchorElement | null {
+  if (!(node instanceof Element)) return null;
+  return node.closest("button, a") as HTMLButtonElement | HTMLAnchorElement | null;
+}
+
+function handleClick(event: MouseEvent): void {
+  const target = targetButton(event.target);
+  if (!target) return;
+  const label = normalizeLabel(target.textContent ?? target.getAttribute("aria-label") ?? "");
+  if (!label) return;
+  const shouldHandle = (fragments: string[]) => fragments.some((fragment) => label.includes(fragment));
+
+  if (shouldHandle(["new task", "task nou", "create task"])) { event.preventDefault(); showTaskModal(); return; }
+  if (shouldHandle(["new ticket", "ticket nou", "create ticket"])) { event.preventDefault(); showTicketModal(); return; }
+  if (shouldHandle(["save view", "salvează view", "saved view"])) { event.preventDefault(); saveView(); return; }
+  if (shouldHandle(["reset filter", "reset filtre", "clear filter"])) { event.preventDefault(); resetFilters(); return; }
+  if (shouldHandle(["export"])) { event.preventDefault(); exportCsv(); return; }
+  if (shouldHandle(["import"])) { event.preventDefault(); showImportModal(); return; }
+  if (shouldHandle(["mark all read", "marchează toate"])) { event.preventDefault(); markRead(true); return; }
+  if (shouldHandle(["mark read", "marchează citit"])) { event.preventDefault(); markRead(false); return; }
+  if (shouldHandle(["open related", "deschide entitate"])) { event.preventDefault(); openRelatedEntity(); return; }
+  if (shouldHandle(["add comment", "comentariu"])) { event.preventDefault(); addComment(); return; }
+  if (shouldHandle(["add checklist", "checklist"])) { event.preventDefault(); addChecklist(); return; }
+  if (shouldHandle(["add dependency", "dependency", "dependență"])) { event.preventDefault(); addDependency(); return; }
+  if (shouldHandle(["attach file", "ataș", "fisier", "fișier"])) { event.preventDefault(); attachFile(); return; }
+  if (shouldHandle(["start timer", "pornește timer"])) { event.preventDefault(); startTimer(); return; }
+  if (shouldHandle(["stop timer", "oprește timer"])) { event.preventDefault(); stopTimer(); return; }
+  if (shouldHandle(["approve", "aprobă"])) { event.preventDefault(); approveReject(true); return; }
+  if (shouldHandle(["reject", "respinge"])) { event.preventDefault(); approveReject(false); return; }
+  if (shouldHandle(["bulk", "selected", "selectate"])) { event.preventDefault(); bulkAction(); return; }
+  if (shouldHandle(["viewer", "member", "manager", "super admin", "role"])) { event.preventDefault(); cycleRole(); }
+}
+
+function handleChange(event: Event): void {
+  const target = event.target;
+  if (!(target instanceof HTMLInputElement || target instanceof HTMLSelectElement)) return;
+  const label = target.placeholder || target.name || target.getAttribute("aria-label") || "Filter";
+  window.clearTimeout(Number(target.dataset.v171FilterTimer ?? "0"));
+  const timer = window.setTimeout(() => {
+    mutateState((draft) => addActivity(draft, `Filter/Search schimbat: ${label} = ${target.value || "empty"}`));
+    toast("Filter/Search aplicat și înregistrat în activity log.", "info");
+  }, 650);
+  target.dataset.v171FilterTimer = String(timer);
+}
+
+function handleDrop(event: DragEvent): void {
+  const section = routeSection();
+  if (!section.includes("board")) return;
+  event.preventDefault();
+  mutateState((draft) => {
+    const task = draft.tasks[0];
+    if (task) {
+      task.status = task.status === "Review" ? "Finalizat" : "Review";
+      task.updatedAt = nowIso();
+      addActivity(draft, `Board drag/drop mock: ${task.title} mutat în ${task.status}.`);
+    }
+  });
+  toast("Board drag/drop interceptat: status schimbat și persistat.");
+}
+
+function prepareBoardDrag(): void {
+  if (!routeSection().includes("board")) return;
+  const candidates = Array.from(document.querySelectorAll("article, [class*=card], [class*=task], tr")) as HTMLElement[];
+  candidates.slice(0, 12).forEach((item) => {
+    if (!item.draggable) item.draggable = true;
+    item.addEventListener("dragstart", (event) => {
+      if (event.dataTransfer) event.dataTransfer.setData("text/plain", "v171-task");
+    });
+  });
+}
+
+export default function V171V15InPlaceFunctionalRuntime() {
+  useEffect(() => {
+    const state = loadState();
+    document.body.setAttribute("data-v171-v15-functional-runtime-active", "true");
+    document.body.setAttribute("data-v171-persistence", "REAL_LOCAL_PERSISTENT");
+    renderSummary(state);
+    prepareBoardDrag();
+    document.addEventListener("click", handleClick, true);
+    document.addEventListener("input", handleChange, true);
+    document.addEventListener("change", handleChange, true);
+    document.addEventListener("dragover", (event) => event.preventDefault());
+    document.addEventListener("drop", handleDrop, true);
+    const routeTimer = window.setInterval(prepareBoardDrag, 1500);
+    return () => {
+      window.clearInterval(routeTimer);
+      document.removeEventListener("click", handleClick, true);
+      document.removeEventListener("input", handleChange, true);
+      document.removeEventListener("change", handleChange, true);
+      document.removeEventListener("drop", handleDrop, true);
+    };
+  }, []);
+
+  return (
+    <div
+      hidden
+      data-v171-v15-functional-runtime="true"
+      data-v171-mode="REAL_LOCAL_PERSISTENT"
+      data-v171-goodday-functional-parity-on-v15="true"
+    />
+  );
+}

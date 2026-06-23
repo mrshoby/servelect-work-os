@@ -1,19 +1,5 @@
-import V210GoodDayRealMutationBridge from "@/components/tasks/V210GoodDayRealMutationBridge";
-import V150GoodDayStructuralTaskuriWorkspace from "@/components/tasks/V150GoodDayStructuralTaskuriWorkspace";
-import V200GoodDayCompleteInteractionLayer from "@/components/tasks/V200GoodDayCompleteInteractionLayer";
+import TaskuriUnifiedV21Workspace from "@/components/tasks/TaskuriUnifiedV21Workspace";
 
-export default function TaskuriPage() {
-  return (
-    <>
-      <V150GoodDayStructuralTaskuriWorkspace routeKey="my-work" />
-      <V200GoodDayCompleteInteractionLayer routeKey="my-work" />
-      <V210GoodDayRealMutationBridge routeKey="my-work" />
-    </>
-  );
+export default function Page() {
+  return <TaskuriUnifiedV21Workspace routeKey="my-work" />;
 }
-
-
-
-
-
-// data-v210-goodday-real-mutation-bridge source binding marker

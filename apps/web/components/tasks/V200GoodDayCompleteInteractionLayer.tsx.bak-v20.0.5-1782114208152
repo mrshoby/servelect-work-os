@@ -1,0 +1,211 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+
+type V200Action = {
+  id: string;
+  label: string;
+  type: string;
+  route: string;
+  at: string;
+};
+
+type V200State = {
+  actions: V200Action[];
+  savedViews: string[];
+  notificationsRead: number;
+  runningTimer: string | null;
+  boardMoves: number;
+  drawerSaves: number;
+  imports: number;
+  exports: number;
+};
+
+const STORAGE_KEY = "servelect.workos.v200.complete.interaction.layer";
+
+const defaultState: V200State = {
+  actions: [],
+  savedViews: [],
+  notificationsRead: 0,
+  runningTimer: null,
+  boardMoves: 0,
+  drawerSaves: 0,
+  imports: 0,
+  exports: 0,
+};
+
+function readState(): V200State {
+  if (typeof window === "undefined") return defaultState;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return defaultState;
+    return { ...defaultState, ...JSON.parse(raw) } as V200State;
+  } catch {
+    return defaultState;
+  }
+}
+
+function writeState(state: V200State) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function actionLabel(type: string) {
+  const labels: Record<string, string> = {
+    newTask: "New Task",
+    newTicket: "New Ticket",
+    saveView: "Save View",
+    resetFilter: "Reset Filter",
+    exportCsv: "Export",
+    importPreview: "Import",
+    markRead: "Mark read",
+    markAllRead: "Mark all read",
+    openRelated: "Open related entity",
+    addComment: "Add comment",
+    addChecklist: "Add checklist",
+    addDependency: "Add dependency",
+    attachFile: "Attach file",
+    startTimer: "Start timer",
+    stopTimer: "Stop timer",
+    approve: "Approve",
+    reject: "Reject",
+    bulkAction: "Bulk action",
+    tableSort: "Table sort",
+    boardMove: "Board status move",
+    drawerSave: "Drawer save",
+    workflowTransition: "Workflow transition",
+    workloadRebalance: "Workload rebalance",
+    ganttReschedule: "Gantt reschedule",
+    calendarSchedule: "Calendar schedule",
+    savedViewRestore: "Saved view restore",
+    search: "Search",
+    roleSwitch: "Role switch",
+    escalateTicket: "Escalate ticket",
+    convertTicketToTask: "Convert ticket to task",
+    procurementRequest: "Procurement request",
+    rfqConversion: "RFQ conversion",
+    supplierComparison: "Supplier comparison",
+    purchaseOrder: "Purchase order",
+    invoiceAttach: "Invoice attach",
+    reportRefresh: "Report refresh",
+  };
+  return labels[type] ?? type;
+}
+
+export default function V200GoodDayCompleteInteractionLayer() {
+  const [state, setState] = useState<V200State>(() => readState());
+  const [toast, setToast] = useState<string | null>(null);
+
+  const statusText = useMemo(() => {
+    return `REAL_LOCAL_PERSISTENT | actions=${state.actions.length} | savedViews=${state.savedViews.length}`;
+  }, [state.actions.length, state.savedViews.length]);
+
+  useEffect(() => {
+    writeState(state);
+  }, [state]);
+
+  useEffect(() => {
+    if (!toast) return;
+    const id = window.setTimeout(() => setToast(null), 2400);
+    return () => window.clearTimeout(id);
+  }, [toast]);
+
+  useEffect(() => {
+    const commit = (type: string, source: string) => {
+      setState((current) => {
+        const action: V200Action = {
+          id: `${type}-${Date.now()}`,
+          label: actionLabel(type),
+          type,
+          route: window.location.pathname,
+          at: new Date().toISOString(),
+        };
+        const next: V200State = {
+          ...current,
+          actions: [action, ...current.actions].slice(0, 80),
+        };
+
+        if (type === "saveView") next.savedViews = Array.from(new Set([`Saved view ${current.savedViews.length + 1}`, ...current.savedViews])).slice(0, 20);
+        if (type === "markRead") next.notificationsRead = current.notificationsRead + 1;
+        if (type === "markAllRead") next.notificationsRead = current.notificationsRead + 5;
+        if (type === "startTimer") next.runningTimer = action.id;
+        if (type === "stopTimer") next.runningTimer = null;
+        if (type === "boardMove") next.boardMoves = current.boardMoves + 1;
+        if (type === "drawerSave") next.drawerSaves = current.drawerSaves + 1;
+        if (type === "importPreview") next.imports = current.imports + 1;
+        if (type === "exportCsv") next.exports = current.exports + 1;
+
+        return next;
+      });
+      setToast(`${actionLabel(type)} executat și salvat local (${source}).`);
+    };
+
+    const onClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const actionElement = target?.closest<HTMLElement>("[data-v200-action]");
+      if (!actionElement) return;
+      const action = actionElement.dataset.v200Action;
+      if (!action) return;
+      commit(action, "click");
+    };
+
+    const onChange = (event: Event) => {
+      const target = event.target as HTMLElement | null;
+      const actionElement = target?.closest<HTMLElement>("[data-v200-change]");
+      if (!actionElement) return;
+      const action = actionElement.dataset.v200Change;
+      if (!action) return;
+      commit(action, "change");
+    };
+
+    const onDrop = (event: DragEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target?.closest("[data-v200-board-dropzone]")) return;
+      commit("boardMove", "drop");
+    };
+
+    document.addEventListener("click", onClick);
+    document.addEventListener("change", onChange);
+    document.addEventListener("drop", onDrop);
+
+    return () => {
+      document.removeEventListener("click", onClick);
+      document.removeEventListener("change", onChange);
+      document.removeEventListener("drop", onDrop);
+    };
+  }, []);
+
+  return (
+    <>
+      <div
+        data-v200-goodday-complete-interaction-layer="true"
+        data-v200-runtime-mode="REAL_LOCAL_PERSISTENT"
+        data-v200-status={statusText}
+        hidden
+        aria-hidden="true"
+      />
+      {toast ? (
+        <div
+          role="status"
+          data-v200-toast="true"
+          style={{
+            position: "fixed",
+            right: 18,
+            bottom: 18,
+            zIndex: 60,
+            maxWidth: 360,
+            borderRadius: 14,
+            border: "1px solid rgba(15, 23, 42, 0.12)",
+            background: "rgba(15, 23, 42, 0.92)",
+            color: "white",
+            padding: "10px 14px",
+            fontSize: 12,
+            boxShadow: "0 18px 45px rgba(15, 23, 42, 0.2)",
+          }}
+        >
+          {toast}
+        </div>
+      ) : null}
+    </>
+  );
+}

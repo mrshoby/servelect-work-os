@@ -1,0 +1,765 @@
+$ next build
+   Γû▓ Next.js 15.5.19
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 32.3s
+   Linting and checking validity of types ...
+
+./app/admin/data-foundation/page.tsx
+1:20  Warning: 'Layers3' is defined but never used.  @typescript-eslint/no-unused-vars
+5:7  Warning: 'toneClass' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/performance/page.tsx
+1:10  Warning: 'Activity' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation/page.tsx
+4:10  Warning: 'JsonCard' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-adapter-registry/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-contracts/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-data-map/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-executive/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-governance/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-reconciliation/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-risks/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-runbooks/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/source-of-truth-adapter-activation-sync-plan/page.tsx
+2:10  Warning: 'toneFor' is defined but never used.  @typescript-eslint/no-unused-vars
+3:10  Warning: 'PercentBar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/task-crud/page.tsx
+2:55  Warning: 'ListChecks' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/work-os-execution-audit/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/work-os-execution-automation/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/work-os-execution-command-center/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/work-os-execution-rbac/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/work-os-execution-readiness/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/admin/work-os-workflows/page.tsx
+1:61  Warning: 'WorkOsProgress' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/auth/users/[id]/route.ts
+2:10  Warning: 'findAuthUserByEmail' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/enterprise/task-api-wiring/route.ts
+3:10  Warning: 'getTaskApiWiringHealth' is defined but never used.  @typescript-eslint/no-unused-vars
+3:58  Warning: 'taskApiWiringPlan' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/enterprise/task-api-wiring-health/route.ts
+3:34  Warning: 'getTaskApiWiringStatus' is defined but never used.  @typescript-eslint/no-unused-vars
+3:58  Warning: 'taskApiWiringPlan' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/enterprise/task-api-wiring-plan/route.ts
+3:10  Warning: 'getTaskApiWiringHealth' is defined but never used.  @typescript-eslint/no-unused-vars
+3:34  Warning: 'getTaskApiWiringStatus' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/enterprise/task-ui-api-contract/route.ts
+3:10  Warning: 'getTaskApiWiringHealth' is defined but never used.  @typescript-eslint/no-unused-vars
+3:34  Warning: 'getTaskApiWiringStatus' is defined but never used.  @typescript-eslint/no-unused-vars
+3:58  Warning: 'taskApiWiringPlan' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v76-provider-storage/access-checks/route.ts
+2:33  Warning: 'requestSignedUpload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:54  Warning: 'requestSignedDownload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:77  Warning: 'runProviderDelivery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:114  Warning: 'deleteOrRestoreAttachment' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v76-provider-storage/file-versions/route.ts
+2:33  Warning: 'requestSignedUpload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:54  Warning: 'requestSignedDownload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:77  Warning: 'runProviderDelivery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:98  Warning: 'evaluateAccess' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v76-provider-storage/health/route.ts
+2:10  Warning: 'createV76RuntimeState' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'requestSignedUpload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:54  Warning: 'requestSignedDownload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:77  Warning: 'runProviderDelivery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:98  Warning: 'evaluateAccess' is defined but never used.  @typescript-eslint/no-unused-vars
+2:114  Warning: 'deleteOrRestoreAttachment' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v76-provider-storage/providers/route.ts
+2:33  Warning: 'requestSignedUpload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:54  Warning: 'requestSignedDownload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:98  Warning: 'evaluateAccess' is defined but never used.  @typescript-eslint/no-unused-vars
+2:114  Warning: 'deleteOrRestoreAttachment' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v76-provider-storage/route.ts
+2:33  Warning: 'requestSignedUpload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:54  Warning: 'requestSignedDownload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:77  Warning: 'runProviderDelivery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:98  Warning: 'evaluateAccess' is defined but never used.  @typescript-eslint/no-unused-vars
+2:114  Warning: 'deleteOrRestoreAttachment' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v76-provider-storage/signed-download/route.ts
+2:33  Warning: 'requestSignedUpload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:77  Warning: 'runProviderDelivery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:98  Warning: 'evaluateAccess' is defined but never used.  @typescript-eslint/no-unused-vars
+2:114  Warning: 'deleteOrRestoreAttachment' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v76-provider-storage/signed-upload/route.ts
+2:54  Warning: 'requestSignedDownload' is defined but never used.  @typescript-eslint/no-unused-vars
+2:77  Warning: 'runProviderDelivery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:98  Warning: 'evaluateAccess' is defined but never used.  @typescript-eslint/no-unused-vars
+2:114  Warning: 'deleteOrRestoreAttachment' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v78-provider-telemetry/health/route.ts
+1:10  Warning: 'createV78RuntimeState' is defined but never used.  @typescript-eslint/no-unused-vars
+1:33  Warning: 'runV78MutationCanary' is defined but never used.  @typescript-eslint/no-unused-vars
+1:55  Warning: 'runV78ProviderProbe' is defined but never used.  @typescript-eslint/no-unused-vars
+1:76  Warning: 'saveV78ServerView' is defined but never used.  @typescript-eslint/no-unused-vars
+1:95  Warning: 'syncV78SavedViews' is defined but never used.  @typescript-eslint/no-unused-vars
+1:152  Warning: 'v78ProgressScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:171  Warning: 'v78RouteList' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v78-provider-telemetry/mutation-canary/route.ts
+1:55  Warning: 'runV78ProviderProbe' is defined but never used.  @typescript-eslint/no-unused-vars
+1:76  Warning: 'saveV78ServerView' is defined but never used.  @typescript-eslint/no-unused-vars
+1:95  Warning: 'syncV78SavedViews' is defined but never used.  @typescript-eslint/no-unused-vars
+1:114  Warning: 'v78CurrentReadiness' is defined but never used.  @typescript-eslint/no-unused-vars
+1:135  Warning: 'v78GlobalScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:152  Warning: 'v78ProgressScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:171  Warning: 'v78RouteList' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v78-provider-telemetry/observability/route.ts
+1:33  Warning: 'runV78MutationCanary' is defined but never used.  @typescript-eslint/no-unused-vars
+1:55  Warning: 'runV78ProviderProbe' is defined but never used.  @typescript-eslint/no-unused-vars
+1:76  Warning: 'saveV78ServerView' is defined but never used.  @typescript-eslint/no-unused-vars
+1:95  Warning: 'syncV78SavedViews' is defined but never used.  @typescript-eslint/no-unused-vars
+1:114  Warning: 'v78CurrentReadiness' is defined but never used.  @typescript-eslint/no-unused-vars
+1:135  Warning: 'v78GlobalScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:152  Warning: 'v78ProgressScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:171  Warning: 'v78RouteList' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v78-provider-telemetry/route.ts
+1:95  Warning: 'syncV78SavedViews' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v78-provider-telemetry/saved-views/route.ts
+1:33  Warning: 'runV78MutationCanary' is defined but never used.  @typescript-eslint/no-unused-vars
+1:55  Warning: 'runV78ProviderProbe' is defined but never used.  @typescript-eslint/no-unused-vars
+1:114  Warning: 'v78CurrentReadiness' is defined but never used.  @typescript-eslint/no-unused-vars
+1:135  Warning: 'v78GlobalScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:152  Warning: 'v78ProgressScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:171  Warning: 'v78RouteList' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v78-provider-telemetry/telemetry/route.ts
+1:33  Warning: 'runV78MutationCanary' is defined but never used.  @typescript-eslint/no-unused-vars
+1:76  Warning: 'saveV78ServerView' is defined but never used.  @typescript-eslint/no-unused-vars
+1:95  Warning: 'syncV78SavedViews' is defined but never used.  @typescript-eslint/no-unused-vars
+1:114  Warning: 'v78CurrentReadiness' is defined but never used.  @typescript-eslint/no-unused-vars
+1:135  Warning: 'v78GlobalScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:152  Warning: 'v78ProgressScores' is defined but never used.  @typescript-eslint/no-unused-vars
+1:171  Warning: 'v78RouteList' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/ci-quality-gates/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/dead-letter-recovery/route.ts
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/goodday-parity-delta/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/health/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/inbound-webhook-signature/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/manager-acceptance-gates/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/pixel-diff-baseline/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/provider-secret-adapter/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/release-readiness/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/replay-queue/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/runtime-proof/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/signed-payload-drill/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:76  Warning: 'v88Release' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v88-pixel-diff-provider-webhook/visual-evidence/route.ts
+2:10  Warning: 'v88DeadLetterRecovery' is defined but never used.  @typescript-eslint/no-unused-vars
+2:33  Warning: 'v88PixelDiffBaselines' is defined but never used.  @typescript-eslint/no-unused-vars
+2:56  Warning: 'v88ProviderSecrets' is defined but never used.  @typescript-eslint/no-unused-vars
+2:88  Warning: 'v88RuntimeProof' is defined but never used.  @typescript-eslint/no-unused-vars
+2:105  Warning: 'v88WebhookDrills' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v93-goodday-workspace-ux-hardening/bulk-actions/route.ts
+5:9  Warning: 'payload' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v93-goodday-workspace-ux-hardening/drawer/route.ts
+5:9  Warning: 'payload' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v93-goodday-workspace-ux-hardening/health/route.ts
+2:45  Warning: 'getV93Slice' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v93-goodday-workspace-ux-hardening/keyboard/route.ts
+5:9  Warning: 'payload' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v93-goodday-workspace-ux-hardening/readiness/route.ts
+5:9  Warning: 'payload' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v93-goodday-workspace-ux-hardening/saved-views/route.ts
+5:9  Warning: 'payload' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v98-goodday-ui-content-function-parity/button-audit/route.ts
+2:10  Warning: 'getV98GoodDayParitySummary' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v98-goodday-ui-content-function-parity/flow-audit/route.ts
+2:10  Warning: 'getV98GoodDayParitySummary' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/api/v1/work-os/v98-goodday-ui-content-function-parity/health/route.ts
+2:10  Warning: 'getV98GoodDayParitySummary' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/mobile/page.tsx
+1:16  Warning: 'CalendarDays' is defined but never used.  @typescript-eslint/no-unused-vars
+1:30  Warning: 'Camera' is defined but never used.  @typescript-eslint/no-unused-vars
+1:58  Warning: 'MapPin' is defined but never used.  @typescript-eslint/no-unused-vars
+1:72  Warning: 'QrCode' is defined but never used.  @typescript-eslint/no-unused-vars
+1:80  Warning: 'Signature' is defined but never used.  @typescript-eslint/no-unused-vars
+2:28  Warning: 'CardHeader' is defined but never used.  @typescript-eslint/no-unused-vars
+22:95  Warning: 'i' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/proiecte/page.tsx
+4:10  Warning: 'CheckCircle2' is defined but never used.  @typescript-eslint/no-unused-vars
+20:89  Warning: 'setProjectFilter' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/action-board/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/action-required/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/activity-stream-v92/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/approval-workflow-builder-v94/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/automations/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/board/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/bulk-operations-v93/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/calendar/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/calendar-capacity-v94/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/calendar-gantt/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/checklists-quality-v95/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/collaboration-hub-v95/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/command-center-v90/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/command-palette-actions-v96/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/cross-module-activity/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/dead-letter-ledger-v92/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/dead-letter-recovery/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/decision-register-v95/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/drawer-flow-v93/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/drawer-mutation-queue-v94/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/enterprise-control-room/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/executive-summary-v97/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/field-team-dispatch/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/files-evidence-v95/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/forms/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/gantt-conflict-review-v96/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/gantt-readiness-v94/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/github-pixel-diff-ci/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/goodday-parity/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/hierarchy-map-v91/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/inbound-webhook-drill/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/inbox/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/inline-persistence-v96/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/keyboard-command-v93/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/live-provider-command-center/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/live-provider-dispatch/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/manager-approval-evidence/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/manager-gate-inbox-v96/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/my-work/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/my-work-focus-v93/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/notification-routing-v96/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/overview/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/pilot-cutover-console/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/pilot-mutation-replay/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/policy-contracts-v94/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/program-board-v97/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/proiecte-active/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/proiecte-finalizate/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/proiecte-viitoare/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/project-hierarchy/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/provider-delivery-worker/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/provider-dispatch-ledger-v92/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/provider-mutation-replay/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/provider-secret-adapter/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/rbac-approval-gates/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/replay-recovery-control/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/reporting-command-v97/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/reports/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/request-intake-v91/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/request-portal-bridge-v95/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/resource-portfolio-v97/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/saved-layouts-v97/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/saved-view-persistence-v96/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/saved-view-policies-v93/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/signed-webhook-hardening/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/signed-webhook-intake/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/sla-escalation-v95/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/sla-evidence-report-v97/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/tabel/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/table/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/task-change-audit-v96/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/task-detail-v91/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/task-mutation-pilot-v92/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/task-object-model-v92/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/task-template-recurrence-v94/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/tickets/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/tickets-notificari/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/time-tracking-v91/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/timeline-dependencies-v94/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/timesheets/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/updates-notifications-v93/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/updates-stream-v91/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/visual-evidence-center/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/webhook-intake-ledger-v92/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/workgraph-map-v97/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/workload/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/workload-aprobari/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/workload-capacity-map/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/workload-forecast-v95/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/workload-planner-v91/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/workspace-command/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/taskuri/workspace-overview-v93/page.tsx
+1:8  Warning: 'V210GoodDayRealMutationBridge' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/drafts/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/execution/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/field-ops/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/gantt/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/materials-planning/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/offer-pipeline/page.tsx
+3:6  Warning: 'JsonValue' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/offers/new/page.tsx
+1:61  Warning: 'WorkOsProgress' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/pontaj/workload/page.tsx
+1:61  Warning: 'WorkOsProgress' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/projects/new/page.tsx
+1:61  Warning: 'WorkOsProgress' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/stock/reservations/page.tsx
+1:61  Warning: 'WorkOsProgress' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./app/work-os/tasks/new/page.tsx
+1:61  Warning: 'WorkOsProgress' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/layout/Topbar.tsx
+30:37  Warning: '_collapsed' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/modules/ModulePanels.tsx
+3:66  Warning: 'CloudSun' is defined but never used.  @typescript-eslint/no-unused-vars
+3:115  Warning: 'UserRound' is defined but never used.  @typescript-eslint/no-unused-vars
+4:10  Warning: 'approvals' is defined but never used.  @typescript-eslint/no-unused-vars
+4:33  Warning: 'energyInstallations' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/tasks/TaskDrawer.tsx
+10:3  Warning: 'MessageSquare' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/tasks/TaskTable.tsx
+6:24  Warning: 'statusTone' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/tasks/V110GoodDayTaskuriEnterpriseWorkspace.tsx
+287:10  Warning: 'minutesLabel' is defined but never used.  @typescript-eslint/no-unused-vars
+327:6  Warning: React Hook useMemo has an unnecessary dependency: 'store.users'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/tasks/V190GoodDayInPlaceInteractionCore.tsx
+472:6  Warning: React Hook useEffect has a missing dependency: 'handleTextAction'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/tasks/V98GoodDayTaskuriParityWorkspace.tsx
+171:9  Warning: 'summary' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+180:9  Warning: 'selectedTasks' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+627:36  Warning: 'tickets' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/GoodDayParityCoreClient.tsx
+44:8  Warning: 'GoodDayAutomationRule' is defined but never used.  @typescript-eslint/no-unused-vars
+608:28  Warning: 'state' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/TaskuriGoodDayIntegrationClient.tsx
+8:3  Warning: 'BarChart3' is defined but never used.  @typescript-eslint/no-unused-vars
+11:3  Warning: 'CheckCircle2' is defined but never used.  @typescript-eslint/no-unused-vars
+17:3  Warning: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+20:3  Warning: 'KanbanSquare' is defined but never used.  @typescript-eslint/no-unused-vars
+22:3  Warning: 'ListChecks' is defined but never used.  @typescript-eslint/no-unused-vars
+34:3  Warning: 'Workflow' is defined but never used.  @typescript-eslint/no-unused-vars
+214:9  Warning: 'overdueTasks' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+687:38  Warning: 'projects' is defined but never used.  @typescript-eslint/no-unused-vars
+687:48  Warning: 'users' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V58ControlledPrismaCutover.tsx
+5:35  Warning: 'ArrowRight' is defined but never used.  @typescript-eslint/no-unused-vars
+5:104  Warning: 'RefreshCw' is defined but never used.  @typescript-eslint/no-unused-vars
+5:158  Warning: 'UploadCloud' is defined but never used.  @typescript-eslint/no-unused-vars
+5:171  Warning: 'Zap' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V59EnterpriseAccountsRbacPack.tsx
+31:3  Warning: 'canViewTask' is defined but never used.  @typescript-eslint/no-unused-vars
+83:7  Warning: 'roleSamples' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V60EnterpriseOperatingLayer.tsx
+6:3  Warning: 'canAssignTask' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V62DepartmentAwareRbac.tsx
+3:56  Warning: 'Clock3' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V64TaskuriFunctionalArea.tsx
+15:3  Warning: 'Columns3' is defined but never used.  @typescript-eslint/no-unused-vars
+19:3  Warning: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+23:3  Warning: 'Grid2X2' is defined but never used.  @typescript-eslint/no-unused-vars
+27:3  Warning: 'MoreHorizontal' is defined but never used.  @typescript-eslint/no-unused-vars
+43:3  Warning: 'v64CompletionStatus' is defined but never used.  @typescript-eslint/no-unused-vars
+46:3  Warning: 'v64ProjectById' is defined but never used.  @typescript-eslint/no-unused-vars
+53:8  Warning: 'V64DepartmentId' is defined but never used.  @typescript-eslint/no-unused-vars
+182:12  Warning: 'addActivity' is defined but never used.  @typescript-eslint/no-unused-vars
+759:10  Warning: 'TaskuriSubnav' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V67GlobalCommandIntegrationClient.tsx
+8:3  Warning: 'CheckCircle2' is defined but never used.  @typescript-eslint/no-unused-vars
+9:3  Warning: 'Clock3' is defined but never used.  @typescript-eslint/no-unused-vars
+14:3  Warning: 'Layers3' is defined but never used.  @typescript-eslint/no-unused-vars
+16:3  Warning: 'MessageSquare' is defined but never used.  @typescript-eslint/no-unused-vars
+21:3  Warning: 'Users' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V70GoodDayParityHardeningClient.tsx
+15:3  Warning: 'V70Timesheet' is defined but never used.  @typescript-eslint/no-unused-vars
+93:24  Warning: 'setNewTaskTitle' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V76ProviderStorageClient.tsx
+6:8  Warning: 'V76DeliveryProvider' is defined but never used.  @typescript-eslint/no-unused-vars
+20:7  Warning: 'viewLabels' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./components/work-os/V78ProviderTelemetrySavedViewsClient.tsx
+101:9  Warning: 'acceptedCanaries' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./lib/api-backed/task-project-api-store.ts
+7:8  Warning: 'ProjectHealth' is defined but never used.  @typescript-eslint/no-unused-vars
+8:8  Warning: 'ProjectPhase' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./lib/enterprise/v11.ts
+5:3  Warning: 'energyInstallations' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./lib/enterprise/work-os-form-workflows.ts
+9:8  Warning: 'WorkOsTaskStatus' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./lib/enterprise/work-os-v71-backend-mutation-adapter.ts
+8:8  Warning: 'V70Approval' is defined but never used.  @typescript-eslint/no-unused-vars
+9:8  Warning: 'V70AutomationRule' is defined but never used.  @typescript-eslint/no-unused-vars
+10:8  Warning: 'V70CustomField' is defined but never used.  @typescript-eslint/no-unused-vars
+11:8  Warning: 'V70EntityKind' is defined but never used.  @typescript-eslint/no-unused-vars
+15:8  Warning: 'V70SavedView' is defined but never used.  @typescript-eslint/no-unused-vars
+21:8  Warning: 'V70Timesheet' is defined but never used.  @typescript-eslint/no-unused-vars
+22:8  Warning: 'V70Workflow' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./lib/enterprise/work-os-v72-prisma-shadow-records.ts
+8:3  Warning: 'v71GlobalScores' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+Failed to compile.
+
+.next/types/app/api/v1/work-os/v210-real-mutation-bridge/[section]/route.ts:49:7
+Type error: Type '{ __tag__: "GET"; __param_position__: "second"; __param_type__: RouteContext; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type 'Promise<{ section: string; }> | { section: string; }' is not assignable to type 'Promise<any>'.
+      Type '{ section: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+
+  47 |     Diff<
+  48 |       ParamCheck<RouteContext>,
+> 49 |       {
+     |       ^
+  50 |         __tag__: 'GET'
+  51 |         __param_position__: 'second'
+  52 |         __param_type__: SecondArg<MaybeField<TEntry, 'GET'>>
+Next.js build worker exited with code: 1 and signal: null
+D:\01_digitalizare_automatizare\servelect-work-os-main\apps\web:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] @servelect/web@21.0.0 build: `next build`
+Exit status 1

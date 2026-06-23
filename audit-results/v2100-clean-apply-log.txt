@@ -1,0 +1,13 @@
+v21 Taskuri binding patched: 93/93
+$ tsc --noEmit
+.next/types/app/api/v1/work-os/v210-real-mutation-bridge/[section]/route.ts(49,7): error TS2344: Type '{ __tag__: "GET"; __param_position__: "second"; __param_type__: RouteContext; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type 'Promise<{ section: string; }> | { section: string; }' is not assignable to type 'Promise<any>'.
+      Type '{ section: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+.next/types/app/api/v1/work-os/v210-real-mutation-bridge/[section]/route.ts(166,7): error TS2344: Type '{ __tag__: "POST"; __param_position__: "second"; __param_type__: RouteContext; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type 'Promise<{ section: string; }> | { section: string; }' is not assignable to type 'Promise<any>'.
+      Type '{ section: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+D:\01_digitalizare_automatizare\servelect-work-os-main\apps\web:
+[ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL] @servelect/web@21.0.0 typecheck: `tsc --noEmit`
+Exit status 2

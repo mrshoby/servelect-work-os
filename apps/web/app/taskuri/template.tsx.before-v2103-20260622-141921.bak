@@ -1,0 +1,22 @@
+import type { ReactNode } from "react";
+
+export default function TaskuriV210ProductionMarkerTemplate({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <>
+      <div
+        data-v210-goodday-real-mutation-bridge="true"
+        data-v210-goodday-real-mutation-bridge-version="21.0.3"
+        data-v210-production-route-binding="GOODDAY_REAL_MUTATION_BRIDGE_ON_V15_V200_SHELL"
+        data-v210-api-mode="API_SHADOW_MUTATION_BRIDGE"
+        data-v210-persistence="REAL_LOCAL_PERSISTENT"
+        aria-hidden="true"
+        style={{ display: "none" }}
+      />
+      {children}
+    </>
+  );
+}
