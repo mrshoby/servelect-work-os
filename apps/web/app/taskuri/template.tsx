@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import V220SingleDialogOwnerGuard from "@/components/tasks/V220SingleDialogOwnerGuard";
 
 export default function TaskuriTemplate({ children }: { children: ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export default function TaskuriTemplate({ children }: { children: ReactNode }) {
         data-v220-goodday-frontend-acceptance="true"
         data-no-duplicate-dialogs="true"
       />
+      <V220SingleDialogOwnerGuard />
       {children}
     </>
   );
