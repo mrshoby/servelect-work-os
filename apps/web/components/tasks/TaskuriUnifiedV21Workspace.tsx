@@ -150,9 +150,18 @@ export default function TaskuriUnifiedV21Workspace({ routeKey = "overview" }: { 
     }
   }, [filteredTasks, routeKey]);
 
-  const activeProjects = workspaceProjects.filter((project) => project.phase !== "Recepție" && project.phase !== "Post-implementare");
-  const futureProjects = workspaceProjects.filter((project) => project.phase === "Ofertare" || project.phase === "Planificat" || project.progress < 20);
-  const finalProjects = workspaceProjects.filter((project) => project.phase === "Recepție" || project.phase === "Post-implementare" || project.progress >= 80);
+  const activeProjects = workspaceProjects.filter((project) => {
+    const phase = String(project.phase);
+    return phase !== "Recepție" && phase !== "Post-implementare";
+  });
+  const futureProjects = workspaceProjects.filter((project) => {
+    const phase = String(project.phase);
+    return phase === "Ofertare" || phase === "Planificat" || project.progress < 20;
+  });
+  const finalProjects = workspaceProjects.filter((project) => {
+    const phase = String(project.phase);
+    return phase === "Recepție" || phase === "Post-implementare" || project.progress >= 80;
+  });
   const unread = inbox.filter((item) => !item.read).length;
   const blocked = tasks.filter((task) => task.status === "Blocat").length;
   const overdue = tasks.filter(isOverdue).length;
@@ -312,3 +321,4 @@ function WorkloadContent({ tasks, approvals, onOpen, onApprove, onReject }: { ta
 function ProjectsContent({ projects, tasks }: { projects: typeof fallbackProjects; tasks: Task[] }) {
   return <div className="grid gap-3 lg:grid-cols-2">{projects.map((project) => { const count = tasks.filter((task) => task.projectId === project.id || task.projectCode === project.code).length; return <div key={project.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"><div className="flex items-start justify-between gap-3"><div><h3 className="font-black text-slate-900">{project.name}</h3><p className="text-xs font-semibold text-slate-500">{project.clientName} · {project.location}</p></div><span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-black text-slate-600">{project.health}</span></div><div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full bg-emerald-500" style={{ width: `${project.progress}%` }} /></div><p className="mt-2 text-xs font-semibold text-slate-500">{project.progress}% · {count} taskuri legate · deadline {project.deadline}</p></div>; })}</div>;
 }
+
