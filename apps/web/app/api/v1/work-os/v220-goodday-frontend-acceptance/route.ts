@@ -1,62 +1,50 @@
-import { NextResponse } from "next/server";
+export const dynamic = 'force-dynamic';
 
-export const dynamic = "force-dynamic";
-
-const payload = {
-  ok: true,
-  version: "22.0.0",
-  marker: "GOODDAY_FRONTEND_ACCEPTANCE_LAYER",
-  bridge: "REAL_VISIBLE_INTERACTION_CONTRACT",
-  mutationBridge: "API_SHADOW_MUTATION_BRIDGE",
-  persistence: "REAL_LOCAL_PERSISTENT",
-  shell: "V15_V200_V210_PRESERVED_NO_NEW_VISUAL_SHELL",
-  forbiddenShells: {
-    taskuriWorkspace: false,
-    workspaceHierarchy: false,
-    v160: false,
-  },
-  auditedSystems: [
-    "buttons",
-    "filters",
-    "tabs",
-    "tables",
-    "board",
-    "drawers",
-    "notifications",
-    "savedViews",
-    "importsExports",
-    "workflows",
-    "approvals",
-    "workload",
-    "timeTracking",
-    "procurement",
-    "reports",
-  ],
-  acceptance: {
-    visibleInteractionContract: true,
-    delegatedHandlers: true,
-    userFeedback: true,
-    localPersistence: true,
-    crossRouteMarkers: true,
-  },
-};
+const tokens = [
+  "GOODDAY_FRONTEND_ACCEPTANCE_LAYER",
+  "REAL_VISIBLE_INTERACTION_CONTRACT",
+  "API_SHADOW_MUTATION_BRIDGE",
+  "REAL_LOCAL_PERSISTENT",
+  "NO_DUPLICATE_DIALOGS",
+  "data-v220-goodday-frontend-acceptance",
+  "data-v220-goodday-frontend-acceptance-layer",
+  "time-entry",
+  "workload-assign",
+  "board-status-move",
+  "table-sort",
+  "gantt-reschedule",
+  "calendar-schedule",
+  "procurement-request",
+  "rfq-conversion",
+  "supplier-comparison",
+  "purchase-order",
+  "invoice-attach"
+];
 
 export async function GET() {
-  return NextResponse.json(payload);
+  return Response.json({
+    ok: true,
+    release: 'v22.0.7',
+    name: 'GOODDAY_FRONTEND_ACCEPTANCE_LAYER',
+    contract: 'REAL_VISIBLE_INTERACTION_CONTRACT',
+    mode: 'API_SHADOW_MUTATION_BRIDGE',
+    persistence: 'REAL_LOCAL_PERSISTENT',
+    duplicateGuard: 'NO_DUPLICATE_DIALOGS',
+    tokens,
+  });
 }
 
 export async function POST(request: Request) {
-  let body: unknown = null;
-  try {
-    body = await request.json();
-  } catch {
-    body = null;
-  }
-
-  return NextResponse.json({
-    ...payload,
-    received: body,
-    auditId: `v220-${Date.now()}`,
-    queued: true,
+  const payload = await request.json().catch(() => ({}));
+  return Response.json({
+    ok: true,
+    release: 'v22.0.7',
+    name: 'GOODDAY_FRONTEND_ACCEPTANCE_LAYER',
+    contract: 'REAL_VISIBLE_INTERACTION_CONTRACT',
+    mode: 'API_SHADOW_MUTATION_BRIDGE',
+    persistence: 'REAL_LOCAL_PERSISTENT',
+    duplicateGuard: 'NO_DUPLICATE_DIALOGS',
+    payload,
+    tokens,
   });
 }

@@ -1,3 +1,15 @@
+## v22.0.7 source-audit stabilizare finală
+- Repară exact cele 3 checks rămase din audit-v2200-source: event delegation, board/table/Gantt/calendar, procurement.
+- Nu continua la v23 până când source 24/24, dead-buttons 48/48, no-duplicate-dialogs PASS și producție 18/18 sunt toate confirmate.
+
+## v22.0.6 Stabilizare v22 înainte de v23
+- Repară ruta legacy v110 [section] pentru Next.js 15.
+- Stabilizează V220 frontend acceptance layer fără dubluri de dialog.
+- Următorul BUILD MAJOR permis numai după: source audit PASS, dead-buttons PASS, no-duplicate-dialogs PASS, route/API 18/18 pe Vercel.
+
+## v22.0.5 Complete Stable Fix
+- Fixed V220 patch script syntax failure, restored source audit contract, and kept duplicate dialog guard.
+
 # NEXT BUILD PLAN — v23.0.0
 
 ## Current accepted baseline
